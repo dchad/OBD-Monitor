@@ -931,9 +931,9 @@ int main(int argc, char *argv[])
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "0 - Automatic OBD-II Protocol Search");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "1 - SAE J1850 PWM (Ford)");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "2 - SAE J1850 VPW (GM, Isuzu)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "3 - IS0 9141-2");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "4 - ISO 14230-4");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "5 - IS0 15765-4 CAN");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "3 - IS0 9141-2 (Chrysler)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "4 - ISO 14230-4 KWP2000 (5-baud init.)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "5 - IS0 14230-4 KWP2000 (Fast init.)");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "6 - IS0 15765-4 CAN");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "7 - IS0 15765-4 CAN");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "8 - IS0 15765-4 CAN");
