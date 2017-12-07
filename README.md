@@ -26,18 +26,21 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 
 ### 4.1 OSI and SAE Standards
 
- 1 - SAE J1850 PWM (Ford)
- 2 - SAE J1850 VPW (GM, Isuzu)
- 3 - IS0 9141-2
+ 1 - SAE J1850 PWM (41.6 kbaud)(Ford)
+ 2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)
+ 3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)
  4 - ISO 14230-4 KWP2000 (5-baud init.)
  5 - IS0 14230-4 KWP2000 (Fast init.)
- 6 - IS0 15765-4 CAN
- 7 - IS0 15765-4 CAN
- 8 - IS0 15765-4 CAN
- 9 - IS0 15765-4 CAN 
- A - SAE J1939 CAN
- B - USER1 CAN
- C - USER2 CAN
+ 6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)
+ 7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)
+ 8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)
+ 9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)
+ A - SAE J1939 CAN (29 bit ID, 250 kbaud)
+ B - USER1 CAN (11 bit ID, 125 kbaud)
+ C - USER2 CAN (11 bit ID, 50 kbaud)
+ 
+ Note: From 2008 Controller Area Network (CAN-Bus) protocols are mandatory.
+ 
  
 ### 4.2 Diagnostic Test Modes
 
@@ -52,14 +55,6 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
  08 - special control mode
  09 - request vehicle information
  0A - request permanent trouble codes
-
-
-
-
-
-
-
-
 
 
 ### 4.2 Diagnostic Trouble Codes (DTC)
