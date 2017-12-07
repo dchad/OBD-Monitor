@@ -26,11 +26,13 @@ INCLUDES=-I$(INCPREFIX)/include
 
 # Target Rules
 
-all: $(GUI_SOURCES) $(GUI_EXECUTABLE) $(SERVER_SOURCES) $(SERVER_EXECUTABLE)
+all: $(GUI_SOURCES) $(SERVER_SOURCES)
 
-gui: $(CC) $(CFLAGS) $(GUI_SOURCES) `pkg-config gtk+-3.0` -o $(GUI_EXECUTABLE)
+gui:
+	$(CC) $(GUI_SOURCES) `pkg-config --libs --cflags gtk+-3.0` -o $(GUI_EXECUTABLE)
 
-server: $(CC) $(CFLAGS) $(SERVER_SOURCES) -o $(SERVER_EXECUTABLE)
+server:
+	$(CC) $(CFLAGS) $(SERVER_SOURCES) -o $(SERVER_EXECUTABLE)
 
 strip:
 	strip $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE)
