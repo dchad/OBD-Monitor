@@ -18,8 +18,13 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 
 ## 2. Design
 
+  TODO:
 
 ## 3. User Interface
+
+  TODO:
+
+!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/gui-prototype.png "GUI Prototype")
 
 
 ## 4. OBD-II Protocol
@@ -80,10 +85,11 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 
 ### 4.2 Diagnostic Trouble Codes (DTC)
 
+  TODO:
 
 ### 4.3 Parameter Identifiers (PID)
 
-
+  TODO:
  
 ## 5. Hardware Interfaces
  

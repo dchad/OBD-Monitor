@@ -1,3 +1,27 @@
+/* 
+   Project: OBD-II Monitor (On-Board Diagnostics)
+
+   Author: Derek Chadwick
+
+   Description: A UDP server that communicates with vehicle
+                engine control units via an OBD-II interface to obtain 
+                engine status and fault codes. 
+
+                Implements two functions:
+
+                1. A UDP datagram server that receives requests for vehicle
+                status information from a client application (GUI) and 
+                returns the requested information to the client. 
+
+                2. Serial communications to request vehicle status
+                information and fault codes from the engine control unit using 
+                the OBD-II protocol.
+
+   Date: 30/11/2017
+   
+*/
+
+
 #include <gtk/gtk.h>
 
 #include "obd_monitor.h"
@@ -926,7 +950,7 @@ int main(int argc, char *argv[])
    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
    gtk_container_set_border_width(GTK_CONTAINER(window), 10);
 
-   icon = create_pixbuf("..\\images\\setroubleshoot_red_icon.svg");  
+   icon = create_pixbuf("../images/setroubleshoot_red_icon.svg");  
    gtk_window_set_icon(GTK_WINDOW(window), icon);
 
    /* Set up the main menu bar. */

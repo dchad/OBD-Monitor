@@ -40,6 +40,9 @@
 
 /* Function Definitions. */
 
+void set_interface_on();
+void set_interface_off();
+int get_interface_status();
 
 
 
