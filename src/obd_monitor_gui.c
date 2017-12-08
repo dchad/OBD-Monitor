@@ -670,36 +670,14 @@ static void fill_large_dial_background(cairo_t *cr)
 
 static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
-   double xc = 100.0;
-   double yc = 75.0;
-   double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
-
    cairo_text_extents_t ctext;
    
    fill_large_dial_background(cr);
-   
-   /*
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
-   cairo_stroke(cr);
 
-   
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
-   cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
-   cairo_fill(cr);
-
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-
-   */
-   
+   cairo_select_font_face (cr, "cairo :monospace",
+                           CAIRO_FONT_SLANT_NORMAL,
+                           CAIRO_FONT_WEIGHT_NORMAL);
+                           
    cairo_text_extents (cr,"PID",&ctext);
    printf("Text width: %f\n", ctext.width);
    printf("Text start: %f\n", (150.0 - (0.5 * ctext.width)));
@@ -713,35 +691,12 @@ static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
 
 static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
-   double xc = 100.0;
-   double yc = 75.0;
-   double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
-
    cairo_text_extents_t ctext;
    
    fill_large_dial_background(cr);
-   
-   /*
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
-   cairo_stroke(cr);
-
-   
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
-   cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
-   cairo_fill(cr);
-
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-   */
-
+   cairo_select_font_face (cr, "cairo :monospace",
+                           CAIRO_FONT_SLANT_NORMAL,
+                           CAIRO_FONT_WEIGHT_NORMAL);
    cairo_text_extents (cr,"DTC",&ctext);
    printf("Text width: %f\n", ctext.width);
    printf("Text start: %f\n", (150.0 - (0.5 * ctext.width)));
@@ -749,6 +704,54 @@ static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    cairo_move_to(cr, (125.0 - (0.5 * ctext.width)), 210);
    cairo_set_font_size(cr, 32);
    cairo_show_text(cr, "DTC");
+  
+   return FALSE;
+}
+
+static void fill_small_dial_background(cairo_t *cr)
+{
+   /* a custom shape that could be wrapped in a function */
+   double x         = 5.0,                /* parameters like cairo_rectangle */
+          y         = 5.0,
+          width         = 290,
+          height        = 30,
+          aspect        = 1.0,             /* aspect ratio */
+          corner_radius = height / 2.0;   /* and corner curvature radius */
+
+   double radius = corner_radius / aspect;
+   double degrees = NUM_PI / 180.0;
+
+   cairo_new_sub_path (cr);
+   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 90 * degrees);
+   /* cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees); */
+   cairo_arc (cr, x + radius, y + radius, radius, 90 * degrees, 270 * degrees);
+   /* cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees); */
+   cairo_close_path (cr);
+
+   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
+   cairo_fill_preserve (cr);
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);
+   cairo_stroke (cr);
+   
+   return;
+}
+
+static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 10.0;
+   double yc = 25.0;
+   cairo_text_extents_t ctext;
+   
+   fill_small_dial_background(cr);
+
+   cairo_text_extents (cr,"Battery Voltage: 12.4V",&ctext);
+   printf("Text width: %f\n", ctext.width);
+   printf("Text start: %f\n", (120.0 - (0.5 * ctext.width)));
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (120.0 - (0.5 * ctext.width)), yc);
+   cairo_set_font_size(cr, 16);
+   cairo_show_text(cr, "Battery Voltage: 12.4V");
   
    return FALSE;
 }
@@ -930,12 +933,16 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_oil_temp_dial;
    GtkWidget *ecu_oil_pressure_dial;
    GtkWidget *ecu_fuel_flow_dial;
+   GtkWidget *battery_voltage_dial;
    
    GtkWidget *dtc_dial;
    GtkWidget *pid_dial;
 
    GtkWidget *text_view;
    GtkTextBuffer *text_buffer;
+   GtkWidget *text_frame;
+   GtkWidget *scrolled_window;
+   
 
    gtk_init(&argc, &argv);
 
@@ -1055,7 +1062,9 @@ int main(int argc, char *argv[])
    gtk_widget_set_size_request (pid_dial, 300, 230);
    g_signal_connect(pid_dial, "draw", G_CALLBACK(draw_pid_dial), NULL);
    
-      
+   battery_voltage_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (battery_voltage_dial, 300, 40);
+   g_signal_connect(battery_voltage_dial, "draw", G_CALLBACK(draw_battery_voltage_dial), NULL);   
 
    /* Set up other widgets. */
 
@@ -1077,8 +1086,14 @@ int main(int argc, char *argv[])
 
    text_view = gtk_text_view_new ();
    text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-   gtk_widget_set_size_request (text_view, 980, 100);
-   gtk_text_buffer_set_text (text_buffer, "Hello, this is some text", -1);
+   gtk_widget_set_size_request (text_view, 880, 80);
+   gtk_text_buffer_set_text (text_buffer, "ATI\nOK\n>\nATZ\nOK\n>\n", -1);
+   text_frame = gtk_frame_new("Communications Log");
+   scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+                                   GTK_POLICY_AUTOMATIC,
+                                   GTK_POLICY_AUTOMATIC);
+   gtk_container_add (GTK_CONTAINER (scrolled_window), text_view);
 
    /* Set up labels. */   
    combo_label = gtk_label_new (NULL);
@@ -1086,14 +1101,14 @@ int main(int argc, char *argv[])
    instruments_label = gtk_label_new (NULL);
    gtk_label_set_markup (GTK_LABEL (instruments_label), "<b>Instruments: </b>");
    text_view_label = gtk_label_new(NULL);
-   gtk_label_set_markup (GTK_LABEL (text_view_label), "<b>Communications Log: </b>");
+   gtk_label_set_markup (GTK_LABEL (text_view_label), "Communications Log");
    
 
    /* Set up the main window container layout. */
    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   vbox_left = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   vbox_center = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   vbox_right = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   vbox_left = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   vbox_center = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   vbox_right = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
    hbox_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
    hbox_center = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
    hbox_bottom = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
@@ -1104,25 +1119,23 @@ int main(int argc, char *argv[])
    gtk_box_pack_start(GTK_BOX(vbox), hbox_center, FALSE, FALSE, 0);
    gtk_box_pack_start(GTK_BOX(vbox), hbox_bottom, FALSE, FALSE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), combo_label, FALSE, FALSE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox_top), protocol_combo_box, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), protocol_combo_box, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), ecu_connect_button, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), ecu_request_button, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox_bottom), text_view, TRUE, TRUE, 0);
+   /* gtk_box_pack_start(GTK_BOX(hbox_top), dtc_button, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), pid_button, TRUE, TRUE, 0); */
+   gtk_box_pack_start(GTK_BOX(hbox_top), battery_voltage_dial, TRUE, TRUE, 0);
+   gtk_container_add (GTK_CONTAINER (text_frame), scrolled_window);
+   gtk_box_pack_start(GTK_BOX(hbox_bottom), text_frame, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_left, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_center, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_right, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_controls, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_controls), dtc_dial, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox_top), dtc_button, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox_controls), pid_dial, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox_top), pid_button, TRUE, TRUE, 0);
-   /* gtk_box_pack_start(GTK_BOX(hbox_center), text_view, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox_left), instruments_label, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox_left), map_button, TRUE, TRUE, 0); */
+   gtk_box_pack_start(GTK_BOX(vbox_controls), pid_dial, TRUE, TRUE, 0); 
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_rpm_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_ect_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_iat_dial, TRUE, TRUE, 0);
-   /* gtk_box_pack_start(GTK_BOX(vbox_center), egr_button, TRUE, TRUE, 0); */
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_speed_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_map_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_egr_dial, TRUE, TRUE, 0);
