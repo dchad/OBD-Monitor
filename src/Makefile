@@ -6,12 +6,12 @@ CFLAGS=-Wall -ansi
 # Linker flags
 
 LDFLAGS=-static
-LIBS=
+LIBS=-lm
 LIBDIRS=-L../../libs
 
 # Sources
 
-GUI_SOURCES=obd_monitor_gui.c
+GUI_SOURCES=obd_monitor_gui.c protocols.c
 SERVER_SOURCES=obd_monitor_server.c rs232.c
 
 # Objects
@@ -28,10 +28,10 @@ INCLUDES=-I$(INCPREFIX)/include
 
 all: $(GUI_SOURCES) $(SERVER_SOURCES)
 
-gui:
-	$(CC) $(GUI_SOURCES) `pkg-config --libs --cflags gtk+-3.0` -o $(GUI_EXECUTABLE)
+gui: obd_monitor_gui.c obd_monitor.h protocols.h
+	$(CC) $(GUI_SOURCES) $(LIBS) `pkg-config --libs --cflags gtk+-3.0` -o $(GUI_EXECUTABLE)
 
-server:
+server: obd_monitor_server.c obd_monitor.h
 	$(CC) $(CFLAGS) $(SERVER_SOURCES) -o $(SERVER_EXECUTABLE)
 
 strip:

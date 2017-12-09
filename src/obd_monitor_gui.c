@@ -23,9 +23,9 @@
 
 
 #include <gtk/gtk.h>
-
+#include <math.h>
 #include "obd_monitor.h"
-
+#include "protocols.h"
 
 int sock;
 unsigned int length;
@@ -50,6 +50,7 @@ char current_question_msg[256];
 
 /* Current time string. */
 char time_buffer[256];
+
 
 /* Function declarations. */
 void show_error_msg(GtkWidget *widget, gpointer window);
@@ -230,6 +231,119 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
   return FALSE;
 }
 
+static void draw_dial_background(cairo_t *cr, double width, double height)
+{
+   /* */
+   double x         = 5.0,                /* parameters like cairo_rectangle */
+          y         = 5.0,
+          aspect        = 1.0,             /* aspect ratio */
+          corner_radius = height / 10.0;   /* and corner curvature radius */
+
+   double radius = corner_radius / aspect;
+   double degrees = NUM_PI / 180.0;
+
+   /* Draw the background shapes. */
+   
+   cairo_new_sub_path (cr);
+   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees);
+   cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees);
+   cairo_arc (cr, x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees);
+   cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees);
+   cairo_close_path (cr);
+
+   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
+   cairo_fill_preserve (cr);
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);
+   cairo_stroke (cr);
+   
+ 
+   
+   return;
+}
+
+static void draw_dial_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle)
+{
+   /* Draw the gauge and needle */
+   
+   DialPoint points[6];
+   double s,c;
+   double theta, last, increment;
+   double xc, yc;
+   double tick_length;
+   int i, inc;
+   double pointer_width = 10.0;
+  
+   xc = width / 2.0;
+   yc = height / 2.0;
+
+   /* Draw ticks */
+
+   if ((upper - lower) == 0)
+     return;
+
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width(cr, 2.0);
+   
+   increment = (100*NUM_PI) / (radius*radius);
+
+   inc = (upper - lower);
+
+   while (inc < 100) inc *= 10;
+   while (inc >= 1000) inc /= 10;
+   last = -1;
+
+   for (i = 0; i <= inc; i++)
+   {
+      theta = ((double)i*NUM_PI / (18*inc/24.0) - NUM_PI/6.0);
+
+      if ((theta - last) < (increment))
+        continue;     
+      last = theta;
+
+      s = sin (theta);
+      c = cos (theta);
+
+      tick_length = (i%(inc/10) == 0) ? pointer_width : pointer_width / 2.0;
+
+      cairo_move_to(cr, xc + c*(radius - tick_length), yc - s*(radius - tick_length));
+      cairo_line_to(cr, xc + c*radius, yc - s*radius);
+      
+   }
+   cairo_stroke(cr);
+
+   /* Draw pointer */
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_set_line_width(cr, 2.0);
+   cairo_move_to(cr, xc, yc);
+   
+   s = sin (angle);
+   c = cos (angle);
+
+   points[0].x = xc + s*pointer_width/2;
+   points[0].y = yc + c*pointer_width/2;
+   points[1].x = xc + c*radius;
+   points[1].y = yc - s*radius;
+   points[2].x = xc - s*pointer_width/2;
+   points[2].y = yc - c*pointer_width/2;
+   points[3].x = xc - c*radius/10;
+   points[3].y = yc + s*radius/10;
+   points[4].x = points[0].x;
+   points[4].y = points[0].y;
+
+
+   for(i = 0; i < 4; i++)
+   {
+     cairo_move_to(cr, points[i].x, points[i].y);
+     cairo_line_to(cr, points[i+1].x, points[i+1].y);
+   }
+   
+
+   cairo_stroke(cr);
+    
+   return;
+}
+
 static void fill_dial_background(cairo_t *cr)
 {
    /* a custom shape that could be wrapped in a function */
@@ -266,27 +380,41 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double radius = 50.0;
    double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
    double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
+   double rpm_scale_factor = 38.2; /* scale factor = max rpm on gauge / arc length of gauge.     */
+                                   /* arc length = 2 * PI * radius * theta/360 if angle is in degrees. */
+                                   /* arc length = radius * theta  if the angle is in radians.   */
+                                   
+ 
+   /* double dial_start_angle = 0.25 * NUM_PI;  45 degrees */
+   /* double dial_end_angle = -1.25 * NUM_PI;   225 degrees */
    
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
 
    cairo_text_extents_t ctext;
    
-   fill_dial_background(cr);
-   
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   draw_dial_background(cr, 190, 140);
+   /* draw_dial_gauge(cr, 200, 150, 0, 7000, radius, 45); */
+
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   /* draw helping lines */
+   /* Draw pointer. */
+   
+   double engine_rpm = 6000; /* TODO: get rpm value from protocol module. */
+                             /* NOTE: ensure rpm value is greater than zero */
+   double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
+   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_rpm/radius);
    cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
    cairo_set_line_width(cr, 3.0);
 
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); /* Center dot. */
    cairo_fill(cr);
 
-   /* cairo_arc (cr, xc, yc, radius, angle1, angle1); 
-   cairo_line_to (cr, xc, yc); */
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); /* Needle. */
    cairo_line_to(cr, xc, yc);
    cairo_stroke(cr);
 

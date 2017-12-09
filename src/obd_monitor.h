@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 
+/* Constant Definitions. */
 
 #define MAX_ECU_QUERY_LEN 16
 #define BUFFER_MAX_LEN 4096
@@ -38,6 +39,16 @@
 #define NUM_PI    3.1415926535897932384626433832795028841971693993751
 #define LOG_FILE "./obd-mon-data.log"
 
+/* Type Definitions. */
+
+struct _DialPoint {
+   double x;
+   double y;
+};
+
+typedef struct _DialPoint DialPoint;
+
+   
 /* Function Definitions. */
 
 void set_interface_on();
