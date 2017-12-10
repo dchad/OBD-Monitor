@@ -380,9 +380,18 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double radius = 50.0;
    double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
    double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   double rpm_scale_factor = 38.2; 
+   double rpm_scale_factor = 38.2;
+   double engine_rpm = 750;      /* TODO: get rpm value from protocol module. */
+   double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
+   cairo_text_extents_t ctext;
    
-   /*
+   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_rpm/radius);
+   
+   /* SCALE FACTOR:
+   
       scale factor = max rpm on gauge / arc length of gauge.    
       arc length = 2 * PI * radius * theta/360 if angle is in degrees. 
       arc length = radius * theta  if the angle is in radians.   
@@ -415,11 +424,6 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    /* double dial_start_angle = 0.25 * NUM_PI;  45 degrees */
    /* double dial_end_angle = -1.25 * NUM_PI;   225 degrees */
    
-   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
-   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
-
-   cairo_text_extents_t ctext;
-   
    draw_dial_background(cr, 190, 140);
    /* draw_dial_gauge(cr, 200, 150, 0, 7000, radius, 45); */
 
@@ -429,13 +433,6 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    cairo_stroke(cr);
 
    /* Draw pointer. */
-   
-   double engine_rpm = 6000; /* TODO: get rpm value from protocol module. */
-                             /* NOTE: ensure rpm value is greater than zero */
-   double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
-   double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
-   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_rpm/radius);
    
    cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
    cairo_set_line_width(cr, 3.0);
@@ -467,15 +464,13 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
    double speed_scale_factor = 0.954; /* 200km/h / (radius * (1.167 * PI + 0.167 * PI)) = 200 / 209.5 = 0.954 */
    double vehicle_speed = 100.0; /* TODO: get speed value from protocol module. */
-                                 /* NOTE: ensure speed value is greater than zero */
    double gauge_speed = vehicle_speed / speed_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_speed / radius); /* Angle in radians. */
-   
+   cairo_text_extents_t ctext;   
    printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_speed/radius);
    
    /* Draw gauge background and arc. */
-   cairo_text_extents_t ctext;
-   
+
    fill_dial_background(cr);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
@@ -508,33 +503,30 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double xc = 100.0;
    double yc = 75.0;
    double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
-
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double ect_scale_factor = 0.573;   /* 120C / (radius * (1.167 * PI + 0.167 * PI)) = 120 / 209.5 = 0.573 */
+   double coolant_temperature = 80.0; /* TODO: get ect value from protocol module. */
+   double gauge_temp = coolant_temperature / ect_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
    
-   /* cairo_set_line_width (cr, 5.0);
-   cairo_rectangle (cr, 0, 0, 200, 150);
-   cairo_stroke(cr); */
+   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
+   
+   /* Draw gauge background and arc. */
    
    fill_dial_background(cr);
    
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   /* draw helping lines */
    cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
    cairo_set_line_width(cr, 3.0);
 
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); /* Center dot. */
    cairo_fill(cr);
 
-   /* cairo_arc (cr, xc, yc, radius, angle1, angle1); 
-   cairo_line_to (cr, xc, yc); */
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); /* Needle. */
    cairo_line_to(cr, xc, yc);
    cairo_stroke(cr);
 

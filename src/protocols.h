@@ -12,6 +12,17 @@
    
 */
 
+/* Constant Definitions. */
+
+#define ECU_ECT_TEMPERATURE_MAX 160.0
+#define ECU_ECT_TEMPERATURE_IN -40.0 
+#define ECU_VEHICLE_SPEED_MAX 200.0
+#define ECU_VEHICLE_SPEED_MIN 0.0
+#define ECU_IAT_TEMPERATURE_MAX 120.0
+#define ECU_IAT_TEMPERATURE_MIN -40.0
+#define ECU_ENGINE_RPM_MAX 8000.0
+#define ECU_ENGINE_RPM_MIN 0.0
+
 
 /* Type Definitions. */
 
