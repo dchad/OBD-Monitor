@@ -380,9 +380,36 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double radius = 50.0;
    double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
    double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   double rpm_scale_factor = 38.2; /* scale factor = max rpm on gauge / arc length of gauge.     */
-                                   /* arc length = 2 * PI * radius * theta/360 if angle is in degrees. */
-                                   /* arc length = radius * theta  if the angle is in radians.   */
+   double rpm_scale_factor = 38.2; 
+   
+   /*
+      scale factor = max rpm on gauge / arc length of gauge.    
+      arc length = 2 * PI * radius * theta/360 if angle is in degrees. 
+      arc length = radius * theta  if the angle is in radians.   
+
+      Example: max gauge rpm = 8000 ... min gauge rpm = 0 
+               gauge min angle = 1.167 * PI (210 degrees) 
+               gauge max angle = -0.167 * PI (-30 degrees or 330 degrees)
+               scale factor 8000 / (arc length between gauge min and max angles)
+               where arc length = 240 degrees or 1.334 * PI radians.
+              
+               Thence:
+              
+               scale factor = 8000 / (radius * 2 * PI * ((30 + 210) / 360))
+               
+               or 
+               
+               scale factor = 8000 / (radius * (1.167 * PI + 0.167 * PI))
+              
+     NOTE: cairo arc drawing is counter clock-wise when 
+           the cairo_arc_negative() function is used, and clock-wise when
+           the cairo_arc() function is used, which is the opposite
+           of geometry/trigonometry, so what the hell.
+           
+           Check the API docs for a confusing explanation:
+           
+           https://cairographics.org/manual/cairo-Paths.html#cairo-arc
+   */
                                    
  
    /* double dial_start_angle = 0.25 * NUM_PI;  45 degrees */
@@ -398,7 +425,7 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
 
    cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
    cairo_set_line_width (cr, 5.0);   
-   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_arc_negative (cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
    /* Draw pointer. */
@@ -407,7 +434,9 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
                              /* NOTE: ensure rpm value is greater than zero */
    double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
+   
    printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_rpm/radius);
+   
    cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
    cairo_set_line_width(cr, 3.0);
 
@@ -434,33 +463,33 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    double xc = 100.0;
    double yc = 75.0;
    double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
+   double speed_scale_factor = 0.954; /* 200km/h / (radius * (1.167 * PI + 0.167 * PI)) = 200 / 209.5 = 0.954 */
+   double vehicle_speed = 100.0; /* TODO: get speed value from protocol module. */
+                                 /* NOTE: ensure speed value is greater than zero */
+   double gauge_speed = vehicle_speed / speed_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_speed / radius); /* Angle in radians. */
    
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
-
+   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_speed/radius);
+   
+   /* Draw gauge background and arc. */
    cairo_text_extents_t ctext;
-   
-   /* cairo_set_line_width (cr, 5.0);
-   cairo_rectangle (cr, 0, 0, 200, 150);
-   cairo_stroke(cr); */
    
    fill_dial_background(cr);
    
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   /* draw helping lines */
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   /* Draw pointer. */
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); 
    cairo_set_line_width(cr, 3.0);
 
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); /* Centre dot. */
    cairo_fill(cr);
 
-   /* cairo_arc (cr, xc, yc, radius, angle1, angle1); 
-   cairo_line_to (cr, xc, yc); */
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); /* Needle. */
    cairo_line_to(cr, xc, yc);
    cairo_stroke(cr);
 

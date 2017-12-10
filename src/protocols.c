@@ -16,18 +16,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "protocols.h"
+
 /* OBD Interface Parameters. */
 int interface_status;
 
 /* ECU Parameters. */
-double ecu_engine_rpm;
-double ecu_vehicle_speed;
-double ecu_coolant_temperature;
-double ecu_intake_air_temperature;
-double ecu_manifold_air_pressure;
-double ecu_oil_pressure;
-double ecu_egr_pressure;
 
+ECU_Parameters ecup;
 
 void set_interface_on()
 {
@@ -48,16 +44,106 @@ int get_interface_status()
    return interface_status;
 }
 
+void set_ecu_parameters(ECU_Parameters *ecup)
+{
+   /* TODO: */
+}
+
+void get_ecu_parameters(ECU_Parameters *ecup)
+{
+   /* TODO: */
+}
+
 void set_engine_rpm(double rpm)
 {
-   ecu_engine_rpm = rpm / 4.0; /* ECU rpm parameter is in quarters of a revolution. */
+   ecup.ecu_engine_rpm = rpm / 4.0; /* ECU rpm parameter is in quarters of a revolution. */
    return;
 }
 
 double get_engine_rpm()
 {
 
-   return ecu_engine_rpm;
+   return ecup.ecu_engine_rpm;
+}
+
+void set_coolant_temperature(double ctemp)
+{
+
+}
+
+double get_coolant_temperature()
+{
+
+}
+
+void set_manifold_pressure(double manap)
+{
+
+}
+
+double get_manifold_pressure()
+{
+
+}
+
+void set_intake_air_temperature(double atemp)
+{
+
+}
+
+double get_intake_air_temperature()
+{
+
+}
+
+void set_battery_voltage(double bv)
+{
+
+}
+
+double get_battery_voltage()
+{
+
+}
+
+void set_vehicle_speed(double vs)
+{
+
+}
+
+double get_vehicle_speed()
+{
+
+}
+
+void set_egr_pressure(double egrp)
+{
+
+}
+
+double get_egr_pressure()
+{
+
+}
+
+void set_oil_temperature(double otemp)
+{
+
+}
+
+double get_oil_temperature()
+{
+
+}
+
+void set_oil_pressure(double oilp)
+{
+
+}
+
+double get_oil_pressure()
+{
+
 }
 
 int parse_obd_msg(char *obd_msg)
