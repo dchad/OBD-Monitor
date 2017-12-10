@@ -90,6 +90,40 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 ### 4.3 Parameter Identifiers (PID)
 
   TODO:
+  
+#### Selected ECU Mode 01 Parameters: 
+   
+   [PID] [Data Bytes] [Min Value] [Max Value] [Formula]           [Description]
+   
+    05    1            -40         215         A - 40             (ECT Centigrade)
+    
+    0B    1            0           255         A                  (MAP Pressure kPa)
+    
+    0C    2            0           16,383.75   (256 * A + B) / 4  (Engine RPM)
+    
+    0D    1            0           255         A                  (Vehicle Speed) 
+    
+    0F    1            -40         215         A - 40             (IAT Centigrade)
+    
+    11    1            0           100         100 / 256 * A      (Throttle Position %)
+    
+    5C    1            -40         215         A - 40             (Oil Temperature)
+    
+    5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
+    
+    (Oil Pressure?)
+    
+    (EGR Pressure?)
+    
+    (Accelerator Position)
+
+#### Selected ECU Mode 09 Parameters:
+ 
+   [PID] [Data Bytes] [Description] 
+   
+    02    17           VIN - Vehicle Identification Number
+    
+    0A    20           ECU Name
  
 ## 5. Hardware Interfaces
  

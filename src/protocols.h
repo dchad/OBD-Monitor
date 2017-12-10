@@ -14,15 +14,16 @@
 
 /* Constant Definitions. */
 
-#define ECU_ECT_TEMPERATURE_MAX 160.0
+#define ECU_ECT_TEMPERATURE_MAX 215.0
 #define ECU_ECT_TEMPERATURE_IN -40.0 
 #define ECU_VEHICLE_SPEED_MAX 200.0
 #define ECU_VEHICLE_SPEED_MIN 0.0
-#define ECU_IAT_TEMPERATURE_MAX 120.0
+#define ECU_IAT_TEMPERATURE_MAX 215.0
 #define ECU_IAT_TEMPERATURE_MIN -40.0
 #define ECU_ENGINE_RPM_MAX 8000.0
 #define ECU_ENGINE_RPM_MIN 0.0
-
+#define ECU_MAP_PRESSURE_MAX 255.0
+#define ECU_MAP_PRESSURE_MIN 0.0
 
 /* Type Definitions. */
 
@@ -64,31 +65,31 @@ int get_interface_status();
 void set_ecu_parameters(ECU_Parameters *ecup);
 void get_ecu_parameters(ECU_Parameters *ecup);
 
-void set_engine_rpm(double rpm);
+void set_engine_rpm(char *rpm_msg);
 double get_engine_rpm();
 
-void set_coolant_temperature(double ctemp);
+void set_coolant_temperature(char *ctemp_msg);
 double get_coolant_temperature();
 
-void set_manifold_pressure(double manap);
+void set_manifold_pressure(char *manap_msg);
 double get_manifold_pressure();
 
-void set_intake_air_temperature(double atemp);
+void set_intake_air_temperature(char *atemp_msg);
 double get_intake_air_temperature();
 
-void set_battery_voltage(double bv);
+void set_battery_voltage(char *bv_msg);
 double get_battery_voltage();
 
-void set_vehicle_speed(double vs);
+void set_vehicle_speed(char *vs_msg);
 double get_vehicle_speed();
 
-void set_egr_pressure(double egrp);
+void set_egr_pressure(char *egrp_msg);
 double get_egr_pressure();
 
-void set_oil_temperature(double otemp);
+void set_oil_temperature(char *otemp_msg);
 double get_oil_temperature();
 
-void set_oil_pressure(double oilp);
+void set_oil_pressure(char *oilp_msg);
 double get_oil_pressure();
 
 /* Message Parsers. */
