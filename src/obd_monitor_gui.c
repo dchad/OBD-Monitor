@@ -39,8 +39,10 @@ struct hostent *hp;
 #define GAUGE_RADIUS 50.0
 #define GAUGE_START_ANGLE 0.167 * NUM_PI /* 30 degrees */
 #define GAUGE_END_ANGLE -1.167 * NUM_PI  /* 210 degrees */
+#define RPM_SCALE_FACTOR 38.2    /* 8000 / (radius * 2 * PI * ((30 + 210) / 360)) = 8000 / 209.5 */
 #define IAT_SCALE_FACTOR 0.764   /* 160 / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 */
-   
+#define ECT_SCALE_FACTOR 0.764   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
+#define MAP_SCALE_FACTOR 1.217   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
 
 /* Buffers for Engine Control Unit messages. */
 char ECU_PID_Request[256];
@@ -718,27 +720,31 @@ static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    double xc = 100.0;
    double yc = 75.0;
    double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
-
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double oil_temp_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
+   double oil_temperature = 50.0;     /* TODO: get iat value from protocol module. */
+   double gauge_temp = oil_temperature / oil_temp_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
    
-   fill_dial_background(cr);
+   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
    
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   /* Draw gauge background and arc. */
+   
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
-
-   /* draw helping lines */
+   
+   /* draw needle lines */
    cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
    cairo_set_line_width(cr, 3.0);
 
    cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
    cairo_fill(cr);
    
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle);
    cairo_line_to(cr, xc, yc);
    cairo_stroke(cr);
 
@@ -757,27 +763,31 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
    double xc = 100.0;
    double yc = 75.0;
    double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   
-   double dial_start_angle = 0.25 * NUM_PI;
-   double dial_end_angle = -1.25 * NUM_PI;
-
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double fuel_flow_scale_factor = 15.64; /* 3276.75 / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 15.64 */
+   double fuel_flow = 50.0;     /* TODO: get iat value from protocol module. */
+   double gauge_temp = fuel_flow / fuel_flow_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
    
-   fill_dial_background(cr);
+   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
    
-   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   /* Draw gauge background and arc. */
+   
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
-
-   /* draw helping lines */
+   
+   /* draw needle lines */
    cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
    cairo_set_line_width(cr, 3.0);
 
    cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
    cairo_fill(cr);
 
-   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle);
    cairo_line_to(cr, xc, yc);
    cairo_stroke(cr);
 
