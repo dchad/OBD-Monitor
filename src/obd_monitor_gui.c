@@ -43,6 +43,7 @@ struct hostent *hp;
 #define IAT_SCALE_FACTOR 0.764   /* 160 / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 */
 #define ECT_SCALE_FACTOR 0.764   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
 #define MAP_SCALE_FACTOR 1.217   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
+#define FUEL_FLOW_SCALE_FACTOR 0.783 /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
 
 /* Buffers for Engine Control Unit messages. */
 char ECU_PID_Request[256];
@@ -267,13 +268,11 @@ static void draw_dial_background(cairo_t *cr, double width, double height)
    cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
    cairo_set_line_width (cr, 5.0);
    cairo_stroke (cr);
-   
- 
-   
+
    return;
 }
 
-static void draw_dial_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle)
+static void draw_dial_tick_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle)
 {
    /* Draw the gauge and needle */
    
@@ -355,34 +354,6 @@ static void draw_dial_gauge(cairo_t *cr, double width, double height, double low
    return;
 }
 
-static void fill_dial_background(cairo_t *cr)
-{
-   /* a custom shape that could be wrapped in a function */
-   double x         = 5.0,                /* parameters like cairo_rectangle */
-          y         = 5.0,
-          width         = 190,
-          height        = 140,
-          aspect        = 1.0,             /* aspect ratio */
-          corner_radius = height / 10.0;   /* and corner curvature radius */
-
-   double radius = corner_radius / aspect;
-   double degrees = NUM_PI / 180.0;
-
-   cairo_new_sub_path (cr);
-   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees);
-   cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees);
-   cairo_arc (cr, x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees);
-   cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees);
-   cairo_close_path (cr);
-
-   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
-   cairo_fill_preserve (cr);
-   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
-   cairo_set_line_width (cr, 5.0);
-   cairo_stroke (cr);
-   
-   return;
-}
 
 static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
@@ -649,7 +620,7 @@ static gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
 
    cairo_text_extents_t ctext;
    
-   fill_dial_background(cr);
+   draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
    cairo_stroke(cr);
@@ -688,7 +659,7 @@ static gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer 
 
    cairo_text_extents_t ctext;
    
-   fill_dial_background(cr);
+   draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
    cairo_stroke(cr);
@@ -765,8 +736,8 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
    double radius = 50.0;
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
-   double fuel_flow_scale_factor = 15.64; /* 3276.75 / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 15.64 */
-   double fuel_flow = 50.0;     /* TODO: get iat value from protocol module. */
+   double fuel_flow_scale_factor = 0.783; /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double fuel_flow = 15.0;     /* TODO: get iat value from protocol module. */
    double gauge_temp = fuel_flow / fuel_flow_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -802,7 +773,7 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
 }
 
 
-static void fill_large_dial_background(cairo_t *cr)
+static void draw_large_dial_background(cairo_t *cr)
 {
    /* a custom shape that could be wrapped in a function */
    double x         = 5.0,                /* parameters like cairo_rectangle */
@@ -835,7 +806,8 @@ static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
 {
    cairo_text_extents_t ctext;
    
-   fill_large_dial_background(cr);
+   /* draw_dial_background(cr, 290, 220); */
+   draw_large_dial_background(cr);
 
    cairo_select_font_face (cr, "cairo :monospace",
                            CAIRO_FONT_SLANT_NORMAL,
@@ -856,7 +828,8 @@ static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
 {
    cairo_text_extents_t ctext;
    
-   fill_large_dial_background(cr);
+   /* draw_dial_background(cr, 290, 220); */
+   draw_large_dial_background(cr);
    cairo_select_font_face (cr, "cairo :monospace",
                            CAIRO_FONT_SLANT_NORMAL,
                            CAIRO_FONT_WEIGHT_NORMAL);
@@ -871,7 +844,7 @@ static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static void fill_small_dial_background(cairo_t *cr)
+static void draw_small_dial_background(cairo_t *cr)
 {
    /* a custom shape that could be wrapped in a function */
    double x         = 5.0,                /* parameters like cairo_rectangle */
@@ -906,7 +879,7 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
    double yc = 25.0;
    cairo_text_extents_t ctext;
    
-   fill_small_dial_background(cr);
+   draw_small_dial_background(cr);
 
    cairo_text_extents (cr,"Battery Voltage: 12.4V",&ctext);
    printf("Text width: %f\n", ctext.width);
