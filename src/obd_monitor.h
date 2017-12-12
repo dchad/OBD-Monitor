@@ -35,8 +35,9 @@
 
 #define MAX_ECU_QUERY_LEN 16
 #define BUFFER_MAX_LEN 4096
+#define MAX_PATH_LEN 4096
 #define OBD_WAIT_TIMEOUT 100000
-#define NUM_PI    3.1415926535897932384626433832795028841971693993751
+#define NUM_PI 3.1415926535897932384626433832795028841971693993751
 #define LOG_FILE "./obd-mon-data.log"
 
 /* Type Definitions. */
@@ -49,11 +50,28 @@ struct _DialPoint {
 typedef struct _DialPoint DialPoint;
 
    
-/* Function Definitions. */
+/* Function Prototypes. */
 
+/* obd_monitor_gui.c */
 void set_interface_on();
 void set_interface_off();
 int get_interface_status();
+
+/* util.c */
+int fatal(char *str);
+void *xcalloc (size_t size);
+void *xmalloc (size_t size);
+void *xrealloc (void *ptr, size_t size);
+int xfree(char *buf, int len);
+int print_help();
+char* xitoa(int value, char* result, int len, int base);
+
+/* log.c */
+FILE *open_log_file(char *startup_path);
+int print_log_entry(char *estr, FILE *log_file);
+
+/* Unit Test Functions */
+int unit_tests(FILE *log_file);
 
 
 

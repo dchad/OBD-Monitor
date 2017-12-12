@@ -1,9 +1,9 @@
 /*
    log.c
 
-   Title : File System Integrity Checker ICT539 Semester 2 Project
-   Author: Derek Chadwick 18910502
-   Date  : 24/09/2011
+   Project: OBD-II Monitor
+   Author : Derek Chadwick 18910502
+   Date   : 24/12/2017
   
    Purpose: Logging, reporting and debug functions.
    
@@ -17,7 +17,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "fsic.h"
+#include "obd_monitor.h"
 
 /*
    Function: open_log_file()
@@ -29,7 +29,7 @@
 */
 FILE *open_log_file(char *startup_path)
 {
-   char *current_working_dir = xcalloc(FSIC_PATH_MAX);
+   char *current_working_dir = xcalloc(MAX_PATH_LEN);
    char *temp_path = NULL;
    FILE *log_file = NULL;
 
@@ -47,13 +47,13 @@ FILE *open_log_file(char *startup_path)
             printf("open_log_file() <ERROR>: Could not change directory: %s\n", temp_path);  
          }
       }
-      if (getcwd(current_working_dir, FSIC_PATH_MAX) == 0)
+      if (getcwd(current_working_dir, MAX_PATH_LEN) == 0)
       {
          printf("open_log_file() <ERROR>: Could not get current working directory.\n");  
       }
       else
       {
-         log_file = fopen(strncat(current_working_dir, "/fsic.log", FSIC_PATH_MAX - 10), "a");
+         log_file = fopen(strncat(current_working_dir, "/fsic.log", MAX_PATH_LEN - 10), "a");
          if (log_file == NULL)
          {
             printf("open_log_file() <ERROR>: could not open logfile: %s\n", current_working_dir); 
@@ -62,7 +62,7 @@ FILE *open_log_file(char *startup_path)
       }
    }
 
-   xfree(current_working_dir, FSIC_PATH_MAX);
+   xfree(current_working_dir, MAX_PATH_LEN);
 /*
    if (errno != ERANGE)
    {
