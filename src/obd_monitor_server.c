@@ -58,7 +58,10 @@ int init_serial_comms(char *interface_name)
 int send_ecu_query(int serial_port, char *ecu_query)
 {
     int out_msg_len = 0;
-
+/*  struct timespec reqtime;
+    reqtime.tv_sec = 0;
+    reqtime.tv_nsec = 1000000; */
+    
     out_msg_len = strlen(ecu_query);
     if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
     {
@@ -70,7 +73,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
 
     printf("TXD %i bytes: %s\n", out_msg_len, ecu_query);
 
-    usleep(100000);  /* sleep for 100 milliseconds */
+    /* nanosleep(100000);   sleep for 1 millisecond */
 
     return(out_msg_len);
 }
@@ -78,6 +81,10 @@ int send_ecu_query(int serial_port, char *ecu_query)
 int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
 {
     int in_msg_len = 0;
+    struct timespec reqtime;
+    reqtime.tv_sec = 0;
+    reqtime.tv_nsec = 1000000;
+    
 
     while((in_msg_len = RS232_PollComport(serial_port, ecu_query, BUFFER_MAX_LEN)) > 0)
     {
@@ -95,7 +102,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
 
           printf("RXD %i bytes: %s\n", in_msg_len, ecu_query);
 
-          usleep(100000);  /* sleep for 100 milliSeconds */
+          nanosleep(&reqtime, NULL); /* sleep for 1 milliSecond */
     }
 
     return(in_msg_len);
@@ -125,7 +132,7 @@ int main(int argc, char *argv[])
       fatal_error("Opening socket");
    
    length = sizeof(server);
-   bzero(&server, length);
+   memset(&server, 0, length);
 
    server.sin_family=AF_INET;
    server.sin_addr.s_addr=INADDR_ANY;

@@ -1,0 +1,9 @@
+GM Oil Press: This was a toughie. Set up custom PID 22115c, unit PSI, max/min 100/0, equation (A*.065)-17.5. This is not part of the extended PID set, you have to create it from scratch. It's a little jumpy on my application -- while DIC says steady 42 PSI, for example, Torque will show it jumping between, say, 41-43. Dunno what's up with that.
+
+
+
+
+
+
+
+

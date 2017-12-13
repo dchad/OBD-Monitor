@@ -29,6 +29,7 @@
 #include <string.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <time.h>
 
 
 /* Constant Definitions. */

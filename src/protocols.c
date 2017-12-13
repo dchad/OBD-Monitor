@@ -232,7 +232,7 @@ int parse_obd_msg(char *obd_msg)
                case '6': break;
                case '7': break;
                case '8': break;
-               case '9': parse_mode_03_msg(obd_msg); break; /* Mode 09 message, ECU information. */
+               case '9': parse_mode_09_msg(obd_msg); break; /* Mode 09 message, ECU information. */
                case 'A': break;
             }
          }

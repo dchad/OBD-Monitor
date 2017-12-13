@@ -1,7 +1,7 @@
 # Compiler flags
 
 CC=gcc
-CFLAGS=-Wall -ansi
+CFLAGS=-Wall
 
 # Linker flags
 
@@ -13,6 +13,7 @@ LIBDIRS=-L../../libs
 
 GUI_SOURCES=obd_monitor_gui.c protocols.c log.c util.c
 SERVER_SOURCES=obd_monitor_server.c rs232.c log.c util.c
+SIMULATOR_SOURCES=ecu_simulator.c rs232.c log.c util.c
 
 # Objects
 
@@ -34,8 +35,11 @@ gui: obd_monitor_gui.c obd_monitor.h protocols.h
 server: obd_monitor_server.c obd_monitor.h
 	$(CC) $(CFLAGS) $(SERVER_SOURCES) -o $(SERVER_EXECUTABLE)
 
+simulator: ecu_simulator.c obd_monitor.h
+	$(CC) $(CFLAGS) $(SIMULATOR_SOURCES) -o ecu_sim
+   
 strip:
 	strip $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE)
 
 clean:
-	rm *.o $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE)
+	rm *.o $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE) ecu_sim
