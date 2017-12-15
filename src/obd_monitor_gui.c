@@ -354,92 +354,14 @@ static void draw_dial_tick_gauge(cairo_t *cr, double width, double height, doubl
    return;
 }
 
-
-static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+static void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *gauge_units)
 {
-   double xc = 100.0;
-   double yc = 75.0;
-   double radius = 50.0;
-   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
-   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
-   double rpm_scale_factor = 38.2;
-   double engine_rpm = 1050;      /* TODO: get rpm value from protocol module. */
-   double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
-   double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
-   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
-   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
    cairo_text_extents_t ctext;
-   double cpx;
-   double cpy;
-   char gauge_numerals[16];
+   double xc;
+   double yc;
    
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_rpm/radius);
-   
-   /* SCALE FACTOR:
-   
-      scale factor = max rpm on gauge / arc length of gauge.    
-      arc length = 2 * PI * radius * theta/360 if angle is in degrees. 
-      arc length = radius * theta  if the angle is in radians.   
-
-      Example: max gauge rpm = 8000 ... min gauge rpm = 0 
-               gauge min angle = 1.167 * PI (210 degrees) 
-               gauge max angle = -0.167 * PI (-30 degrees or 330 degrees)
-               scale factor 8000 / (arc length between gauge min and max angles)
-               where arc length = 240 degrees or 1.334 * PI radians.
-              
-               Thence:
-              
-               scale factor = 8000 / (radius * 2 * PI * ((30 + 210) / 360))
-               
-               or 
-               
-               scale factor = 8000 / (radius * (1.167 * PI + 0.167 * PI))
-              
-     NOTE: cairo arc drawing is counter clock-wise when 
-           the cairo_arc_negative() function is used, and clock-wise when
-           the cairo_arc() function is used, which is the opposite
-           of geometry/trigonometry, so what the hell.
-           
-           Check the API docs for a confusing explanation:
-           
-           https://cairographics.org/manual/cairo-Paths.html#cairo-arc
-   */
-                                   
- 
-   /* double dial_start_angle = 0.25 * NUM_PI;  45 degrees */
-   /* double dial_end_angle = -1.25 * NUM_PI;   225 degrees */
-   
-   draw_dial_background(cr, 190, 140);
-
-   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
-   cairo_set_line_width (cr, 5.0);   
-   cairo_arc_negative (cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
-   cairo_stroke(cr);
-
-   /* Draw pointer. */
-   
-   
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_set_line_width(cr, 3.0);
-   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
-   cairo_get_current_point(cr, &cpx, &cpy);
-   cairo_stroke(cr);
-   
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
-   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
-   cairo_fill(cr);
-
-/*
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); 
-   cairo_fill(cr);
-
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); 
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-*/
    cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     
-   sprintf(gauge_numerals, "%.0f", engine_rpm);
    cairo_set_font_size(cr, 24);
    cairo_text_extents (cr, gauge_numerals, &ctext);
    /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
@@ -462,14 +384,103 @@ cairo_rel_line_to (cr, ctext.width, 0);
 cairo_rel_line_to (cr, ctext.x_bearing, -ctext.y_bearing);
 cairo_stroke (cr);
 */
-   
+ 
+   cairo_set_font_size(cr, 10);
+   cairo_text_extents (cr, gauge_units, &ctext);
+   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
+   yc = (100 - (0.5 * ctext.height + ctext.y_bearing));
+   cairo_move_to(cr, xc, yc);
+   cairo_show_text(cr, gauge_units);  
    
    cairo_set_font_size(cr, 15);
-   cairo_text_extents (cr, "Engine RPM", &ctext);
+   cairo_text_extents (cr, gauge_label, &ctext);
    /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
-   cairo_show_text(cr, "Engine RPM");
+   cairo_show_text(cr, gauge_label);
+  
+   return;
+}
+
+
+static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
+   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
+   double rpm_scale_factor = 38.2;
+   double engine_rpm = 1050;      /* TODO: get rpm value from protocol module. */
+   double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
+   cairo_text_extents_t ctext;
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
+   
+   /* SCALE FACTOR:
+   
+      scale factor = max rpm on gauge / arc length of gauge.    
+      arc length = 2 * PI * radius * theta/360 if angle is in degrees. 
+      arc length = radius * theta  if the angle is in radians.   
+
+      Example: max gauge rpm = 8000 ... min gauge rpm = 0 
+               gauge min angle = 1.167 * PI (210 degrees) 
+               gauge max angle = -0.167 * PI (-30 degrees or 330 degrees)
+               scale factor 8000 / (arc length between gauge min and max angles)
+               where arc length = (radius * 1.334 * PI) radians.
+              
+               Thence:
+              
+               scale factor = 8000 / (radius * 2 * PI * ((30 + 210) / 360))
+               
+               or 
+               
+               scale factor = 8000 / (radius * (1.167 * PI + 0.167 * PI))
+                            = 8000 / (50 * 1.334 * PI)
+                            = 8000 / 209.5
+                            = 38.2
+              
+     NOTE: cairo arc drawing is counter clock-wise when 
+           the cairo_arc_negative() function is used, and clock-wise when
+           the cairo_arc() function is used, which is the opposite
+           of geometry/trigonometry, so what the hell.
+           
+           Check the API docs for a confusing explanation:
+           
+           https://cairographics.org/manual/cairo-Paths.html#cairo-arc
+   */
+                                   
+ 
+   /* double dial_start_angle = 0.25 * NUM_PI;  45 degrees */
+   /* double dial_end_angle = -1.25 * NUM_PI;   225 degrees */
+   
+   draw_dial_background(cr, 190, 140);
+
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);   
+   cairo_arc_negative (cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", engine_rpm);
+   draw_dial_text(cr, "Engine RPM", gauge_numerals, "rpm");
   
    return TRUE;
 }
@@ -490,18 +501,15 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    double cpx;
    double cpy;
    char gauge_numerals[16];
-   
-   /* printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_speed/radius); */
+
    
    /* Draw gauge background and arc. */
-
    draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   /* Draw pointer. */
-   
+   /* Draw gauge indicator arc and dot. */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_set_line_width(cr, 3.0);
    cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
@@ -512,24 +520,9 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
-    
+   /* Draw gauge text. */
    sprintf(gauge_numerals, "%.0f", vehicle_speed);
-   cairo_set_font_size(cr, 24);
-   cairo_text_extents (cr, gauge_numerals, &ctext);
-   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
-   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
-   cairo_move_to(cr, xc, yc);
-   cairo_show_text(cr, gauge_numerals);
-
-   cairo_set_font_size(cr, 15);
-   cairo_text_extents (cr, "Speedometer", &ctext);
-   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
-   cairo_show_text(cr, "Speedometer");
+   draw_dial_text(cr, "Speedometer", gauge_numerals, "km/h");
   
    return TRUE;
 }
@@ -551,7 +544,6 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    char gauge_numerals[16];
    
    /* Draw gauge background and arc. */
-   
    draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
@@ -567,23 +559,10 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
-    
+   /* Draw gauge text. */
    sprintf(gauge_numerals, "%.0f", coolant_temperature);
-   cairo_set_font_size(cr, 24);
-   cairo_text_extents (cr, gauge_numerals, &ctext);
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
-   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
-   cairo_move_to(cr, xc, yc);
-   cairo_show_text(cr, gauge_numerals);
+   draw_dial_text(cr, "Coolant Temp", gauge_numerals, "℃");
 
-   cairo_set_font_size(cr, 15);
-   cairo_text_extents (cr, "Coolant Temp", &ctext);
-   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
-   cairo_show_text(cr, "Coolant Temp");
   
    return FALSE;
 }
@@ -596,37 +575,34 @@ static gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double iat_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-   double air_temperature = 50.0;     /* TODO: get iat value from protocol module. */
+   double air_temperature = 35.0;     /* TODO: get iat value from protocol module. */
    double gauge_temp = air_temperature / iat_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
-   cairo_text_extents_t ctext;
-   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
    
    /* Draw gauge background and arc. */
-   
    draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); /* Center dot. */
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); /* Needle. */
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-
-   cairo_text_extents (cr,"Intake Air Temp",&ctext);
-   printf("Text width: %f\n", ctext.width);
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
-   cairo_set_font_size(cr, 15);
-   cairo_show_text(cr, "Intake Air Temp");
-  
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", air_temperature);
+   draw_dial_text(cr, "Intake Air Temp", gauge_numerals, "℃");
+   
    return FALSE;
 }
 
@@ -642,33 +618,30 @@ static gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_temp = air_pressure / map_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
-   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
    
    /* Draw gauge background and arc. */
-   
    draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   /* draw helping lines */
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle);
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-
-   cairo_text_extents (cr,"Manifold Pressure",&ctext);
-   printf("Text width: %f\n", ctext.width);
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
-   cairo_set_font_size(cr, 15);
-   cairo_show_text(cr, "Manifold Pressure");
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", air_pressure);
+   draw_dial_text(cr, "Manifold Pressure", gauge_numerals, "kPa");
   
    return FALSE;
 }
@@ -742,7 +715,7 @@ static gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer 
    cairo_stroke(cr);
 
    cairo_text_extents (cr,"Oil Pressure",&ctext);
-   printf("Text width: %f\n", ctext.width);
+   /* printf("Text width: %f\n", ctext.width); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
    cairo_set_font_size(cr, 15);
@@ -760,38 +733,35 @@ static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double oil_temp_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-   double oil_temperature = 50.0;     /* TODO: get iat value from protocol module. */
+   double oil_temperature = 60.0;     /* TODO: get iat value from protocol module. */
    double gauge_temp = oil_temperature / oil_temp_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
-   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
    
    /* Draw gauge background and arc. */
-   
    draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
    
-   /* draw needle lines */
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
-   cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
-   cairo_fill(cr);
-   
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle);
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-
-   cairo_text_extents (cr,"Oil Temperature",&ctext);
-   printf("Text width: %f\n", ctext.width);
+  /* Draw gauge indicator arc and dot. */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
-   cairo_set_font_size(cr, 15);
-   cairo_show_text(cr, "Oil Temperature");
-  
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", oil_temperature);
+   draw_dial_text(cr, "Oil Temperature", gauge_numerals, "℃");
+
    return FALSE;
 }
 
@@ -807,33 +777,72 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
    double gauge_temp = fuel_flow / fuel_flow_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
-   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
    
    /* Draw gauge background and arc. */
-   
    draw_dial_background(cr, 190, 140);
    
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
    
-   /* draw needle lines */
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle);
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", fuel_flow);
+   draw_dial_text(cr, "Fuel Flow Rate", gauge_numerals, "L/h");
+   
+  
+   return FALSE;
+}
 
-   cairo_text_extents (cr,"Fuel Flow Rate",&ctext);
-   printf("Text width: %f\n", ctext.width);
+static gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double fuel_pressure_scale_factor = 3.651; /* 765.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double fuel_pressure = 115.0;     /* TODO: get iat value from protocol module. */
+   double gauge_pressure = fuel_pressure / fuel_pressure_scale_factor; /* this is the gauge arc length. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_pressure / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+   /* Draw gauge indicator arc and dot. */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
-   cairo_set_font_size(cr, 15);
-   cairo_show_text(cr, "Fuel Flow Rate");
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", fuel_pressure);
+   draw_dial_text(cr, "Fuel Pressure", gauge_numerals, "kPa");
+   
   
    return FALSE;
 }
@@ -875,7 +884,7 @@ static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    /* draw_dial_background(cr, 290, 220); */
    draw_large_dial_background(cr);
 
-   cairo_select_font_face (cr, "sans", CAIRO_FONT_SLANT_NORMAL,CAIRO_FONT_WEIGHT_BOLD);
+   cairo_select_font_face (cr, "sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
    cairo_set_font_size(cr, 28);                        
    cairo_text_extents (cr,"PID",&ctext);
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
@@ -938,12 +947,11 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
    
    draw_small_dial_background(cr);
 
-   cairo_text_extents (cr,"Battery Voltage: 12.4V",&ctext);
-   printf("Text width: %f\n", ctext.width);
-   printf("Text start: %f\n", (120.0 - (0.5 * ctext.width)));
-   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (120.0 - (0.5 * ctext.width)), yc);
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
    cairo_set_font_size(cr, 16);
+   cairo_text_extents (cr,"Battery Voltage: 12.4V",&ctext); /* TODO: get voltage from protocol module. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), yc);
    cairo_show_text(cr, "Battery Voltage: 12.4V");
   
    return FALSE;
@@ -1126,6 +1134,7 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_oil_temp_dial;
    GtkWidget *ecu_oil_pressure_dial;
    GtkWidget *ecu_fuel_flow_dial;
+   GtkWidget *ecu_fuel_pressure_dial;
    GtkWidget *battery_voltage_dial;
    
    GtkWidget *dtc_dial;
@@ -1222,27 +1231,38 @@ int main(int argc, char *argv[])
    ecu_rpm_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_rpm_dial, 200, 150);
    g_signal_connect(ecu_rpm_dial, "draw", G_CALLBACK(draw_rpm_dial), NULL);
+   
    ecu_speed_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_speed_dial, 200, 150);
    g_signal_connect(ecu_speed_dial, "draw", G_CALLBACK(draw_speed_dial), NULL);
+   
    ecu_ect_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_ect_dial, 200, 150);
    g_signal_connect(ecu_ect_dial, "draw", G_CALLBACK(draw_ect_dial), NULL);
+   
    ecu_iat_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_iat_dial, 200, 150);
    g_signal_connect(ecu_iat_dial, "draw", G_CALLBACK(draw_iat_dial), NULL);
+   
    ecu_map_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_map_dial, 200, 150);
    g_signal_connect(ecu_map_dial, "draw", G_CALLBACK(draw_map_dial), NULL);
-   ecu_egr_dial = gtk_drawing_area_new();
+   
+   /* ecu_egr_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_egr_dial, 200, 150);
-   g_signal_connect(ecu_egr_dial, "draw", G_CALLBACK(draw_egr_dial), NULL);
+   g_signal_connect(ecu_egr_dial, "draw", G_CALLBACK(draw_egr_dial), NULL); */
+   ecu_fuel_pressure_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_fuel_pressure_dial, 200, 150);
+   g_signal_connect(ecu_fuel_pressure_dial, "draw", G_CALLBACK(draw_fuel_pressure_dial), NULL);
+   
    ecu_oil_temp_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_oil_temp_dial, 200, 150);
    g_signal_connect(ecu_oil_temp_dial, "draw", G_CALLBACK(draw_oil_temp_dial), NULL);
+   
    ecu_oil_pressure_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_oil_pressure_dial, 200, 150);
    g_signal_connect(ecu_oil_pressure_dial, "draw", G_CALLBACK(draw_oil_pressure_dial), NULL);
+   
    ecu_fuel_flow_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_fuel_flow_dial, 200, 150);
    g_signal_connect(ecu_fuel_flow_dial, "draw", G_CALLBACK(draw_fuel_flow_dial), NULL);
@@ -1331,7 +1351,7 @@ int main(int argc, char *argv[])
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_iat_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_speed_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_map_dial, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox_center), ecu_egr_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_center), ecu_fuel_pressure_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_pressure_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_temp_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_flow_dial, TRUE, TRUE, 0);

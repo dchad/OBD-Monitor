@@ -97,15 +97,25 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
    
     05    1            -40         215         A - 40             (ECT Centigrade)
     
+    0A    1            0           765         3 * A              (Fuel Pressure kPa)
+    
     0B    1            0           255         A                  (MAP Pressure kPa)
     
     0C    2            0           16,383.75   (256 * A + B) / 4  (Engine RPM)
     
     0D    1            0           255         A                  (Vehicle Speed) 
     
+    0E    1            -64         63.5        (A / 2) - 64       (Timing Advance: degrees before TDC)
+    
     0F    1            -40         215         A - 40             (IAT Centigrade)
     
-    11    1            0           100         100 / 256 * A      (Throttle Position %)
+    11    1            0           100         100 / 255 * A      (Throttle Position %)
+    
+    2F    1            0           100         100 / 255 * A      (Fuel Tank Level %)
+    
+    45    1            0           100         100 / 255 * A      (Relative Throttle Position %)
+    
+    5A    1            0           100         100 / 255 * A      (Relative Accelerator Pedal Position %)
     
     5C    1            -40         215         A - 40             (Oil Temperature)
     
