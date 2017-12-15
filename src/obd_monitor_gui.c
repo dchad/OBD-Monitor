@@ -442,7 +442,7 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    sprintf(gauge_numerals, "%.0f", engine_rpm);
    cairo_set_font_size(cr, 24);
    cairo_text_extents (cr, gauge_numerals, &ctext);
-   printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height);
+   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
    yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
@@ -466,7 +466,7 @@ cairo_stroke (cr);
    
    cairo_set_font_size(cr, 15);
    cairo_text_extents (cr, "Engine RPM", &ctext);
-   printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height);
+   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
    cairo_show_text(cr, "Engine RPM");
@@ -487,7 +487,11 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    double gauge_speed = vehicle_speed / speed_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_speed / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_speed/radius);
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
+   
+   /* printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_speed/radius); */
    
    /* Draw gauge background and arc. */
 
@@ -498,21 +502,33 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
 
    /* Draw pointer. */
    
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); 
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); /* Centre dot. */
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); /* Needle. */
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-
-   cairo_text_extents (cr,"Speedometer",&ctext);
-   printf("Text width: %f\n", ctext.width);
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    
+   sprintf(gauge_numerals, "%.0f", vehicle_speed);
+   cairo_set_font_size(cr, 24);
+   cairo_text_extents (cr, gauge_numerals, &ctext);
+   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
+   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
+   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
+   cairo_move_to(cr, xc, yc);
+   cairo_show_text(cr, gauge_numerals);
+
    cairo_set_font_size(cr, 15);
+   cairo_text_extents (cr, "Speedometer", &ctext);
+   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
    cairo_show_text(cr, "Speedometer");
   
    return TRUE;
@@ -530,8 +546,9 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_temp = coolant_temperature / ect_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
-   
-   printf("Needle angle and arc len: %f - %f - \n", needle_angle, gauge_temp/radius);
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
    
    /* Draw gauge background and arc. */
    
@@ -540,21 +557,32 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
    cairo_stroke(cr);
 
-   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_set_line_width(cr, 3.0);
-
-   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI); /* Center dot. */
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
    cairo_fill(cr);
 
-   cairo_arc(cr, xc, yc, radius, needle_angle, needle_angle); /* Needle. */
-   cairo_line_to(cr, xc, yc);
-   cairo_stroke(cr);
-
-   cairo_text_extents (cr,"Coolant Temp",&ctext);
-   printf("Text width: %f\n", ctext.width);
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    
+   sprintf(gauge_numerals, "%.0f", coolant_temperature);
+   cairo_set_font_size(cr, 24);
+   cairo_text_extents (cr, gauge_numerals, &ctext);
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
+   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
+   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
+   cairo_move_to(cr, xc, yc);
+   cairo_show_text(cr, gauge_numerals);
+
    cairo_set_font_size(cr, 15);
+   cairo_text_extents (cr, "Coolant Temp", &ctext);
+   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
    cairo_show_text(cr, "Coolant Temp");
   
    return FALSE;
@@ -847,16 +875,11 @@ static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    /* draw_dial_background(cr, 290, 220); */
    draw_large_dial_background(cr);
 
-   cairo_select_font_face (cr, "cairo :monospace",
-                           CAIRO_FONT_SLANT_NORMAL,
-                           CAIRO_FONT_WEIGHT_NORMAL);
-                           
+   cairo_select_font_face (cr, "sans", CAIRO_FONT_SLANT_NORMAL,CAIRO_FONT_WEIGHT_BOLD);
+   cairo_set_font_size(cr, 28);                        
    cairo_text_extents (cr,"PID",&ctext);
-   printf("Text width: %f\n", ctext.width);
-   printf("Text start: %f\n", (150.0 - (0.5 * ctext.width)));
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (135.0 - (0.5 * ctext.width)), 210);
-   cairo_set_font_size(cr, 32);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
    cairo_show_text(cr, "PID");
   
    return FALSE;
@@ -868,15 +891,11 @@ static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    
    /* draw_dial_background(cr, 290, 220); */
    draw_large_dial_background(cr);
-   cairo_select_font_face (cr, "cairo :monospace",
-                           CAIRO_FONT_SLANT_NORMAL,
-                           CAIRO_FONT_WEIGHT_NORMAL);
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+   cairo_set_font_size(cr, 28);
    cairo_text_extents (cr,"DTC",&ctext);
-   printf("Text width: %f\n", ctext.width);
-   printf("Text start: %f\n", (150.0 - (0.5 * ctext.width)));
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-   cairo_move_to(cr, (125.0 - (0.5 * ctext.width)), 210);
-   cairo_set_font_size(cr, 32);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
    cairo_show_text(cr, "DTC");
   
    return FALSE;
