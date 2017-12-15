@@ -36,6 +36,11 @@ struct _ECU_Parameters {
    double ecu_oil_pressure;
    double ecu_egr_pressure;
    double ecu_battery_voltage;
+   double ecu_throttle_position;
+   double ecu_oil_temperature;
+   double ecu_accelerator_position;
+   double ecu_fuel_pressure;
+   double ecu_fuel_flow_rate;
    char ecu_vin[256];
 };
 

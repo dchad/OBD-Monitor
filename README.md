@@ -121,11 +121,11 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
     5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
     
-    (Oil Pressure?)
+    (Oil Pressure - hidden in manufacturer proprietary codes. Mode 22 - GM, Mode 21 - Toyota)
     
-    (EGR Pressure?)
+    (EGR Pressure - hidden in manufacturer proprietary codes.)
     
-    (Accelerator Position)
+
 
 #### Selected ECU Mode 09 Parameters:
  
@@ -134,6 +134,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     02    17           VIN - Vehicle Identification Number
     
     0A    20           ECU Name
+    
  
 ## 5. Hardware Interfaces
  

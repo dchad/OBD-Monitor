@@ -97,8 +97,6 @@ void log_ecu_parameters()
 
 void set_engine_rpm(char *rpm_msg)
 {
-   char buf[16];
-   char *cptr;
    unsigned int pmode, pid, pa, pb;
 
    if (sscanf(rpm_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
@@ -122,12 +120,24 @@ double get_engine_rpm()
 
 void set_coolant_temperature(char *ctemp_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(ctemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("ECT Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_coolant_temperature = ((double)pa - 40.0);
+      /* ECU rpm parameter is in quarters of a revolution. */
+   }
+   else
+   {
+      ecup.ecu_coolant_temperature = 0.0;
+   }
+   return;
 }
 
 double get_coolant_temperature()
 {
-
+   return(ecup.ecu_coolant_temperature);
 }
 
 void set_manifold_pressure(char *manap_msg)
@@ -142,12 +152,24 @@ double get_manifold_pressure()
 
 void set_intake_air_temperature(char *atemp_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(atemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("IAT Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_intake_air_temperature = ((double)pa - 40.0);
+      /* ECU rpm parameter is in quarters of a revolution. */
+   }
+   else
+   {
+      ecup.ecu_intake_air_temperature = 0.0;
+   }
+   return;
 }
 
 double get_intake_air_temperature()
 {
-
+   return(ecup.ecu_intake_air_temperature);
 }
 
 void set_battery_voltage(char *bv_msg)
@@ -182,7 +204,18 @@ double get_egr_pressure()
 
 void set_oil_temperature(char *otemp_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(otemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Oil Temperature Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_oil_temperature = ((double)pa - 40.0);
+   }
+   else
+   {
+      ecup.ecu_oil_temperature = 0.0;
+   }
+   return;
 }
 
 double get_oil_temperature()
@@ -202,7 +235,38 @@ double get_oil_pressure()
 
 void parse_mode_01_msg(char *obd_msg)
 {
-   /* Decode ECU parameter message. */
+   /* Decode ECU Mode 01 parameter message. */
+   unsigned int pmode, pid;
+   char header[16];
+   
+   memset(header, 0, 16);
+   strncpy(header, obd_msg, 5);
+   
+   if (sscanf(header, "%x %x", &pmode, &pid) == 2)
+   {
+      switch(pid)
+      {
+         case 0: break; /* TODO: Supported PIDs. */
+         case 5: set_coolant_temperature(obd_msg); break; /*  */
+         case 10: break;
+         case 11: break; /* Throttle Position. */
+         case 12: set_engine_rpm(obd_msg); break;
+         case 13: break;
+         case 14: break;
+         case 15: set_intake_air_temperature(obd_msg); break;
+         case 17: break;
+         case 47: break; /* Fuel Tank Level. */
+         case 92: set_oil_temperature(obd_msg); break;
+      }
+
+   }
+   else
+   {
+      /* TODO: log error message. */
+   }   
+
+   
+   return;
 }
 
 void parse_mode_03_msg(char *obd_msg)
