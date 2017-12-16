@@ -847,6 +847,46 @@ static gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer
    return FALSE;
 }
 
+static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double fuel_level_scale_factor = 0.477; /* 100.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double fuel_level = 85.0;     /* TODO: get fuel level from protocol module. */
+   double gauge_level = fuel_level / fuel_level_scale_factor; /* this is the gauge arc length. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_level / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", fuel_level);
+   draw_dial_text(cr, "Fuel Level", gauge_numerals, "%");
+   
+  
+   return FALSE;
+}
 
 static void draw_large_dial_background(cairo_t *cr)
 {
@@ -1135,6 +1175,7 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_oil_pressure_dial;
    GtkWidget *ecu_fuel_flow_dial;
    GtkWidget *ecu_fuel_pressure_dial;
+   GtkWidget *ecu_fuel_tank_level_dial;
    GtkWidget *battery_voltage_dial;
    
    GtkWidget *dtc_dial;
@@ -1259,9 +1300,13 @@ int main(int argc, char *argv[])
    gtk_widget_set_size_request (ecu_oil_temp_dial, 200, 150);
    g_signal_connect(ecu_oil_temp_dial, "draw", G_CALLBACK(draw_oil_temp_dial), NULL);
    
-   ecu_oil_pressure_dial = gtk_drawing_area_new();
+   /* ecu_oil_pressure_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_oil_pressure_dial, 200, 150);
-   g_signal_connect(ecu_oil_pressure_dial, "draw", G_CALLBACK(draw_oil_pressure_dial), NULL);
+   g_signal_connect(ecu_oil_pressure_dial, "draw", G_CALLBACK(draw_oil_pressure_dial), NULL); */
+   
+   ecu_fuel_tank_level_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_fuel_tank_level_dial, 200, 150);
+   g_signal_connect(ecu_fuel_tank_level_dial, "draw", G_CALLBACK(draw_fuel_tank_level_dial), NULL);
    
    ecu_fuel_flow_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_fuel_flow_dial, 200, 150);
@@ -1352,7 +1397,7 @@ int main(int argc, char *argv[])
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_speed_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_map_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_fuel_pressure_dial, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_pressure_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_tank_level_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_temp_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_flow_dial, TRUE, TRUE, 0);
 

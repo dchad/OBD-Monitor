@@ -121,9 +121,8 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
     5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
     
-    (Oil Pressure - hidden in manufacturer proprietary codes. Mode 22 - GM, Mode 21 - Toyota)
+    (Oil Pressure - manufacturer proprietary codes.) (Mode 22 PID 115C  - GM)
     
-    (EGR Pressure - hidden in manufacturer proprietary codes.)
     
 
 
