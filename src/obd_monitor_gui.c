@@ -97,7 +97,7 @@ int send_ecu_msg(char *query)
    int n;
 
    memset(buffer,0,256);
-   sprintf(buffer,"%s\n",query);
+   sprintf(buffer,"%s",query);
 
    n = sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&obd_server,length);
    if (n < 0) 
@@ -106,7 +106,7 @@ int send_ecu_msg(char *query)
    }
    else
    {  
-      printf("SENT ECU Message: %s\n", buffer);
+      printf("SENT ECU Message: %s", buffer);
    }
    
    return n;
@@ -123,11 +123,11 @@ int recv_ecu_msg()
    /* We are not blocking on recv now. */
    if (n > 0)
    {
-      printf("RECV ECU Message: %s\n", buffer);
+      printf("RECV ECU Message: %s", buffer);
       parse_obd_msg(buffer);
    }
 
-   return n;
+   return(n);
 }
 
 
@@ -255,7 +255,10 @@ void send_query(GtkWidget *widget, gpointer window)
 gint send_obd_message_callback (gpointer data)
 {
 
-   send_ecu_msg("01 0C\n");
+   send_ecu_msg("01 0C\n"); /* Engine RPM */
+   send_ecu_msg("01 05\n"); /* Coolant Temperature */
+   send_ecu_msg("01 0D\n"); /* Vehicle Speed */
+   
    /* TODO: send all parameter request messages. */
    gtk_widget_queue_draw((GtkWidget *)data);
    
@@ -299,7 +302,7 @@ void ecu_connect(GtkWidget *widget, gpointer window)
       }
       else
       {
-         ecu_connected = 1;
+         ecu_connected = 1; /* Start PID comms with server process. */
          g_timeout_add (1000, send_obd_message_callback, (gpointer)window);
          g_timeout_add (500, recv_obd_message_callback, (gpointer)window);  
       }
@@ -308,16 +311,6 @@ void ecu_connect(GtkWidget *widget, gpointer window)
    return;
 }
 
-
-
-static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data)
-{
-  cairo_move_to(cr, 30, 30);
-  cairo_set_font_size(cr, 15);
-  cairo_show_text(cr, time_buffer);
-
-  return FALSE;
-}
 
 static void draw_dial_background(cairo_t *cr, double width, double height)
 {
@@ -447,19 +440,19 @@ static void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals,
    cairo_move_to(cr, xc, yc);
    cairo_show_text(cr, gauge_numerals);
 
-/* TEST TEXT PLACEMENT
-xc = (100.0 - (0.5 * ctext.width  + ctext.x_bearing));
-yc = (75 - (0.5 * ctext.height + ctext.y_bearing));   
-cairo_set_source_rgba (cr, 1, 0.2, 0.2, 0.6);
-cairo_set_line_width (cr, 6.0);
-cairo_arc (cr, xc, yc, 10.0, 0, 2*M_PI);
-cairo_fill (cr);
-cairo_move_to (cr, xc,yc);
-cairo_rel_line_to (cr, 0, -ctext.height);
-cairo_rel_line_to (cr, ctext.width, 0);
-cairo_rel_line_to (cr, ctext.x_bearing, -ctext.y_bearing);
-cairo_stroke (cr);
-*/
+   /* TEST TEXT PLACEMENT
+   xc = (100.0 - (0.5 * ctext.width  + ctext.x_bearing));
+   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));   
+   cairo_set_source_rgba (cr, 1, 0.2, 0.2, 0.6);
+   cairo_set_line_width (cr, 6.0);
+   cairo_arc (cr, xc, yc, 10.0, 0, 2*M_PI);
+   cairo_fill (cr);
+   cairo_move_to (cr, xc,yc);
+   cairo_rel_line_to (cr, 0, -ctext.height);
+   cairo_rel_line_to (cr, ctext.width, 0);
+   cairo_rel_line_to (cr, ctext.x_bearing, -ctext.y_bearing);
+   cairo_stroke (cr);
+   */
  
    cairo_set_font_size(cr, 10);
    cairo_text_extents (cr, gauge_units, &ctext);
@@ -570,7 +563,7 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
    double speed_scale_factor = 0.954; /* 200km/h / (radius * (1.167 * PI + 0.167 * PI)) = 200 / 209.5 = 0.954 */
-   double vehicle_speed = 40.0; /* TODO: get speed value from protocol module. */
+   double vehicle_speed = get_vehicle_speed(); /* Get speed value from protocol module. */
    double gauge_speed = vehicle_speed / speed_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_speed / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;   
@@ -611,7 +604,7 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double ect_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-   double coolant_temperature = 80.0; /* TODO: get ect value from protocol module. */
+   double coolant_temperature = get_coolant_temperature(); /* TODO: get ect value from protocol module. */
    double gauge_temp = coolant_temperature / ect_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -1072,26 +1065,6 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
   
    return FALSE;
 }
-
-
-gboolean time_handler(GtkWidget *widget) 
-{
-    
-  if (widget == NULL) return FALSE;
-
-  GDateTime *now = g_date_time_new_now_local(); 
-  gchar *my_time = g_date_time_format(now, "%H:%M:%S");
-  
-  g_sprintf(time_buffer, "%s", my_time);
-  
-  g_free(my_time);
-  g_date_time_unref(now);
-
-  gtk_widget_queue_draw(widget);
-  
-  return TRUE;
-}
-
 
 
 void on_changed (GtkComboBoxText *widget, gpointer user_data)

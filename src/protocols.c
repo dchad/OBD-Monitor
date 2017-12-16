@@ -210,7 +210,7 @@ void set_vehicle_speed(char *vs_msg)
 
 double get_vehicle_speed()
 {
-
+   return(ecup.ecu_vehicle_speed);
 }
 
 void set_egr_pressure(char *egrp_msg)

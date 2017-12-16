@@ -78,6 +78,7 @@ struct _ECU_Parameters {
    double ecu_fuel_pressure;
    double ecu_fuel_flow_rate;
    char ecu_vin[256];
+   char ecu_name[256];
 };
 
 typedef struct _ECU_Parameters ECU_Parameters;

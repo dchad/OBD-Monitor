@@ -60,9 +60,20 @@ void fatal_error(const char *error_msg)
 void set_simulator_ecu_parameters()
 {
    /* TODO: set all the ecu parameters. */
-   simulator_ecu.ecu_engine_rpm = 100.0 * (double)tick_count;
-   printf("Set engine rpm -> %f\n", simulator_ecu.ecu_engine_rpm);
-   
+   simulator_ecu.ecu_engine_rpm = 10.0 * (double)tick_count;
+   simulator_ecu.ecu_vehicle_speed = (double)tick_count;
+   simulator_ecu.ecu_coolant_temperature = (double)tick_count;
+   simulator_ecu.ecu_intake_air_temperature = 2.0 * (double)tick_count;
+   simulator_ecu.ecu_manifold_air_pressure = 3.0 * (double)tick_count;
+   /* simulator_ecu.ecu_oil_pressure = 5.0 * (double)tick_count;
+   simulator_ecu.ecu_egr_pressure = 5.0 * (double)tick_count;
+   simulator_ecu.ecu_battery_voltage = 10.0 * (double)tick_count; */
+   simulator_ecu.ecu_throttle_position = (double)tick_count;
+   simulator_ecu.ecu_oil_temperature = 2.0 * (double)tick_count;
+   simulator_ecu.ecu_accelerator_position = (double)tick_count;
+   simulator_ecu.ecu_fuel_pressure = 3.0 * (double)tick_count;
+   simulator_ecu.ecu_fuel_flow_rate = 2.0 * (double)tick_count;
+    
    return;
 }
 
@@ -90,7 +101,7 @@ int send_engine_rpm()
    
    sprintf(reply_buf, "41 0C %.2x %.2x\n", rpm_A, rpm_B);
    /* TODO: log simulator msg. */
-   printf("Simulator ECU RPM Msg: %s", reply_buf);
+   printf("Simulator RPM Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -98,10 +109,23 @@ int send_engine_rpm()
 }
 
 
-void send_coolant_temperature()
+int send_coolant_temperature()
 {
+   char reply_buf[256];
+   unsigned int ect_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
-   return;
+   ect_A = (unsigned int)simulator_ecu.ecu_coolant_temperature + 40;
+   
+   sprintf(reply_buf, "41 05 %.2x\n", ect_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator ECT Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 
@@ -119,11 +143,23 @@ void send_intake_air_temperature()
 }
 
 
-void send_vehicle_speed()
+int send_vehicle_speed()
 {
-
+   char reply_buf[256];
+   unsigned int ect_A;
+   int n;
    
-   return;
+   memset(reply_buf, 0, 256);
+
+   ect_A = (unsigned int)simulator_ecu.ecu_vehicle_speed;
+   
+   sprintf(reply_buf, "41 0D %.2x\n", ect_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator VS Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 
@@ -204,7 +240,7 @@ void send_interface_information()
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
-   printf("Sent %i bytes.\n", n);
+   printf("Sent %i bytes %s", n, reply_buf);
    
    return;
 }
@@ -218,7 +254,7 @@ void reply_mode_01_msg(char *obd_msg)
    n = sscanf(obd_msg, "%x %x", &pmode, &pid);
    if (n == 2)
    {
-      printf("RPM Msg: %d %d\n", pmode, pid);
+      printf("MODE 01 Msg: %d %d\n", pmode, pid);
       switch(pid)
       {
          case 0: send_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
@@ -251,7 +287,7 @@ void reply_mode_03_msg(char *obd_msg)
 
 void reply_mode_09_msg(char *obd_msg)
 {
-   /* Send back ECU information message. */
+   /* Send back ECU and vehicle information message. */
 }
 
 
@@ -350,7 +386,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
 
     RS232_cputs(serial_port, ecu_query);
 
-    printf("TXD %i bytes: %s\n", out_msg_len, ecu_query);
+    printf("TXD %i bytes: %s", out_msg_len, ecu_query);
 
     usleep(100000);  /* sleep for 100 milliseconds */
 
@@ -375,7 +411,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
              }
           }
 
-          printf("RXD %i bytes: %s\n", in_msg_len, ecu_query);
+          printf("RXD %i bytes: %s", in_msg_len, ecu_query);
 
           usleep(100000);  /* sleep for 100 milliSeconds */
     }
@@ -426,7 +462,7 @@ int main(int argc, char *argv[])
 
        if (n < 0) fatal_error("recvfrom");
 
-       printf("RXD ECU Query: %s\n", in_buf);
+       printf("RXD ECU Query: %s", in_buf);
 
        n = parse_gui_message();
 
