@@ -126,7 +126,6 @@ void set_coolant_temperature(char *ctemp_msg)
    {
       printf("ECT Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_coolant_temperature = ((double)pa - 40.0);
-      /* ECU rpm parameter is in quarters of a revolution. */
    }
    else
    {
@@ -142,12 +141,22 @@ double get_coolant_temperature()
 
 void set_manifold_pressure(char *manap_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(manap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("MAP Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_manifold_air_pressure = (double)pa;
+   }
+   else
+   {
+      ecup.ecu_manifold_air_pressure = 0.0;
+   }
 }
 
 double get_manifold_pressure()
 {
-
+   return(ecup.ecu_manifold_air_pressure);
 }
 
 void set_intake_air_temperature(char *atemp_msg)
@@ -158,12 +167,12 @@ void set_intake_air_temperature(char *atemp_msg)
    {
       printf("IAT Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_intake_air_temperature = ((double)pa - 40.0);
-      /* ECU rpm parameter is in quarters of a revolution. */
    }
    else
    {
       ecup.ecu_intake_air_temperature = 0.0;
    }
+   
    return;
 }
 
@@ -184,7 +193,19 @@ double get_battery_voltage()
 
 void set_vehicle_speed(char *vs_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(vs_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Vehicle Speed Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_vehicle_speed = (double)pa;
+   }
+   else
+   {
+      ecup.ecu_vehicle_speed = 0.0;
+   }
+   
+   return;
 }
 
 double get_vehicle_speed()
@@ -198,6 +219,16 @@ void set_egr_pressure(char *egrp_msg)
 }
 
 double get_egr_pressure()
+{
+
+}
+
+void set_throttle_position(char *tp_msg)
+{
+
+}
+
+double get_throttle_position()
 {
 
 }
@@ -220,7 +251,7 @@ void set_oil_temperature(char *otemp_msg)
 
 double get_oil_temperature()
 {
-
+   return(ecup.ecu_oil_temperature);
 }
 
 void set_oil_pressure(char *oilp_msg)
@@ -232,6 +263,70 @@ double get_oil_pressure()
 {
 
 }
+
+void set_supported_pid_list_1_32(char *pid_msg)
+{
+
+}
+
+double gset_supported_pid_list_1_32()
+{
+
+}
+
+void set_timing_advance(char *tadv_msg)
+{
+
+}
+
+double get_timing_advance()
+{
+
+}
+
+
+void set_fuel_tank_level(char *ftl_msg)
+{
+
+}
+
+double get_fuel_tank_level()
+{
+
+}
+
+void set_fuel_flow_rate(char *ffr_msg)
+{
+
+}
+
+double get_fuel_flow_rate()
+{
+
+}
+
+
+void set_fuel_pressure(char *fp_msg)
+{
+
+}
+
+double get_fuel_pressure()
+{
+
+}
+
+
+void set_accelerator_position(char *ap_msg)
+{
+
+}
+
+double get_accelerator_position()
+{
+
+}
+
 
 void parse_mode_01_msg(char *obd_msg)
 {
@@ -246,17 +341,19 @@ void parse_mode_01_msg(char *obd_msg)
    {
       switch(pid)
       {
-         case 0: break; /* TODO: Supported PIDs. */
+         case 0: set_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
          case 5: set_coolant_temperature(obd_msg); break; /*  */
-         case 10: break;
-         case 11: break; /* Throttle Position. */
+         case 10: set_fuel_pressure(obd_msg); break;
+         case 11: set_manifold_pressure(obd_msg); break; /* Throttle Position. */
          case 12: set_engine_rpm(obd_msg); break;
-         case 13: break;
-         case 14: break;
+         case 13: set_vehicle_speed(obd_msg); break;
+         case 14: set_timing_advance(obd_msg); break;
          case 15: set_intake_air_temperature(obd_msg); break;
-         case 17: break;
-         case 47: break; /* Fuel Tank Level. */
+         case 17: set_throttle_position(obd_msg); break;
+         case 47: set_fuel_tank_level(obd_msg); break; /* Fuel Tank Level. */
+         case 90: set_accelerator_position(obd_msg); break;
          case 92: set_oil_temperature(obd_msg); break;
+         case 94: set_fuel_flow_rate(obd_msg); break;
       }
 
    }

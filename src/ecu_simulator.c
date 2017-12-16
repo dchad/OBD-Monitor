@@ -35,9 +35,12 @@
 */
 
 #include "obd_monitor.h"
-
+#include "protocols.h"
 #include "rs232.h"
 
+
+ECU_Parameters simulator_ecu;
+unsigned int tick_count;
 
 int sock, length, n, serial_port;
 socklen_t from_len;
@@ -54,12 +57,144 @@ void fatal_error(const char *error_msg)
 }
 
 
+void set_simulator_ecu_parameters()
+{
+   /* TODO: set all the ecu parameters. */
+   simulator_ecu.ecu_engine_rpm = 100.0 * tick_count;
+   return;
+}
+
+void get_simulator_ecu_parameters(ECU_Parameters *ecupout)
+{
+   /* TODO: */
+}
+
+void log_simulator_ecu_parameters()
+{
+   /* TODO: log ecu parameters on a 60 second timer. */
+}
+
+int send_engine_rpm()
+{
+   char reply_buf[256];
+   unsigned int rpm_temp, rpm_A, rpm_B;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   rpm_temp = (unsigned int)simulator_ecu.ecu_engine_rpm * 4;
+   rpm_A = rpm_temp / 256;
+   rpm_B = rpm_temp % 256;
+   
+   sprintf(reply_buf, "41 0C %.2x %.2x\n", rpm_A, rpm_B);
+   /* TODO: log simulator msg. */
+   printf("Simulator ECU RPM Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+void send_coolant_temperature()
+{
+
+   return;
+}
+
+
+void send_manifold_pressure()
+{
+ 
+}
+
+
+void send_intake_air_temperature()
+{
+
+   
+   return;
+}
+
+void send_battery_voltage()
+{
+
+}
+
+void send_vehicle_speed()
+{
+
+   
+   return;
+}
+
+
+void send_egr_pressure()
+{
+
+}
+
+
+void send_throttle_position()
+{
+
+}
+
+
+void send_oil_temperature()
+{
+ 
+   return;
+}
+
+
+void send_oil_pressure()
+{
+
+}
+
+
+void send_supported_pid_list_1_32()
+{
+
+}
+
+
+void send_timing_advance()
+{
+
+}
+
+
+
+void send_fuel_tank_level()
+{
+
+}
+
+
+void send_fuel_flow_rate()
+{
+
+}
+
+void send_fuel_pressure()
+{
+
+}
+
+void send_accelerator_position()
+{
+
+}
+
+
+
 void reply_mode_01_msg(char *obd_msg)
 {
    /* Send back an ECU parameter message. */
    unsigned int pid, pmode;
    int n;
-   char response_msg[256];
    
    n = sscanf(obd_msg, "%x %x", &pmode, &pid);
    if (n == 2)
@@ -67,17 +202,19 @@ void reply_mode_01_msg(char *obd_msg)
       printf("RPM Msg: %d %d\n", pmode, pid);
       switch(pid)
       {
-         case 0: break; /* Request supported PID list. */
-         case 5: break; /* ECT  */
-         case 11: break;  /* MAP  */
-         case 12: break;  /* RPM  */ 
-         case 13: break;
-         case 15: break;
-         case 17: break;
-         case 92: break;
-         case 94: break;
-         case 9: break; /* */
-         case 10: break;
+         case 0: send_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
+         case 5: send_coolant_temperature(); break; /*  */
+         case 10: send_fuel_pressure(); break;
+         case 11: send_manifold_pressure(); break; /* Throttle Position. */
+         case 12: send_engine_rpm(); break;
+         case 13: send_vehicle_speed(); break;
+         case 14: send_timing_advance(); break;
+         case 15: send_intake_air_temperature(); break;
+         case 17: send_throttle_position(); break;
+         case 47: send_fuel_tank_level(); break; /* Fuel Tank Level. */
+         case 90: send_accelerator_position(); break;
+         case 92: send_oil_temperature(); break;
+         case 94: send_fuel_flow_rate(); break;
       }
    }
    else
@@ -104,16 +241,19 @@ int parse_gui_message()
 {
    int n;
    int msg_len;
-   char temp_buf[256];
    
    msg_len = strlen(in_buf);
+   n = 0;
    
    if ((msg_len > 0) && (in_buf[msg_len - 1] == '\n')) /* All messages must terminate with a newline. */
    {
       /* Parse the message. */
       if (in_buf[0] == 'A') /* ELM327 interface messages all start with 'AT'. */
       {
-         
+         if (strncmp(in_buf, "ATBV", 4) == 0)
+         {
+            send_battery_voltage();
+         }
       }
       else
       {                        /* ECU request messages always start with the mode '01'...'0A' */
@@ -134,9 +274,9 @@ int parse_gui_message()
                case 'A': break;
             }
          }
-         else /* This is an AT message response for the interface. */
+         else /* This is an AT message response for the user interface. */
          {
-            /* TODO: Save configuration info from the interface. */
+            /* TODO: Save configuration info from the OBD interface. */
          }
       }
    
@@ -144,14 +284,9 @@ int parse_gui_message()
    else
    {
       /* TODO: Invalid message, log an error. */
+      n = -1;
    }
 
-   
-   
-   
-   
-   n = sendto(sock, "ACK ECU Request.\n", 18, 0, (struct sockaddr *)&from_client, from_len);
-   
    return(n);
 }
 
@@ -234,6 +369,9 @@ int main(int argc, char *argv[])
       exit(0);
    }
    
+   tick_count = 0;
+   set_simulator_ecu_parameters();
+   
    /* TODO: make serial port configurable. */
    
    /* TODO: make this configurable for RS232 unit tests.
@@ -246,7 +384,7 @@ int main(int argc, char *argv[])
       fatal_error("Opening socket");
    
    length = sizeof(server);
-   bzero(&server, length);
+   memset(&server, 0, length);
 
    server.sin_family=AF_INET;
    server.sin_addr.s_addr=INADDR_ANY;
@@ -256,6 +394,8 @@ int main(int argc, char *argv[])
       fatal_error("binding");
 
    from_len = sizeof(struct sockaddr_in);
+   
+   memset(in_buf, 0, BUFFER_MAX_LEN);
    
    while (1) 
    {
@@ -272,15 +412,23 @@ int main(int argc, char *argv[])
        if (n  < 0) 
           printf("Message parsing failed.\n");
 
+       set_simulator_ecu_parameters();
+       
+       tick_count =+ 1;
+       if ((tick_count % 100) == 0)
+       {
+          tick_count = 0;
+       }
+       
        /* Now send the query to the ECU interface and get a response. 
        n = send_ecu_query(serial_port, in_buf);
        n = recv_ecu_reply(serial_port, ecu_msg);
        */
        /* TODO: log ECU query and reply. */
 
-       /* TODO: send ECU reply to GUI. */
 
        /* TODO: Clear the buffers!!! */
+       memset(in_buf, 0, BUFFER_MAX_LEN);
    }
 
    return 0;

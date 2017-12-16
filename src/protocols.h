@@ -8,6 +8,42 @@
                 the message is from the ECU. Otherwise it is a message from
                 the OBD interface IC or is invalid.
 
+
+   Selected ECU Mode 01 Parameters: 
+   
+   [PID] [Data Bytes] [Min Value] [Max Value] [Formula]           [Description]
+    05    1            -40         215         A - 40             (ECT Centigrade)
+    0A    1            0           765         3 * A              (Fuel Pressure kPa)
+    0B    1            0           255         A                  (MAP Pressure kPa)
+    0C    2            0           16,383.75   (256 * A + B) / 4  (Engine RPM)
+    0D    1            0           255         A                  (Vehicle Speed)
+    0E    1            -64         63.5        (A / 2) - 64       (Timing Advance: degrees before TDC) 
+    0F    1            -40         215         A - 40             (IAT Centigrade)
+    11    1            0           100         100 / 255 * A      (Throttle Position %)
+    2F    1            0           100         100 / 255 * A      (Fuel Tank Level %)
+    5A    1            0           100         100 / 255 * A      (Relative Accelerator Pedal Position %)
+    5C    1            -40         215         A - 40             (Oil Temperature)
+    5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
+
+
+
+   Selected ECU Mode 09 Parameters:
+ 
+   [PID] [Data Bytes] [Description] 
+    02    17           VIN - Vehicle Identification Number
+    0A    20           ECU Name
+         
+     
+   Selected ECU Mode 21 Parameters (Toyota):
+   
+       
+                     
+   Selected ECU Mode 22 Parameters (GM/Isuzu):
+        
+    (Oil Pressure? Mode: 22 PID: 115C)
+    
+    
+    
    Date: 7/11/2017
    
 */
@@ -96,6 +132,9 @@ double get_oil_temperature();
 
 void set_oil_pressure(char *oilp_msg);
 double get_oil_pressure();
+
+void set_throttle_position(char *tp_msg);
+double get_throttle_position();
 
 /* Message Parsers. */
 int parse_obd_msg(char *obd_msg);
