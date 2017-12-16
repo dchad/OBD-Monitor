@@ -60,7 +60,9 @@ void fatal_error(const char *error_msg)
 void set_simulator_ecu_parameters()
 {
    /* TODO: set all the ecu parameters. */
-   simulator_ecu.ecu_engine_rpm = 100.0 * tick_count;
+   simulator_ecu.ecu_engine_rpm = 100.0 * (double)tick_count;
+   printf("Set engine rpm -> %f\n", simulator_ecu.ecu_engine_rpm);
+   
    return;
 }
 
@@ -116,10 +118,6 @@ void send_intake_air_temperature()
    return;
 }
 
-void send_battery_voltage()
-{
-
-}
 
 void send_vehicle_speed()
 {
@@ -188,7 +186,28 @@ void send_accelerator_position()
 
 }
 
+/* OBD Interface Messages. */
 
+void send_battery_voltage()
+{
+
+}
+
+void send_interface_information()
+{
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+   sprintf(reply_buf, "ATI\nELM327\nOK\n>\n");
+   printf("Simulator ATI Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("Sent %i bytes.\n", n);
+   
+   return;
+}
 
 void reply_mode_01_msg(char *obd_msg)
 {
@@ -253,6 +272,10 @@ int parse_gui_message()
          if (strncmp(in_buf, "ATBV", 4) == 0)
          {
             send_battery_voltage();
+         }
+         if (strncmp(in_buf, "ATI", 3) == 0)
+         {
+            send_interface_information();
          }
       }
       else
@@ -399,8 +422,6 @@ int main(int argc, char *argv[])
    
    while (1) 
    {
-       bzero(in_buf, BUFFER_MAX_LEN);
-       
        n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
 
        if (n < 0) fatal_error("recvfrom");
@@ -414,8 +435,8 @@ int main(int argc, char *argv[])
 
        set_simulator_ecu_parameters();
        
-       tick_count =+ 1;
-       if ((tick_count % 100) == 0)
+       tick_count += 1;
+       if (tick_count == 100)
        {
           tick_count = 0;
        }

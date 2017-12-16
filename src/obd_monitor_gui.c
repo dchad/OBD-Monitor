@@ -31,6 +31,8 @@ int sock;
 unsigned int length;
 struct sockaddr_in obd_server, from;
 struct hostent *hp;
+int ecu_connected;
+int ecu_auto_connect;
 
 /* Constant Definitions. */
 
@@ -94,31 +96,36 @@ int send_ecu_msg(char *query)
    char buffer[256];
    int n;
 
-   bzero(buffer,256);
+   memset(buffer,0,256);
    sprintf(buffer,"%s\n",query);
 
    n = sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&obd_server,length);
    if (n < 0) 
+   {
       printf("ERROR: Sendto failed.\n");
-      
-   printf("SENT ECU Message: %s\n", buffer);
-
+   }
+   else
+   {  
+      printf("SENT ECU Message: %s\n", buffer);
+   }
+   
    return n;
 }
 
-int recv_ecu_msg(char *ecu_data)
+int recv_ecu_msg()
 {
    char buffer[256];
    int n;
 
-   bzero(buffer,256);
+   memset(buffer,0,256);
 
    n = recvfrom(sock,buffer,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
-   /* We are not blocking on recv now.
-    if (n < 0) 
-      printf("ERROR: recvfrom failed.\n"); */
+   /* We are not blocking on recv now. */
    if (n > 0)
+   {
       printf("RECV ECU Message: %s\n", buffer);
+      parse_obd_msg(buffer);
+   }
 
    return n;
 }
@@ -129,27 +136,68 @@ int init_obd_comms(char *obd_msg)
    int n;
    char buffer[256];
 
-   bzero(buffer,256);
+   memset(buffer,0,256);
    sprintf(buffer,"%s\n",obd_msg); /* Require newline 0x0D terminator for all messages. */
 
    n = sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&obd_server,length);
 
    if (n < 0) 
+   {
       printf("ERROR: Sendto failed.\n");
-
-   printf("SENT OBD Message: %s\n", buffer);
-
+   }
+   else
+   {
+      printf("SENT OBD Message: %s\n", buffer);
+   }
+   
    usleep(OBD_WAIT_TIMEOUT);
 
-   bzero(buffer,256);
+   memset(buffer,0,256);
 
    n = recvfrom(sock,buffer,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
    
    if (n > 0)
-      printf("RECV OBD Message: %s\n", buffer);   
-
+   {
+      printf("RECV OBD Message: %s\n", buffer);  
+      parse_obd_msg(buffer); 
+   }
+   
    return(n);
 }
+
+
+void auto_connect()
+{
+   int result;
+
+   memset(current_error_msg, 0, 256);
+   /* First set up UDP communication with the server process
+      and check connection to the OBD interface. */
+   result = init_server_comms("127.0.0.1", "8989");
+   if (result < 0)
+   {
+      /* Pop up an error dialog. */
+      strncpy(current_error_msg, "ERROR: Failed to connect to OBD server.\n", 40);
+      printf("%s", current_error_msg);
+   }
+   else
+   {
+      result = init_obd_comms("ATI");
+      if (result <= 0)
+      {
+         strncpy(current_error_msg, "ERROR: Failed to connect to OBD interface.\n", 43);
+         printf("%s", current_error_msg);
+      }
+      else
+      {
+         ecu_connected = 1;
+      }
+   }
+   
+   return;
+}
+
+
 
 /* ----------------------- */
 /* GUI callback functions. */
@@ -204,11 +252,34 @@ void send_query(GtkWidget *widget, gpointer window)
    return;
 }
 
+gint send_obd_message_callback (gpointer data)
+{
+
+   send_ecu_msg("01 0C\n");
+   /* TODO: send all parameter request messages. */
+   gtk_widget_queue_draw((GtkWidget *)data);
+   
+   return(TRUE);
+}
+
+gint recv_obd_message_callback (gpointer data)
+{
+   recv_ecu_msg();
+   gtk_widget_queue_draw((GtkWidget *)data);
+   
+   return(TRUE);
+}
+
 void ecu_connect(GtkWidget *widget, gpointer window) 
 {
    int result;
 
-   bzero(current_error_msg, 256);
+   if (ecu_connected == 1)
+   {
+      return;
+   }
+   
+   memset(current_error_msg, 0, 256);
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
    result = init_server_comms("127.0.0.1", "8989");
@@ -226,8 +297,13 @@ void ecu_connect(GtkWidget *widget, gpointer window)
          strncpy(current_error_msg, "ERROR: Failed to connect to OBD interface.\n", 43);
          show_error_msg(widget, window);
       }
+      else
+      {
+         ecu_connected = 1;
+         g_timeout_add (1000, send_obd_message_callback, (gpointer)window);
+         g_timeout_add (500, recv_obd_message_callback, (gpointer)window);  
+      }
    }
-   
 
    return;
 }
@@ -413,7 +489,7 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
    double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
    double rpm_scale_factor = 38.2;
-   double engine_rpm = 1050;      /* TODO: get rpm value from protocol module. */
+   double engine_rpm = get_engine_rpm(); /* Get rpm value from protocol module. */
    double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
@@ -1017,7 +1093,7 @@ gboolean time_handler(GtkWidget *widget)
 }
 
 
-/* What the hell is this for??? */
+
 void on_changed (GtkComboBoxText *widget, gpointer user_data)
 {
   GtkComboBoxText *combo_box = widget;
@@ -1406,7 +1482,17 @@ int main(int argc, char *argv[])
    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);  
 
    gtk_widget_show_all(window);
-   time_handler(window);
+   
+   ecu_connected = 0;
+   ecu_auto_connect = 1; /* TODO: add to configuration options. */
+   if (ecu_auto_connect == 1) 
+   {
+      auto_connect();
+      g_timeout_add (1000, send_obd_message_callback, (gpointer)window);
+      g_timeout_add (500, recv_obd_message_callback, (gpointer)window);      
+   }
+
+   
    /* g_object_unref(icon); */
 
    gtk_main();  
