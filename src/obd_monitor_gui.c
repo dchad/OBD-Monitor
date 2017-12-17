@@ -124,7 +124,10 @@ int recv_ecu_msg()
    if (n > 0)
    {
       printf("RECV ECU Message: %s", buffer);
-      parse_obd_msg(buffer);
+      if (parse_obd_msg(buffer) > 0)
+      {
+         /* Write message to text view widget. */
+      }
    }
 
    return(n);
@@ -252,12 +255,26 @@ void send_query(GtkWidget *widget, gpointer window)
    return;
 }
 
-gint send_obd_message_callback (gpointer data)
+gint send_obd_message_60sec_callback (gpointer data)
+{
+   send_ecu_msg("01 05\n"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\n"); /* Oil Temperature */
+   
+   /* TODO: send all parameter request messages. */
+   gtk_widget_queue_draw((GtkWidget *)data);
+   
+   return(TRUE);
+}
+
+gint send_obd_message_1sec_callback (gpointer data)
 {
 
    send_ecu_msg("01 0C\n"); /* Engine RPM */
-   send_ecu_msg("01 05\n"); /* Coolant Temperature */
    send_ecu_msg("01 0D\n"); /* Vehicle Speed */
+   send_ecu_msg("01 0A\n"); /* Fuel Pressure */
+   send_ecu_msg("01 0B\n"); /* MAP Pressure */
    
    /* TODO: send all parameter request messages. */
    gtk_widget_queue_draw((GtkWidget *)data);
@@ -303,8 +320,9 @@ void ecu_connect(GtkWidget *widget, gpointer window)
       else
       {
          ecu_connected = 1; /* Start PID comms with server process. */
-         g_timeout_add (1000, send_obd_message_callback, (gpointer)window);
-         g_timeout_add (500, recv_obd_message_callback, (gpointer)window);  
+         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
       }
    }
 
@@ -1461,8 +1479,9 @@ int main(int argc, char *argv[])
    if (ecu_auto_connect == 1) 
    {
       auto_connect();
-      g_timeout_add (1000, send_obd_message_callback, (gpointer)window);
-      g_timeout_add (500, recv_obd_message_callback, (gpointer)window);      
+      g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+      g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);      
    }
 
    

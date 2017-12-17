@@ -152,6 +152,8 @@ void set_manifold_pressure(char *manap_msg)
    {
       ecup.ecu_manifold_air_pressure = 0.0;
    }
+   
+   return;
 }
 
 double get_manifold_pressure()
@@ -225,12 +227,24 @@ double get_egr_pressure()
 
 void set_throttle_position(char *tp_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(tp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Throttle Position Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_throttle_position = 0.392 * (double)pa;
+   }
+   else
+   {
+      ecup.ecu_throttle_position = 0.0;
+   }
+   
+   return;
 }
 
 double get_throttle_position()
 {
-
+   return(ecup.ecu_throttle_position);
 }
 
 void set_oil_temperature(char *otemp_msg)
@@ -276,55 +290,115 @@ double gset_supported_pid_list_1_32()
 
 void set_timing_advance(char *tadv_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(tadv_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Timing Advance Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_timing_advance = (double)pa / 2.0 - 64.0;
+   }
+   else
+   {
+      ecup.ecu_timing_advance = 0.0;
+   }
+   
+   return;
 }
 
 double get_timing_advance()
 {
-
+   return(ecup.ecu_timing_advance);
 }
 
 
 void set_fuel_tank_level(char *ftl_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(ftl_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Fuel Tank Level Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_fuel_tank_level = 0.392 * (double)pa;
+   }
+   else
+   {
+      ecup.ecu_fuel_tank_level = 0.0;
+   }
+   
+   return;
 }
 
 double get_fuel_tank_level()
 {
-
+   return(ecup.ecu_fuel_tank_level);
 }
 
 void set_fuel_flow_rate(char *ffr_msg)
 {
+   unsigned int pmode, pid, pa, pb;
 
+   if (sscanf(ffr_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
+   {
+      printf("Fuel Flow Rate Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
+      ecup.ecu_fuel_flow_rate = ((256.0 * (double)pa) + (double)pb) / 20.0;
+   }
+   else
+   {
+      ecup.ecu_fuel_flow_rate = 0.0;
+   }
+   
+   return;
 }
 
 double get_fuel_flow_rate()
 {
-
+   return(ecup.ecu_fuel_flow_rate);
 }
 
 
 void set_fuel_pressure(char *fp_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(fp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Fuel Pressure Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_fuel_pressure = 3.0 * (double)pa;
+   }
+   else
+   {
+      ecup.ecu_fuel_pressure = 0.0;
+   }
+   
+   return;
 }
 
 double get_fuel_pressure()
 {
-
+   return(ecup.ecu_fuel_pressure);
 }
 
 
 void set_accelerator_position(char *ap_msg)
 {
+   unsigned int pmode, pid, pa;
 
+   if (sscanf(ap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Accelerator Position Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_accelerator_position = 0.392 * (double)pa;
+   }
+   else
+   {
+      ecup.ecu_accelerator_position = 0.0;
+   }
+   
+   return;
 }
 
 double get_accelerator_position()
 {
-
+   return(ecup.ecu_accelerator_position);
 }
 
 
@@ -354,6 +428,7 @@ void parse_mode_01_msg(char *obd_msg)
          case 90: set_accelerator_position(obd_msg); break;
          case 92: set_oil_temperature(obd_msg); break;
          case 94: set_fuel_flow_rate(obd_msg); break;
+         default : break; /* TODO: process unknown PID. */
       }
 
    }
@@ -379,7 +454,7 @@ void parse_mode_09_msg(char *obd_msg)
 
 int parse_obd_msg(char *obd_msg)
 {
-   int msg_len;
+   int msg_len, result;
    char temp_buf[256];
    
    msg_len = strlen(obd_msg);
@@ -387,41 +462,45 @@ int parse_obd_msg(char *obd_msg)
    if ((msg_len > 0) && (obd_msg[msg_len - 1] == '\n')) /* All messages must terminate with a newline. */
    {
       /* Parse the message. */
-      if (obd_msg[0] == '>') /* ELM327 IC sends a '>' character to signal it is ready. */
+      if (obd_msg[0] == '4') /* This is an OBD response message from the ECU. */
       {
-         interface_status = 1; /* Interface is ready to receive messages. */
+         switch(obd_msg[1])
+         {
+            case '0': break; /* Invalid mode. */
+            case '1': parse_mode_01_msg(obd_msg); break; /* Mode 01 message, ECU parameter update. */
+            case '2': break;
+            case '3': parse_mode_03_msg(obd_msg); break; /* Mode 03 message, diagnostic trouble codes. */
+            case '4': break;
+            case '5': break;
+            case '6': break;
+            case '7': break;
+            case '8': break;
+            case '9': parse_mode_09_msg(obd_msg); break; /* Mode 09 message, ECU information. */
+            case 'A': break;
+            default : break; /* TODO: process unknown mode. */
+         }
+         result = 0;
       }
-      else
+      else /* This is an AT message response from the OBD interface. */
       {
-         if (obd_msg[0] == '4') /* This is an OBD response message from the ECU. */
+         /* TODO: Process AT message and save configuration info from the interface. */
+         if (obd_msg[0] == '>') /* ELM327 IC sends a '>' character to signal it is ready. */
          {
-            switch(obd_msg[1])
-            {
-               case '0': break; /* Invalid mode. */
-               case '1': parse_mode_01_msg(obd_msg); break; /* Mode 01 message, ECU parameter update. */
-               case '2': break;
-               case '3': parse_mode_03_msg(obd_msg); break; /* Mode 03 message, diagnostic trouble codes. */
-               case '4': break;
-               case '5': break;
-               case '6': break;
-               case '7': break;
-               case '8': break;
-               case '9': parse_mode_09_msg(obd_msg); break; /* Mode 09 message, ECU information. */
-               case 'A': break;
-            }
+            interface_status = 1; /* Interface is ready to receive messages. */
+            result = 1;
          }
-         else /* This is an AT message response for the interface. */
+         else
          {
-            /* TODO: Save configuration info from the interface. */
+            result = 2; /* TODO: Process information from OBD interface. */
          }
       }
-   
    }
    else
    {
       /* TODO: Invalid message, log an error. */
+      result = -1;
    }
 
-
+   return(result);
 }
 

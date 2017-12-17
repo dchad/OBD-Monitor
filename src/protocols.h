@@ -77,8 +77,11 @@ struct _ECU_Parameters {
    double ecu_accelerator_position;
    double ecu_fuel_pressure;
    double ecu_fuel_flow_rate;
+   double ecu_fuel_tank_level;
+   double ecu_timing_advance;
    char ecu_vin[256];
    char ecu_name[256];
+   char battery_voltage[256];
 };
 
 typedef struct _ECU_Parameters ECU_Parameters;
