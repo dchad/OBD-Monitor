@@ -55,29 +55,28 @@
 #include "protocols.h"
 
 /* OBD Interface Parameters. */
-int interface_status;
+OBD_Interface obd_interface;
 
 /* ECU Parameters. */
-
 ECU_Parameters ecup;
 
 void set_interface_on()
 {
    /* Interface is ready to receive messages. */
-   interface_status = 1;
+   obd_interface.obd_interface_status = 1;
    return;
 }
 
 void set_interface_off()
 {
    /* Interface is not ready to receive messages, may be busy or powered off. */
-   interface_status = 0;
+   obd_interface.obd_interface_status = 0;
    return;
 }
 
 int get_interface_status()
 {
-   return interface_status;
+   return(obd_interface.obd_interface_status);
 }
 
 void set_ecu_parameters(ECU_Parameters *ecupin)
@@ -114,8 +113,7 @@ void set_engine_rpm(char *rpm_msg)
 
 double get_engine_rpm()
 {
-
-   return ecup.ecu_engine_rpm;
+   return(ecup.ecu_engine_rpm);
 }
 
 void set_coolant_temperature(char *ctemp_msg)
@@ -185,12 +183,47 @@ double get_intake_air_temperature()
 
 void set_battery_voltage(char *bv_msg)
 {
+   float bv;
 
+   if (sscanf(bv_msg, "ATRV %f", &bv) == 1)
+   {
+      printf("Battery Voltage Msg: %.2f\n", bv); 
+      ecup.ecu_battery_voltage = (double)bv;
+      /* sscanf(bv_msg, "ATRV %s\n", ecup.battery_voltage); */
+   }
+   else
+   {
+      ecup.ecu_battery_voltage = 0.0;
+   }
+   
+   return;
 }
 
 double get_battery_voltage()
 {
+   return(ecup.ecu_battery_voltage);
+}
 
+void set_interface_information(char *ii_msg)
+{
+   memset(obd_interface.obd_interface_name, 0, 256);
+
+   if (sscanf(ii_msg, "ATI %s", obd_interface.obd_interface_name) == 1)
+   {
+      printf("ATI Msg: %s", ii_msg); 
+   }
+   else
+   {
+      strncpy(obd_interface.obd_interface_name, "Unknown OBD Interface", 21);
+   }
+   
+   return;
+}
+
+void get_interface_information(char *info)
+{
+   strncpy(info, obd_interface.obd_interface_name, strlen(obd_interface.obd_interface_name));
+   return;
 }
 
 void set_vehicle_speed(char *vs_msg)
@@ -486,12 +519,20 @@ int parse_obd_msg(char *obd_msg)
          /* TODO: Process AT message and save configuration info from the interface. */
          if (obd_msg[0] == '>') /* ELM327 IC sends a '>' character to signal it is ready. */
          {
-            interface_status = 1; /* Interface is ready to receive messages. */
+            obd_interface.obd_interface_status = 1; /* Interface is ready to receive messages. */
             result = 1;
          }
          else
          {
             result = 2; /* TODO: Process information from OBD interface. */
+            if (strncmp(obd_msg, "ATRV", 4) == 0)
+            {
+               set_battery_voltage(obd_msg);
+            }
+            if (strncmp(obd_msg, "ATI", 3) == 0)
+            {
+               set_interface_information(obd_msg);
+            }
          }
       }
    }

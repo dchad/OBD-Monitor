@@ -3,19 +3,10 @@
 
    Author: Derek Chadwick
 
-   Description: A UDP server that communicates with vehicle
-                engine control units via an OBD-II interface to obtain 
-                engine status and fault codes. 
+   Description: A GUI for communication with vehicle engine control units via 
+                an OBD-II interface to obtain and display engine status 
+                and fault codes. 
 
-                Implements two functions:
-
-                1. A UDP datagram server that receives requests for vehicle
-                status information from a client application (GUI) and 
-                returns the requested information to the client. 
-
-                2. Serial communications to request vehicle status
-                information and fault codes from the engine control unit using 
-                the OBD-II protocol.
 
    Date: 30/11/2017
    
@@ -65,6 +56,12 @@ char current_question_msg[256];
 /* Current time string. */
 char time_buffer[256];
 
+/* Comms log display area. */
+GtkTextBuffer *text_buffer;
+GtkTextIter text_iter;
+
+/* Log File */
+FILE *log_file;
 
 /* Function declarations. */
 void show_error_msg(GtkWidget *widget, gpointer window);
@@ -106,6 +103,7 @@ int send_ecu_msg(char *query)
    }
    else
    {  
+      /* TODO: Write message to log file. */
       printf("SENT ECU Message: %s", buffer);
    }
    
@@ -126,7 +124,9 @@ int recv_ecu_msg()
       printf("RECV ECU Message: %s", buffer);
       if (parse_obd_msg(buffer) > 0)
       {
-         /* Write message to text view widget. */
+         /* TODO: Write message to text view widget and log file. */
+         gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, -1);
+         gtk_text_buffer_insert(text_buffer, &text_iter, buffer, -1);
       }
    }
 
@@ -139,18 +139,15 @@ int init_obd_comms(char *obd_msg)
    int n;
    char buffer[256];
 
-   memset(buffer,0,256);
-   sprintf(buffer,"%s\n",obd_msg); /* Require newline 0x0D terminator for all messages. */
-
-   n = sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&obd_server,length);
+   n = sendto(sock,obd_msg,strlen(obd_msg),0,(const struct sockaddr *)&obd_server,length);
 
    if (n < 0) 
    {
-      printf("ERROR: Sendto failed.\n");
+      printf("init_obd_comms() - ERROR: Sendto failed.\n");
    }
    else
    {
-      printf("SENT OBD Message: %s\n", buffer);
+      printf("init_obd_comms() - SENT OBD Message: %s", obd_msg);
    }
    
    usleep(OBD_WAIT_TIMEOUT);
@@ -161,8 +158,10 @@ int init_obd_comms(char *obd_msg)
    
    if (n > 0)
    {
-      printf("RECV OBD Message: %s\n", buffer);  
-      parse_obd_msg(buffer); 
+      printf("init_obd_comms() - RECV OBD Message: %s", buffer);  
+      gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, -1);
+      gtk_text_buffer_insert(text_buffer, &text_iter, buffer, -1);
+      parse_obd_msg(buffer); /* TODO: write log message. */
    }
    
    return(n);
@@ -185,7 +184,7 @@ void auto_connect()
    }
    else
    {
-      result = init_obd_comms("ATI");
+      result = init_obd_comms("ATI\n");
       if (result <= 0)
       {
          strncpy(current_error_msg, "ERROR: Failed to connect to OBD interface.\n", 43);
@@ -194,6 +193,7 @@ void auto_connect()
       else
       {
          ecu_connected = 1;
+         send_ecu_msg("ATRV\n");
       }
    }
    
@@ -248,7 +248,6 @@ void send_query(GtkWidget *widget, gpointer window)
    bzero(ECU_PID_Request, 16);
    sprintf(ECU_PID_Request,"0100");
    send_ecu_msg(ECU_PID_Request);
-   /* g_printf("Sent ECU message: %s\n", ECU_PID_Request); */
    usleep(OBD_WAIT_TIMEOUT);
    recv_ecu_msg(buffer);
 
@@ -257,13 +256,31 @@ void send_query(GtkWidget *widget, gpointer window)
 
 gint send_obd_message_60sec_callback (gpointer data)
 {
+   send_ecu_msg("ATRV\n"); /* Battery Voltage */
+   
+   /* gtk_widget_queue_draw((GtkWidget *)data); */
+   
+   return(TRUE);
+}
+
+gint send_obd_message_30sec_callback (gpointer data)
+{
    send_ecu_msg("01 05\n"); /* Coolant Temperature */
    send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
    send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
    send_ecu_msg("01 5C\n"); /* Oil Temperature */
    
-   /* TODO: send all parameter request messages. */
-   gtk_widget_queue_draw((GtkWidget *)data);
+   /* gtk_widget_queue_draw((GtkWidget *)data); */
+   
+   return(TRUE);
+}
+
+gint send_obd_message_10sec_callback (gpointer data)
+{
+   send_ecu_msg("01 05\n"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\n"); /* Oil Temperature */
    
    return(TRUE);
 }
@@ -275,9 +292,6 @@ gint send_obd_message_1sec_callback (gpointer data)
    send_ecu_msg("01 0D\n"); /* Vehicle Speed */
    send_ecu_msg("01 0A\n"); /* Fuel Pressure */
    send_ecu_msg("01 0B\n"); /* MAP Pressure */
-   
-   /* TODO: send all parameter request messages. */
-   gtk_widget_queue_draw((GtkWidget *)data);
    
    return(TRUE);
 }
@@ -622,7 +636,7 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double ect_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-   double coolant_temperature = get_coolant_temperature(); /* TODO: get ect value from protocol module. */
+   double coolant_temperature = get_coolant_temperature(); /* Get ect value from protocol module. */
    double gauge_temp = coolant_temperature / ect_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -662,7 +676,7 @@ static gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double iat_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-   double air_temperature = 35.0;     /* TODO: get iat value from protocol module. */
+   double air_temperature = get_intake_air_temperature();     /* Get iat value from protocol module. */
    double gauge_temp = air_temperature / iat_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    double cpx;
@@ -701,7 +715,7 @@ static gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double map_scale_factor = 1.217;   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
-   double air_pressure = 50.0;        /* TODO: get iat value from protocol module. */
+   double air_pressure = get_manifold_pressure(); /* Get manifold pressure from protocol module. */
    double gauge_temp = air_pressure / map_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -820,7 +834,7 @@ static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double oil_temp_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-   double oil_temperature = 60.0;     /* TODO: get iat value from protocol module. */
+   double oil_temperature = get_oil_temperature(); /* TODO: Get oil temperature from protocol module. */
    double gauge_temp = oil_temperature / oil_temp_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -860,7 +874,7 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double fuel_flow_scale_factor = 0.783; /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
-   double fuel_flow = 15.0;     /* TODO: get iat value from protocol module. */
+   double fuel_flow = get_fuel_flow_rate();     /* Get fuel flow rate from protocol module. */
    double gauge_temp = fuel_flow / fuel_flow_scale_factor; /* this is the gauge arc length for the needle. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -901,7 +915,7 @@ static gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double fuel_pressure_scale_factor = 3.651; /* 765.0 / (radius * (1.167 * PI + 0.167 * PI)) */
-   double fuel_pressure = 115.0;     /* TODO: get iat value from protocol module. */
+   double fuel_pressure = get_fuel_pressure();     /* Get fuel value from protocol module. */
    double gauge_pressure = fuel_pressure / fuel_pressure_scale_factor; /* this is the gauge arc length. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_pressure / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
@@ -1070,16 +1084,21 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
 {
    double xc = 10.0;
    double yc = 25.0;
+   double battery_voltage = get_battery_voltage();
    cairo_text_extents_t ctext;
+   char volts[256];
+   
+   memset(volts, 0, 256);
+   sprintf(volts, "Battery Voltage: %.2f", battery_voltage);
    
    draw_small_dial_background(cr);
 
    cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
    cairo_set_font_size(cr, 16);
-   cairo_text_extents (cr,"Battery Voltage: 12.4V",&ctext); /* TODO: get voltage from protocol module. */
+   cairo_text_extents (cr, volts, &ctext); /* TODO: get voltage from protocol module. */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), yc);
-   cairo_show_text(cr, "Battery Voltage: 12.4V");
+   cairo_show_text(cr, volts);
   
    return FALSE;
 }
@@ -1249,7 +1268,6 @@ int main(int argc, char *argv[])
    GtkWidget *pid_dial;
 
    GtkWidget *text_view;
-   GtkTextBuffer *text_buffer;
    GtkWidget *text_frame;
    GtkWidget *scrolled_window;
    
@@ -1409,10 +1427,13 @@ int main(int argc, char *argv[])
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "C - USER2 CAN (11 bit ID, 50 kbaud)");
    g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(combo_selected), NULL);
 
+   /* Text View Widget and Text Buffer. */
    text_view = gtk_text_view_new ();
    text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
    gtk_widget_set_size_request (text_view, 880, 80);
-   gtk_text_buffer_set_text (text_buffer, "ATI\nOK\n>\nATZ\nOK\n>\n", -1);
+   /*gtk_text_buffer_set_text (text_buffer, "ATI\nOK\n>\nATZ\nOK\n>\n", -1); */
+   gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, 0);
+   gtk_text_buffer_insert(text_buffer, &text_iter, "OBD Monitor Initialising...\n", -1);
    text_frame = gtk_frame_new("Communications Log");
    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -1479,7 +1500,8 @@ int main(int argc, char *argv[])
    if (ecu_auto_connect == 1) 
    {
       auto_connect();
-      g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+      /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
+      g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
       g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
       g_timeout_add (100, recv_obd_message_callback, (gpointer)window);      
    }

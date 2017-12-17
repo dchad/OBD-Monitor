@@ -66,8 +66,8 @@ void set_simulator_ecu_parameters()
    simulator_ecu.ecu_intake_air_temperature = 2.0 * (double)tick_count;
    simulator_ecu.ecu_manifold_air_pressure = 3.0 * (double)tick_count;
    /* simulator_ecu.ecu_oil_pressure = 5.0 * (double)tick_count;
-   simulator_ecu.ecu_egr_pressure = 5.0 * (double)tick_count;
-   simulator_ecu.ecu_battery_voltage = 10.0 * (double)tick_count; */
+   simulator_ecu.ecu_egr_pressure = 5.0 * (double)tick_count; */
+   simulator_ecu.ecu_battery_voltage = 12.6;
    simulator_ecu.ecu_throttle_position = (double)tick_count;
    simulator_ecu.ecu_oil_temperature = 2.0 * (double)tick_count;
    simulator_ecu.ecu_accelerator_position = (double)tick_count;
@@ -131,7 +131,21 @@ int send_coolant_temperature()
 
 void send_manifold_pressure()
 {
- 
+   char reply_buf[256];
+   unsigned int map_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   map_A = (unsigned int)simulator_ecu.ecu_manifold_air_pressure;
+   
+   sprintf(reply_buf, "41 0B %.2x\n", map_A);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("Simulator MAP Msg: %i bytes %s", n, reply_buf);
+      
+   return;
 }
 
 
@@ -146,15 +160,14 @@ void send_intake_air_temperature()
 int send_vehicle_speed()
 {
    char reply_buf[256];
-   unsigned int ect_A;
+   unsigned int vs_A;
    int n;
    
    memset(reply_buf, 0, 256);
 
-   ect_A = (unsigned int)simulator_ecu.ecu_vehicle_speed;
+   vs_A = (unsigned int)simulator_ecu.ecu_vehicle_speed;
    
-   sprintf(reply_buf, "41 0D %.2x\n", ect_A);
-   /* TODO: log simulator msg. */
+   sprintf(reply_buf, "41 0D %.2x\n", vs_A);
    printf("Simulator VS Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
@@ -226,7 +239,17 @@ void send_accelerator_position()
 
 void send_battery_voltage()
 {
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+   sprintf(reply_buf, "ATRV %.2f\n>\n", simulator_ecu.ecu_battery_voltage);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
 
+   printf("Simulator ATRV Msg: %i bytes %s", n, reply_buf);
+      
+   return;
 }
 
 void send_interface_information()
@@ -235,12 +258,12 @@ void send_interface_information()
    int n;
    
    memset(reply_buf, 0, 256);
-   sprintf(reply_buf, "ATI\nELM327\nOK\n>\n");
-   printf("Simulator ATI Msg: %s", reply_buf);
+   sprintf(reply_buf, "ATI ELM327\nOK\n>\n");
+
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
-   printf("Sent %i bytes %s", n, reply_buf);
+   printf("Simulator ATI Msg: %i bytes %s", n, reply_buf);
    
    return;
 }
@@ -305,7 +328,7 @@ int parse_gui_message()
       /* Parse the message. */
       if (in_buf[0] == 'A') /* ELM327 interface messages all start with 'AT'. */
       {
-         if (strncmp(in_buf, "ATBV", 4) == 0)
+         if (strncmp(in_buf, "ATRV", 4) == 0)
          {
             send_battery_voltage();
          }

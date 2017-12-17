@@ -94,6 +94,7 @@ struct _OBD_Interface {
    unsigned int obd_parity_bits;
    int obd_protocol_number;
    char obd_protocol_name[256];
+   char obd_interface_name[256];
 };
 
 typedef struct _OBD_Interface OBD_Interface;
