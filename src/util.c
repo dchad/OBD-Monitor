@@ -19,7 +19,7 @@ void *xmalloc (size_t size)
    register void *value = malloc (size);
    if (value == 0)
    {
-      fatal("xmalloc() <FATAL> Virtual Memory Exhausted!!!");
+      xfatal("xmalloc() <FATAL> Virtual Memory Exhausted!!!");
    }
    return value;
 }
@@ -30,7 +30,7 @@ void *xcalloc (size_t size)
    register void *value = calloc (size, 1);
    if (value == 0)
    {
-      fatal("xmalloc() <FATAL> Virtual Memory Exhausted!!!");
+      xfatal("xmalloc() <FATAL> Virtual Memory Exhausted!!!");
    }
    return value;
 }
@@ -41,7 +41,7 @@ void *xrealloc (void *ptr, size_t size)
    register void *value = realloc (ptr, size);
    if (value == 0)
    {
-      fatal ("xmalloc() <FATAL> Virtual Memory Exhausted");
+      xfatal ("xmalloc() <FATAL> Virtual Memory Exhausted");
    }
    return value;
 }
@@ -55,7 +55,7 @@ int xfree(char *buf, int len)
 }
 
 /* Bail Out */
-int fatal(char *str)
+int xfatal(char *str)
 {
    printf("%s\n", str);
    exit(1);

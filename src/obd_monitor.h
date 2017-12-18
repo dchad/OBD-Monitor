@@ -50,16 +50,25 @@ struct _DialPoint {
 
 typedef struct _DialPoint DialPoint;
 
-   
+struct _ConfigOptions {
+   char log_file_name[MAX_PATH_LEN];
+   char custom_pid_file_name[MAX_PATH_LEN];
+   char config_file_name[MAX_PATH_LEN];
+   int ecu_auto_connect; /* 0,1 or delay in seconds. */
+};
+
+typedef struct _ConfigOptions ConfigOptions;
+
 /* Function Prototypes. */
 
 /* obd_monitor_gui.c */
 void set_interface_on();
 void set_interface_off();
 int get_interface_status();
+void update_comms_log_view(char *msg);
 
 /* util.c */
-int fatal(char *str);
+int xfatal(char *str);
 void *xcalloc (size_t size);
 void *xmalloc (size_t size);
 void *xrealloc (void *ptr, size_t size);
@@ -70,6 +79,15 @@ char* xitoa(int value, char* result, int len, int base);
 /* log.c */
 FILE *open_log_file(char *startup_path);
 int print_log_entry(char *estr, FILE *log_file);
+
+/* sockets.c */
+int init_server_comms(char *server, char *port);
+int send_ecu_msg(char *query);
+int recv_ecu_msg();
+int init_obd_comms(char *obd_msg);
+void auto_connect();
+int get_ecu_connected();
+
 
 /* Unit Test Functions */
 int unit_tests(FILE *log_file);

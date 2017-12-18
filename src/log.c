@@ -2,7 +2,9 @@
    log.c
 
    Project: OBD-II Monitor
+   
    Author : Derek Chadwick 18910502
+   
    Date   : 24/12/2017
   
    Purpose: Logging, reporting and debug functions.
