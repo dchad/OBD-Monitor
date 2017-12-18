@@ -50,7 +50,7 @@ char current_question_msg[256];
 /* Current time string. */
 char time_buffer[256];
 
-/* Comms log display area. */
+/* Communications log display area. */
 GtkTextBuffer *text_buffer;
 GtkTextIter text_iter;
 
@@ -68,18 +68,23 @@ void update_comms_log_view(char *msg)
 {
    gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, -1);
    gtk_text_buffer_insert(text_buffer, &text_iter, msg, -1);
+   
+   return;
 }
 
 
 
-void combo_selected(GtkComboBoxText *widget, gpointer window) 
+void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
 {
   gchar *text = gtk_combo_box_text_get_active_text(widget);
   if (text != NULL)
   {
-     g_printf("You chose %s\n", text);
+     g_printf("protocol_combo_selected() : You chose %s\n", text);
+     /* TODO: set protocol in config. */
   }
   g_free(text);
+  
+  return;
 }
 
 GdkPixbuf *create_pixbuf(const gchar * filename) 
@@ -106,12 +111,12 @@ void print_msg(GtkWidget *widget, gpointer window)
 }
 
 
-void send_query(GtkWidget *widget, gpointer window) 
+void send_custom_pid_query(GtkWidget *widget, gpointer window) 
 {
    char buffer[256];
-
-   bzero(buffer, 256);
-   bzero(ECU_PID_Request, 16);
+   /* TODO: this is for custom PID dialog box send button. */
+   memset(buffer, 0, 256);
+   memset(ECU_PID_Request, 0, 16);
    sprintf(ECU_PID_Request,"0100");
    send_ecu_msg(ECU_PID_Request);
    usleep(OBD_WAIT_TIMEOUT);
@@ -135,9 +140,7 @@ gint send_obd_message_30sec_callback (gpointer data)
    send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
    send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
    send_ecu_msg("01 5C\n"); /* Oil Temperature */
-   
-   /* gtk_widget_queue_draw((GtkWidget *)data); */
-   
+    
    return(TRUE);
 }
 
@@ -158,6 +161,7 @@ gint send_obd_message_1sec_callback (gpointer data)
    send_ecu_msg("01 0D\n"); /* Vehicle Speed */
    send_ecu_msg("01 0A\n"); /* Fuel Pressure */
    send_ecu_msg("01 0B\n"); /* MAP Pressure */
+   send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */
    
    return(TRUE);
 }
@@ -708,6 +712,8 @@ static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    double cpx;
    double cpy;
    
+   printf("draw_oil_temp(): %f\n", get_oil_temperature());
+   
    /* Draw gauge background and arc. */
    draw_dial_background(cr, 190, 140);
    
@@ -769,7 +775,6 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
    sprintf(gauge_numerals, "%.0f", fuel_flow);
    draw_dial_text(cr, "Fuel Flow Rate", gauge_numerals, "L/h");
    
-  
    return FALSE;
 }
 
@@ -822,13 +827,15 @@ static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpoint
    double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
    double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
    double fuel_level_scale_factor = 0.477; /* 100.0 / (radius * (1.167 * PI + 0.167 * PI)) */
-   double fuel_level = 85.0;     /* TODO: get fuel level from protocol module. */
+   double fuel_level = get_fuel_tank_level(); /* Get fuel level from protocol module. */
    double gauge_level = fuel_level / fuel_level_scale_factor; /* this is the gauge arc length. */
    double needle_angle = (-1.167 * NUM_PI) + (gauge_level / radius); /* Angle in radians. */
    cairo_text_extents_t ctext;
    char gauge_numerals[16];
    double cpx;
    double cpy;
+   
+   printf("draw_fuel_tank_level(): %f\n", get_fuel_tank_level());
    
    /* Draw gauge background and arc. */
    draw_dial_background(cr, 190, 140);
@@ -851,7 +858,6 @@ static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpoint
    sprintf(gauge_numerals, "%.0f", fuel_level);
    draw_dial_text(cr, "Fuel Level", gauge_numerals, "%");
    
-  
    return FALSE;
 }
 
@@ -955,7 +961,7 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
    char volts[256];
    
    memset(volts, 0, 256);
-   sprintf(volts, "Battery Voltage: %.2f", battery_voltage);
+   sprintf(volts, "Battery Voltage: %.1fV", battery_voltage);
    
    draw_small_dial_background(cr);
 
@@ -968,24 +974,6 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
   
    return FALSE;
 }
-
-
-void on_changed (GtkComboBoxText *widget, gpointer user_data)
-{
-  GtkComboBoxText *combo_box = widget;
-  gchar *obd_protocol;
-
-  obd_protocol = gtk_combo_box_text_get_active_text(combo_box);
-
-  if (obd_protocol != NULL) 
-  {
-    g_printf("You chose %s\n", obd_protocol);
-  }
-  g_free (obd_protocol);
-
-  return;
-}
-
 
 void show_info(GtkWidget *widget, gpointer window) 
 {
@@ -1211,7 +1199,7 @@ int main(int argc, char *argv[])
    gtk_widget_set_tooltip_text(pid_button, "Button widget");
 
    ecu_request_button = gtk_button_new_with_mnemonic("ECU _Request");
-   g_signal_connect(ecu_request_button, "clicked", G_CALLBACK(send_query), NULL); 
+   g_signal_connect(ecu_request_button, "clicked", G_CALLBACK(send_custom_pid_query), NULL); 
    gtk_widget_set_tooltip_text(ecu_request_button, "Button widget");
 
    ecu_connect_button = gtk_button_new_with_mnemonic("_ECU Connect");
@@ -1291,7 +1279,7 @@ int main(int argc, char *argv[])
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "A - SAE J1939 CAN (29 bit ID, 250 kbaud)");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "B - USER1 CAN (11 bit ID, 125 kbaud)");
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "C - USER2 CAN (11 bit ID, 50 kbaud)");
-   g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(combo_selected), NULL);
+   g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(protocol_combo_selected), NULL);
 
    /* Text View Widget and Text Buffer. */
    text_view = gtk_text_view_new ();
@@ -1313,7 +1301,7 @@ int main(int argc, char *argv[])
    instruments_label = gtk_label_new (NULL);
    gtk_label_set_markup (GTK_LABEL (instruments_label), "<b>Instruments: </b>");
    text_view_label = gtk_label_new(NULL);
-   gtk_label_set_markup (GTK_LABEL (text_view_label), "Communications Log");
+   gtk_label_set_markup (GTK_LABEL (text_view_label), "<b>Communications Log</b>");
    
 
    /* Set up the main window container layout. */

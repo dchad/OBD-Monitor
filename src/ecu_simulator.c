@@ -67,12 +67,13 @@ void set_simulator_ecu_parameters()
    simulator_ecu.ecu_manifold_air_pressure = 3.0 * (double)tick_count;
    /* simulator_ecu.ecu_oil_pressure = 5.0 * (double)tick_count;
    simulator_ecu.ecu_egr_pressure = 5.0 * (double)tick_count; */
-   simulator_ecu.ecu_battery_voltage = 12.6;
+   simulator_ecu.ecu_battery_voltage = 12.5;
    simulator_ecu.ecu_throttle_position = (double)tick_count;
    simulator_ecu.ecu_oil_temperature = 2.0 * (double)tick_count;
    simulator_ecu.ecu_accelerator_position = (double)tick_count;
    simulator_ecu.ecu_fuel_pressure = 3.0 * (double)tick_count;
    simulator_ecu.ecu_fuel_flow_rate = 2.0 * (double)tick_count;
+   simulator_ecu.ecu_fuel_tank_level = (double)tick_count;
     
    return;
 }
@@ -149,11 +150,23 @@ void send_manifold_pressure()
 }
 
 
-void send_intake_air_temperature()
+int send_intake_air_temperature()
 {
-
+   char reply_buf[256];
+   unsigned int iat_A;
+   int n;
    
-   return;
+   memset(reply_buf, 0, 256);
+
+   iat_A = (unsigned int)simulator_ecu.ecu_intake_air_temperature + 40;
+   
+   sprintf(reply_buf, "41 0F %.2x\n", iat_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator IAT Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 
@@ -182,16 +195,43 @@ void send_egr_pressure()
 }
 
 
-void send_throttle_position()
+int send_throttle_position()
 {
+   char reply_buf[256];
+   unsigned int tp_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
+   tp_A = (unsigned int)simulator_ecu.ecu_throttle_position / 0.392;
+   
+   sprintf(reply_buf, "41 11 %.2x\n", tp_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Throttle Position Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 
-void send_oil_temperature()
+int send_oil_temperature()
 {
- 
-   return;
+   char reply_buf[256];
+   unsigned int ot_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   ot_A = (unsigned int)simulator_ecu.ecu_oil_temperature + 40;
+   
+   sprintf(reply_buf, "41 5C %.2x\n", ot_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator ECT Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n); 
 }
 
 
@@ -214,25 +254,83 @@ void send_timing_advance()
 
 
 
-void send_fuel_tank_level()
+int send_fuel_tank_level()
 {
+   char reply_buf[256];
+   unsigned int ftl_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
+   ftl_A = (unsigned int)simulator_ecu.ecu_fuel_tank_level / 0.392;
+   
+   sprintf(reply_buf, "41 2F %.2x\n", ftl_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Fuel Tank Level Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 
-void send_fuel_flow_rate()
+int send_fuel_flow_rate()
 {
+   char reply_buf[256];
+   unsigned int ffr_temp, ffr_A, ffr_B;
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
+   ffr_temp = (unsigned int)simulator_ecu.ecu_fuel_flow_rate * 20;
+   ffr_A = ffr_temp / 256;
+   ffr_B = ffr_temp % 256;
+   
+   sprintf(reply_buf, "41 5E %.2x %.2x\n", ffr_A, ffr_B);
+   /* TODO: log simulator msg. */
+   printf("Simulator Fuel Flow Rate Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
-void send_fuel_pressure()
+int send_fuel_pressure()
 {
+   char reply_buf[256];
+   unsigned int fp_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
+   fp_A = (unsigned int)simulator_ecu.ecu_fuel_pressure / 3.0;
+   
+   sprintf(reply_buf, "41 0A %.2x\n", fp_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Fuel Pressure Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
-void send_accelerator_position()
+int send_accelerator_position()
 {
+   char reply_buf[256];
+   unsigned int ap_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
+   ap_A = (unsigned int)simulator_ecu.ecu_accelerator_position / 0.392;
+   
+   sprintf(reply_buf, "41 5A %.2x\n", ap_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Accelerator Position Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 /* OBD Interface Messages. */
@@ -293,6 +391,7 @@ void reply_mode_01_msg(char *obd_msg)
          case 90: send_accelerator_position(); break;
          case 92: send_oil_temperature(); break;
          case 94: send_fuel_flow_rate(); break;
+         default: printf("reply_mode_01_msg(): Unknown PID %i\n", pid); break;
       }
    }
    else

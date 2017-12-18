@@ -56,7 +56,7 @@ int send_ecu_msg(char *query)
    else
    {  
       /* TODO: Write message to log file. */
-      printf("send_ecu_msg() - SENT ECU Message: %s", buffer);
+      /* printf("send_ecu_msg() - SENT ECU Message: %s", buffer); */
    }
    
    return n;
@@ -73,7 +73,7 @@ int recv_ecu_msg()
    /* We are not blocking on recv now. */
    if (n > 0)
    {
-      printf("recv_ecu_msg() - RECV ECU Message: %s", buffer);
+      /* printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); */
       if (parse_obd_msg(buffer) > 0)
       {
          /* TODO: Write message to text view widget and log file. */

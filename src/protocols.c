@@ -64,6 +64,8 @@ void set_interface_on()
 {
    /* Interface is ready to receive messages. */
    obd_interface.obd_interface_status = 1;
+   
+   
    return;
 }
 
@@ -308,7 +310,7 @@ void set_oil_pressure(char *oilp_msg)
 
 double get_oil_pressure()
 {
-
+   return(0);
 }
 
 void set_supported_pid_list_1_32(char *pid_msg)
@@ -318,7 +320,7 @@ void set_supported_pid_list_1_32(char *pid_msg)
 
 double gset_supported_pid_list_1_32()
 {
-
+   return(0);
 }
 
 void set_timing_advance(char *tadv_msg)
@@ -328,7 +330,7 @@ void set_timing_advance(char *tadv_msg)
    if (sscanf(tadv_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       printf("Timing Advance Msg: %d %d %d\n", pmode, pid, pa); 
-      ecup.ecu_timing_advance = (double)pa / 2.0 - 64.0;
+      ecup.ecu_timing_advance = ((double)pa / 2.0) - 64.0;
    }
    else
    {
@@ -351,7 +353,8 @@ void set_fuel_tank_level(char *ftl_msg)
    if (sscanf(ftl_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       printf("Fuel Tank Level Msg: %d %d %d\n", pmode, pid, pa); 
-      ecup.ecu_fuel_tank_level = 0.392 * (double)pa;
+      ecup.ecu_fuel_tank_level = ((float)pa * 0.392);
+      printf("Fuel Tank Level: %f\n", ecup.ecu_fuel_tank_level); 
    }
    else
    {
@@ -360,6 +363,7 @@ void set_fuel_tank_level(char *ftl_msg)
    
    return;
 }
+
 
 double get_fuel_tank_level()
 {
@@ -374,6 +378,7 @@ void set_fuel_flow_rate(char *ffr_msg)
    {
       printf("Fuel Flow Rate Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
       ecup.ecu_fuel_flow_rate = ((256.0 * (double)pa) + (double)pb) / 20.0;
+      printf("Fuel Flow Rate: %f\n", ecup.ecu_fuel_flow_rate); 
    }
    else
    {
@@ -396,7 +401,8 @@ void set_fuel_pressure(char *fp_msg)
    if (sscanf(fp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       printf("Fuel Pressure Msg: %d %d %d\n", pmode, pid, pa); 
-      ecup.ecu_fuel_pressure = 3.0 * (double)pa;
+      ecup.ecu_fuel_pressure = (double)pa * 3.0;
+      printf("Fuel Pressure: %f\n", ecup.ecu_fuel_pressure); 
    }
    else
    {
