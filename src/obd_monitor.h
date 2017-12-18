@@ -77,8 +77,8 @@ int print_help();
 char* xitoa(int value, char* result, int len, int base);
 
 /* log.c */
-FILE *open_log_file(char *startup_path);
-int print_log_entry(char *estr, FILE *log_file);
+FILE *open_log_file(char *startup_path, char *log_file_name);
+int print_log_entry(char *estr);
 
 /* sockets.c */
 int init_server_comms(char *server, char *port);

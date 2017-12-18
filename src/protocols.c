@@ -102,9 +102,9 @@ void set_engine_rpm(char *rpm_msg)
 
    if (sscanf(rpm_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
    {
-      printf("RPM Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
       ecup.ecu_engine_rpm = ((256.0 * (double)pa + (double)pb) / 4.0);
       /* ECU rpm parameter is in quarters of a revolution. */
+      print_log_entry(rpm_msg);
    }
    else
    {
@@ -124,8 +124,8 @@ void set_coolant_temperature(char *ctemp_msg)
 
    if (sscanf(ctemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("ECT Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_coolant_temperature = ((double)pa - 40.0);
+      print_log_entry(ctemp_msg);
    }
    else
    {
@@ -145,8 +145,8 @@ void set_manifold_pressure(char *manap_msg)
 
    if (sscanf(manap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("MAP Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_manifold_air_pressure = (double)pa;
+      print_log_entry(manap_msg);
    }
    else
    {
@@ -167,8 +167,8 @@ void set_intake_air_temperature(char *atemp_msg)
 
    if (sscanf(atemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("IAT Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_intake_air_temperature = ((double)pa - 40.0);
+      print_log_entry(atemp_msg);
    }
    else
    {
@@ -188,9 +188,9 @@ void set_battery_voltage(char *bv_msg)
    float bv;
 
    if (sscanf(bv_msg, "ATRV %f", &bv) == 1)
-   {
-      printf("Battery Voltage Msg: %.2f\n", bv); 
+   { 
       ecup.ecu_battery_voltage = (double)bv;
+      print_log_entry(bv_msg);
       /* sscanf(bv_msg, "ATRV %s\n", ecup.battery_voltage); */
    }
    else
@@ -212,7 +212,7 @@ void set_interface_information(char *ii_msg)
 
    if (sscanf(ii_msg, "ATI %s", obd_interface.obd_interface_name) == 1)
    {
-      printf("ATI Msg: %s", ii_msg); 
+      print_log_entry(ii_msg);
    }
    else
    {
@@ -234,8 +234,8 @@ void set_vehicle_speed(char *vs_msg)
 
    if (sscanf(vs_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("Vehicle Speed Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_vehicle_speed = (double)pa;
+      print_log_entry(vs_msg);
    }
    else
    {
@@ -266,8 +266,8 @@ void set_throttle_position(char *tp_msg)
 
    if (sscanf(tp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("Throttle Position Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_throttle_position = 0.392 * (double)pa;
+      print_log_entry(tp_msg);
    }
    else
    {
@@ -287,9 +287,9 @@ void set_oil_temperature(char *otemp_msg)
    unsigned int pmode, pid, pa;
 
    if (sscanf(otemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
-   {
-      printf("Oil Temperature Msg: %d %d %d\n", pmode, pid, pa); 
+   { 
       ecup.ecu_oil_temperature = ((double)pa - 40.0);
+      print_log_entry(otemp_msg);
    }
    else
    {
@@ -329,8 +329,8 @@ void set_timing_advance(char *tadv_msg)
 
    if (sscanf(tadv_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("Timing Advance Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_timing_advance = ((double)pa / 2.0) - 64.0;
+      print_log_entry(tadv_msg);
    }
    else
    {
@@ -352,8 +352,8 @@ void set_fuel_tank_level(char *ftl_msg)
 
    if (sscanf(ftl_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("Fuel Tank Level Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_fuel_tank_level = ((float)pa * 0.392);
+      print_log_entry(ftl_msg);
    }
    else
    {
@@ -375,8 +375,8 @@ void set_fuel_flow_rate(char *ffr_msg)
 
    if (sscanf(ffr_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
    {
-      printf("Fuel Flow Rate Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
       ecup.ecu_fuel_flow_rate = ((256.0 * (double)pa) + (double)pb) / 20.0;
+      print_log_entry(ffr_msg);
    }
    else
    {
@@ -397,9 +397,9 @@ void set_fuel_pressure(char *fp_msg)
    unsigned int pmode, pid, pa;
 
    if (sscanf(fp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
-   {
-      printf("Fuel Pressure Msg: %d %d %d\n", pmode, pid, pa); 
+   { 
       ecup.ecu_fuel_pressure = (double)pa * 3.0; 
+      print_log_entry(fp_msg);
    }
    else
    {
@@ -421,8 +421,8 @@ void set_accelerator_position(char *ap_msg)
 
    if (sscanf(ap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
-      printf("Accelerator Position Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_accelerator_position = 0.392 * (double)pa;
+      print_log_entry(ap_msg);
    }
    else
    {

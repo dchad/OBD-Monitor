@@ -1010,6 +1010,9 @@ int main(int argc, char *argv[])
    GtkWidget *text_frame;
    GtkWidget *scrolled_window;
    
+   FILE *logfile;
+   
+   logfile = open_log_file("./", "obd_gui_log.txt");
 
    gtk_init(&argc, &argv);
 
@@ -1249,6 +1252,8 @@ int main(int argc, char *argv[])
    /* g_object_unref(icon); */
 
    gtk_main();  
-      
+   
+   fclose(logfile);
+   
    return 0;
 }

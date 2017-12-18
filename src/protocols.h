@@ -140,11 +140,11 @@ double get_oil_pressure();
 
 void set_throttle_position(char *tp_msg);
 double get_throttle_position();
-
 double get_fuel_tank_level();
 double get_fuel_flow_rate();
 double get_fuel_pressure();
 double get_accelerator_position();
+double get_timing_advance();
 
 
 /* Message Parsers. */

@@ -21,6 +21,8 @@
 
 #include "obd_monitor.h"
 
+FILE *log_file;
+
 /*
    Function: open_log_file()
  
@@ -29,11 +31,10 @@
    Input   : Start file path.
    Output  : Returns log file pointer.
 */
-FILE *open_log_file(char *startup_path)
+FILE *open_log_file(char *startup_path, char *log_file_name)
 {
    char *current_working_dir = xcalloc(MAX_PATH_LEN);
    char *temp_path = NULL;
-   FILE *log_file = NULL;
 
    if (current_working_dir == NULL)
    {
@@ -55,7 +56,7 @@ FILE *open_log_file(char *startup_path)
       }
       else
       {
-         log_file = fopen(strncat(current_working_dir, "/fsic.log", MAX_PATH_LEN - 10), "a");
+         log_file = fopen(log_file_name, "a");
          if (log_file == NULL)
          {
             printf("open_log_file() <ERROR>: could not open logfile: %s\n", current_working_dir); 
@@ -83,7 +84,7 @@ FILE *open_log_file(char *startup_path)
    Input   : Log string and log file.
    Output  : Timestamped log entry.
 */
-int print_log_entry(char *estr, FILE *log_file)
+int print_log_entry(char *estr)
 {
    time_t curtime;
    struct tm *loctime;
@@ -100,7 +101,7 @@ int print_log_entry(char *estr, FILE *log_file)
 
    fputs (log_entry, log_file);
 
-   printf("%s", log_entry);
+   /* printf("%s", log_entry); */
 
    xfree(log_entry, slen + 100);
   
