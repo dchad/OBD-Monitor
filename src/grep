@@ -1,0 +1,3905 @@
+/* 
+   Project: OBD-II Monitor (On-Board Diagnostics)
+
+   Author: Derek Chadwick
+
+   Description: A UDP server that simulates an engine control unit
+                and an ELM372 OBD interface for functional and unit
+                testing without any hardware or vehicles.
+                
+   Selected ECU Mode 01 Parameters: 
+   
+   [PID] [Data Bytes] [Min Value] [Max Value] [Formula]           [Description]
+    05    1            -40         215         A - 40             (ECT Centigrade)
+    0B    1            0           255         A                  (MAP Pressure kPa)
+    0C    2            0           16,383.75   (256 * A + B) / 4  (Engine RPM)
+    0D    1            0           255         A                  (Vehicle Speed) 
+    0F    1            -40         215         A - 40             (IAT Centigrade)
+    11    1            0           100         100 / 256 * A      (Throttle Position %)
+    5C    1            -40         215         A - 40             (Oil Temperature)
+    5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
+    
+    (Oil Pressure?)
+    (EGR Pressure?)
+    (Accelerator Position)
+
+   Selected ECU Mode 09 Parameters:
+ 
+   [PID] [Data Bytes] [Description] 
+    02    17           VIN - Vehicle Identification Number
+    0A    20           ECU Name
+    
+   
+   Date: 30/11/2017
+   
+*/
+
+#include "obd_monitor.h"
+#include "protocols.h"
+#include "rs232.h"
+
+
+ECU_Parameters simulator_ecu;
+unsigned int tick_count;
+
+int sock, length, n, serial_port;
+socklen_t from_len;
+struct sockaddr_in server;
+struct sockaddr_in from_client;
+char in_buf[BUFFER_MAX_LEN];
+unsigned char ecu_msg[BUFFER_MAX_LEN];
+   
+   
+void fatal_error(const char *error_msg)
+{
+    perror(error_msg);
+    exit(0);
+}
+
+
+void set_simulator_ecu_parameters()
+{
+   /* TODO: set all the ecu parameters. */
+   simulator_ecu.ecu_engine_rpm = 10.0 * (double)tick_count;
+   simulator_ecu.ecu_vehicle_speed = (double)tick_count;
+   simulator_ecu.ecu_coolant_temperature = (double)tick_count;
+   simulator_ecu.ecu_intake_air_temperature = 2.0 * (double)tick_count;
+   simulator_ecu.ecu_manifold_air_pressure = 3.0 * (double)tick_count;
+   /* simulator_ecu.ecu_oil_pressure = 5.0 * (double)tick_count;
+   simulator_ecu.ecu_egr_pressure = 5.0 * (double)tick_count; */
+   simulator_ecu.ecu_battery_voltage = 12.5;
+   simulator_ecu.ecu_throttle_position = (double)tick_count;
+   simulator_ecu.ecu_oil_temperature = 2.0 * (double)tick_count;
+   simulator_ecu.ecu_accelerator_position = (double)tick_count;
+   simulator_ecu.ecu_fuel_pressure = 3.0 * (double)tick_count;
+   simulator_ecu.ecu_fuel_flow_rate = 2.0 * (double)tick_count;
+   simulator_ecu.ecu_fuel_tank_level = (double)tick_count;
+    
+   return;
+}
+
+void get_simulator_ecu_parameters(ECU_Parameters *ecupout)
+{
+   /* TODO: */
+}
+
+void log_simulator_ecu_parameters()
+{
+   /* TODO: log ecu parameters on a 60 second timer. */
+}
+
+int send_engine_rpm()
+{
+   char reply_buf[256];
+   unsigned int rpm_temp, rpm_A, rpm_B;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   rpm_temp = (unsigned int)simulator_ecu.ecu_engine_rpm * 4;
+   rpm_A = rpm_temp / 256;
+   rpm_B = rpm_temp % 256;
+   
+   sprintf(reply_buf, "41 0C %.2x %.2x\n", rpm_A, rpm_B);
+   /* TODO: log simulator msg. */
+   printf("Simulator RPM Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+int send_coolant_temperature()
+{
+   char reply_buf[256];
+   unsigned int ect_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   ect_A = (unsigned int)simulator_ecu.ecu_coolant_temperature + 40;
+   
+   sprintf(reply_buf, "41 05 %.2x\n", ect_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator ECT Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+void send_manifold_pressure()
+{
+   char reply_buf[256];
+   unsigned int map_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   map_A = (unsigned int)simulator_ecu.ecu_manifold_air_pressure;
+   
+   sprintf(reply_buf, "41 0B %.2x\n", map_A);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("Simulator MAP Msg: %i bytes %s", n, reply_buf);
+      
+   return;
+}
+
+
+int send_intake_air_temperature()
+{
+   char reply_buf[256];
+   unsigned int iat_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   iat_A = (unsigned int)simulator_ecu.ecu_intake_air_temperature + 40;
+   
+   sprintf(reply_buf, "41 0F %.2x\n", iat_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator IAT Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+int send_vehicle_speed()
+{
+   char reply_buf[256];
+   unsigned int vs_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   vs_A = (unsigned int)simulator_ecu.ecu_vehicle_speed;
+   
+   sprintf(reply_buf, "41 0D %.2x\n", vs_A);
+   printf("Simulator VS Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+void send_egr_pressure()
+{
+
+}
+
+
+int send_throttle_position()
+{
+   char reply_buf[256];
+   unsigned int tp_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   tp_A = (unsigned int)simulator_ecu.ecu_throttle_position / 0.392;
+   
+   sprintf(reply_buf, "41 11 %.2x\n", tp_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Throttle Position Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+int send_oil_temperature()
+{
+   char reply_buf[256];
+   unsigned int ot_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   ot_A = (unsigned int)simulator_ecu.ecu_oil_temperature + 40;
+   
+   sprintf(reply_buf, "41 5C %.2x\n", ot_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator ECT Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n); 
+}
+
+
+void send_oil_pressure()
+{
+
+}
+
+
+void send_supported_pid_list_1_32()
+{
+
+}
+
+
+void send_timing_advance()
+{
+
+}
+
+
+
+int send_fuel_tank_level()
+{
+   char reply_buf[256];
+   unsigned int ftl_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   ftl_A = (unsigned int)simulator_ecu.ecu_fuel_tank_level / 0.392;
+   
+   sprintf(reply_buf, "41 2F %.2x\n", ftl_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Fuel Tank Level Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+
+int send_fuel_flow_rate()
+{
+   char reply_buf[256];
+   unsigned int ffr_temp, ffr_A, ffr_B;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   ffr_temp = (unsigned int)simulator_ecu.ecu_fuel_flow_rate * 20;
+   ffr_A = ffr_temp / 256;
+   ffr_B = ffr_temp % 256;
+   
+   sprintf(reply_buf, "41 5E %.2x %.2x\n", ffr_A, ffr_B);
+   /* TODO: log simulator msg. */
+   printf("Simulator Fuel Flow Rate Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+int send_fuel_pressure()
+{
+   char reply_buf[256];
+   unsigned int fp_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   fp_A = (unsigned int)simulator_ecu.ecu_fuel_pressure / 3.0;
+   
+   sprintf(reply_buf, "41 0A %.2x\n", fp_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Fuel Pressure Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+int send_accelerator_position()
+{
+   char reply_buf[256];
+   unsigned int ap_A;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   ap_A = (unsigned int)simulator_ecu.ecu_accelerator_position / 0.392;
+   
+   sprintf(reply_buf, "41 5A %.2x\n", ap_A);
+   /* TODO: log simulator msg. */
+   printf("Simulator Accelerator Position Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
+
+/* OBD Interface Messages. */
+
+void send_battery_voltage()
+{
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+   sprintf(reply_buf, "ATRV %.2f\n>\n", simulator_ecu.ecu_battery_voltage);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+
+   printf("Simulator ATRV Msg: %i bytes %s", n, reply_buf);
+      
+   return;
+}
+
+void send_interface_information()
+{
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+   sprintf(reply_buf, "ATI ELM327\nOK\n>\n");
+
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("Simulator ATI Msg: %i bytes %s", n, reply_buf);
+   
+   return;
+}
+
+void reply_mode_01_msg(char *obd_msg)
+{
+   /* Send back an ECU parameter message. */
+   unsigned int pid, pmode;
+   int n;
+   
+   n = sscanf(obd_msg, "%x %x", &pmode, &pid);
+   if (n == 2)
+   {
+      printf("MODE 01 Msg: %d %d\n", pmode, pid);
+      switch(pid)
+      {
+         case 0: send_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
+         case 5: send_coolant_temperature(); break; /*  */
+         case 10: send_fuel_pressure(); break;
+         case 11: send_manifold_pressure(); break; /* Throttle Position. */
+         case 12: send_engine_rpm(); break;
+         case 13: send_vehicle_speed(); break;
+         case 14: send_timing_advance(); break;
+         case 15: send_intake_air_temperature(); break;
+         case 17: send_throttle_position(); break;
+         case 47: send_fuel_tank_level(); break; /* Fuel Tank Level. */
+         case 90: send_accelerator_position(); break;
+         case 92: send_oil_temperature(); break;
+         case 94: send_fuel_flow_rate(); break;
+         default: printf("reply_mode_01_msg(): Unknown PID %i\n", pid); break;
+      }
+   }
+   else
+   {
+   
+   }
+   return;
+}
+
+void reply_mode_03_msg(char *obd_msg)
+{
+   /* Send back a DTC message. */
+   
+}
+
+void reply_mode_09_msg(char *obd_msg)
+{
+   /* Send back ECU and vehicle information message. */
+}
+
+
+
+int parse_gui_message()
+{
+   int n;
+   int msg_len;
+   
+   msg_len = strlen(in_buf);
+   n = 0;
+   
+   if ((msg_len > 0) && (in_buf[msg_len - 1] == '\n')) /* All messages must terminate with a newline. */
+   {
+      /* Parse the message. */
+      if (in_buf[0] == 'A') /* ELM327 interface messages all start with 'AT'. */
+      {
+         if (strncmp(in_buf, "ATRV", 4) == 0)
+         {
+            send_battery_voltage();
+         }
+         if (strncmp(in_buf, "ATI", 3) == 0)
+         {
+            send_interface_information();
+         }
+      }
+      else
+      {                        /* ECU request messages always start with the mode '01'...'0A' */
+         if (in_buf[0] == '0') /* This is an OBD request message from the GUI. */
+         {
+            switch(in_buf[1])
+            {
+               case '0': break; /* Invalid mode. */
+               case '1': reply_mode_01_msg(in_buf); break; /* Mode 01 message, ECU parameter update. */
+               case '2': break;
+               case '3': reply_mode_03_msg(in_buf); break; /* Mode 03 message, diagnostic trouble codes. */
+               case '4': break;
+               case '5': break;
+               case '6': break;
+               case '7': break;
+               case '8': break;
+               case '9': reply_mode_03_msg(in_buf); break; /* Mode 09 message, ECU information. */
+               case 'A': break;
+            }
+         }
+         else /* This is an AT message response for the user interface. */
+         {
+            /* TODO: Save configuration info from the OBD interface. */
+         }
+      }
+   
+   }
+   else
+   {
+      /* TODO: Invalid message, log an error. */
+      n = -1;
+   }
+
+   return(n);
+}
+
+int init_serial_comms(char *interface_name)
+{
+  int cport_nr=0;        /* /dev/ttyS0 (COM1 on windows) */
+  int bdrate=9600;       /* 9600 baud */
+  char mode[]={'8','N','1',0};
+  
+  cport_nr = RS232_GetPortnr(interface_name);
+  if (cport_nr == -1)
+  {
+     printf("ERROR: Can not get com port number.\n");
+     exit(-1);
+  }
+
+  printf("Serial port number: %i\n",cport_nr);
+
+  if(RS232_OpenComport(cport_nr, bdrate, mode))
+  {
+    printf("ERROR: Can not open comport!\n");
+    exit(-1);
+  }
+  
+  return(cport_nr);
+}
+
+int send_ecu_query(int serial_port, char *ecu_query)
+{
+    int out_msg_len = 0;
+
+    out_msg_len = strlen(ecu_query);
+    if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
+    {
+      printf("ERROR: Bad message length!\n");
+      return(0);
+    }
+
+    RS232_cputs(serial_port, ecu_query);
+
+    printf("TXD %i bytes: %s", out_msg_len, ecu_query);
+
+    usleep(100000);  /* sleep for 100 milliseconds */
+
+    return(out_msg_len);
+}
+
+int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
+{
+    int in_msg_len = 0;
+
+    while((in_msg_len = RS232_PollComport(serial_port, ecu_query, BUFFER_MAX_LEN)) > 0)
+    {
+          int idx;
+
+          ecu_query[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
+
+          for(idx = 0; idx < in_msg_len; idx++)
+          {
+             if(ecu_query[idx] < 32)  /* replace unreadable control-codes by dots */
+             {
+                ecu_query[idx] = '.';
+             }
+          }
+
+          printf("RXD %i bytes: %s", in_msg_len, ecu_query);
+
+          usleep(100000);  /* sleep for 100 milliSeconds */
+    }
+
+    return(in_msg_len);
+}
+
+int main(int argc, char *argv[])
+{
+
+   if (argc < 2) 
+   {
+      fprintf(stderr, "ERROR: no port provided.\n");
+      exit(0);
+   }
+   
+   tick_count = 0;
+   set_simulator_ecu_parameters();
+   
+   /* TODO: make serial port configurable. */
+   
+   /* TODO: make this configurable for RS232 unit tests.
+   serial_port = init_serial_comms("ttyUSB0");
+   */
+   
+   sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+   if (sock < 0) 
+      fatal_error("Opening socket");
+   
+   length = sizeof(server);
+   memset(&server, 0, length);
+
+   server.sin_family=AF_INET;
+   server.sin_addr.s_addr=INADDR_ANY;
+   server.sin_port=htons(atoi(argv[1]));
+   
+   if (bind(sock, (struct sockaddr *)&server, length) < 0) 
+      fatal_error("binding");
+
+   from_len = sizeof(struct sockaddr_in);
+   
+   memset(in_buf, 0, BUFFER_MAX_LEN);
+   
+   while (1) 
+   {
+       n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
+
+       if (n < 0) fatal_error("recvfrom");
+
+       printf("RXD ECU Query: %s", in_buf);
+
+       n = parse_gui_message();
+
+       if (n  < 0) 
+          printf("Message parsing failed.\n");
+
+       set_simulator_ecu_parameters();
+       
+       tick_count += 1;
+       if (tick_count == 100)
+       {
+          tick_count = 0;
+       }
+       
+       /* Now send the query to the ECU interface and get a response. 
+       n = send_ecu_query(serial_port, in_buf);
+       n = recv_ecu_reply(serial_port, ecu_msg);
+       */
+       /* TODO: log ECU query and reply. */
+
+
+       /* TODO: Clear the buffers!!! */
+       memset(in_buf, 0, BUFFER_MAX_LEN);
+   }
+
+   return 0;
+ }
+
+/*
+   log.c
+
+   Project: OBD-II Monitor
+   
+   Author : Derek Chadwick 18910502
+   
+   Date   : 24/12/2017
+  
+   Purpose: Logging, reporting and debug functions.
+   
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <libgen.h>
+#include <string.h>
+#include <time.h>
+
+#include "obd_monitor.h"
+
+/*
+   Function: open_log_file()
+ 
+   Purpose : Changes the current working directory to the location of the fsic binary
+           : then opens the log file.
+   Input   : Start file path.
+   Output  : Returns log file pointer.
+*/
+FILE *open_log_file(char *startup_path)
+{
+   char *current_working_dir = xcalloc(MAX_PATH_LEN);
+   char *temp_path = NULL;
+   FILE *log_file = NULL;
+
+   if (current_working_dir == NULL)
+   {
+      printf("open_log_file() <ERROR>: malloc failed.\n");
+   }
+   else
+   {
+      if (startup_path[0] != '.')  /* if started from some other directory then change to the fsic directory */
+      {
+         temp_path = dirname(startup_path);
+         if (chdir(temp_path) != 0)
+         {
+            printf("open_log_file() <ERROR>: Could not change directory: %s\n", temp_path);  
+         }
+      }
+      if (getcwd(current_working_dir, MAX_PATH_LEN) == 0)
+      {
+         printf("open_log_file() <ERROR>: Could not get current working directory.\n");  
+      }
+      else
+      {
+         log_file = fopen(strncat(current_working_dir, "/fsic.log", MAX_PATH_LEN - 10), "a");
+         if (log_file == NULL)
+         {
+            printf("open_log_file() <ERROR>: could not open logfile: %s\n", current_working_dir); 
+         }
+         /* printf("DEBUG: open_log_file(): %s\n", current_working_dir); */ 
+      }
+   }
+
+   xfree(current_working_dir, MAX_PATH_LEN);
+/*
+   if (errno != ERANGE)
+   {
+      printf("ERROR: malloc failed.\n");
+   }
+*/
+   return(log_file);
+}
+
+
+/*
+   Function: print_log_entry()
+ 
+   Purpose : Creates a log entry and prints to the log file and stdin.
+           : 
+   Input   : Log string and log file.
+   Output  : Timestamped log entry.
+*/
+int print_log_entry(char *estr, FILE *log_file)
+{
+   time_t curtime;
+   struct tm *loctime;
+   int slen = strlen(estr);
+   char *log_entry = xcalloc(slen + 100);
+     
+   /* Get the current time. */
+   curtime = time (NULL);
+   loctime = localtime (&curtime);
+   char *time_str = asctime(loctime);   
+   strncpy(log_entry, time_str, strlen(time_str) - 1);
+   strncat(log_entry, " ", 1);
+   strncat(log_entry, estr, slen);
+
+   fputs (log_entry, log_file);
+
+   printf("%s", log_entry);
+
+   xfree(log_entry, slen + 100);
+  
+   return(0);
+}
+
+
+
+/* 
+   Project: OBD-II Monitor (On-Board Diagnostics)
+
+   Author: Derek Chadwick
+
+   Description: A GUI for communication with vehicle engine control units via 
+                an OBD-II interface to obtain and display engine status 
+                and fault codes. 
+
+
+   Date: 30/11/2017
+   
+*/
+
+
+#include <gtk/gtk.h>
+#include <math.h>
+#include "obd_monitor.h"
+#include "protocols.h"
+
+/* Constant Definitions. */
+
+#define DIAL_X_CENTER 100.0
+#define DIAL_Y_CENTER 75.0
+#define GAUGE_RADIUS 50.0
+#define GAUGE_START_ANGLE 0.167 * NUM_PI /* 30 degrees */
+#define GAUGE_END_ANGLE -1.167 * NUM_PI  /* 210 degrees */
+#define RPM_SCALE_FACTOR 38.2    /* 8000 / (radius * 2 * PI * ((30 + 210) / 360)) = 8000 / 209.5 */
+#define IAT_SCALE_FACTOR 0.764   /* 160 / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 */
+#define ECT_SCALE_FACTOR 0.764   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
+#define MAP_SCALE_FACTOR 1.217   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
+#define FUEL_FLOW_SCALE_FACTOR 0.783 /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+#define GAUGE_ARC_LENGTH 209.5 /* Cairo user space dial arc length for 200 x 150 drawing area. */
+
+/* Buffers for Engine Control Unit messages. */
+char ECU_PID_Request[256];
+char ECU_PID_Reply[256];
+
+/* Buffers for OBD Interface messages. */
+char ODB_Request[256];
+char OBD_Reply[256];
+
+/* Status, error and warning message buffers. */
+char current_info_msg[256];
+char current_error_msg[256];
+char current_status_msg[256];
+char current_warning_msg[256];
+char current_question_msg[256];
+
+/* Current time string. */
+char time_buffer[256];
+
+/* Communications log display area. */
+GtkTextBuffer *text_buffer;
+GtkTextIter text_iter;
+
+/* Function declarations. */
+void show_error_msg(GtkWidget *widget, gpointer window);
+
+
+
+
+/* ----------------------- */
+/* GUI callback functions. */
+/* ----------------------- */
+
+void update_comms_log_view(char *msg)
+{
+   gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, -1);
+   gtk_text_buffer_insert(text_buffer, &text_iter, msg, -1);
+   
+   return;
+}
+
+
+
+void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
+{
+  gchar *text = gtk_combo_box_text_get_active_text(widget);
+  if (text != NULL)
+  {
+     g_printf("protocol_combo_selected() : You chose %s\n", text);
+     /* TODO: set protocol in config. */
+  }
+  g_free(text);
+  
+  return;
+}
+
+GdkPixbuf *create_pixbuf(const gchar * filename) 
+{
+    
+   GdkPixbuf *pixbuf;
+   GError *error = NULL;
+   pixbuf = gdk_pixbuf_new_from_file(filename, &error);
+   
+   if (!pixbuf) 
+   {
+      printf("%s\n", error->message);
+      g_error_free(error);
+   }
+
+   return pixbuf;
+}
+
+void print_msg(GtkWidget *widget, gpointer window) 
+{
+   g_printf("Button clicked\n");
+
+   return;
+}
+
+
+void send_custom_pid_query(GtkWidget *widget, gpointer window) 
+{
+   char buffer[256];
+   /* TODO: this is for custom PID dialog box send button. */
+   memset(buffer, 0, 256);
+   memset(ECU_PID_Request, 0, 16);
+   sprintf(ECU_PID_Request,"0100");
+   send_ecu_msg(ECU_PID_Request);
+   usleep(OBD_WAIT_TIMEOUT);
+   recv_ecu_msg(buffer);
+
+   return;
+}
+
+gint send_obd_message_60sec_callback (gpointer data)
+{
+   send_ecu_msg("ATRV\n"); /* Battery Voltage */
+   
+   /* gtk_widget_queue_draw((GtkWidget *)data); */
+   
+   return(TRUE);
+}
+
+gint send_obd_message_30sec_callback (gpointer data)
+{
+   send_ecu_msg("01 05\n"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\n"); /* Oil Temperature */
+    
+   return(TRUE);
+}
+
+gint send_obd_message_10sec_callback (gpointer data)
+{
+   send_ecu_msg("01 05\n"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\n"); /* Oil Temperature */
+   
+   return(TRUE);
+}
+
+gint send_obd_message_1sec_callback (gpointer data)
+{
+
+   send_ecu_msg("01 0C\n"); /* Engine RPM */
+   send_ecu_msg("01 0D\n"); /* Vehicle Speed */
+   send_ecu_msg("01 0A\n"); /* Fuel Pressure */
+   send_ecu_msg("01 0B\n"); /* MAP Pressure */
+   send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */
+   
+   return(TRUE);
+}
+
+gint recv_obd_message_callback (gpointer data)
+{
+   recv_ecu_msg();
+   gtk_widget_queue_draw((GtkWidget *)data);
+   
+   return(TRUE);
+}
+
+void ecu_connect(GtkWidget *widget, gpointer window) 
+{
+   int result;
+
+   if (get_ecu_connected() == 1)
+   {
+      return;
+   }
+   
+   memset(current_error_msg, 0, 256);
+   /* First set up UDP communication with the server process
+      and check connection to the OBD interface. */
+   result = init_server_comms("127.0.0.1", "8989");
+   if (result < 0)
+   {
+      /* Pop up an error dialog. */
+      strncpy(current_error_msg, "ecu_connect() <ERROR>: Failed to connect to OBD server.\n", 40);
+      show_error_msg(widget, window);
+   }
+   else
+   {
+      result = init_obd_comms("ATI");
+      if (result <= 0)
+      {
+         strncpy(current_error_msg, "ecu_connect() <ERROR>: Failed to connect to OBD interface.\n", 43);
+         show_error_msg(widget, window);
+      }
+      else
+      {
+         set_ecu_connected(1); /* Start PID comms with server process. */
+         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
+      }
+   }
+
+   return;
+}
+
+
+static void draw_dial_background(cairo_t *cr, double width, double height)
+{
+   /* */
+   double x         = 5.0,                /* parameters like cairo_rectangle */
+          y         = 5.0,
+          aspect        = 1.0,             /* aspect ratio */
+          corner_radius = height / 10.0;   /* and corner curvature radius */
+
+   double radius = corner_radius / aspect;
+   double degrees = NUM_PI / 180.0;
+
+   /* Draw the background shapes. */
+   
+   cairo_new_sub_path (cr);
+   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees);
+   cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees);
+   cairo_arc (cr, x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees);
+   cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees);
+   cairo_close_path (cr);
+
+   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
+   cairo_fill_preserve (cr);
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);
+   cairo_stroke (cr);
+
+   return;
+}
+
+static void draw_dial_tick_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle)
+{
+   /* Draw the gauge and needle */
+   
+   DialPoint points[6];
+   double s,c;
+   double theta, last, increment;
+   double xc, yc;
+   double tick_length;
+   int i, inc;
+   double pointer_width = 10.0;
+  
+   xc = width / 2.0;
+   yc = height / 2.0;
+
+   /* Draw ticks */
+
+   if ((upper - lower) == 0)
+     return;
+
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width(cr, 2.0);
+   
+   increment = (100*NUM_PI) / (radius*radius);
+
+   inc = (upper - lower);
+
+   while (inc < 100) inc *= 10;
+   while (inc >= 1000) inc /= 10;
+   last = -1;
+
+   for (i = 0; i <= inc; i++)
+   {
+      theta = ((double)i*NUM_PI / (18*inc/24.0) - NUM_PI/6.0);
+
+      if ((theta - last) < (increment))
+        continue;     
+      last = theta;
+
+      s = sin (theta);
+      c = cos (theta);
+
+      tick_length = (i%(inc/10) == 0) ? pointer_width : pointer_width / 2.0;
+
+      cairo_move_to(cr, xc + c*(radius - tick_length), yc - s*(radius - tick_length));
+      cairo_line_to(cr, xc + c*radius, yc - s*radius);
+      
+   }
+   cairo_stroke(cr);
+
+   /* Draw pointer */
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_set_line_width(cr, 2.0);
+   cairo_move_to(cr, xc, yc);
+   
+   s = sin (angle);
+   c = cos (angle);
+
+   points[0].x = xc + s*pointer_width/2;
+   points[0].y = yc + c*pointer_width/2;
+   points[1].x = xc + c*radius;
+   points[1].y = yc - s*radius;
+   points[2].x = xc - s*pointer_width/2;
+   points[2].y = yc - c*pointer_width/2;
+   points[3].x = xc - c*radius/10;
+   points[3].y = yc + s*radius/10;
+   points[4].x = points[0].x;
+   points[4].y = points[0].y;
+
+
+   for(i = 0; i < 4; i++)
+   {
+     cairo_move_to(cr, points[i].x, points[i].y);
+     cairo_line_to(cr, points[i+1].x, points[i+1].y);
+   }
+   
+
+   cairo_stroke(cr);
+    
+   return;
+}
+
+static void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *gauge_units)
+{
+   cairo_text_extents_t ctext;
+   double xc;
+   double yc;
+   
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+    
+   cairo_set_font_size(cr, 24);
+   cairo_text_extents (cr, gauge_numerals, &ctext);
+   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
+   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
+   cairo_move_to(cr, xc, yc);
+   cairo_show_text(cr, gauge_numerals);
+
+   /* TEST TEXT PLACEMENT
+   xc = (100.0 - (0.5 * ctext.width  + ctext.x_bearing));
+   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));   
+   cairo_set_source_rgba (cr, 1, 0.2, 0.2, 0.6);
+   cairo_set_line_width (cr, 6.0);
+   cairo_arc (cr, xc, yc, 10.0, 0, 2*M_PI);
+   cairo_fill (cr);
+   cairo_move_to (cr, xc,yc);
+   cairo_rel_line_to (cr, 0, -ctext.height);
+   cairo_rel_line_to (cr, ctext.width, 0);
+   cairo_rel_line_to (cr, ctext.x_bearing, -ctext.y_bearing);
+   cairo_stroke (cr);
+   */
+ 
+   cairo_set_font_size(cr, 10);
+   cairo_text_extents (cr, gauge_units, &ctext);
+   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
+   yc = (100 - (0.5 * ctext.height + ctext.y_bearing));
+   cairo_move_to(cr, xc, yc);
+   cairo_show_text(cr, gauge_units);  
+   
+   cairo_set_font_size(cr, 15);
+   cairo_text_extents (cr, gauge_label, &ctext);
+   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
+   cairo_show_text(cr, gauge_label);
+  
+   return;
+}
+
+
+static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
+   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
+   double rpm_scale_factor = 38.2;
+   double engine_rpm = get_engine_rpm(); /* Get rpm value from protocol module. */
+   double gauge_rpm = engine_rpm / rpm_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_rpm / radius); /* Angle in radians. */
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
+   cairo_text_extents_t ctext;
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
+   
+   /* SCALE FACTOR:
+   
+      scale factor = max rpm on gauge / arc length of gauge.    
+      arc length = 2 * PI * radius * theta/360 if angle is in degrees. 
+      arc length = radius * theta  if the angle is in radians.   
+
+      Example: max gauge rpm = 8000 ... min gauge rpm = 0 
+               gauge min angle = 1.167 * PI (210 degrees) 
+               gauge max angle = -0.167 * PI (-30 degrees or 330 degrees)
+               scale factor 8000 / (arc length between gauge min and max angles)
+               where arc length = (radius * 1.334 * PI) radians.
+              
+               Thence:
+              
+               scale factor = 8000 / (radius * 2 * PI * ((30 + 210) / 360))
+               
+               or 
+               
+               scale factor = 8000 / (radius * (1.167 * PI + 0.167 * PI))
+                            = 8000 / (50 * 1.334 * PI)
+                            = 8000 / 209.5
+                            = 38.2
+              
+     NOTE: cairo arc drawing is counter clock-wise when 
+           the cairo_arc_negative() function is used, and clock-wise when
+           the cairo_arc() function is used, which is the opposite
+           of geometry/trigonometry, so what the hell.
+           
+           Check the API docs for a confusing explanation:
+           
+           https://cairographics.org/manual/cairo-Paths.html#cairo-arc
+   */
+                                   
+ 
+   /* double dial_start_angle = 0.25 * NUM_PI;  45 degrees */
+   /* double dial_end_angle = -1.25 * NUM_PI;   225 degrees */
+   
+   draw_dial_background(cr, 190, 140);
+
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);   
+   cairo_arc_negative (cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", engine_rpm);
+   draw_dial_text(cr, "Engine RPM", gauge_numerals, "rpm");
+  
+   return TRUE;
+}
+
+
+static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI; /* 210 degrees */
+   double speed_scale_factor = 0.954; /* 200km/h / (radius * (1.167 * PI + 0.167 * PI)) = 200 / 209.5 = 0.954 */
+   double vehicle_speed = get_vehicle_speed(); /* Get speed value from protocol module. */
+   double gauge_speed = vehicle_speed / speed_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_speed / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;   
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
+
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", vehicle_speed);
+   draw_dial_text(cr, "Speedometer", gauge_numerals, "km/h");
+  
+   return TRUE;
+}
+
+static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double ect_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
+   double coolant_temperature = get_coolant_temperature(); /* Get ect value from protocol module. */
+   double gauge_temp = coolant_temperature / ect_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", coolant_temperature);
+   draw_dial_text(cr, "Coolant Temp", gauge_numerals, "℃");
+
+  
+   return FALSE;
+}
+
+static gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double iat_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
+   double air_temperature = get_intake_air_temperature();     /* Get iat value from protocol module. */
+   double gauge_temp = air_temperature / iat_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
+   double cpx;
+   double cpy;
+   char gauge_numerals[16];
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", air_temperature);
+   draw_dial_text(cr, "Intake Air Temp", gauge_numerals, "℃");
+   
+   return FALSE;
+}
+
+static gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double map_scale_factor = 1.217;   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
+   double air_pressure = get_manifold_pressure(); /* Get manifold pressure from protocol module. */
+   double gauge_temp = air_pressure / map_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", air_pressure);
+   draw_dial_text(cr, "Manifold Pressure", gauge_numerals, "kPa");
+  
+   return FALSE;
+}
+
+static gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
+   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
+   
+   double dial_start_angle = 0.25 * NUM_PI;
+   double dial_end_angle = -1.25 * NUM_PI;
+
+   cairo_text_extents_t ctext;
+   
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   cairo_stroke(cr);
+
+   /* draw helping lines */
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_set_line_width(cr, 3.0);
+
+   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_fill(cr);
+
+   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_line_to(cr, xc, yc);
+   cairo_stroke(cr);
+
+   cairo_text_extents (cr,"EGR Pressure",&ctext);
+   printf("Text width: %f\n", ctext.width);
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
+   cairo_set_font_size(cr, 15);
+   cairo_show_text(cr, "EGR Pressure");
+  
+   return FALSE;
+}
+
+static gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double angle1 = 0.25 * NUM_PI; /* 45.0  * (M_PI/180.0);   angles are specified */
+   double angle2 = NUM_PI;        /* 180.0 * (M_PI/180.0);   in radians           */
+   
+   double dial_start_angle = 0.25 * NUM_PI;
+   double dial_end_angle = -1.25 * NUM_PI;
+
+   cairo_text_extents_t ctext;
+   
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, dial_start_angle, dial_end_angle);
+   cairo_stroke(cr);
+
+   /* draw helping lines */
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0);
+   cairo_set_line_width(cr, 3.0);
+
+   cairo_arc (cr, xc, yc, 5.0, 0.0, 2*NUM_PI);
+   cairo_fill(cr);
+
+   cairo_arc(cr, xc, yc, radius, angle2, angle2);
+   cairo_line_to(cr, xc, yc);
+   cairo_stroke(cr);
+
+   cairo_text_extents (cr,"Oil Pressure",&ctext);
+   /* printf("Text width: %f\n", ctext.width); */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (80.0 - (0.5 * ctext.width)), 135);
+   cairo_set_font_size(cr, 15);
+   cairo_show_text(cr, "Oil Pressure");
+  
+   return FALSE;
+}
+
+
+static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double oil_temp_scale_factor = 0.764;   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
+   double oil_temperature = get_oil_temperature(); /* TODO: Get oil temperature from protocol module. */
+   double gauge_temp = oil_temperature / oil_temp_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+  /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", oil_temperature);
+   draw_dial_text(cr, "Oil Temperature", gauge_numerals, "℃");
+
+   return FALSE;
+}
+
+static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double fuel_flow_scale_factor = 0.783; /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double fuel_flow = get_fuel_flow_rate();     /* Get fuel flow rate from protocol module. */
+   double gauge_temp = fuel_flow / fuel_flow_scale_factor; /* this is the gauge arc length for the needle. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_temp / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* printf("draw_fuel_flow_dial(): %f\n", (float)fuel_flow); */
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", fuel_flow);
+   draw_dial_text(cr, "Fuel Flow Rate", gauge_numerals, "L/h");
+   
+   return FALSE;
+}
+
+static gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double fuel_pressure_scale_factor = 3.651; /* 765.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double fuel_pressure = get_fuel_pressure();     /* Get fuel value from protocol module. */
+   double gauge_pressure = fuel_pressure / fuel_pressure_scale_factor; /* this is the gauge arc length. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_pressure / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", fuel_pressure);
+   draw_dial_text(cr, "Fuel Pressure", gauge_numerals, "kPa");
+   
+  
+   return FALSE;
+}
+
+static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double fuel_level_scale_factor = 0.477; /* 100.0 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double fuel_level = 50.0; /* get_fuel_tank_level(); TODO: Get fuel level from protocol module. */
+   double gauge_level = fuel_level / fuel_level_scale_factor; /* this is the gauge arc length. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_level / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   printf("draw_fuel_tank_level(): %f\n", get_fuel_tank_level());
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", fuel_level);
+   draw_dial_text(cr, "Fuel Level", gauge_numerals, "%");
+   
+   return FALSE;
+}
+
+static void draw_large_dial_background(cairo_t *cr)
+{
+   /* a custom shape that could be wrapped in a function */
+   double x         = 5.0,                /* parameters like cairo_rectangle */
+          y         = 5.0,
+          width         = 290,
+          height        = 220,
+          aspect        = 1.0,             /* aspect ratio */
+          corner_radius = height / 10.0;   /* and corner curvature radius */
+
+   double radius = corner_radius / aspect;
+   double degrees = NUM_PI / 180.0;
+
+   cairo_new_sub_path (cr);
+   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees);
+   cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees);
+   cairo_arc (cr, x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees);
+   cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees);
+   cairo_close_path (cr);
+
+   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
+   cairo_fill_preserve (cr);
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);
+   cairo_stroke (cr);
+   
+   return;
+}
+
+static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   cairo_text_extents_t ctext;
+   
+   /* draw_dial_background(cr, 290, 220); */
+   draw_large_dial_background(cr);
+
+   cairo_select_font_face (cr, "sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+   cairo_set_font_size(cr, 28);                        
+   cairo_text_extents (cr,"PID",&ctext);
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
+   cairo_show_text(cr, "PID");
+  
+   return FALSE;
+}
+
+static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   cairo_text_extents_t ctext;
+   
+   /* draw_dial_background(cr, 290, 220); */
+   draw_large_dial_background(cr);
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+   cairo_set_font_size(cr, 28);
+   cairo_text_extents (cr,"DTC",&ctext);
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
+   cairo_show_text(cr, "DTC");
+  
+   return FALSE;
+}
+
+static void draw_small_dial_background(cairo_t *cr)
+{
+   /* a custom shape that could be wrapped in a function */
+   double x         = 5.0,                /* parameters like cairo_rectangle */
+          y         = 5.0,
+          width         = 290,
+          height        = 30,
+          aspect        = 1.0,             /* aspect ratio */
+          corner_radius = height / 2.0;   /* and corner curvature radius */
+
+   double radius = corner_radius / aspect;
+   double degrees = NUM_PI / 180.0;
+
+   cairo_new_sub_path (cr);
+   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 90 * degrees);
+   /* cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees); */
+   cairo_arc (cr, x + radius, y + radius, radius, 90 * degrees, 270 * degrees);
+   /* cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees); */
+   cairo_close_path (cr);
+
+   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
+   cairo_fill_preserve (cr);
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);
+   cairo_stroke (cr);
+   
+   return;
+}
+
+static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 10.0;
+   double yc = 25.0;
+   double battery_voltage = get_battery_voltage();
+   cairo_text_extents_t ctext;
+   char volts[256];
+   
+   memset(volts, 0, 256);
+   sprintf(volts, "Battery Voltage: %.1fV", battery_voltage);
+   
+   draw_small_dial_background(cr);
+
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+   cairo_set_font_size(cr, 16);
+   cairo_text_extents (cr, volts, &ctext); /* TODO: get voltage from protocol module. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), yc);
+   cairo_show_text(cr, volts);
+  
+   return FALSE;
+}
+
+void show_info(GtkWidget *widget, gpointer window) 
+{
+    
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK,
+            "%s",
+            current_info_msg);
+  gtk_window_set_title(GTK_WINDOW(dialog), "Information");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+
+  return;
+}
+
+void show_error_msg(GtkWidget *widget, gpointer window) 
+{
+    
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "%s", 
+            current_error_msg);
+  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+
+  return;
+}
+
+void show_error(GtkWidget *widget, gpointer window) 
+{
+    
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "Error loading file");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+
+  return;
+}
+
+void show_question(GtkWidget *widget, gpointer window) 
+{
+    
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_QUESTION,
+            GTK_BUTTONS_YES_NO,
+            "Are you sure to quit?");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Question");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+
+  return;
+}
+
+void show_warning(GtkWidget *widget, gpointer window) 
+{
+    
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_WARNING,
+            GTK_BUTTONS_OK,
+            "%s",
+            current_warning_msg);
+  gtk_window_set_title(GTK_WINDOW(dialog), "Warning");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+
+  return;
+}
+
+int main(int argc, char *argv[]) 
+{
+   GtkWidget *window;
+   GdkPixbuf *icon;
+
+   GtkWidget *dtc_button;
+   GtkWidget *egr_button;
+   GtkWidget *iat_button;
+   GtkWidget *map_button;
+   GtkWidget *pid_button;
+   GtkWidget *ecu_request_button;
+   GtkWidget *ecu_connect_button;
+
+   GtkWidget *vbox_controls;
+   GtkWidget *hbox_top;
+   GtkWidget *hbox_center;
+   GtkWidget *hbox_bottom;
+   GtkWidget *vbox_left;
+   GtkWidget *vbox_center;
+   GtkWidget *vbox_right;
+   GtkWidget *vbox;
+
+   GtkWidget *menubar;
+   GtkWidget *fileMenu;
+   GtkWidget *editMenu;
+   GtkWidget *helpMenu;
+
+   GtkWidget *editMenuItem;
+   GtkWidget *optionsMenuItem;
+   GtkWidget *layoutMenuItem;
+
+   GtkWidget *helpMenuItem;
+   GtkWidget *aboutMenuItem;
+   GtkWidget *manualMenuItem;
+
+   GtkWidget *fileMenuItem;
+   GtkWidget *saveMenuItem;
+   GtkWidget *quitMenuItem;
+
+   GtkWidget *protocol_combo_box;
+
+   GtkWidget *combo_label;
+   GtkWidget *status_label;
+   GtkWidget *log_label;
+   GtkWidget *instruments_label;
+   GtkWidget *text_view_label;
+
+   GtkWidget *ecu_rpm_dial;
+   GtkWidget *ecu_speed_dial;
+   GtkWidget *ecu_ect_dial;
+   GtkWidget *ecu_iat_dial;
+   GtkWidget *ecu_map_dial;
+   GtkWidget *ecu_egr_dial;
+   GtkWidget *ecu_oil_temp_dial;
+   GtkWidget *ecu_oil_pressure_dial;
+   GtkWidget *ecu_fuel_flow_dial;
+   GtkWidget *ecu_fuel_pressure_dial;
+   GtkWidget *ecu_fuel_tank_level_dial;
+   GtkWidget *battery_voltage_dial;
+   
+   GtkWidget *dtc_dial;
+   GtkWidget *pid_dial;
+
+   GtkWidget *text_view;
+   GtkWidget *text_frame;
+   GtkWidget *scrolled_window;
+   
+
+   gtk_init(&argc, &argv);
+
+   g_printf("GTK+ version: %d.%d.%d\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
+   g_printf("Glib version: %d.%d.%d\n", glib_major_version, glib_minor_version, glib_micro_version);    
+
+
+   /* Set up the main window. */
+   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+   gtk_window_set_title(GTK_WINDOW(window), "OBD-II Monitor");
+   gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
+   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
+
+   icon = create_pixbuf("../images/setroubleshoot_red_icon.svg");  
+   gtk_window_set_icon(GTK_WINDOW(window), icon);
+
+   /* Set up the main menu bar. */
+   menubar = gtk_menu_bar_new();
+   fileMenu = gtk_menu_new();
+   fileMenuItem = gtk_menu_item_new_with_label("File");
+   saveMenuItem = gtk_menu_item_new_with_label("Save");
+   quitMenuItem = gtk_menu_item_new_with_label("Quit");
+   gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMenuItem), fileMenu);
+   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), saveMenuItem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), quitMenuItem); 
+   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), fileMenuItem);
+   g_signal_connect(G_OBJECT(quitMenuItem), "activate", G_CALLBACK(gtk_main_quit), NULL);
+
+   editMenu = gtk_menu_new();
+   editMenuItem = gtk_menu_item_new_with_label("Edit");
+   optionsMenuItem = gtk_menu_item_new_with_label("Options");
+   g_signal_connect(G_OBJECT(optionsMenuItem), "activate", G_CALLBACK(print_msg), NULL);
+   layoutMenuItem = gtk_menu_item_new_with_label("Layout");
+   g_signal_connect(G_OBJECT(layoutMenuItem), "activate", G_CALLBACK(print_msg), NULL);
+   gtk_menu_item_set_submenu(GTK_MENU_ITEM(editMenuItem), editMenu);
+   gtk_menu_shell_append(GTK_MENU_SHELL(editMenu), optionsMenuItem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(editMenu), layoutMenuItem); 
+   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), editMenuItem);
+
+   helpMenu = gtk_menu_new();
+   helpMenuItem = gtk_menu_item_new_with_label("Help");
+   aboutMenuItem = gtk_menu_item_new_with_label("About");
+   g_signal_connect(G_OBJECT(aboutMenuItem), "activate", G_CALLBACK(print_msg), NULL);
+   manualMenuItem = gtk_menu_item_new_with_label("Manual");
+   g_signal_connect(G_OBJECT(manualMenuItem), "activate", G_CALLBACK(print_msg), NULL);
+   gtk_menu_item_set_submenu(GTK_MENU_ITEM(helpMenuItem), helpMenu);
+   gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu), aboutMenuItem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu), manualMenuItem); 
+   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), helpMenuItem);
+
+
+   /* Set up the buttons. */
+   dtc_button = gtk_button_new_with_mnemonic("_DTC Lookup");
+   g_signal_connect(dtc_button, "clicked", G_CALLBACK(show_info), NULL); 
+   gtk_widget_set_tooltip_text(dtc_button, "Button widget");
+
+   iat_button = gtk_button_new_with_mnemonic("_IAT");
+   g_signal_connect(iat_button, "clicked", G_CALLBACK(show_error), NULL); 
+   gtk_widget_set_tooltip_text(iat_button, "Button widget");
+
+   map_button = gtk_button_new_with_mnemonic("_MAP");
+   g_signal_connect(map_button, "clicked", G_CALLBACK(show_warning), NULL); 
+   gtk_widget_set_tooltip_text(map_button, "Button widget");
+
+   egr_button = gtk_button_new_with_mnemonic("_TEG");
+   g_signal_connect(egr_button, "clicked", G_CALLBACK(show_question), NULL); 
+   gtk_widget_set_tooltip_text(egr_button, "Button widget");
+
+   pid_button = gtk_button_new_with_mnemonic("_PID Lookup");
+   g_signal_connect(pid_button, "clicked", G_CALLBACK(show_question), NULL); 
+   gtk_widget_set_tooltip_text(pid_button, "Button widget");
+
+   ecu_request_button = gtk_button_new_with_mnemonic("ECU _Request");
+   g_signal_connect(ecu_request_button, "clicked", G_CALLBACK(send_custom_pid_query), NULL); 
+   gtk_widget_set_tooltip_text(ecu_request_button, "Button widget");
+
+   ecu_connect_button = gtk_button_new_with_mnemonic("_ECU Connect");
+   g_signal_connect(ecu_connect_button, "clicked", G_CALLBACK(ecu_connect), NULL); 
+   gtk_widget_set_tooltip_text(ecu_connect_button, "Button widget");
+
+
+   /* Set up ECU dials. */
+   ecu_rpm_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_rpm_dial, 200, 150);
+   g_signal_connect(ecu_rpm_dial, "draw", G_CALLBACK(draw_rpm_dial), NULL);
+   
+   ecu_speed_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_speed_dial, 200, 150);
+   g_signal_connect(ecu_speed_dial, "draw", G_CALLBACK(draw_speed_dial), NULL);
+   
+   ecu_ect_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_ect_dial, 200, 150);
+   g_signal_connect(ecu_ect_dial, "draw", G_CALLBACK(draw_ect_dial), NULL);
+   
+   ecu_iat_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_iat_dial, 200, 150);
+   g_signal_connect(ecu_iat_dial, "draw", G_CALLBACK(draw_iat_dial), NULL);
+   
+   ecu_map_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_map_dial, 200, 150);
+   g_signal_connect(ecu_map_dial, "draw", G_CALLBACK(draw_map_dial), NULL);
+   
+   /* ecu_egr_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_egr_dial, 200, 150);
+   g_signal_connect(ecu_egr_dial, "draw", G_CALLBACK(draw_egr_dial), NULL); */
+   ecu_fuel_pressure_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_fuel_pressure_dial, 200, 150);
+   g_signal_connect(ecu_fuel_pressure_dial, "draw", G_CALLBACK(draw_fuel_pressure_dial), NULL);
+   
+   ecu_oil_temp_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_oil_temp_dial, 200, 150);
+   g_signal_connect(ecu_oil_temp_dial, "draw", G_CALLBACK(draw_oil_temp_dial), NULL);
+   
+   /* ecu_oil_pressure_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_oil_pressure_dial, 200, 150);
+   g_signal_connect(ecu_oil_pressure_dial, "draw", G_CALLBACK(draw_oil_pressure_dial), NULL); */
+   
+   ecu_fuel_tank_level_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_fuel_tank_level_dial, 200, 150);
+   g_signal_connect(ecu_fuel_tank_level_dial, "draw", G_CALLBACK(draw_fuel_tank_level_dial), NULL);
+   
+   ecu_fuel_flow_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (ecu_fuel_flow_dial, 200, 150);
+   g_signal_connect(ecu_fuel_flow_dial, "draw", G_CALLBACK(draw_fuel_flow_dial), NULL);
+
+   dtc_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (dtc_dial, 300, 230);
+   g_signal_connect(dtc_dial, "draw", G_CALLBACK(draw_dtc_dial), NULL);
+   
+   pid_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (pid_dial, 300, 230);
+   g_signal_connect(pid_dial, "draw", G_CALLBACK(draw_pid_dial), NULL);
+   
+   battery_voltage_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (battery_voltage_dial, 300, 40);
+   g_signal_connect(battery_voltage_dial, "draw", G_CALLBACK(draw_battery_voltage_dial), NULL);   
+
+   /* Set up other widgets. */
+
+   protocol_combo_box = gtk_combo_box_text_new();
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "0 - Automatic OBD-II Protocol Search");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "1 - SAE J1850 PWM (41.6 kbaud)(Ford)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "4 - ISO 14230-4 KWP2000 (5-baud init.)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "5 - IS0 14230-4 KWP2000 (Fast init.)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "A - SAE J1939 CAN (29 bit ID, 250 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "B - USER1 CAN (11 bit ID, 125 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "C - USER2 CAN (11 bit ID, 50 kbaud)");
+   g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(protocol_combo_selected), NULL);
+
+   /* Text View Widget and Text Buffer. */
+   text_view = gtk_text_view_new ();
+   text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+   gtk_widget_set_size_request (text_view, 880, 80);
+   /*gtk_text_buffer_set_text (text_buffer, "ATI\nOK\n>\nATZ\nOK\n>\n", -1); */
+   gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, 0);
+   gtk_text_buffer_insert(text_buffer, &text_iter, "OBD Monitor Initialising...\n", -1);
+   text_frame = gtk_frame_new("Communications Log");
+   scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+                                   GTK_POLICY_AUTOMATIC,
+                                   GTK_POLICY_AUTOMATIC);
+   gtk_container_add (GTK_CONTAINER (scrolled_window), text_view);
+
+   /* Set up labels. */   
+   combo_label = gtk_label_new (NULL);
+   gtk_label_set_markup (GTK_LABEL (combo_label), "<b>OBD-II Protocol: </b>");
+   instruments_label = gtk_label_new (NULL);
+   gtk_label_set_markup (GTK_LABEL (instruments_label), "<b>Instruments: </b>");
+   text_view_label = gtk_label_new(NULL);
+   gtk_label_set_markup (GTK_LABEL (text_view_label), "<b>Communications Log</b>");
+   
+
+   /* Set up the main window container layout. */
+   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   vbox_left = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   vbox_center = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   vbox_right = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   hbox_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   hbox_center = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   hbox_bottom = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   vbox_controls = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   gtk_container_add(GTK_CONTAINER(window), vbox); 
+   gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox), hbox_top, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox), hbox_center, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox), hbox_bottom, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), combo_label, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), protocol_combo_box, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), ecu_connect_button, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), ecu_request_button, TRUE, TRUE, 0);
+   /* gtk_box_pack_start(GTK_BOX(hbox_top), dtc_button, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_top), pid_button, TRUE, TRUE, 0); */
+   gtk_box_pack_start(GTK_BOX(hbox_top), battery_voltage_dial, TRUE, TRUE, 0);
+   gtk_container_add (GTK_CONTAINER (text_frame), scrolled_window);
+   gtk_box_pack_start(GTK_BOX(hbox_bottom), text_frame, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_center), vbox_left, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_center), vbox_center, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_center), vbox_right, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_center), vbox_controls, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_controls), dtc_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_controls), pid_dial, TRUE, TRUE, 0); 
+   gtk_box_pack_start(GTK_BOX(vbox_left), ecu_rpm_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_left), ecu_ect_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_left), ecu_iat_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_center), ecu_speed_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_center), ecu_map_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_center), ecu_fuel_pressure_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_tank_level_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_temp_dial, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_flow_dial, TRUE, TRUE, 0);
+
+
+   /* Set up the callback functions. */
+   g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);  
+
+   gtk_widget_show_all(window);
+   
+   set_ecu_connected(0);
+   int ecu_auto_connect = 1; /* TODO: add to configuration options. */
+   if (ecu_auto_connect == 1) 
+   {
+      auto_connect();
+      /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
+      g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
+      g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);      
+   }
+
+   
+   /* g_object_unref(icon); */
+
+   gtk_main();  
+      
+   return 0;
+}
+/* 
+   Project: OBD-II Monitor (On-Board Diagnostics)
+
+   Author: Derek Chadwick
+
+   Description: A UDP server that communicates with vehicle
+                engine control units via an OBD-II interface to obtain 
+                engine status and fault codes. 
+
+                Implements two functions:
+
+                1. A UDP datagram server that receives requests for vehicle
+                status information from a client application (GUI) and 
+                returns the requested information to the client. 
+
+                2. Serial communications to request vehicle status
+                information and fault codes from the engine control unit using 
+                the OBD-II protocol.
+
+   Date: 30/11/2017
+   
+*/
+
+#include "obd_monitor.h"
+
+#include "rs232.h"
+
+void fatal_error(const char *error_msg)
+{
+    perror(error_msg);
+    exit(0);
+}
+
+int init_serial_comms(char *interface_name)
+{
+  int cport_nr=0;        /* /dev/ttyS0 (COM1 on windows) */
+  int bdrate=9600;       /* 9600 baud */
+  char mode[]={'8','N','1',0};
+  
+  cport_nr = RS232_GetPortnr(interface_name);
+  if (cport_nr == -1)
+  {
+     printf("ERROR: Can not get com port number.\n");
+     exit(-1);
+  }
+
+  printf("Serial port number: %i\n",cport_nr);
+
+  if(RS232_OpenComport(cport_nr, bdrate, mode))
+  {
+    printf("ERROR: Can not open comport!\n");
+    exit(-1);
+  }
+  
+  return(cport_nr);
+}
+
+int send_ecu_query(int serial_port, char *ecu_query)
+{
+    int out_msg_len = 0;
+/*  struct timespec reqtime;
+    reqtime.tv_sec = 0;
+    reqtime.tv_nsec = 1000000; */
+    
+    out_msg_len = strlen(ecu_query);
+    if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
+    {
+      printf("ERROR: Bad message length!\n");
+      return(0);
+    }
+
+    RS232_cputs(serial_port, ecu_query);
+
+    printf("TXD %i bytes: %s\n", out_msg_len, ecu_query);
+
+    /* nanosleep(100000);   sleep for 1 millisecond */
+
+    return(out_msg_len);
+}
+
+int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
+{
+    int in_msg_len = 0;
+    struct timespec reqtime;
+    reqtime.tv_sec = 0;
+    reqtime.tv_nsec = 1000000;
+    
+
+    while((in_msg_len = RS232_PollComport(serial_port, ecu_query, BUFFER_MAX_LEN)) > 0)
+    {
+          int idx;
+
+          ecu_query[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
+
+          for(idx = 0; idx < in_msg_len; idx++)
+          {
+             if(ecu_query[idx] < 32)  /* replace unreadable control-codes by dots */
+             {
+                ecu_query[idx] = '.';
+             }
+          }
+
+          printf("RXD %i bytes: %s\n", in_msg_len, ecu_query);
+
+          nanosleep(&reqtime, NULL); /* sleep for 1 milliSecond */
+    }
+
+    return(in_msg_len);
+}
+
+int main(int argc, char *argv[])
+{
+   int sock, length, n, serial_port;
+   socklen_t from_len;
+   struct sockaddr_in server;
+   struct sockaddr_in from_client;
+   char in_buf[BUFFER_MAX_LEN];
+   unsigned char ecu_msg[BUFFER_MAX_LEN];
+
+   if (argc < 2) 
+   {
+      fprintf(stderr, "ERROR: no port provided.\n");
+      exit(0);
+   }
+   
+   /* TODO: make serial port configurable. */
+   serial_port = init_serial_comms("ttyUSB0");
+   
+   sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+   if (sock < 0) 
+      fatal_error("Opening socket");
+   
+   length = sizeof(server);
+   memset(&server, 0, length);
+
+   server.sin_family=AF_INET;
+   server.sin_addr.s_addr=INADDR_ANY;
+   server.sin_port=htons(atoi(argv[1]));
+   
+   if (bind(sock, (struct sockaddr *)&server, length) < 0) 
+      fatal_error("binding");
+
+   from_len = sizeof(struct sockaddr_in);
+   
+   while (1) 
+   {
+       n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
+
+       if (n < 0) fatal_error("recvfrom");
+
+       printf("RXD ECU Query: %s\n", in_buf);
+
+       n = sendto(sock, "ACK ECU Request.\n", 18, 0, (struct sockaddr *)&from_client, from_len);
+
+       if (n  < 0) fatal_error("sendto");
+
+       /* Now send the query to the ECU interface and get a response. */
+       n = send_ecu_query(serial_port, in_buf);
+       n = recv_ecu_reply(serial_port, ecu_msg);
+       /* TODO: log ECU query and reply. */
+
+       /* TODO: send ECU reply to GUI. */
+
+       /* TODO: Clear the buffers!!! */
+   }
+
+   return 0;
+ }
+
+/* 
+   Project: OBD-II Monitor (On-Board Diagnostics)
+
+   Author: Derek Chadwick
+
+   Description: OBD and AT message crackers. 
+                If the message starts with ASCII hex digits '40'...'49' then
+                the message is from the ECU. Otherwise it is a message from
+                the OBD interface IC or is invalid.
+                
+   Selected ECU Mode 01 Parameters: 
+   
+   [PID] [Data Bytes] [Min Value] [Max Value] [Formula]           [Description]
+    05    1            -40         215         A - 40             (ECT Centigrade)
+    0A    1            0           765         3 * A              (Fuel Pressure kPa)
+    0B    1            0           255         A                  (MAP Pressure kPa)
+    0C    2            0           16,383.75   (256 * A + B) / 4  (Engine RPM)
+    0D    1            0           255         A                  (Vehicle Speed)
+    0E    1            -64         63.5        (A / 2) - 64       (Timing Advance: degrees before TDC) 
+    0F    1            -40         215         A - 40             (IAT Centigrade)
+    11    1            0           100         100 / 255 * A      (Throttle Position %)
+    2F    1            0           100         100 / 255 * A      (Fuel Tank Level %)
+    5A    1            0           100         100 / 255 * A      (Relative Accelerator Pedal Position %)
+    5C    1            -40         215         A - 40             (Oil Temperature)
+    5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
+
+
+
+   Selected ECU Mode 09 Parameters:
+ 
+   [PID] [Data Bytes] [Description] 
+    02    17           VIN - Vehicle Identification Number
+    0A    20           ECU Name
+         
+     
+   Selected ECU Mode 21 Parameters (Toyota):
+   
+       
+                     
+   Selected ECU Mode 22 Parameters (GM/Isuzu):
+        
+    (Oil Pressure? GM = 22115c)
+    
+    (EGR Pressure?)
+    
+    
+   Date: 7/11/2017
+   
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "protocols.h"
+
+double fuel_tank_level;
+
+/* OBD Interface Parameters. */
+OBD_Interface obd_interface;
+
+/* ECU Parameters. */
+ECU_Parameters ecup;
+
+void set_interface_on()
+{
+   /* Interface is ready to receive messages. */
+   obd_interface.obd_interface_status = 1;
+   
+   
+   return;
+}
+
+void set_interface_off()
+{
+   /* Interface is not ready to receive messages, may be busy or powered off. */
+   obd_interface.obd_interface_status = 0;
+   return;
+}
+
+int get_interface_status()
+{
+   return(obd_interface.obd_interface_status);
+}
+
+void set_ecu_parameters(ECU_Parameters *ecupin)
+{
+   /* TODO: */
+}
+
+void get_ecu_parameters(ECU_Parameters *ecupout)
+{
+   /* TODO: */
+}
+
+void log_ecu_parameters()
+{
+   /* TODO: log ecu parameters on a 60 second timer. */
+}
+
+void set_engine_rpm(char *rpm_msg)
+{
+   unsigned int pmode, pid, pa, pb;
+
+   if (sscanf(rpm_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
+   {
+      printf("RPM Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
+      ecup.ecu_engine_rpm = ((256.0 * (double)pa + (double)pb) / 4.0);
+      /* ECU rpm parameter is in quarters of a revolution. */
+   }
+   else
+   {
+      ecup.ecu_engine_rpm = 0.0;
+   }
+   return;
+}
+
+double get_engine_rpm()
+{
+   return(ecup.ecu_engine_rpm);
+}
+
+void set_coolant_temperature(char *ctemp_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(ctemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("ECT Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_coolant_temperature = ((double)pa - 40.0);
+   }
+   else
+   {
+      ecup.ecu_coolant_temperature = 0.0;
+   }
+   return;
+}
+
+double get_coolant_temperature()
+{
+   return(ecup.ecu_coolant_temperature);
+}
+
+void set_manifold_pressure(char *manap_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(manap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("MAP Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_manifold_air_pressure = (double)pa;
+   }
+   else
+   {
+      ecup.ecu_manifold_air_pressure = 0.0;
+   }
+   
+   return;
+}
+
+double get_manifold_pressure()
+{
+   return(ecup.ecu_manifold_air_pressure);
+}
+
+void set_intake_air_temperature(char *atemp_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(atemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("IAT Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_intake_air_temperature = ((double)pa - 40.0);
+   }
+   else
+   {
+      ecup.ecu_intake_air_temperature = 0.0;
+   }
+   
+   return;
+}
+
+double get_intake_air_temperature()
+{
+   return(ecup.ecu_intake_air_temperature);
+}
+
+void set_battery_voltage(char *bv_msg)
+{
+   float bv;
+
+   if (sscanf(bv_msg, "ATRV %f", &bv) == 1)
+   {
+      printf("Battery Voltage Msg: %.2f\n", bv); 
+      ecup.ecu_battery_voltage = (double)bv;
+      /* sscanf(bv_msg, "ATRV %s\n", ecup.battery_voltage); */
+   }
+   else
+   {
+      ecup.ecu_battery_voltage = 0.0;
+   }
+   
+   return;
+}
+
+double get_battery_voltage()
+{
+   return(ecup.ecu_battery_voltage);
+}
+
+void set_interface_information(char *ii_msg)
+{
+   memset(obd_interface.obd_interface_name, 0, 256);
+
+   if (sscanf(ii_msg, "ATI %s", obd_interface.obd_interface_name) == 1)
+   {
+      printf("ATI Msg: %s", ii_msg); 
+   }
+   else
+   {
+      strncpy(obd_interface.obd_interface_name, "Unknown OBD Interface", 21);
+   }
+   
+   return;
+}
+
+void get_interface_information(char *info)
+{
+   strncpy(info, obd_interface.obd_interface_name, strlen(obd_interface.obd_interface_name));
+   return;
+}
+
+void set_vehicle_speed(char *vs_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(vs_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Vehicle Speed Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_vehicle_speed = (double)pa;
+   }
+   else
+   {
+      ecup.ecu_vehicle_speed = 0.0;
+   }
+   
+   return;
+}
+
+double get_vehicle_speed()
+{
+   return(ecup.ecu_vehicle_speed);
+}
+
+void set_egr_pressure(char *egrp_msg)
+{
+
+}
+
+double get_egr_pressure()
+{
+
+}
+
+void set_throttle_position(char *tp_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(tp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Throttle Position Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_throttle_position = 0.392 * (double)pa;
+   }
+   else
+   {
+      ecup.ecu_throttle_position = 0.0;
+   }
+   
+   return;
+}
+
+double get_throttle_position()
+{
+   return(ecup.ecu_throttle_position);
+}
+
+void set_oil_temperature(char *otemp_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(otemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Oil Temperature Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_oil_temperature = ((double)pa - 40.0);
+   }
+   else
+   {
+      ecup.ecu_oil_temperature = 0.0;
+   }
+   return;
+}
+
+double get_oil_temperature()
+{
+   return(ecup.ecu_oil_temperature);
+}
+
+void set_oil_pressure(char *oilp_msg)
+{
+
+}
+
+double get_oil_pressure()
+{
+
+}
+
+void set_supported_pid_list_1_32(char *pid_msg)
+{
+
+}
+
+double gset_supported_pid_list_1_32()
+{
+
+}
+
+void set_timing_advance(char *tadv_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(tadv_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Timing Advance Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_timing_advance = ((double)pa / 2.0) - 64.0;
+   }
+   else
+   {
+      ecup.ecu_timing_advance = 0.0;
+   }
+   
+   return;
+}
+
+double get_timing_advance()
+{
+   return(ecup.ecu_timing_advance);
+}
+
+
+void set_fuel_tank_level(char *ftl_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(ftl_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Fuel Tank Level Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_fuel_tank_level = ((float)pa * 0.392);
+      fuel_tank_level = ((float)pa * 0.392);
+      printf("Fuel Tank Level: %f\n", ecup.ecu_fuel_tank_level); 
+   }
+   else
+   {
+      ecup.ecu_fuel_tank_level = 0.0;
+   }
+   
+   return;
+}
+
+double get_fuel_tank_level()
+{
+   return(fuel_tank_level);
+}
+
+void set_fuel_flow_rate(char *ffr_msg)
+{
+   unsigned int pmode, pid, pa, pb;
+
+   if (sscanf(ffr_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
+   {
+      printf("Fuel Flow Rate Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
+      ecup.ecu_fuel_flow_rate = ((256.0 * (double)pa) + (double)pb) / 20.0;
+      printf("Fuel Flow Rate: %f\n", ecup.ecu_fuel_flow_rate); 
+   }
+   else
+   {
+      ecup.ecu_fuel_flow_rate = 0.0;
+   }
+   
+   return;
+}
+
+double get_fuel_flow_rate()
+{
+   return(ecup.ecu_fuel_flow_rate);
+}
+
+
+void set_fuel_pressure(char *fp_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(fp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Fuel Pressure Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_fuel_pressure = (double)pa * 3.0;
+      printf("Fuel Pressure: %f\n", ecup.ecu_fuel_pressure); 
+   }
+   else
+   {
+      ecup.ecu_fuel_pressure = 0.0;
+   }
+   
+   return;
+}
+
+double get_fuel_pressure()
+{
+   return(ecup.ecu_fuel_pressure);
+}
+
+
+void set_accelerator_position(char *ap_msg)
+{
+   unsigned int pmode, pid, pa;
+
+   if (sscanf(ap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
+   {
+      printf("Accelerator Position Msg: %d %d %d\n", pmode, pid, pa); 
+      ecup.ecu_accelerator_position = 0.392 * (double)pa;
+   }
+   else
+   {
+      ecup.ecu_accelerator_position = 0.0;
+   }
+   
+   return;
+}
+
+double get_accelerator_position()
+{
+   return(ecup.ecu_accelerator_position);
+}
+
+
+void parse_mode_01_msg(char *obd_msg)
+{
+   /* Decode ECU Mode 01 parameter message. */
+   unsigned int pmode, pid;
+   char header[16];
+   
+   memset(header, 0, 16);
+   strncpy(header, obd_msg, 5);
+   
+   if (sscanf(header, "%x %x", &pmode, &pid) == 2)
+   {
+      switch(pid)
+      {
+         case 0: set_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
+         case 5: set_coolant_temperature(obd_msg); break; /*  */
+         case 10: set_fuel_pressure(obd_msg); break;
+         case 11: set_manifold_pressure(obd_msg); break; /* Throttle Position. */
+         case 12: set_engine_rpm(obd_msg); break;
+         case 13: set_vehicle_speed(obd_msg); break;
+         case 14: set_timing_advance(obd_msg); break;
+         case 15: set_intake_air_temperature(obd_msg); break;
+         case 17: set_throttle_position(obd_msg); break;
+         case 47: set_fuel_tank_level(obd_msg); break; /* Fuel Tank Level. */
+         case 90: set_accelerator_position(obd_msg); break;
+         case 92: set_oil_temperature(obd_msg); break;
+         case 94: set_fuel_flow_rate(obd_msg); break;
+         default : break; /* TODO: process unknown PID. */
+      }
+
+   }
+   else
+   {
+      /* TODO: log error message. */
+   }   
+
+   
+   return;
+}
+
+void parse_mode_03_msg(char *obd_msg)
+{
+   /* Decode DTC message. */
+}
+
+void parse_mode_09_msg(char *obd_msg)
+{
+   /* Decode ECU information message. */
+}
+
+
+int parse_obd_msg(char *obd_msg)
+{
+   int msg_len, result;
+   char temp_buf[256];
+   
+   msg_len = strlen(obd_msg);
+   
+   if ((msg_len > 0) && (obd_msg[msg_len - 1] == '\n')) /* All messages must terminate with a newline. */
+   {
+      /* Parse the message. */
+      if (obd_msg[0] == '4') /* This is an OBD response message from the ECU. */
+      {
+         switch(obd_msg[1])
+         {
+            case '0': break; /* Invalid mode. */
+            case '1': parse_mode_01_msg(obd_msg); break; /* Mode 01 message, ECU parameter update. */
+            case '2': break;
+            case '3': parse_mode_03_msg(obd_msg); break; /* Mode 03 message, diagnostic trouble codes. */
+            case '4': break;
+            case '5': break;
+            case '6': break;
+            case '7': break;
+            case '8': break;
+            case '9': parse_mode_09_msg(obd_msg); break; /* Mode 09 message, ECU information. */
+            case 'A': break;
+            default : break; /* TODO: process unknown mode. */
+         }
+         result = 0;
+      }
+      else /* This is an AT message response from the OBD interface. */
+      {
+         /* TODO: Process AT message and save configuration info from the interface. */
+         if (obd_msg[0] == '>') /* ELM327 IC sends a '>' character to signal it is ready. */
+         {
+            obd_interface.obd_interface_status = 1; /* Interface is ready to receive messages. */
+            result = 1;
+         }
+         else
+         {
+            result = 2; /* TODO: Process information from OBD interface. */
+            if (strncmp(obd_msg, "ATRV", 4) == 0)
+            {
+               set_battery_voltage(obd_msg);
+            }
+            if (strncmp(obd_msg, "ATI", 3) == 0)
+            {
+               set_interface_information(obd_msg);
+            }
+         }
+      }
+   }
+   else
+   {
+      /* TODO: Invalid message, log an error. */
+      result = -1;
+   }
+
+   return(result);
+}
+
+/*
+***************************************************************************
+*
+* Author: Teunis van Beelen
+*
+* Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 Teunis van Beelen
+*
+* Email: teuniz@gmail.com
+*
+***************************************************************************
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+***************************************************************************
+*/
+
+
+/* Last revision: November 22, 2017 */
+
+/* For more info and how to use this library, visit: http://www.teuniz.net/RS-232/ */
+
+
+#include "rs232.h"
+
+
+#if defined(__linux__) || defined(__FreeBSD__)   /* Linux & FreeBSD */
+
+#define RS232_PORTNR  38
+
+
+int Cport[RS232_PORTNR],
+    error;
+
+struct termios new_port_settings,
+       old_port_settings[RS232_PORTNR];
+
+char *comports[RS232_PORTNR]={"/dev/ttyS0","/dev/ttyS1","/dev/ttyS2","/dev/ttyS3","/dev/ttyS4","/dev/ttyS5",
+                       "/dev/ttyS6","/dev/ttyS7","/dev/ttyS8","/dev/ttyS9","/dev/ttyS10","/dev/ttyS11",
+                       "/dev/ttyS12","/dev/ttyS13","/dev/ttyS14","/dev/ttyS15","/dev/ttyUSB0",
+                       "/dev/ttyUSB1","/dev/ttyUSB2","/dev/ttyUSB3","/dev/ttyUSB4","/dev/ttyUSB5",
+                       "/dev/ttyAMA0","/dev/ttyAMA1","/dev/ttyACM0","/dev/ttyACM1",
+                       "/dev/rfcomm0","/dev/rfcomm1","/dev/ircomm0","/dev/ircomm1",
+                       "/dev/cuau0","/dev/cuau1","/dev/cuau2","/dev/cuau3",
+                       "/dev/cuaU0","/dev/cuaU1","/dev/cuaU2","/dev/cuaU3"};
+
+int RS232_OpenComport(int comport_number, int baudrate, const char *mode)
+{
+  int baudr,
+      status;
+
+  if((comport_number>=RS232_PORTNR)||(comport_number<0))
+  {
+    printf("illegal comport number\n");
+    return(1);
+  }
+
+  switch(baudrate)
+  {
+    case      50 : baudr = B50;
+                   break;
+    case      75 : baudr = B75;
+                   break;
+    case     110 : baudr = B110;
+                   break;
+    case     134 : baudr = B134;
+                   break;
+    case     150 : baudr = B150;
+                   break;
+    case     200 : baudr = B200;
+                   break;
+    case     300 : baudr = B300;
+                   break;
+    case     600 : baudr = B600;
+                   break;
+    case    1200 : baudr = B1200;
+                   break;
+    case    1800 : baudr = B1800;
+                   break;
+    case    2400 : baudr = B2400;
+                   break;
+    case    4800 : baudr = B4800;
+                   break;
+    case    9600 : baudr = B9600;
+                   break;
+    case   19200 : baudr = B19200;
+                   break;
+    case   38400 : baudr = B38400;
+                   break;
+    case   57600 : baudr = B57600;
+                   break;
+    case  115200 : baudr = B115200;
+                   break;
+    case  230400 : baudr = B230400;
+                   break;
+    case  460800 : baudr = B460800;
+                   break;
+    case  500000 : baudr = B500000;
+                   break;
+    case  576000 : baudr = B576000;
+                   break;
+    case  921600 : baudr = B921600;
+                   break;
+    case 1000000 : baudr = B1000000;
+                   break;
+    case 1152000 : baudr = B1152000;
+                   break;
+    case 1500000 : baudr = B1500000;
+                   break;
+    case 2000000 : baudr = B2000000;
+                   break;
+    case 2500000 : baudr = B2500000;
+                   break;
+    case 3000000 : baudr = B3000000;
+                   break;
+    case 3500000 : baudr = B3500000;
+                   break;
+    case 4000000 : baudr = B4000000;
+                   break;
+    default      : printf("invalid baudrate\n");
+                   return(1);
+                   break;
+  }
+
+  int cbits=CS8,
+      cpar=0,
+      ipar=IGNPAR,
+      bstop=0;
+
+  if(strlen(mode) != 3)
+  {
+    printf("invalid mode \"%s\"\n", mode);
+    return(1);
+  }
+
+  switch(mode[0])
+  {
+    case '8': cbits = CS8;
+              break;
+    case '7': cbits = CS7;
+              break;
+    case '6': cbits = CS6;
+              break;
+    case '5': cbits = CS5;
+              break;
+    default : printf("invalid number of data-bits '%c'\n", mode[0]);
+              return(1);
+              break;
+  }
+
+  switch(mode[1])
+  {
+    case 'N':
+    case 'n': cpar = 0;
+              ipar = IGNPAR;
+              break;
+    case 'E':
+    case 'e': cpar = PARENB;
+              ipar = INPCK;
+              break;
+    case 'O':
+    case 'o': cpar = (PARENB | PARODD);
+              ipar = INPCK;
+              break;
+    default : printf("invalid parity '%c'\n", mode[1]);
+              return(1);
+              break;
+  }
+
+  switch(mode[2])
+  {
+    case '1': bstop = 0;
+              break;
+    case '2': bstop = CSTOPB;
+              break;
+    default : printf("invalid number of stop bits '%c'\n", mode[2]);
+              return(1);
+              break;
+  }
+
+/*
+http://pubs.opengroup.org/onlinepubs/7908799/xsh/termios.h.html
+
+http://man7.org/linux/man-pages/man3/termios.3.html
+*/
+
+  Cport[comport_number] = open(comports[comport_number], O_RDWR | O_NOCTTY | O_NDELAY);
+  if(Cport[comport_number]==-1)
+  {
+    perror("unable to open comport ");
+    return(1);
+  }
+
+  /* lock access so that another process can't also use the port */
+  if(flock(Cport[comport_number], LOCK_EX | LOCK_NB) != 0)
+  {
+    close(Cport[comport_number]);
+    perror("Another process has locked the comport.");
+    return(1);
+  }
+
+  error = tcgetattr(Cport[comport_number], old_port_settings + comport_number);
+  if(error==-1)
+  {
+    close(Cport[comport_number]);
+    flock(Cport[comport_number], LOCK_UN);  /* free the port so that others can use it. */
+    perror("unable to read portsettings ");
+    return(1);
+  }
+  memset(&new_port_settings, 0, sizeof(new_port_settings));  /* clear the new struct */
+
+  new_port_settings.c_cflag = cbits | cpar | bstop | CLOCAL | CREAD;
+  new_port_settings.c_iflag = ipar;
+  new_port_settings.c_oflag = 0;
+  new_port_settings.c_lflag = 0;
+  new_port_settings.c_cc[VMIN] = 0;      /* block untill n bytes are received */
+  new_port_settings.c_cc[VTIME] = 0;     /* block untill a timer expires (n * 100 mSec.) */
+
+  cfsetispeed(&new_port_settings, baudr);
+  cfsetospeed(&new_port_settings, baudr);
+
+  error = tcsetattr(Cport[comport_number], TCSANOW, &new_port_settings);
+  if(error==-1)
+  {
+    tcsetattr(Cport[comport_number], TCSANOW, old_port_settings + comport_number);
+    close(Cport[comport_number]);
+    flock(Cport[comport_number], LOCK_UN);  /* free the port so that others can use it. */
+    perror("unable to adjust portsettings ");
+    return(1);
+  }
+
+/* http://man7.org/linux/man-pages/man4/tty_ioctl.4.html */
+
+  if(ioctl(Cport[comport_number], TIOCMGET, &status) == -1)
+  {
+    tcsetattr(Cport[comport_number], TCSANOW, old_port_settings + comport_number);
+    flock(Cport[comport_number], LOCK_UN);  /* free the port so that others can use it. */
+    perror("unable to get portstatus");
+    return(1);
+  }
+
+  status |= TIOCM_DTR;    /* turn on DTR */
+  status |= TIOCM_RTS;    /* turn on RTS */
+
+  if(ioctl(Cport[comport_number], TIOCMSET, &status) == -1)
+  {
+    tcsetattr(Cport[comport_number], TCSANOW, old_port_settings + comport_number);
+    flock(Cport[comport_number], LOCK_UN);  /* free the port so that others can use it. */
+    perror("unable to set portstatus");
+    return(1);
+  }
+
+  return(0);
+}
+
+
+int RS232_PollComport(int comport_number, unsigned char *buf, int size)
+{
+  int n;
+
+  n = read(Cport[comport_number], buf, size);
+
+  if(n < 0)
+  {
+    if(errno == EAGAIN)  return 0;
+  }
+
+  return(n);
+}
+
+
+int RS232_SendByte(int comport_number, unsigned char byte)
+{
+  int n = write(Cport[comport_number], &byte, 1);
+  if(n < 0)
+  {
+    if(errno == EAGAIN)
+    {
+      return 0;
+    }
+    else
+    {
+      return 1;
+    }
+  }
+
+  return(0);
+}
+
+
+int RS232_SendBuf(int comport_number, unsigned char *buf, int size)
+{
+  int n = write(Cport[comport_number], buf, size);
+  if(n < 0)
+  {
+    if(errno == EAGAIN)
+    {
+      return 0;
+    }
+    else
+    {
+      return -1;
+    }
+  }
+
+  return(n);
+}
+
+
+void RS232_CloseComport(int comport_number)
+{
+  int status;
+
+  if(ioctl(Cport[comport_number], TIOCMGET, &status) == -1)
+  {
+    perror("unable to get portstatus");
+  }
+
+  status &= ~TIOCM_DTR;    /* turn off DTR */
+  status &= ~TIOCM_RTS;    /* turn off RTS */
+
+  if(ioctl(Cport[comport_number], TIOCMSET, &status) == -1)
+  {
+    perror("unable to set portstatus");
+  }
+
+  tcsetattr(Cport[comport_number], TCSANOW, old_port_settings + comport_number);
+  close(Cport[comport_number]);
+
+  flock(Cport[comport_number], LOCK_UN);  /* free the port so that others can use it. */
+}
+
+/*
+Constant  Description
+TIOCM_LE        DSR (data set ready/line enable)
+TIOCM_DTR       DTR (data terminal ready)
+TIOCM_RTS       RTS (request to send)
+TIOCM_ST        Secondary TXD (transmit)
+TIOCM_SR        Secondary RXD (receive)
+TIOCM_CTS       CTS (clear to send)
+TIOCM_CAR       DCD (data carrier detect)
+TIOCM_CD        see TIOCM_CAR
+TIOCM_RNG       RNG (ring)
+TIOCM_RI        see TIOCM_RNG
+TIOCM_DSR       DSR (data set ready)
+
+http://man7.org/linux/man-pages/man4/tty_ioctl.4.html
+*/
+
+int RS232_IsDCDEnabled(int comport_number)
+{
+  int status;
+
+  ioctl(Cport[comport_number], TIOCMGET, &status);
+
+  if(status&TIOCM_CAR) return(1);
+  else return(0);
+}
+
+
+int RS232_IsCTSEnabled(int comport_number)
+{
+  int status;
+
+  ioctl(Cport[comport_number], TIOCMGET, &status);
+
+  if(status&TIOCM_CTS) return(1);
+  else return(0);
+}
+
+
+int RS232_IsDSREnabled(int comport_number)
+{
+  int status;
+
+  ioctl(Cport[comport_number], TIOCMGET, &status);
+
+  if(status&TIOCM_DSR) return(1);
+  else return(0);
+}
+
+
+void RS232_enableDTR(int comport_number)
+{
+  int status;
+
+  if(ioctl(Cport[comport_number], TIOCMGET, &status) == -1)
+  {
+    perror("unable to get portstatus");
+  }
+
+  status |= TIOCM_DTR;    /* turn on DTR */
+
+  if(ioctl(Cport[comport_number], TIOCMSET, &status) == -1)
+  {
+    perror("unable to set portstatus");
+  }
+}
+
+
+void RS232_disableDTR(int comport_number)
+{
+  int status;
+
+  if(ioctl(Cport[comport_number], TIOCMGET, &status) == -1)
+  {
+    perror("unable to get portstatus");
+  }
+
+  status &= ~TIOCM_DTR;    /* turn off DTR */
+
+  if(ioctl(Cport[comport_number], TIOCMSET, &status) == -1)
+  {
+    perror("unable to set portstatus");
+  }
+}
+
+
+void RS232_enableRTS(int comport_number)
+{
+  int status;
+
+  if(ioctl(Cport[comport_number], TIOCMGET, &status) == -1)
+  {
+    perror("unable to get portstatus");
+  }
+
+  status |= TIOCM_RTS;    /* turn on RTS */
+
+  if(ioctl(Cport[comport_number], TIOCMSET, &status) == -1)
+  {
+    perror("unable to set portstatus");
+  }
+}
+
+
+void RS232_disableRTS(int comport_number)
+{
+  int status;
+
+  if(ioctl(Cport[comport_number], TIOCMGET, &status) == -1)
+  {
+    perror("unable to get portstatus");
+  }
+
+  status &= ~TIOCM_RTS;    /* turn off RTS */
+
+  if(ioctl(Cport[comport_number], TIOCMSET, &status) == -1)
+  {
+    perror("unable to set portstatus");
+  }
+}
+
+
+void RS232_flushRX(int comport_number)
+{
+  tcflush(Cport[comport_number], TCIFLUSH);
+}
+
+
+void RS232_flushTX(int comport_number)
+{
+  tcflush(Cport[comport_number], TCOFLUSH);
+}
+
+
+void RS232_flushRXTX(int comport_number)
+{
+  tcflush(Cport[comport_number], TCIOFLUSH);
+}
+
+
+#else  /* windows */
+
+#define RS232_PORTNR  16
+
+HANDLE Cport[RS232_PORTNR];
+
+
+char *comports[RS232_PORTNR]={"\\\\.\\COM1",  "\\\\.\\COM2",  "\\\\.\\COM3",  "\\\\.\\COM4",
+                              "\\\\.\\COM5",  "\\\\.\\COM6",  "\\\\.\\COM7",  "\\\\.\\COM8",
+                              "\\\\.\\COM9",  "\\\\.\\COM10", "\\\\.\\COM11", "\\\\.\\COM12",
+                              "\\\\.\\COM13", "\\\\.\\COM14", "\\\\.\\COM15", "\\\\.\\COM16"};
+
+char mode_str[128];
+
+
+int RS232_OpenComport(int comport_number, int baudrate, const char *mode)
+{
+  if((comport_number>=RS232_PORTNR)||(comport_number<0))
+  {
+    printf("illegal comport number\n");
+    return(1);
+  }
+
+  switch(baudrate)
+  {
+    case     110 : strcpy(mode_str, "baud=110");
+                   break;
+    case     300 : strcpy(mode_str, "baud=300");
+                   break;
+    case     600 : strcpy(mode_str, "baud=600");
+                   break;
+    case    1200 : strcpy(mode_str, "baud=1200");
+                   break;
+    case    2400 : strcpy(mode_str, "baud=2400");
+                   break;
+    case    4800 : strcpy(mode_str, "baud=4800");
+                   break;
+    case    9600 : strcpy(mode_str, "baud=9600");
+                   break;
+    case   19200 : strcpy(mode_str, "baud=19200");
+                   break;
+    case   38400 : strcpy(mode_str, "baud=38400");
+                   break;
+    case   57600 : strcpy(mode_str, "baud=57600");
+                   break;
+    case  115200 : strcpy(mode_str, "baud=115200");
+                   break;
+    case  128000 : strcpy(mode_str, "baud=128000");
+                   break;
+    case  256000 : strcpy(mode_str, "baud=256000");
+                   break;
+    case  500000 : strcpy(mode_str, "baud=500000");
+                   break;
+    case 1000000 : strcpy(mode_str, "baud=1000000");
+                   break;
+    default      : printf("invalid baudrate\n");
+                   return(1);
+                   break;
+  }
+
+  if(strlen(mode) != 3)
+  {
+    printf("invalid mode \"%s\"\n", mode);
+    return(1);
+  }
+
+  switch(mode[0])
+  {
+    case '8': strcat(mode_str, " data=8");
+              break;
+    case '7': strcat(mode_str, " data=7");
+              break;
+    case '6': strcat(mode_str, " data=6");
+              break;
+    case '5': strcat(mode_str, " data=5");
+              break;
+    default : printf("invalid number of data-bits '%c'\n", mode[0]);
+              return(1);
+              break;
+  }
+
+  switch(mode[1])
+  {
+    case 'N':
+    case 'n': strcat(mode_str, " parity=n");
+              break;
+    case 'E':
+    case 'e': strcat(mode_str, " parity=e");
+              break;
+    case 'O':
+    case 'o': strcat(mode_str, " parity=o");
+              break;
+    default : printf("invalid parity '%c'\n", mode[1]);
+              return(1);
+              break;
+  }
+
+  switch(mode[2])
+  {
+    case '1': strcat(mode_str, " stop=1");
+              break;
+    case '2': strcat(mode_str, " stop=2");
+              break;
+    default : printf("invalid number of stop bits '%c'\n", mode[2]);
+              return(1);
+              break;
+  }
+
+  strcat(mode_str, " dtr=on rts=on");
+
+/*
+http://msdn.microsoft.com/en-us/library/windows/desktop/aa363145%28v=vs.85%29.aspx
+
+http://technet.microsoft.com/en-us/library/cc732236.aspx
+*/
+
+  Cport[comport_number] = CreateFileA(comports[comport_number],
+                      GENERIC_READ|GENERIC_WRITE,
+                      0,                          /* no share  */
+                      NULL,                       /* no security */
+                      OPEN_EXISTING,
+                      0,                          /* no threads */
+                      NULL);                      /* no templates */
+
+  if(Cport[comport_number]==INVALID_HANDLE_VALUE)
+  {
+    printf("unable to open comport\n");
+    return(1);
+  }
+
+  DCB port_settings;
+  memset(&port_settings, 0, sizeof(port_settings));  /* clear the new struct  */
+  port_settings.DCBlength = sizeof(port_settings);
+
+  if(!BuildCommDCBA(mode_str, &port_settings))
+  {
+    printf("unable to set comport dcb settings\n");
+    CloseHandle(Cport[comport_number]);
+    return(1);
+  }
+
+  if(!SetCommState(Cport[comport_number], &port_settings))
+  {
+    printf("unable to set comport cfg settings\n");
+    CloseHandle(Cport[comport_number]);
+    return(1);
+  }
+
+  COMMTIMEOUTS Cptimeouts;
+
+  Cptimeouts.ReadIntervalTimeout         = MAXDWORD;
+  Cptimeouts.ReadTotalTimeoutMultiplier  = 0;
+  Cptimeouts.ReadTotalTimeoutConstant    = 0;
+  Cptimeouts.WriteTotalTimeoutMultiplier = 0;
+  Cptimeouts.WriteTotalTimeoutConstant   = 0;
+
+  if(!SetCommTimeouts(Cport[comport_number], &Cptimeouts))
+  {
+    printf("unable to set comport time-out settings\n");
+    CloseHandle(Cport[comport_number]);
+    return(1);
+  }
+
+  return(0);
+}
+
+
+int RS232_PollComport(int comport_number, unsigned char *buf, int size)
+{
+  int n;
+
+/* added the void pointer cast, otherwise gcc will complain about */
+/* "warning: dereferencing type-punned pointer will break strict aliasing rules" */
+
+  ReadFile(Cport[comport_number], buf, size, (LPDWORD)((void *)&n), NULL);
+
+  return(n);
+}
+
+
+int RS232_SendByte(int comport_number, unsigned char byte)
+{
+  int n;
+
+  WriteFile(Cport[comport_number], &byte, 1, (LPDWORD)((void *)&n), NULL);
+
+  if(n<0)  return(1);
+
+  return(0);
+}
+
+
+int RS232_SendBuf(int comport_number, unsigned char *buf, int size)
+{
+  int n;
+
+  if(WriteFile(Cport[comport_number], buf, size, (LPDWORD)((void *)&n), NULL))
+  {
+    return(n);
+  }
+
+  return(-1);
+}
+
+
+void RS232_CloseComport(int comport_number)
+{
+  CloseHandle(Cport[comport_number]);
+}
+
+/*
+http://msdn.microsoft.com/en-us/library/windows/desktop/aa363258%28v=vs.85%29.aspx
+*/
+
+int RS232_IsDCDEnabled(int comport_number)
+{
+  int status;
+
+  GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
+
+  if(status&MS_RLSD_ON) return(1);
+  else return(0);
+}
+
+
+int RS232_IsCTSEnabled(int comport_number)
+{
+  int status;
+
+  GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
+
+  if(status&MS_CTS_ON) return(1);
+  else return(0);
+}
+
+
+int RS232_IsDSREnabled(int comport_number)
+{
+  int status;
+
+  GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
+
+  if(status&MS_DSR_ON) return(1);
+  else return(0);
+}
+
+
+void RS232_enableDTR(int comport_number)
+{
+  EscapeCommFunction(Cport[comport_number], SETDTR);
+}
+
+
+void RS232_disableDTR(int comport_number)
+{
+  EscapeCommFunction(Cport[comport_number], CLRDTR);
+}
+
+
+void RS232_enableRTS(int comport_number)
+{
+  EscapeCommFunction(Cport[comport_number], SETRTS);
+}
+
+
+void RS232_disableRTS(int comport_number)
+{
+  EscapeCommFunction(Cport[comport_number], CLRRTS);
+}
+
+/*
+https://msdn.microsoft.com/en-us/library/windows/desktop/aa363428%28v=vs.85%29.aspx
+*/
+
+void RS232_flushRX(int comport_number)
+{
+  PurgeComm(Cport[comport_number], PURGE_RXCLEAR | PURGE_RXABORT);
+}
+
+
+void RS232_flushTX(int comport_number)
+{
+  PurgeComm(Cport[comport_number], PURGE_TXCLEAR | PURGE_TXABORT);
+}
+
+
+void RS232_flushRXTX(int comport_number)
+{
+  PurgeComm(Cport[comport_number], PURGE_RXCLEAR | PURGE_RXABORT);
+  PurgeComm(Cport[comport_number], PURGE_TXCLEAR | PURGE_TXABORT);
+}
+
+
+#endif
+
+
+void RS232_cputs(int comport_number, const char *text)  /* sends a string to serial port */
+{
+  while(*text != 0)   RS232_SendByte(comport_number, *(text++));
+}
+
+
+/* return index in comports matching to device name or -1 if not found */
+int RS232_GetPortnr(const char *devname)
+{
+  int i;
+
+  char str[32];
+
+#if defined(__linux__) || defined(__FreeBSD__)   /* Linux & FreeBSD */
+  strcpy(str, "/dev/");
+#else  /* windows */
+  strcpy(str, "\\\\.\\");
+#endif
+  strncat(str, devname, 16);
+  str[31] = 0;
+
+  for(i=0; i<RS232_PORTNR; i++)
+  {
+    if(!strcmp(comports[i], str))
+    {
+      return i;
+    }
+  }
+
+  return -1;  /* device not found */
+}
+
+
+
+
+
+
+
+
+
+
+
+/* 
+   sockets.c
+   
+   Project: OBD-II Monitor (On-Board Diagnostics)
+
+   Author: Derek Chadwick
+
+   Description: UDP server and client functions. 
+
+
+   Date: 18/12/2017
+   
+*/
+
+#include "obd_monitor.h"
+#include "protocols.h"
+
+int sock;
+unsigned int length;
+struct sockaddr_in obd_server, from;
+struct hostent *hp;
+int ecu_connected;
+int ecu_auto_connect;
+
+int init_server_comms(char *server, char *port)
+{
+   sock = socket(AF_INET, SOCK_DGRAM, 0);
+   if (sock < 0) 
+      printf("init_server_comms() <ERROR>: socket creation failed.\n");
+
+   obd_server.sin_family = AF_INET;
+   hp = gethostbyname(server);
+   if (hp == 0) 
+      printf("init_server_comms() <ERROR>: Unknown host -> %s.\n", server);
+
+   bcopy((char *)hp->h_addr, (char *)&obd_server.sin_addr, hp->h_length);
+   obd_server.sin_port = htons(atoi(port));
+   length = sizeof(struct sockaddr_in);
+
+   return(sock);
+}
+
+int send_ecu_msg(char *query)
+{
+   char buffer[256];
+   int n;
+
+   memset(buffer,0,256);
+   sprintf(buffer,"%s",query);
+
+   n = sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&obd_server,length);
+   if (n < 0) 
+   {
+      printf("send_ecu_msg() <ERROR>: Sendto failed.\n");
+   }
+   else
+   {  
+      /* TODO: Write message to log file. */
+      /* printf("send_ecu_msg() - SENT ECU Message: %s", buffer); */
+   }
+   
+   return n;
+}
+
+int recv_ecu_msg()
+{
+   char buffer[256];
+   int n;
+
+   memset(buffer,0,256);
+
+   n = recvfrom(sock,buffer,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
+   /* We are not blocking on recv now. */
+   if (n > 0)
+   {
+      /* printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); */
+      if (parse_obd_msg(buffer) > 0)
+      {
+         /* TODO: Write message to text view widget and log file. */
+         update_comms_log_view(buffer);
+      }
+   }
+
+   return(n);
+}
+
+
+int init_obd_comms(char *obd_msg)
+{
+   int n;
+   char buffer[256];
+
+   n = sendto(sock,obd_msg,strlen(obd_msg),0,(const struct sockaddr *)&obd_server,length);
+
+   if (n < 0) 
+   {
+      printf("init_obd_comms() - <ERROR>: Sendto failed.\n");
+   }
+   else
+   {
+      printf("init_obd_comms() - SENT OBD Message: %s", obd_msg);
+   }
+   
+   usleep(OBD_WAIT_TIMEOUT);
+
+   memset(buffer,0,256);
+
+   n = recvfrom(sock,buffer,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
+   
+   if (n > 0)
+   {
+      printf("init_obd_comms() - RECV OBD Message: %s", buffer);  
+      update_comms_log_view(buffer);
+      parse_obd_msg(buffer); /* TODO: write log message. */
+   }
+   
+   return(n);
+}
+
+
+void auto_connect()
+{
+   int result;
+   
+   /* First set up UDP communication with the server process
+      and check connection to the OBD interface. */
+   result = init_server_comms("127.0.0.1", "8989");
+   if (result < 0)
+   {
+      printf("auto_connect() <ERROR>: Failed to connect to OBD server.\n");
+   }
+   else
+   {
+      result = init_obd_comms("ATI\n");
+      if (result <= 0)
+      {
+         printf("auto_connect() <ERROR>: Failed to connect to OBD interface.\n");
+      }
+      else
+      {
+         ecu_connected = 1;
+         send_ecu_msg("ATRV\n");
+      }
+   }
+   
+   return;
+}
+
+int get_ecu_connected()
+{
+   return(ecu_connected);
+}
+
+void set_ecu_connected(int cstatus)
+{
+   ecu_connected = cstatus;
+   return;
+}
+/*
+   util.c
+
+   Project: OBD-II Monitor
+   Author : Derek Chadwick 18910502
+   Date   : 24/09/2017
+  
+   Purpose: Wrapper functions for various standard C lib functions to
+            make them safer!!!.
+   
+*/
+
+
+#include "obd_monitor.h"
+
+/* Redefine malloc with a fatal exit. */
+void *xmalloc (size_t size)
+{
+   register void *value = malloc (size);
+   if (value == 0)
+   {
+      xfatal("xmalloc() <FATAL> Virtual Memory Exhausted!!!");
+   }
+   return value;
+}
+
+/* Redefine calloc with a fatal exit. */
+void *xcalloc (size_t size)
+{
+   register void *value = calloc (size, 1);
+   if (value == 0)
+   {
+      xfatal("xmalloc() <FATAL> Virtual Memory Exhausted!!!");
+   }
+   return value;
+}
+
+/* Redefine realloc with a fatal exit. */
+void *xrealloc (void *ptr, size_t size)
+{
+   register void *value = realloc (ptr, size);
+   if (value == 0)
+   {
+      xfatal ("xmalloc() <FATAL> Virtual Memory Exhausted");
+   }
+   return value;
+}
+
+/* Redefine free with buffer zeroing. */
+int xfree(char *buf, int len)
+{
+   memset(buf, 0, len);
+   free(buf);
+   return(0);
+}
+
+/* Bail Out */
+int xfatal(char *str)
+{
+   printf("%s\n", str);
+   exit(1);
+}
+
+/* help */
+int print_help()
+{
+   printf("\nOBD Monitor Version 1.0\n\n");
+   printf("Command: obd_gui <options>\n\n");
+   printf("Log Filename     : -l log.txt\n");
+   printf("Server UDP Port  : -p 8989\n");
+   printf("Server IP Address: -s 127.0.0.1 \n");
+   printf("\n");
+
+   return(0);
+}
+
+/**
+ * Modified version of char* style "itoa" with buffer length check.
+ * (Kernighan and Ritchie)
+ */
+char *xitoa(int value, char* result, int len, int base) 
+{
+
+   if (base < 2 || base > 36) { *result = '\0'; return result; }
+	
+   char* ptr = result, *ptr1 = result, tmp_char;
+   int tmp_value;
+   int i = 0;
+	
+   do {
+         tmp_value = value;
+         value /= base;
+         *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+      i++;
+   } while ((i < len) && value );
+
+   if (tmp_value < 0) *ptr++ = '-';
+   *ptr-- = '\0';
+   while(ptr1 < ptr) {
+      tmp_char = *ptr;
+      *ptr--= *ptr1;
+      *ptr1++ = tmp_char;
+   }
+   return result;
+}
+
+

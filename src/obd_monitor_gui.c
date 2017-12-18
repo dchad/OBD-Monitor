@@ -17,6 +17,7 @@
 #include <math.h>
 #include "obd_monitor.h"
 #include "protocols.h"
+#include "gui_dialogs.h"
 
 /* Constant Definitions. */
 
@@ -31,21 +32,6 @@
 #define MAP_SCALE_FACTOR 1.217   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
 #define FUEL_FLOW_SCALE_FACTOR 0.783 /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
 #define GAUGE_ARC_LENGTH 209.5 /* Cairo user space dial arc length for 200 x 150 drawing area. */
-
-/* Buffers for Engine Control Unit messages. */
-char ECU_PID_Request[256];
-char ECU_PID_Reply[256];
-
-/* Buffers for OBD Interface messages. */
-char ODB_Request[256];
-char OBD_Reply[256];
-
-/* Status, error and warning message buffers. */
-char current_info_msg[256];
-char current_error_msg[256];
-char current_status_msg[256];
-char current_warning_msg[256];
-char current_question_msg[256];
 
 /* Current time string. */
 char time_buffer[256];
@@ -110,21 +96,6 @@ void print_msg(GtkWidget *widget, gpointer window)
    return;
 }
 
-
-void send_custom_pid_query(GtkWidget *widget, gpointer window) 
-{
-   char buffer[256];
-   /* TODO: this is for custom PID dialog box send button. */
-   memset(buffer, 0, 256);
-   memset(ECU_PID_Request, 0, 16);
-   sprintf(ECU_PID_Request,"0100");
-   send_ecu_msg(ECU_PID_Request);
-   usleep(OBD_WAIT_TIMEOUT);
-   recv_ecu_msg(buffer);
-
-   return;
-}
-
 gint send_obd_message_60sec_callback (gpointer data)
 {
    send_ecu_msg("ATRV\n"); /* Battery Voltage */
@@ -183,23 +154,22 @@ void ecu_connect(GtkWidget *widget, gpointer window)
       return;
    }
    
-   memset(current_error_msg, 0, 256);
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
    result = init_server_comms("127.0.0.1", "8989");
    if (result < 0)
    {
       /* Pop up an error dialog. */
-      strncpy(current_error_msg, "ecu_connect() <ERROR>: Failed to connect to OBD server.\n", 40);
-      show_error_msg(widget, window);
+      set_error_msg("ecu_connect() <ERROR>: Failed to connect to OBD server.\n");
+      show_error_dialog(widget, window);
    }
    else
    {
       result = init_obd_comms("ATI");
       if (result <= 0)
       {
-         strncpy(current_error_msg, "ecu_connect() <ERROR>: Failed to connect to OBD interface.\n", 43);
-         show_error_msg(widget, window);
+         set_error_msg("ecu_connect() <ERROR>: Failed to connect to OBD interface.\n");
+         show_error_dialog(widget, window);
       }
       else
       {
@@ -712,8 +682,6 @@ static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    double cpx;
    double cpy;
    
-   printf("draw_oil_temp(): %f\n", get_oil_temperature());
-   
    /* Draw gauge background and arc. */
    draw_dial_background(cr, 190, 140);
    
@@ -834,8 +802,6 @@ static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpoint
    char gauge_numerals[16];
    double cpx;
    double cpy;
-   
-   printf("draw_fuel_tank_level(): %f\n", get_fuel_tank_level());
    
    /* Draw gauge background and arc. */
    draw_dial_background(cr, 190, 140);
@@ -975,88 +941,7 @@ static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpoint
    return FALSE;
 }
 
-void show_info(GtkWidget *widget, gpointer window) 
-{
-    
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-            GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_MESSAGE_INFO,
-            GTK_BUTTONS_OK,
-            "%s",
-            current_info_msg);
-  gtk_window_set_title(GTK_WINDOW(dialog), "Information");
-  gtk_dialog_run(GTK_DIALOG(dialog));
-  gtk_widget_destroy(dialog);
 
-  return;
-}
-
-void show_error_msg(GtkWidget *widget, gpointer window) 
-{
-    
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-            GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_MESSAGE_ERROR,
-            GTK_BUTTONS_OK,
-            "%s", 
-            current_error_msg);
-  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
-  gtk_dialog_run(GTK_DIALOG(dialog));
-  gtk_widget_destroy(dialog);
-
-  return;
-}
-
-void show_error(GtkWidget *widget, gpointer window) 
-{
-    
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-            GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_MESSAGE_ERROR,
-            GTK_BUTTONS_OK,
-            "Error loading file");
-  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
-  gtk_dialog_run(GTK_DIALOG(dialog));
-  gtk_widget_destroy(dialog);
-
-  return;
-}
-
-void show_question(GtkWidget *widget, gpointer window) 
-{
-    
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-            GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_MESSAGE_QUESTION,
-            GTK_BUTTONS_YES_NO,
-            "Are you sure to quit?");
-  gtk_window_set_title(GTK_WINDOW(dialog), "Question");
-  gtk_dialog_run(GTK_DIALOG(dialog));
-  gtk_widget_destroy(dialog);
-
-  return;
-}
-
-void show_warning(GtkWidget *widget, gpointer window) 
-{
-    
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-            GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_MESSAGE_WARNING,
-            GTK_BUTTONS_OK,
-            "%s",
-            current_warning_msg);
-  gtk_window_set_title(GTK_WINDOW(dialog), "Warning");
-  gtk_dialog_run(GTK_DIALOG(dialog));
-  gtk_widget_destroy(dialog);
-
-  return;
-}
 
 int main(int argc, char *argv[]) 
 {
@@ -1179,23 +1064,23 @@ int main(int argc, char *argv[])
 
    /* Set up the buttons. */
    dtc_button = gtk_button_new_with_mnemonic("_DTC Lookup");
-   g_signal_connect(dtc_button, "clicked", G_CALLBACK(show_info), NULL); 
+   g_signal_connect(dtc_button, "clicked", G_CALLBACK(show_info_dialog), NULL); 
    gtk_widget_set_tooltip_text(dtc_button, "Button widget");
 
    iat_button = gtk_button_new_with_mnemonic("_IAT");
-   g_signal_connect(iat_button, "clicked", G_CALLBACK(show_error), NULL); 
+   g_signal_connect(iat_button, "clicked", G_CALLBACK(show_error_dialog), NULL); 
    gtk_widget_set_tooltip_text(iat_button, "Button widget");
 
    map_button = gtk_button_new_with_mnemonic("_MAP");
-   g_signal_connect(map_button, "clicked", G_CALLBACK(show_warning), NULL); 
+   g_signal_connect(map_button, "clicked", G_CALLBACK(show_warning_dialog), NULL); 
    gtk_widget_set_tooltip_text(map_button, "Button widget");
 
    egr_button = gtk_button_new_with_mnemonic("_TEG");
-   g_signal_connect(egr_button, "clicked", G_CALLBACK(show_question), NULL); 
+   g_signal_connect(egr_button, "clicked", G_CALLBACK(show_question_dialog), NULL); 
    gtk_widget_set_tooltip_text(egr_button, "Button widget");
 
    pid_button = gtk_button_new_with_mnemonic("_PID Lookup");
-   g_signal_connect(pid_button, "clicked", G_CALLBACK(show_question), NULL); 
+   g_signal_connect(pid_button, "clicked", G_CALLBACK(show_question_dialog), NULL); 
    gtk_widget_set_tooltip_text(pid_button, "Button widget");
 
    ecu_request_button = gtk_button_new_with_mnemonic("ECU _Request");

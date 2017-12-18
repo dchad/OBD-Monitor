@@ -354,7 +354,6 @@ void set_fuel_tank_level(char *ftl_msg)
    {
       printf("Fuel Tank Level Msg: %d %d %d\n", pmode, pid, pa); 
       ecup.ecu_fuel_tank_level = ((float)pa * 0.392);
-      printf("Fuel Tank Level: %f\n", ecup.ecu_fuel_tank_level); 
    }
    else
    {
@@ -378,7 +377,6 @@ void set_fuel_flow_rate(char *ffr_msg)
    {
       printf("Fuel Flow Rate Msg: %d %d %d %d\n", pmode, pid, pa, pb); 
       ecup.ecu_fuel_flow_rate = ((256.0 * (double)pa) + (double)pb) / 20.0;
-      printf("Fuel Flow Rate: %f\n", ecup.ecu_fuel_flow_rate); 
    }
    else
    {
@@ -401,8 +399,7 @@ void set_fuel_pressure(char *fp_msg)
    if (sscanf(fp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       printf("Fuel Pressure Msg: %d %d %d\n", pmode, pid, pa); 
-      ecup.ecu_fuel_pressure = (double)pa * 3.0;
-      printf("Fuel Pressure: %f\n", ecup.ecu_fuel_pressure); 
+      ecup.ecu_fuel_pressure = (double)pa * 3.0; 
    }
    else
    {
