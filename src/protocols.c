@@ -305,20 +305,10 @@ double get_oil_temperature()
 
 void set_oil_pressure(char *oilp_msg)
 {
-
+   return;
 }
 
 double get_oil_pressure()
-{
-   return(0);
-}
-
-void set_supported_pid_list_1_32(char *pid_msg)
-{
-
-}
-
-double gset_supported_pid_list_1_32()
 {
    return(0);
 }
@@ -437,6 +427,36 @@ double get_accelerator_position()
    return(ecup.ecu_accelerator_position);
 }
 
+void set_mode_1_supported_pid_list_1_32(char *pid_msg)
+{
+   return;
+}
+
+double get_mode_1_supported_pid_list_1_32()
+{
+   return(0);
+}
+
+
+void set_mode_9_supported_pid_list_1_32(char *pid_msg)
+{
+   return;
+}
+
+double get_mode_9_supported_pid_list_1_32()
+{
+   return(0);
+}
+
+void set_vehicle_vin(char *obd_msg)
+{
+   return;
+}
+
+void set_dtc_count(char *obd_msg)
+{
+   return;
+}
 
 void parse_mode_01_msg(char *obd_msg)
 {
@@ -451,7 +471,8 @@ void parse_mode_01_msg(char *obd_msg)
    {
       switch(pid)
       {
-         case 0: set_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
+         case 0: set_mode_1_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
+         case 1: set_dtc_count(obd_msg);
          case 5: set_coolant_temperature(obd_msg); break; /*  */
          case 10: set_fuel_pressure(obd_msg); break;
          case 11: set_manifold_pressure(obd_msg); break; /* Throttle Position. */
@@ -484,7 +505,22 @@ void parse_mode_03_msg(char *obd_msg)
 
 void parse_mode_09_msg(char *obd_msg)
 {
-   /* Decode ECU information message. */
+   /* Decode ECU Mode 09 parameter message. */
+   unsigned int pmode, pid;
+   char header[16];
+   
+   memset(header, 0, 16);
+   strncpy(header, obd_msg, 5);
+   
+   if (sscanf(header, "%x %x", &pmode, &pid) == 2)
+   {
+      switch(pid)
+      {
+         case 0: set_mode_9_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
+         case 2: set_vehicle_vin(obd_msg);
+      }
+   }
+   return;
 }
 
 
