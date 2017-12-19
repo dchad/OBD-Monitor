@@ -1,0 +1,40 @@
+# OBD Monitor Config File.
+# Lines starting with a # are comments.
+# Lines starting with UDP, LOG, OBD, RS232, PID, DTC or ECU are configuration items.
+
+UDP Server Port 8989
+UDP Server IP 127.0.0.1
+
+LOG Server obd_server_log.txt
+LOG GUI obd_gui_log.txt
+
+# OBD-II Protocols.
+
+OBD 0 - Automatic OBD-II Protocol Search
+OBD 1 - SAE J1850 PWM (41.6 kbaud)(Ford)
+OBD 2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)
+OBD 3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)
+OBD 4 - ISO 14230-4 KWP2000 (5-baud init.)
+OBD 5 - IS0 14230-4 KWP2000 (Fast init.)
+OBD 6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)
+OBD 7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)
+OBD 8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)
+OBD 9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)
+OBD A - SAE J1939 CAN (29 bit ID, 250 kbaud)
+OBD B - USER1 CAN (11 bit ID, 125 kbaud)
+OBD C - USER2 CAN (11 bit ID, 50 kbaud)
+
+# RS232 Serial Configuration.
+
+RS232 DATA BITS 8
+RS232 STOP BITS 1
+RS232 PARITY BITS 0
+RS232 BAUD RATE 9200
+RS232 INTERFACE ttyUSB0
+
+
+# Custom PID List.
+
+
+# Diagnostic Trouble Codes.
+
