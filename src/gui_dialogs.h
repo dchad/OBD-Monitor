@@ -14,6 +14,9 @@
    
 */
 
+#ifndef OBD_DIALOGS_INCLUDED
+#define OBD_DIALOGS_INCLUDED
+
 void init_dialogs();
 void open_custom_pid_dialog();
 void send_custom_pid_query(GtkWidget *widget, gpointer window);
@@ -31,5 +34,7 @@ void set_error_msg(char *msg);
 void set_status_msg(char *msg);
 void set_warning_msg(char *msg);
 void set_question_msg(char *msg);
+
+#endif
 
 

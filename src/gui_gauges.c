@@ -33,7 +33,9 @@
 #define GAUGE_ARC_LENGTH 209.5 /* Cairo user space dial arc length for 200 x 150 drawing area. */
 
 
-static void draw_dial_background(cairo_t *cr, double width, double height)
+/* Guage Draw Callbacks. */
+
+void draw_dial_background(cairo_t *cr, double width, double height)
 {
    /* */
    double x         = 5.0,                /* parameters like cairo_rectangle */
@@ -62,7 +64,7 @@ static void draw_dial_background(cairo_t *cr, double width, double height)
    return;
 }
 
-static void draw_dial_tick_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle)
+void draw_dial_tick_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle)
 {
    /* Draw the gauge and needle */
    
@@ -144,7 +146,7 @@ static void draw_dial_tick_gauge(cairo_t *cr, double width, double height, doubl
    return;
 }
 
-static void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *gauge_units)
+void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *gauge_units)
 {
    cairo_text_extents_t ctext;
    double xc;
@@ -195,7 +197,7 @@ static void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals,
 }
 
 
-static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -276,7 +278,7 @@ static gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
 }
 
 
-static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -317,7 +319,7 @@ static gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    return TRUE;
 }
 
-static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -357,7 +359,7 @@ static gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -396,7 +398,7 @@ static gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -436,7 +438,7 @@ static gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -475,7 +477,7 @@ static gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -515,7 +517,7 @@ static gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer 
 }
 
 
-static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -555,7 +557,7 @@ static gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    return FALSE;
 }
 
-static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -595,7 +597,7 @@ static gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer use
    return FALSE;
 }
 
-static gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -636,7 +638,7 @@ static gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer
    return FALSE;
 }
 
-static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;
    double yc = 75.0;
@@ -676,7 +678,7 @@ static gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpoint
    return FALSE;
 }
 
-static void draw_large_dial_background(cairo_t *cr)
+void draw_large_dial_background(cairo_t *cr)
 {
    /* a custom shape that could be wrapped in a function */
    double x         = 5.0,                /* parameters like cairo_rectangle */
@@ -705,7 +707,7 @@ static void draw_large_dial_background(cairo_t *cr)
    return;
 }
 
-static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    cairo_text_extents_t ctext;
    
@@ -722,7 +724,7 @@ static gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    cairo_text_extents_t ctext;
    
@@ -738,7 +740,7 @@ static gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data
    return FALSE;
 }
 
-static void draw_small_dial_background(cairo_t *cr)
+void draw_small_dial_background(cairo_t *cr)
 {
    /* a custom shape that could be wrapped in a function */
    double x         = 5.0,                /* parameters like cairo_rectangle */
@@ -767,7 +769,7 @@ static void draw_small_dial_background(cairo_t *cr)
    return;
 }
 
-static gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 10.0;
    double yc = 25.0;

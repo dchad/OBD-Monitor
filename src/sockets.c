@@ -118,7 +118,7 @@ int init_obd_comms(char *obd_msg)
 }
 
 
-void auto_connect()
+int ecu_connect()
 {
    int result;
    
@@ -143,7 +143,7 @@ void auto_connect()
       }
    }
    
-   return;
+   return(result);
 }
 
 int get_ecu_connected()

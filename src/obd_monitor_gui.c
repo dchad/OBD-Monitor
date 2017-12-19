@@ -20,19 +20,6 @@
 #include "gui_dialogs.h"
 #include "gui_gauges.h"
 
-/* Constant Definitions. */
-
-#define DIAL_X_CENTER 100.0
-#define DIAL_Y_CENTER 75.0
-#define GAUGE_RADIUS 50.0
-#define GAUGE_START_ANGLE 0.167 * NUM_PI /* 30 degrees */
-#define GAUGE_END_ANGLE -1.167 * NUM_PI  /* 210 degrees */
-#define RPM_SCALE_FACTOR 38.2    /* 8000 / (radius * 2 * PI * ((30 + 210) / 360)) = 8000 / 209.5 */
-#define IAT_SCALE_FACTOR 0.764   /* 160 / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 */
-#define ECT_SCALE_FACTOR 0.764   /* 160C / (radius * (1.167 * PI + 0.167 * PI)) = 160 / 209.5 = 0.764 */
-#define MAP_SCALE_FACTOR 1.217   /* 255 / (radius * (1.167 * PI + 0.167 * PI)) = 255 / 209.5 = 1.217 */
-#define FUEL_FLOW_SCALE_FACTOR 0.783 /* 164.0 / (radius * (1.167 * PI + 0.167 * PI)) */
-#define GAUGE_ARC_LENGTH 209.5 /* Cairo user space dial arc length for 200 x 150 drawing area. */
 
 /* Current time string. */
 char time_buffer[256];
@@ -40,12 +27,6 @@ char time_buffer[256];
 /* Communications log display area. */
 GtkTextBuffer *text_buffer;
 GtkTextIter text_iter;
-
-/* Function declarations. */
-void show_error_msg(GtkWidget *widget, gpointer window);
-
-
-
 
 /* ----------------------- */
 /* GUI callback functions. */
@@ -58,8 +39,6 @@ void update_comms_log_view(char *msg)
    
    return;
 }
-
-
 
 void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
 {
@@ -146,7 +125,7 @@ gint recv_obd_message_callback (gpointer data)
    return(TRUE);
 }
 
-void ecu_connect(GtkWidget *widget, gpointer window) 
+void ecu_connect_callback(GtkWidget *widget, gpointer window) 
 {
    int result;
 
@@ -154,31 +133,16 @@ void ecu_connect(GtkWidget *widget, gpointer window)
    {
       return;
    }
-   
-   /* First set up UDP communication with the server process
-      and check connection to the OBD interface. */
-   result = init_server_comms("127.0.0.1", "8989");
-   if (result < 0)
+   if (ecu_connect() > 0)
    {
-      /* Pop up an error dialog. */
-      set_error_msg("ecu_connect() <ERROR>: Failed to connect to OBD server.\n");
-      show_error_dialog(widget, window);
+      set_ecu_connected(1); /* Start PID comms with server process. */
+      g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+      g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
    }
    else
    {
-      result = init_obd_comms("ATI");
-      if (result <= 0)
-      {
-         set_error_msg("ecu_connect() <ERROR>: Failed to connect to OBD interface.\n");
-         show_error_dialog(widget, window);
-      }
-      else
-      {
-         set_ecu_connected(1); /* Start PID comms with server process. */
-         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
-         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
-      }
+      /* TODO: popup error dialog. */
    }
 
    return;
@@ -335,7 +299,7 @@ int main(int argc, char *argv[])
    gtk_widget_set_tooltip_text(ecu_request_button, "Button widget");
 
    ecu_connect_button = gtk_button_new_with_mnemonic("_ECU Connect");
-   g_signal_connect(ecu_connect_button, "clicked", G_CALLBACK(ecu_connect), NULL); 
+   g_signal_connect(ecu_connect_button, "clicked", G_CALLBACK(ecu_connect_callback), NULL); 
    gtk_widget_set_tooltip_text(ecu_connect_button, "Button widget");
 
 
@@ -485,7 +449,7 @@ int main(int argc, char *argv[])
    int ecu_auto_connect = 1; /* TODO: add to configuration options. */
    if (ecu_auto_connect == 1) 
    {
-      auto_connect();
+      ecu_connect(); /* Protocol Module Connect Function. */
       /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
       g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
       g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);

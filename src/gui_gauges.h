@@ -12,11 +12,10 @@
    
 */
 
+#ifndef OBD_GAUGES_INCLUDED
+#define OBD_GAUGES_INCLUDED
 
 #include <gtk/gtk.h>
-#include <math.h>
-#include "obd_monitor.h"
-#include "protocols.h"
 
 gboolean draw_rpm_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 gboolean draw_speed_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
@@ -41,4 +40,7 @@ void draw_small_dial_background(cairo_t *cr);
 void draw_large_dial_background(cairo_t *cr);
 void draw_dial_background(cairo_t *cr, double width, double height);
 void draw_dial_tick_gauge(cairo_t *cr, double width, double height, double lower, double upper, double radius, double angle);
+
+
+#endif
 

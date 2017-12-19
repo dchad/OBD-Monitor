@@ -48,6 +48,9 @@
    
 */
 
+#ifndef OBD_PROTOCOLS_INCLUDED
+#define OBD_PROTOCOLS_INCLUDED
+
 /* Constant Definitions. */
 
 #define ECU_ECT_TEMPERATURE_MAX 215.0
@@ -149,4 +152,7 @@ double get_timing_advance();
 
 /* Message Parsers. */
 int parse_obd_msg(char *obd_msg);
+
+
+#endif
 

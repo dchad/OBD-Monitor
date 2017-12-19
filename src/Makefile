@@ -11,7 +11,7 @@ LIBDIRS=-L../../libs
 
 # Sources
 
-GUI_SOURCES=obd_monitor_gui.c protocols.c sockets.c gui_dialogs.c log.c util.c
+GUI_SOURCES=obd_monitor_gui.c protocols.c sockets.c gui_dialogs.c gui_gauges.c log.c util.c
 SERVER_SOURCES=obd_monitor_server.c rs232.c log.c util.c
 SIMULATOR_SOURCES=ecu_simulator.c rs232.c log.c util.c
 
@@ -19,6 +19,8 @@ SIMULATOR_SOURCES=ecu_simulator.c rs232.c log.c util.c
 
 GUI_EXECUTABLE=obd_gui
 SERVER_EXECUTABLE=obd_server
+SIMULATOR_EXECUTABLE=ecu_sim
+UNIT_TEST_EXECUTABLE=unit_test
 
 # Includes
 
@@ -36,10 +38,10 @@ server: obd_monitor_server.c obd_monitor.h
 	$(CC) $(CFLAGS) $(SERVER_SOURCES) -o $(SERVER_EXECUTABLE)
 
 simulator: ecu_simulator.c obd_monitor.h
-	$(CC) $(CFLAGS) $(SIMULATOR_SOURCES) -o ecu_sim
+	$(CC) $(CFLAGS) $(SIMULATOR_SOURCES) -o $(SIMULATOR_EXECUTABLE)
    
 strip:
 	strip $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE)
 
 clean:
-	rm *.o $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE) ecu_sim
+	rm *.o $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE) $(SIMULATOR_EXECUTABLE)

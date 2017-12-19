@@ -21,6 +21,9 @@
    
 */
 
+#ifndef OBD_MONITOR_INCLUDED
+#define OBD_MONITOR_INCLUDED
+
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -85,12 +88,12 @@ int init_server_comms(char *server, char *port);
 int send_ecu_msg(char *query);
 int recv_ecu_msg();
 int init_obd_comms(char *obd_msg);
-void auto_connect();
+int ecu_connect();
 int get_ecu_connected();
 
 
 /* Unit Test Functions */
 int unit_tests(FILE *log_file);
 
-
+#endif
 
