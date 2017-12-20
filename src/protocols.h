@@ -64,6 +64,14 @@
 #define ECU_MAP_PRESSURE_MAX 255.0
 #define ECU_MAP_PRESSURE_MIN 0.0
 
+/* OBD Message Types. */
+#define OBD_MSG_MODE01_PARAMETER 1
+#define OBD_MSG_VOLTAGE 2
+#define OBD_MSG_INTERFACE 3
+#define OBD_MSG_PROTOCOL 4
+#define OBD_MSG_MODE03_PARAMETER 5
+#define OBD_MSG_MODE09_PARAMETER 6
+
 /* Type Definitions. */
 
 struct _ECU_Parameters {
@@ -108,6 +116,12 @@ typedef struct _OBD_Interface OBD_Interface;
 void set_interface_on();
 void set_interface_off();
 int get_interface_status();
+void set_obd_protocol_number(int obdpnum);
+int get_obd_protocol_number();
+void set_obd_protocol_name(char *obdname);
+void get_obd_protocol_name(char *info);
+void set_interface_information(char *ii_msg);
+void get_interface_information(char *info);
 
 /* ECU Parameter Get/Set Functions. */
 

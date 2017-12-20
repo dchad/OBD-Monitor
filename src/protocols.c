@@ -60,6 +60,24 @@ OBD_Interface obd_interface;
 /* ECU Parameters. */
 ECU_Parameters ecup;
 
+const char *OBD_Protocol_List[] = {
+"OBD 0 - Automatic OBD-II Protocol Search",
+"OBD 1 - SAE J1850 PWM (41.6 kbaud)(Ford)",
+"OBD 2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)",
+"OBD 3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)",
+"OBD 4 - ISO 14230-4 KWP2000 (5-baud init.)",
+"OBD 5 - IS0 14230-4 KWP2000 (Fast init.)",
+"OBD 6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)",
+"OBD 7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)",
+"OBD 8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)",
+"OBD 9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)",
+"OBD A - SAE J1939 CAN (29 bit ID, 250 kbaud)",
+"OBD B - USER1 CAN (11 bit ID, 125 kbaud)",
+"OBD C - USER2 CAN (11 bit ID, 50 kbaud)"
+};
+
+
+/* OBD Interface Parameters Get/Set Functions. */ 
 void set_interface_on()
 {
    /* Interface is ready to receive messages. */
@@ -80,6 +98,20 @@ int get_interface_status()
 {
    return(obd_interface.obd_interface_status);
 }
+
+void set_obd_protocol_number(int obdpnum)
+{
+   obd_interface.obd_protocol_number = obdpnum;
+   
+   return;
+}
+
+int get_obd_protocol_number()
+{
+   return(obd_interface.obd_protocol_number);
+}
+
+/* ECU Parameters set/get functions. */
 
 void set_ecu_parameters(ECU_Parameters *ecupin)
 {
@@ -225,8 +257,42 @@ void set_interface_information(char *ii_msg)
 void get_interface_information(char *info)
 {
    strncpy(info, obd_interface.obd_interface_name, strlen(obd_interface.obd_interface_name));
+   
    return;
 }
+
+void set_obd_protocol_name(char *obd_protocol)
+{
+   memset(obd_interface.obd_protocol_name, 0, 256);
+   if (sscanf(obd_protocol, "ATDP %s", obd_interface.obd_protocol_name) == 1)
+   {
+      print_log_entry(obd_protocol);
+   }
+   else if (sscanf(obd_protocol, "ATTP %x", &obd_interface.obd_protocol_number) == 1)
+   {
+      /* TODO: set protocol name from list, see simulator code. */
+      print_log_entry(obd_protocol);
+   }
+   else if (sscanf(obd_protocol, "ATSP %x", &obd_interface.obd_protocol_number) == 1)
+   {
+      /* TODO: set protocol name from list, see simulator code. */
+      print_log_entry(obd_protocol);
+   }
+   else
+   {
+      strncpy(obd_interface.obd_protocol_name, "Unknown OBD protocol.\n", 22);
+   }
+   
+   return;
+}
+
+void get_obd_protocol_name(char *info)
+{
+   strncpy(info, obd_interface.obd_protocol_name, strlen(obd_interface.obd_protocol_name));
+   
+   return;
+}
+
 
 void set_vehicle_speed(char *vs_msg)
 {
@@ -563,14 +629,31 @@ int parse_obd_msg(char *obd_msg)
          }
          else
          {
-            result = 2; /* TODO: Process information from OBD interface. */
+            /* TODO: Process information from OBD interface. */
             if (strncmp(obd_msg, "ATRV", 4) == 0)
             {
                set_battery_voltage(obd_msg);
+               result = 2; 
             }
-            if (strncmp(obd_msg, "ATI", 3) == 0)
+            else if (strncmp(obd_msg, "ATI", 3) == 0)
             {
                set_interface_information(obd_msg);
+               result = 3; 
+            }
+            else if (strncmp(obd_msg, "ATDP", 4) == 0)
+            {
+               set_obd_protocol_name(obd_msg);
+               result = 4; 
+            }
+            else if (strncmp(obd_msg, "ATSP", 4) == 0)
+            {
+               set_obd_protocol_name(obd_msg);
+               result = 4; 
+            }
+            else if (strncmp(obd_msg, "ATTP", 4) == 0)
+            {
+               set_obd_protocol_name(obd_msg);
+               result = 4; 
             }
          }
       }

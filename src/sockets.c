@@ -65,7 +65,7 @@ int send_ecu_msg(char *query)
 int recv_ecu_msg()
 {
    char buffer[256];
-   int n;
+   int n, msg_num;
 
    memset(buffer,0,256);
 
@@ -74,10 +74,19 @@ int recv_ecu_msg()
    if (n > 0)
    {
       /* printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); */
-      if (parse_obd_msg(buffer) > 0)
+      msg_num = parse_obd_msg(buffer);
+      if (msg_num > 0)
       {
          /* TODO: Write message to text view widget and log file. */
          update_comms_log_view(buffer);
+         switch(msg_num) /* TODO: Check message type and update relevant GUI widget. */
+         {               /* TODO: See message types in protocols.h */
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            case 4: break;
+            case 5: break;
+         }
       }
    }
 

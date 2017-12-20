@@ -42,13 +42,22 @@ void update_comms_log_view(char *msg)
 
 void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
 {
-  gchar *text = gtk_combo_box_text_get_active_text(widget);
+  char *text = gtk_combo_box_text_get_active_text(widget);
+  char msg_buf[256];
+  int selected;
+  
+  memset(msg_buf, 0, 256);
+  
   if (text != NULL)
   {
-     g_printf("protocol_combo_selected() : You chose %s\n", text);
-     /* TODO: set protocol in config. */
+     selected = gtk_combo_box_get_active (GTK_COMBO_BOX(widget));
+     printf("protocol_combo_selected() : Protocol Selected: %i %s\n", selected, text);
+     sprintf(msg_buf, "ATSP %.2x\n", selected);
+     send_ecu_msg(msg_buf);
+     set_obd_protocol_name(text);
+     set_obd_protocol_number(selected);
   }
-  g_free(text);
+  xfree(text, strlen(text));
   
   return;
 }
@@ -362,19 +371,19 @@ int main(int argc, char *argv[])
    /* Set up other widgets. */
 
    protocol_combo_box = gtk_combo_box_text_new();
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "0 - Automatic OBD-II Protocol Search");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "1 - SAE J1850 PWM (41.6 kbaud)(Ford)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "4 - ISO 14230-4 KWP2000 (5-baud init.)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "5 - IS0 14230-4 KWP2000 (Fast init.)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "A - SAE J1939 CAN (29 bit ID, 250 kbaud)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "B - USER1 CAN (11 bit ID, 125 kbaud)");
-   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), NULL, "C - USER2 CAN (11 bit ID, 50 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "0", "0 - Automatic OBD-II Protocol Search");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "1", "1 - SAE J1850 PWM (41.6 kbaud)(Ford)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "2", "2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "3", "3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "4", "4 - ISO 14230-4 KWP2000 (5-baud init.)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "5", "5 - IS0 14230-4 KWP2000 (Fast init.)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "6", "6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "7", "7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "8", "8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "9", "9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "A", "A - SAE J1939 CAN (29 bit ID, 250 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "B", "B - USER1 CAN (11 bit ID, 125 kbaud)");
+   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "C", "C - USER2 CAN (11 bit ID, 50 kbaud)");
    g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(protocol_combo_selected), NULL);
 
    /* Text View Widget and Text Buffer. */
@@ -450,6 +459,8 @@ int main(int argc, char *argv[])
    if (ecu_auto_connect == 1) 
    {
       ecu_connect(); /* Protocol Module Connect Function. */
+      send_ecu_msg("ATDP\n"); /* Get OBD protocol name from interface. */
+      send_ecu_msg("ATRV\n"); /* Get battery voltage from interface. */
       /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
       g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
       g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
