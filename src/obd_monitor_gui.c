@@ -158,6 +158,36 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
 }
 
 
+gboolean image_press_callback (GtkWidget *event_box, GdkEventButton *event, gpointer data)
+{
+  g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);
+
+  // Returning TRUE means we handled the event, so the signal
+  // emission should be stopped (don’t call any further callbacks
+  // that may be connected). Return FALSE to continue invoking callbacks.
+  return TRUE;
+}
+
+GtkWidget* create_image (char *image_file, GtkWidget *cbox)
+{
+  GtkWidget *image;
+  GtkWidget *event_box;
+
+  image = gtk_image_new_from_file (image_file);
+
+  event_box = gtk_event_box_new ();
+
+  gtk_container_add (GTK_CONTAINER (event_box), image);
+
+  g_signal_connect (G_OBJECT (event_box),
+                    "button_press_event",
+                    G_CALLBACK (image_press_callback),
+                    image);
+
+  gtk_box_pack_start(GTK_BOX(cbox), event_box, FALSE, FALSE, 150);
+
+  return image;
+}
 
 GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkWidget *communications_vbox, 
                             GtkWidget *pid_vbox, GtkWidget *dtc_vbox, GtkWidget *performance_vbox)
@@ -168,7 +198,14 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
    GtkWidget *tab_PID_label;
    GtkWidget *tab_DTC_label;
    GtkWidget *tab_performance_label;
-   GtkWidget *frame;
+   GtkWidget *image_sad;
+   GtkWidget *image_happy;
+
+
+   image_sad = create_image("../images/face-sad.png", pid_vbox);
+   image_sad = create_image("../images/face-sad.png", dtc_vbox);
+   image_sad = create_image("../images/face-sad.png", performance_vbox);
+    
    
    notebook = gtk_notebook_new ();
    gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
@@ -182,9 +219,9 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
    tab_PID_label = gtk_label_new ("PID List");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), pid_vbox, tab_PID_label);
 	
-	frame = gtk_frame_new ("Frame 4");
    tab_performance_label = gtk_label_new ("Performance");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), performance_vbox, tab_performance_label);
+	
 
    tab_communications_label = gtk_label_new ("Communications Log");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), communications_vbox, tab_communications_label);
@@ -197,7 +234,6 @@ int main(int argc, char *argv[])
 {
    GtkWidget *window;
    GtkWidget *tab_panel;
-   GdkPixbuf *icon;
 
    GtkWidget *dtc_button;
    GtkWidget *egr_button;
@@ -285,10 +321,6 @@ int main(int argc, char *argv[])
    gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
    gtk_container_set_border_width(GTK_CONTAINER(window), 5);
-
-   /* ??? Does not work.
-   icon = create_pixbuf("../images/setroubleshoot_red_icon.svg");  
-   gtk_window_set_icon(GTK_WINDOW(window), icon); */
 
    /* Set up the main menu bar. */
    menubar = gtk_menu_bar_new();
@@ -413,7 +445,7 @@ int main(int argc, char *argv[])
    g_signal_connect(battery_voltage_dial, "draw", G_CALLBACK(draw_battery_voltage_dial), NULL); 
    
    notification_dial = gtk_drawing_area_new();
-   gtk_widget_set_size_request (notification_dial, 950, 40);
+   gtk_widget_set_size_request (notification_dial, 990, 40);
    g_signal_connect(notification_dial, "draw", G_CALLBACK(draw_notification_dial), NULL);     
 
    /* Set up other widgets. */
