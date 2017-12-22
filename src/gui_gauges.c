@@ -17,6 +17,7 @@
 #include <math.h>
 #include "obd_monitor.h"
 #include "protocols.h"
+#include "gui_dialogs.h"
 
 /* Constant Definitions. */
 
@@ -792,6 +793,56 @@ gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    return FALSE;
 }
 
+void draw_notification_dial_background(cairo_t *cr)
+{
+   /* a custom shape that could be wrapped in a function */
+   double x         = 5.0,                /* parameters like cairo_rectangle */
+          y         = 5.0,
+          width         = 970,
+          height        = 30,
+          aspect        = 1.0,             /* aspect ratio */
+          corner_radius = height / 2.0;   /* and corner curvature radius */
+
+   double radius = corner_radius / aspect;
+   double degrees = NUM_PI / 180.0;
+
+   cairo_new_sub_path (cr);
+   cairo_arc (cr, x + width - radius, y + radius, radius, -90 * degrees, 90 * degrees);
+   /* cairo_arc (cr, x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees); */
+   cairo_arc (cr, x + radius, y + radius, radius, 90 * degrees, 270 * degrees);
+   /* cairo_arc (cr, x + radius, y + radius, radius, 180 * degrees, 270 * degrees); */
+   cairo_close_path (cr);
+
+   cairo_set_source_rgb (cr, 0.125, 0.29, 0.53);
+   cairo_fill_preserve (cr);
+   cairo_set_source_rgb (cr, 0.447, 0.624, 0.812);
+   cairo_set_line_width (cr, 5.0);
+   cairo_stroke (cr);
+   
+   return;
+}
+
+gboolean draw_notification_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 20.0;
+   double yc = 25.0;
+   cairo_text_extents_t ctext;
+   char notification[256];
+   
+   memset(notification, 0, 256); /* TODO: get notifcation message.  */
+   get_status_msg(notification);
+   
+   draw_notification_dial_background(cr);
+
+   cairo_select_font_face (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+   cairo_set_font_size(cr, 16);
+   cairo_text_extents (cr, notification, &ctext); 
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, xc, yc);
+   cairo_show_text(cr, notification);
+  
+   return FALSE;
+}
 
 
 

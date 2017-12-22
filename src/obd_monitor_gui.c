@@ -159,7 +159,8 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
 
 
 
-GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkWidget *communications_vbox)
+GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkWidget *communications_vbox, 
+                            GtkWidget *pid_vbox, GtkWidget *dtc_vbox, GtkWidget *performance_vbox)
 {
    GtkWidget *notebook;
    GtkWidget *tab_instruments_label;
@@ -172,27 +173,21 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
    notebook = gtk_notebook_new ();
    gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
    
-   
    tab_instruments_label = gtk_label_new ("Instruments");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), instruments_vbox, tab_instruments_label);
 	
-	frame = gtk_frame_new ("Frame 2");
    tab_DTC_label = gtk_label_new ("DTC List");
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, tab_DTC_label);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), dtc_vbox, tab_DTC_label);
 	
-	frame = gtk_frame_new ("Frame 3");
    tab_PID_label = gtk_label_new ("PID List");
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, tab_PID_label);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), pid_vbox, tab_PID_label);
 	
 	frame = gtk_frame_new ("Frame 4");
    tab_performance_label = gtk_label_new ("Performance");
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, tab_performance_label);
-	
-	
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), performance_vbox, tab_performance_label);
+
    tab_communications_label = gtk_label_new ("Communications Log");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), communications_vbox, tab_communications_label);
-	
-	
 	
    return(notebook);
 }
@@ -214,6 +209,9 @@ int main(int argc, char *argv[])
 
    GtkWidget *instruments_vbox;
    GtkWidget *communications_vbox;
+   GtkWidget *pid_vbox;
+   GtkWidget *dtc_vbox;
+   GtkWidget *performance_vbox;
    GtkWidget *vbox_controls;
    GtkWidget *hbox_top;
    GtkWidget *hbox_center;
@@ -260,6 +258,7 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_fuel_pressure_dial;
    GtkWidget *ecu_fuel_tank_level_dial;
    GtkWidget *battery_voltage_dial;
+   GtkWidget *notification_dial;
    
    GtkWidget *dtc_dial;
    GtkWidget *pid_dial;
@@ -268,7 +267,6 @@ int main(int argc, char *argv[])
    GtkWidget *text_frame;
    GtkWidget *comms_scrolled_window;
    
-   GtkWidget *status_bar;
    GtkWidget *status_frame;
    
    FILE *logfile;
@@ -286,7 +284,7 @@ int main(int argc, char *argv[])
    gtk_window_set_title(GTK_WINDOW(window), "OBD-II Monitor");
    gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
+   gtk_container_set_border_width(GTK_CONTAINER(window), 5);
 
    /* ??? Does not work.
    icon = create_pixbuf("../images/setroubleshoot_red_icon.svg");  
@@ -412,7 +410,11 @@ int main(int argc, char *argv[])
    
    battery_voltage_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (battery_voltage_dial, 300, 40);
-   g_signal_connect(battery_voltage_dial, "draw", G_CALLBACK(draw_battery_voltage_dial), NULL);   
+   g_signal_connect(battery_voltage_dial, "draw", G_CALLBACK(draw_battery_voltage_dial), NULL); 
+   
+   notification_dial = gtk_drawing_area_new();
+   gtk_widget_set_size_request (notification_dial, 950, 40);
+   g_signal_connect(notification_dial, "draw", G_CALLBACK(draw_notification_dial), NULL);     
 
    /* Set up other widgets. */
 
@@ -446,7 +448,6 @@ int main(int argc, char *argv[])
    gtk_container_add (GTK_CONTAINER (comms_scrolled_window), text_view);
 
 
-   status_bar = gtk_statusbar_new();
    status_frame = gtk_frame_new("Nofifications");
   
   
@@ -459,9 +460,12 @@ int main(int argc, char *argv[])
    gtk_label_set_markup (GTK_LABEL (text_view_label), "<b>Communications Log</b>");
    
    /* Create the tab panels. */
-   instruments_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-   communications_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-   tab_panel = create_tab_panel(window, instruments_vbox, communications_vbox);
+   instruments_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   communications_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   pid_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   dtc_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   performance_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   tab_panel = create_tab_panel(window, instruments_vbox, communications_vbox, pid_vbox, dtc_vbox, performance_vbox);
    
    /* gtk_container_add(GTK_CONTAINER(window), vbox); */
 
@@ -492,7 +496,7 @@ int main(int argc, char *argv[])
    gtk_box_pack_start(GTK_BOX(hbox_top), ecu_request_button, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), battery_voltage_dial, TRUE, TRUE, 0);
    
-   gtk_container_add (GTK_CONTAINER (status_frame), status_bar);
+   gtk_container_add (GTK_CONTAINER (status_frame), notification_dial);
    gtk_box_pack_start(GTK_BOX(hbox_bottom), status_frame, TRUE, TRUE, 0);
    
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_left, TRUE, TRUE, 0);
@@ -529,13 +533,20 @@ int main(int argc, char *argv[])
    int ecu_auto_connect = 1; /* TODO: add to configuration options. */
    if (ecu_auto_connect == 1) 
    {
-      ecu_connect(); /* Protocol Module Connect Function. */
-      send_ecu_msg("ATDP\n"); /* Get OBD protocol name from interface. */
-      send_ecu_msg("ATRV\n"); /* Get battery voltage from interface. */
-      /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
-      g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
-      g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);      
+      if (ecu_connect() > 0) /* Sockets Module Connect Function. */
+      {
+         send_ecu_msg("ATDP\n"); /* Get OBD protocol name from interface. */
+         send_ecu_msg("ATRV\n"); /* Get battery voltage from interface. */
+         /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
+         g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
+         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
+         set_status_msg("Connected to ECU.");
+      }
+      else
+      {
+         set_status_msg("Connection to ECU failed.");
+      }
    }
 
    

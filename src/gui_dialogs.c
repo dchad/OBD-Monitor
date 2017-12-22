@@ -27,7 +27,6 @@ char current_status_msg[256];
 char current_warning_msg[256];
 char current_question_msg[256];
 
-
 /* Buffers for Engine Control Unit messages. */
 char ECU_PID_Request[256];
 char ECU_PID_Reply[256];
@@ -54,6 +53,13 @@ void set_status_msg(char *msg)
 {
    memset(current_status_msg, 0, 256);
    strncpy(current_status_msg, msg, 256);
+   return;
+}
+
+void get_status_msg(char *msg)
+{
+   memset(msg, 0, 256);
+   strncpy(msg, current_status_msg, 256);
    return;
 }
 
