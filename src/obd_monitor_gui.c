@@ -23,6 +23,7 @@
 
 /* Current time string. */
 char time_buffer[256];
+char status_bar_msg[256];
 
 /* Communications log display area. */
 GtkTextBuffer *text_buffer;
@@ -39,6 +40,21 @@ void update_comms_log_view(char *msg)
    
    return;
 }
+
+void set_status_bar_msg(char *msg)
+{
+   memset(status_bar_msg, 0, 256);
+   strncpy(status_bar_msg, msg, 256);
+   return;
+}
+
+void get_status_bar_msg(char *msg)
+{
+   memset(msg, 0, 256);
+   strncpy(msg, status_bar_msg, 256);
+   return;
+}
+
 
 void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
 {
@@ -553,6 +569,7 @@ int main(int argc, char *argv[])
 
    /* TODO: Now pack the DTC tab panel. */
    /* TODO: Now pack the PID tab panel. */
+   /* TODO: Now packe the performance tab panel. */
    /* Now pack the communications tab panel. */
    gtk_box_pack_start(GTK_BOX(communications_vbox), comms_scrolled_window, TRUE, TRUE, 0);
    

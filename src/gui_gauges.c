@@ -357,7 +357,7 @@ gboolean draw_ect_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    draw_dial_text(cr, "Coolant Temp", gauge_numerals, "℃");
 
   
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -396,7 +396,7 @@ gboolean draw_iat_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    sprintf(gauge_numerals, "%.0f", air_temperature);
    draw_dial_text(cr, "Intake Air Temp", gauge_numerals, "℃");
    
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -436,7 +436,7 @@ gboolean draw_map_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    sprintf(gauge_numerals, "%.0f", air_pressure);
    draw_dial_text(cr, "Manifold Pressure", gauge_numerals, "kPa");
   
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -475,7 +475,7 @@ gboolean draw_egr_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    cairo_set_font_size(cr, 15);
    cairo_show_text(cr, "EGR Pressure");
   
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -514,7 +514,7 @@ gboolean draw_oil_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    cairo_set_font_size(cr, 15);
    cairo_show_text(cr, "Oil Pressure");
   
-   return FALSE;
+   return TRUE;
 }
 
 
@@ -555,7 +555,7 @@ gboolean draw_oil_temp_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    sprintf(gauge_numerals, "%.0f", oil_temperature);
    draw_dial_text(cr, "Oil Temperature", gauge_numerals, "℃");
 
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -595,7 +595,7 @@ gboolean draw_fuel_flow_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    sprintf(gauge_numerals, "%.0f", fuel_flow);
    draw_dial_text(cr, "Fuel Flow Rate", gauge_numerals, "L/h");
    
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -636,7 +636,7 @@ gboolean draw_fuel_pressure_dial(GtkWidget *widget, cairo_t *cr, gpointer user_d
    draw_dial_text(cr, "Fuel Pressure", gauge_numerals, "kPa");
    
   
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -676,7 +676,7 @@ gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    sprintf(gauge_numerals, "%.0f", fuel_level);
    draw_dial_text(cr, "Fuel Level", gauge_numerals, "%");
    
-   return FALSE;
+   return TRUE;
 }
 
 void draw_large_dial_background(cairo_t *cr)
@@ -722,7 +722,7 @@ gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
    cairo_show_text(cr, "PID");
   
-   return FALSE;
+   return TRUE;
 }
 
 gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -738,7 +738,7 @@ gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
    cairo_show_text(cr, "DTC");
   
-   return FALSE;
+   return TRUE;
 }
 
 void draw_small_dial_background(cairo_t *cr)
@@ -790,7 +790,7 @@ gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), yc);
    cairo_show_text(cr, volts);
   
-   return FALSE;
+   return TRUE;
 }
 
 void draw_notification_dial_background(cairo_t *cr)
@@ -830,7 +830,7 @@ gboolean draw_notification_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    char notification[256];
    
    memset(notification, 0, 256); /* TODO: get notifcation message.  */
-   get_status_msg(notification);
+   get_status_bar_msg(notification);
    
    draw_notification_dial_background(cr);
 
@@ -841,7 +841,7 @@ gboolean draw_notification_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    cairo_move_to(cr, xc, yc);
    cairo_show_text(cr, notification);
   
-   return FALSE;
+   return TRUE;
 }
 
 

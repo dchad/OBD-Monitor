@@ -52,6 +52,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "obd_monitor.h"
 #include "protocols.h"
 
 /* OBD Interface Parameters. */
@@ -251,6 +252,8 @@ void set_interface_information(char *ii_msg)
       strncpy(obd_interface.obd_interface_name, "Unknown OBD Interface", 21);
    }
    
+   set_status_bar_msg(obd_interface.obd_interface_name);
+   
    return;
 }
 
@@ -282,6 +285,8 @@ void set_obd_protocol_name(char *obd_protocol)
    {
       strncpy(obd_interface.obd_protocol_name, "Unknown OBD protocol.\n", 22);
    }
+   
+   set_status_bar_msg(obd_interface.obd_protocol_name);
    
    return;
 }

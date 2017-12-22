@@ -81,11 +81,12 @@ int recv_ecu_msg()
          update_comms_log_view(buffer);
          switch(msg_num) /* TODO: Check message type and update relevant GUI widget. */
          {               /* TODO: See message types in protocols.h */
-            case 1: break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
-            case 5: break;
+            case 1: break; /* Mode 01 PID message. */
+            case 2: break; /* Battery volatge. */
+            case 3: break; /* OBD interface type message. */
+            case 4: break; /* OBD Protocol Selected message. */
+            case 5: break; /* Mode 03 DTC message. */
+            case 6: break; /* Mode 09 Vehicle information message. */
          }
       }
    }

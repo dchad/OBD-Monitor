@@ -69,6 +69,8 @@ void set_interface_on();
 void set_interface_off();
 int get_interface_status();
 void update_comms_log_view(char *msg);
+void set_status_bar_message(char *msg);
+void get_status_bar_msg(char *msg);
 
 /* util.c */
 int xfatal(char *str);
