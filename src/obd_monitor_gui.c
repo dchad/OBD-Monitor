@@ -159,10 +159,49 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
 
 
 
+GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkWidget *communications_vbox)
+{
+   GtkWidget *notebook;
+   GtkWidget *tab_instruments_label;
+   GtkWidget *tab_communications_label;
+   GtkWidget *tab_PID_label;
+   GtkWidget *tab_DTC_label;
+   GtkWidget *tab_performance_label;
+   GtkWidget *frame;
+   
+   notebook = gtk_notebook_new ();
+   gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
+   
+   
+   tab_instruments_label = gtk_label_new ("Instruments");
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), instruments_vbox, tab_instruments_label);
+	
+	frame = gtk_frame_new ("Frame 2");
+   tab_DTC_label = gtk_label_new ("DTC List");
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, tab_DTC_label);
+	
+	frame = gtk_frame_new ("Frame 3");
+   tab_PID_label = gtk_label_new ("PID List");
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, tab_PID_label);
+	
+	frame = gtk_frame_new ("Frame 4");
+   tab_performance_label = gtk_label_new ("Performance");
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, tab_performance_label);
+	
+	
+   tab_communications_label = gtk_label_new ("Communications Log");
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), communications_vbox, tab_communications_label);
+	
+	
+	
+   return(notebook);
+}
+
 
 int main(int argc, char *argv[]) 
 {
    GtkWidget *window;
+   GtkWidget *tab_panel;
    GdkPixbuf *icon;
 
    GtkWidget *dtc_button;
@@ -173,6 +212,8 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_request_button;
    GtkWidget *ecu_connect_button;
 
+   GtkWidget *instruments_vbox;
+   GtkWidget *communications_vbox;
    GtkWidget *vbox_controls;
    GtkWidget *hbox_top;
    GtkWidget *hbox_center;
@@ -225,7 +266,10 @@ int main(int argc, char *argv[])
 
    GtkWidget *text_view;
    GtkWidget *text_frame;
-   GtkWidget *scrolled_window;
+   GtkWidget *comms_scrolled_window;
+   
+   GtkWidget *status_bar;
+   GtkWidget *status_frame;
    
    FILE *logfile;
    
@@ -244,8 +288,9 @@ int main(int argc, char *argv[])
    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
    gtk_container_set_border_width(GTK_CONTAINER(window), 10);
 
+   /* ??? Does not work.
    icon = create_pixbuf("../images/setroubleshoot_red_icon.svg");  
-   gtk_window_set_icon(GTK_WINDOW(window), icon);
+   gtk_window_set_icon(GTK_WINDOW(window), icon); */
 
    /* Set up the main menu bar. */
    menubar = gtk_menu_bar_new();
@@ -336,6 +381,7 @@ int main(int argc, char *argv[])
    /* ecu_egr_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_egr_dial, 200, 150);
    g_signal_connect(ecu_egr_dial, "draw", G_CALLBACK(draw_egr_dial), NULL); */
+   
    ecu_fuel_pressure_dial = gtk_drawing_area_new();
    gtk_widget_set_size_request (ecu_fuel_pressure_dial, 200, 150);
    g_signal_connect(ecu_fuel_pressure_dial, "draw", G_CALLBACK(draw_fuel_pressure_dial), NULL);
@@ -386,20 +432,24 @@ int main(int argc, char *argv[])
    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(protocol_combo_box), "C", "C - USER2 CAN (11 bit ID, 50 kbaud)");
    g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(protocol_combo_selected), NULL);
 
-   /* Text View Widget and Text Buffer. */
+   /* Communications Log Text View Widget and Text Buffer. */
    text_view = gtk_text_view_new ();
    text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-   gtk_widget_set_size_request (text_view, 880, 80);
-   /*gtk_text_buffer_set_text (text_buffer, "ATI\nOK\n>\nATZ\nOK\n>\n", -1); */
+   gtk_widget_set_size_request (text_view, 880, 600);
    gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, 0);
    gtk_text_buffer_insert(text_buffer, &text_iter, "OBD Monitor Initialising...\n", -1);
    text_frame = gtk_frame_new("Communications Log");
-   scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+   comms_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (comms_scrolled_window),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
-   gtk_container_add (GTK_CONTAINER (scrolled_window), text_view);
+   gtk_container_add (GTK_CONTAINER (comms_scrolled_window), text_view);
 
+
+   status_bar = gtk_statusbar_new();
+   status_frame = gtk_frame_new("Nofifications");
+  
+  
    /* Set up labels. */   
    combo_label = gtk_label_new (NULL);
    gtk_label_set_markup (GTK_LABEL (combo_label), "<b>OBD-II Protocol: </b>");
@@ -408,6 +458,12 @@ int main(int argc, char *argv[])
    text_view_label = gtk_label_new(NULL);
    gtk_label_set_markup (GTK_LABEL (text_view_label), "<b>Communications Log</b>");
    
+   /* Create the tab panels. */
+   instruments_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   communications_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+   tab_panel = create_tab_panel(window, instruments_vbox, communications_vbox);
+   
+   /* gtk_container_add(GTK_CONTAINER(window), vbox); */
 
    /* Set up the main window container layout. */
    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -418,37 +474,52 @@ int main(int argc, char *argv[])
    hbox_center = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
    hbox_bottom = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
    vbox_controls = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   
+   
    gtk_container_add(GTK_CONTAINER(window), vbox); 
+   
    gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox), hbox_top, FALSE, FALSE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox), hbox_center, FALSE, FALSE, 0);
-   gtk_box_pack_start(GTK_BOX(vbox), hbox_bottom, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(vbox), tab_panel, FALSE, FALSE, 0);
+  
+   /* Now pack the instruments tab panel. */
+   gtk_box_pack_start(GTK_BOX(instruments_vbox), hbox_top, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(instruments_vbox), hbox_center, FALSE, FALSE, 0);
+   gtk_box_pack_start(GTK_BOX(instruments_vbox), hbox_bottom, FALSE, FALSE, 0);
+   
    gtk_box_pack_start(GTK_BOX(hbox_top), combo_label, FALSE, FALSE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), protocol_combo_box, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), ecu_connect_button, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_top), ecu_request_button, TRUE, TRUE, 0);
-   /* gtk_box_pack_start(GTK_BOX(hbox_top), dtc_button, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox_top), pid_button, TRUE, TRUE, 0); */
    gtk_box_pack_start(GTK_BOX(hbox_top), battery_voltage_dial, TRUE, TRUE, 0);
-   gtk_container_add (GTK_CONTAINER (text_frame), scrolled_window);
-   gtk_box_pack_start(GTK_BOX(hbox_bottom), text_frame, TRUE, TRUE, 0);
+   
+   gtk_container_add (GTK_CONTAINER (status_frame), status_bar);
+   gtk_box_pack_start(GTK_BOX(hbox_bottom), status_frame, TRUE, TRUE, 0);
+   
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_left, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_center, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_right, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_center), vbox_controls, TRUE, TRUE, 0);
+   
    gtk_box_pack_start(GTK_BOX(vbox_controls), dtc_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_controls), pid_dial, TRUE, TRUE, 0); 
+   
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_rpm_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_ect_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_left), ecu_iat_dial, TRUE, TRUE, 0);
+   
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_speed_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_map_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_center), ecu_fuel_pressure_dial, TRUE, TRUE, 0);
+   
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_tank_level_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_temp_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_flow_dial, TRUE, TRUE, 0);
 
-
+   /* TODO: Now pack the DTC tab panel. */
+   /* TODO: Now pack the PID tab panel. */
+   /* Now pack the communications tab panel. */
+   gtk_box_pack_start(GTK_BOX(communications_vbox), comms_scrolled_window, TRUE, TRUE, 0);
+   
    /* Set up the callback functions. */
    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);  
 

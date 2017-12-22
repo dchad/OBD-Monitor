@@ -1,3 +1,8 @@
+# Project: OBD Monitor
+# Author:  Derek Chadwick
+# Date:    01/12/2017
+
+
 # Compiler flags
 
 CC=gcc
