@@ -12,7 +12,9 @@
    
 */
 
-int parse_configuration_file(char *config_file)
+FILE *config_file;
+
+int load_configuration_file(char *config_file)
 {
    return(0);
 }
@@ -27,4 +29,10 @@ int set_config_item()
    return(0);
 }
 
+int save_configuration_file(char *config_file)
+{
+
+
+   return(0);
+}
 

@@ -212,7 +212,7 @@ GtkWidget* create_image(char *image_file, GtkWidget *cbox)
   
   gtk_container_add (GTK_CONTAINER (event_box), image);
   gtk_container_add (GTK_CONTAINER (align), event_box);
-  gtk_box_pack_start (GTK_BOX (cbox), notice_label, FALSE, FALSE, 10);
+  gtk_box_pack_start (GTK_BOX (cbox), notice_label, FALSE, FALSE, 50);
   gtk_box_pack_start (GTK_BOX (cbox), align, FALSE, FALSE, 10);
   gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10);
 
@@ -539,7 +539,7 @@ int main(int argc, char *argv[])
    
    /* gtk_container_add(GTK_CONTAINER(window), vbox); */
 
-   /* Set up the main window container layout. */
+   /* Set up the instruments tab container layout. */
    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
    vbox_left = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
    vbox_center = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -601,13 +601,14 @@ int main(int argc, char *argv[])
    gtk_widget_show_all(window);
    
    set_ecu_connected(0);
-   int ecu_auto_connect = 1; /* TODO: add to configuration options. */
+   int ecu_auto_connect = 1; /* TODO: add to configuration options: get_auto_connect(). */
    if (ecu_auto_connect == 1) 
    {
       if (ecu_connect() > 0) /* Sockets Module Connect Function. */
       {
          send_ecu_msg("ATDP\n"); /* Get OBD protocol name from interface. */
          send_ecu_msg("ATRV\n"); /* Get battery voltage from interface. */
+         send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
          /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
          g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
          g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);

@@ -254,9 +254,9 @@ void set_interface_information(char *ii_msg)
    }
    else
    {
-      strncpy(obd_interface.obd_interface_name, "Unknown OBD Interface", 21);
+      strcpy(obd_interface.obd_interface_name, "Unknown OBD Interface");
    }
-   strncpy(temp_buf, "Interface Type: ", 16);
+   strcpy(temp_buf, "Interface Type: ");
    strncat(temp_buf, obd_interface.obd_interface_name, strlen(obd_interface.obd_interface_name));
    set_status_bar_msg(temp_buf);
    
@@ -299,9 +299,9 @@ void set_obd_protocol_name(char *obd_protocol)
    }
    else
    {
-      strncpy(obd_interface.obd_protocol_name, "Unknown OBD protocol.", 21);
+      strcpy(obd_interface.obd_protocol_name, "Unknown OBD protocol.");
    }
-   strncpy(temp_buf, "Protocol: ", 10);
+   strcpy(temp_buf, "Protocol: ");
    strncat(temp_buf, obd_interface.obd_protocol_name, strlen(obd_interface.obd_protocol_name));
    printf("set_obd_protocol_name() <DEBUG>: %s\n", temp_buf);
    
@@ -541,6 +541,25 @@ double get_mode_9_supported_pid_list_1_32()
 
 void set_vehicle_vin(char *obd_msg)
 {
+   char temp_buf[256];
+   int len;
+   memset(ecup.ecu_vin, 0, 256);
+   memset(temp_buf, 0, 256);
+    
+   len = xhextoascii(temp_buf, obd_msg);
+   if (len > 0)
+   {
+      
+      print_log_entry(obd_msg);
+   }
+   else
+   {
+      strcpy(ecup.ecu_vin, "Unknown VIN Message.");
+   }
+   strcpy(temp_buf, "VIN: ");
+   strncat(temp_buf, ecup.ecu_vin, strlen(ecup.ecu_vin));
+   set_status_bar_msg(temp_buf);
+   
    return;
 }
 

@@ -3,7 +3,7 @@
 
    Author: Derek Chadwick
 
-   Description: A UDP server that communicates with vehicle
+   Description: A UDP server and GUI that communicates with vehicle
                 engine control units via an OBD-II interface to obtain 
                 engine status and fault codes. 
 
@@ -80,6 +80,7 @@ void *xrealloc (void *ptr, size_t size);
 int xfree(char *buf, int len);
 char* xitoa(int value, char* result, int len, int base);
 int xstrcpy(char *out_buf, char *in_buf, int start, int end);
+int xhextoascii(char *out_buf, char *in_buf);
 int print_help();
 
 /* log.c */

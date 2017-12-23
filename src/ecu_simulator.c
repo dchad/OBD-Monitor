@@ -67,6 +67,14 @@ const char *OBD_Protocol_List[] = {
 "OBD C - USER2 CAN (11 bit ID, 50 kbaud)"
 };
 
+/* Example VINs, first is non CAN protocol, second is CAN protocol
+   for the same vehicle identification number. */
+const char *ecu_vin[] = { 
+"49 02 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36",
+"49 02 01 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36"
+};
+
+
 void fatal_error(const char *error_msg)
 {
     perror(error_msg);
@@ -431,6 +439,23 @@ void send_obd_protocol_name(char *obd_msg)
    return;
 }
 
+void send_vin_msg()
+{
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   sprintf(reply_buf, "%s\n", ecu_vin[0]); /* TODO: switch between CAN and non-CAN formats. */
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("send_vin_msg(): VIN Msg: %i bytes %s", n, reply_buf);
+   
+   return;
+}
+
+
 void reply_mode_01_msg(char *obd_msg)
 {
    /* Send back an ECU parameter message. */
@@ -461,20 +486,35 @@ void reply_mode_01_msg(char *obd_msg)
    }
    else
    {
-   
+      printf("reply_mode_01_msg() <ERROR>: Unknown OBD message.\n");
    }
    return;
 }
 
 void reply_mode_03_msg(char *obd_msg)
 {
-   /* Send back a DTC message. */
+   /* TODO: Send back a DTC message. */
    
 }
 
 void reply_mode_09_msg(char *obd_msg)
 {
    /* Send back ECU and vehicle information message. */
+   int n;
+   unsigned int pid, pmode;
+   
+   n = sscanf(obd_msg, "%x %x", &pmode, &pid);
+   if (n == 2)
+   {
+      printf("reply_mode_01_msg(): %d %d\n", pmode, pid);
+      switch(pid)
+      {
+         case 0: break; /* TODO: Supported PIDs. */
+         case 1: break; /* TODO: Send ECU name. */
+         case 2: send_vin_msg(); break; /* Send VIN number. */   
+      }
+   }
+   return;
 }
 
 
@@ -528,7 +568,7 @@ int parse_gui_message()
                case '6': break;
                case '7': break;
                case '8': break;
-               case '9': reply_mode_03_msg(in_buf); break; /* Mode 09 message, ECU information. */
+               case '9': reply_mode_09_msg(in_buf); break; /* Mode 09 message, ECU information. */
                case 'A': break;
             }
          }

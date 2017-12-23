@@ -78,6 +78,38 @@ int xstrcpy(char *out_buf, char *in_buf, int start, int end)
    return(result);
 }
 
+/*
+   Copy a string segment specified by start and end indices. 
+   Start and end values must be 0...strlen()-1, with start
+   being less than the end value.
+*/
+int xhextoascii(char *out_buf, char *in_buf)
+{
+   int ii;
+   long lnum;
+   char temp_buf[256];
+   char *token;
+   
+   ii = 0;
+   memset(out_buf, 0, 256);
+   memset(temp_buf, 0, 256);
+   
+   token = strtok(in_buf, " ");
+   
+   /* Parse the tokens. */
+   while( token != NULL ) 
+   {
+      lnum = strtol(token, 0, 16);
+      xitoa(lnum, temp_buf, 2, 16);
+      token = strtok(NULL, " ");
+      strncat(out_buf, temp_buf, strlen(temp_buf));
+      memset(temp_buf, 0, 256);
+      ii++;
+   }
+   
+   return(ii);
+}
+
 /* Bail Out */
 int xfatal(char *str)
 {
