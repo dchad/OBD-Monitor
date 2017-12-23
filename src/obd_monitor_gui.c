@@ -51,7 +51,7 @@ void set_status_bar_msg(char *msg)
    }
    else
    {
-      strcpy(status_bar_msg, "Interface Type: ELM327");
+      strcpy(status_bar_msg, "Invalid Message.");
    }
    
    return;
@@ -196,23 +196,33 @@ GtkWidget* create_image(char *image_file, GtkWidget *cbox)
 {
   GtkWidget *image;
   GtkWidget *event_box;
-  GtkWidget *info_label;
+  GtkWidget *info_label, *notice_label;
+  GtkWidget *align;
+
 
   image = gtk_image_new_from_file (image_file);
   info_label = gtk_label_new (NULL);
   gtk_label_set_markup (GTK_LABEL (info_label), "<b>THIS FUNCTION NOT IMPLEMENTED YET SAD FACE!</b>");
+  notice_label = gtk_label_new (NULL);
+  gtk_label_set_markup (GTK_LABEL (notice_label), "<b>INFORMATIONAL SAD FACE</b>");
 
   event_box = gtk_event_box_new ();
 
+  align = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+  
   gtk_container_add (GTK_CONTAINER (event_box), image);
+  gtk_container_add (GTK_CONTAINER (align), event_box);
+  gtk_box_pack_start (GTK_BOX (cbox), notice_label, FALSE, FALSE, 10);
+  gtk_box_pack_start (GTK_BOX (cbox), align, FALSE, FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10);
 
   g_signal_connect (G_OBJECT (event_box),
                     "button_press_event",
                     G_CALLBACK (image_press_callback),
                     image);
 
-  gtk_box_pack_start(GTK_BOX(cbox), event_box, FALSE, FALSE, 150);
-  gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10);
+  /* gtk_box_pack_start(GTK_BOX(cbox), event_box, FALSE, FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10); */
 
   return image;
 }

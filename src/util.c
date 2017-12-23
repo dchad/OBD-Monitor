@@ -54,6 +54,30 @@ int xfree(char *buf, int len)
    return(0);
 }
 
+/*
+   Copy a string segment specified by start and end indices. 
+   Start and end values must be 0...strlen()-1, with start
+   being less than the end value.
+*/
+int xstrcpy(char *out_buf, char *in_buf, int start, int end)
+{
+   int ii, len, result, ij;
+   
+   result = -1;
+   len = strlen(in_buf);
+   if ((start >= 0) && (end > start) && (end < len))
+   {
+      ij = 0;
+      for (ii = start; ii <= end; ii++)
+      {
+         out_buf[ij] = in_buf[ii];
+         ij++;
+      }
+      result = ij;
+   }
+   return(result);
+}
+
 /* Bail Out */
 int xfatal(char *str)
 {

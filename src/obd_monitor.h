@@ -78,8 +78,9 @@ void *xcalloc (size_t size);
 void *xmalloc (size_t size);
 void *xrealloc (void *ptr, size_t size);
 int xfree(char *buf, int len);
-int print_help();
 char* xitoa(int value, char* result, int len, int base);
+int xstrcpy(char *out_buf, char *in_buf, int start, int end);
+int print_help();
 
 /* log.c */
 FILE *open_log_file(char *startup_path, char *log_file_name);

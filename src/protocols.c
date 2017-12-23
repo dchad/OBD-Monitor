@@ -249,13 +249,8 @@ void set_interface_information(char *ii_msg)
 
    if (strncmp(ii_msg, "ATI ", 4) == 0)
    {
-      pch=strchr(ii_msg,' ');
-      if (pch != NULL)
-      {
-         strcpy(obd_interface.obd_interface_name, pch);
-         print_log_entry(ii_msg);
-      }
-
+      xstrcpy(obd_interface.obd_interface_name, ii_msg, 4, strlen(ii_msg)-2);
+      print_log_entry(ii_msg);
    }
    else
    {
@@ -281,44 +276,37 @@ void set_obd_protocol_name(char *obd_protocol)
    char *pch;
    
    memset(obd_interface.obd_protocol_name, 0, 256);
+   memset(temp_buf, 0, 256);
    
    if (strncmp(obd_protocol, "ATDP ", 5) == 0)
    {
-      pch = strchr(obd_protocol,' ');
-      if (pch != NULL)
-      {
-         strcpy(obd_interface.obd_protocol_name, pch);
-         print_log_entry(obd_protocol);
-      }
+      xstrcpy(obd_interface.obd_protocol_name, obd_protocol, 5, strlen(obd_protocol)-2);
+      print_log_entry(obd_protocol);
    }
    else if (strncmp(obd_protocol, "ATTP ", 5) == 0)
    {
       /* TODO: set protocol number from list, see simulator code. */
-      pch = strchr(obd_protocol,' ');
-      if (pch != NULL)
-      {
-         strcpy(obd_interface.obd_protocol_name, pch);
-         print_log_entry(obd_protocol);
-      }
+      xstrcpy(obd_interface.obd_protocol_name, obd_protocol, 5, strlen(obd_protocol)-2);
+      print_log_entry(obd_protocol);
    }
    else if (strncmp(obd_protocol, "ATSP ", 5) == 0)
    {
       /* TODO: set protocol number from list, see simulator code. */
-      pch = strchr(obd_protocol,' ');
-      if (pch != NULL)
-      {
-         strcpy(obd_interface.obd_protocol_name, pch);
-         print_log_entry(obd_protocol);
-      }
+
+      xstrcpy(obd_interface.obd_protocol_name, obd_protocol, 5, strlen(obd_protocol)-2);
+      print_log_entry(obd_protocol);
+ 
    }
    else
    {
       strncpy(obd_interface.obd_protocol_name, "Unknown OBD protocol.", 21);
    }
    strncpy(temp_buf, "Protocol: ", 10);
-   /* strncat(temp_buf, obd_interface.obd_protocol_name, strlen(obd_interface.obd_protocol_name)); */
-   /* TODO: this is causing GTK UTF8 errors in notification widget. */
-   set_status_bar_msg(obd_protocol);
+   strncat(temp_buf, obd_interface.obd_protocol_name, strlen(obd_interface.obd_protocol_name));
+   printf("set_obd_protocol_name() <DEBUG>: %s\n", temp_buf);
+   
+   /* TODO: this is causing GTK UTF8 errors in the notification widget. */
+   set_status_bar_msg(temp_buf);
    
    return;
 }
