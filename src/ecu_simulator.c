@@ -119,7 +119,7 @@ int send_engine_rpm()
    
    sprintf(reply_buf, "41 0C %.2x %.2x\n", rpm_A, rpm_B);
    /* TODO: log simulator msg. */
-   printf("Simulator RPM Msg: %s", reply_buf);
+   printf("send_engine_rpm(): Simulator RPM Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -139,7 +139,7 @@ int send_coolant_temperature()
    
    sprintf(reply_buf, "41 05 %.2x\n", ect_A);
    /* TODO: log simulator msg. */
-   printf("Simulator ECT Msg: %s", reply_buf);
+   printf("send_coolant_temperature(): Simulator ECT Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -161,7 +161,7 @@ void send_manifold_pressure()
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
-   printf("Simulator MAP Msg: %i bytes %s", n, reply_buf);
+   printf("send_manifold_pressure(): Simulator MAP Msg: %i bytes %s", n, reply_buf);
       
    return;
 }
@@ -179,7 +179,7 @@ int send_intake_air_temperature()
    
    sprintf(reply_buf, "41 0F %.2x\n", iat_A);
    /* TODO: log simulator msg. */
-   printf("Simulator IAT Msg: %s", reply_buf);
+   printf("send_intake_air_temperature(): Simulator IAT Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -198,7 +198,7 @@ int send_vehicle_speed()
    vs_A = (unsigned int)simulator_ecu.ecu_vehicle_speed;
    
    sprintf(reply_buf, "41 0D %.2x\n", vs_A);
-   printf("Simulator VS Msg: %s", reply_buf);
+   printf("send_vehicle_speed(): Simulator VS Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -208,7 +208,8 @@ int send_vehicle_speed()
 
 void send_egr_pressure()
 {
-
+   /* Has to be calculated. */
+   return;
 }
 
 
@@ -224,7 +225,7 @@ int send_throttle_position()
    
    sprintf(reply_buf, "41 11 %.2x\n", tp_A);
    /* TODO: log simulator msg. */
-   printf("Simulator Throttle Position Msg: %s", reply_buf);
+   printf("send_throttle_position(): Simulator Throttle Position Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -244,7 +245,7 @@ int send_oil_temperature()
    
    sprintf(reply_buf, "41 5C %.2x\n", ot_A);
    /* TODO: log simulator msg. */
-   printf("Simulator ECT Msg: %s", reply_buf);
+   printf("send_oil_temperature(): Simulator OT Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -254,7 +255,8 @@ int send_oil_temperature()
 
 void send_oil_pressure()
 {
-
+   /* TODO: use oil pressure switch parameter. */
+   return;
 }
 
 
@@ -283,7 +285,7 @@ int send_fuel_tank_level()
    
    sprintf(reply_buf, "41 2F %.2x\n", ftl_A);
    /* TODO: log simulator msg. */
-   printf("Simulator Fuel Tank Level Msg: %s", reply_buf);
+   printf("send_fuel_tank_level(): Simulator Fuel Tank Level Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -305,7 +307,7 @@ int send_fuel_flow_rate()
    
    sprintf(reply_buf, "41 5E %.2x %.2x\n", ffr_A, ffr_B);
    /* TODO: log simulator msg. */
-   printf("Simulator Fuel Flow Rate Msg: %s", reply_buf);
+   printf("send_fuel_flow_rate(): Simulator Fuel Flow Rate Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -324,7 +326,7 @@ int send_fuel_pressure()
    
    sprintf(reply_buf, "41 0A %.2x\n", fp_A);
    /* TODO: log simulator msg. */
-   printf("Simulator Fuel Pressure Msg: %s", reply_buf);
+   printf("send_fuel_pressure(): Simulator Fuel Pressure Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -343,7 +345,7 @@ int send_accelerator_position()
    
    sprintf(reply_buf, "41 5A %.2x\n", ap_A);
    /* TODO: log simulator msg. */
-   printf("Simulator Accelerator Position Msg: %s", reply_buf);
+   printf("send_accelerator_position(): Simulator Accelerator Position Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
@@ -362,7 +364,7 @@ void send_battery_voltage()
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
 
-   printf("Simulator ATRV Msg: %i bytes %s", n, reply_buf);
+   printf("send_battery_voltage(): Simulator ATRV Msg: %i bytes %s", n, reply_buf);
       
    return;
 }
@@ -373,12 +375,13 @@ void send_interface_information()
    int n;
    
    memset(reply_buf, 0, 256);
-   sprintf(reply_buf, "ATI ELM327\nOK\n>\n");
+   /* sprintf(reply_buf, "ATI ELM327\nOK\n>\n"); */
 
+   sprintf(reply_buf, "ATI ELM327\n");
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
-   printf("Simulator ATI Msg: %i bytes %s", n, reply_buf);
+   printf("send_interface_information(): Simulator ATI Msg: %i bytes %s", n, reply_buf);
    
    return;
 }
@@ -391,15 +394,16 @@ void send_obd_protocol_name(char *obd_msg)
    memset(simulator_obd.obd_protocol_name, 0, 256);
    memset(reply_buf, 0, 256);
    
-   if (sscanf(obd_msg, "ATDP %s", simulator_obd.obd_protocol_name) == 1)
+   if (strncmp(obd_msg, "ATDP ", 5) == 0)
    {
       sprintf(reply_buf, "ATDP %s\n", simulator_obd.obd_protocol_name);
    }
    else if (sscanf(obd_msg, "ATTP %x", &pnum) == 1)
    {
       if (pnum > 12)
+      {
          pnum = 0;
-         
+      }   
       simulator_obd.obd_protocol_number = pnum;
       strcpy(simulator_obd.obd_protocol_name, OBD_Protocol_List[pnum]);
       sprintf(reply_buf, "ATTP %s\n", simulator_obd.obd_protocol_name);
@@ -407,14 +411,16 @@ void send_obd_protocol_name(char *obd_msg)
    else if (sscanf(obd_msg, "ATSP %x", &pnum) == 1)
    {
       if (pnum > 12)
+      {
          pnum = 0;
-         
+      }   
       simulator_obd.obd_protocol_number = pnum;
       strcpy(simulator_obd.obd_protocol_name, OBD_Protocol_List[pnum]);
-      sprintf(reply_buf, "ATDP %s\n", simulator_obd.obd_protocol_name);
+      sprintf(reply_buf, "ATSP %s\n", simulator_obd.obd_protocol_name);
    }
    else
    {
+      simulator_obd.obd_protocol_number = 0;
       strncpy(simulator_obd.obd_protocol_name, "Unknown OBD protocol.\n", 22);
       printf("send_obd_protocol_name(): %s", obd_msg);
    }
@@ -434,7 +440,7 @@ void reply_mode_01_msg(char *obd_msg)
    n = sscanf(obd_msg, "%x %x", &pmode, &pid);
    if (n == 2)
    {
-      printf("MODE 01 Msg: %d %d\n", pmode, pid);
+      printf("reply_mode_01_msg(): %d %d\n", pmode, pid);
       switch(pid)
       {
          case 0: send_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
@@ -555,11 +561,11 @@ int init_serial_comms(char *interface_name)
      exit(-1);
   }
 
-  printf("Serial port number: %i\n",cport_nr);
+  printf("init_serial_comms(): Serial port number: %i\n",cport_nr);
 
   if(RS232_OpenComport(cport_nr, bdrate, mode))
   {
-    printf("ERROR: Can not open comport!\n");
+    printf("init_serial_comms() <ERROR>: Can not open comport!\n");
     exit(-1);
   }
   
@@ -573,13 +579,13 @@ int send_ecu_query(int serial_port, char *ecu_query)
     out_msg_len = strlen(ecu_query);
     if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
     {
-      printf("ERROR: Bad message length!\n");
+      printf("send_ecu_query() <ERROR>: Bad message length!\n");
       return(0);
     }
 
     RS232_cputs(serial_port, ecu_query);
 
-    printf("TXD %i bytes: %s", out_msg_len, ecu_query);
+    printf("send_ecu_query(): TXD %i bytes: %s", out_msg_len, ecu_query);
 
     usleep(100000);  /* sleep for 100 milliseconds */
 
@@ -604,7 +610,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
              }
           }
 
-          printf("RXD %i bytes: %s", in_msg_len, ecu_query);
+          printf("recv_ecu_reply(): RXD %i bytes: %s", in_msg_len, ecu_query);
 
           usleep(100000);  /* sleep for 100 milliSeconds */
     }
@@ -617,7 +623,7 @@ int main(int argc, char *argv[])
 
    if (argc < 2) 
    {
-      fprintf(stderr, "ERROR: no port provided.\n");
+      fprintf(stderr, "main() <ERROR>: no port provided.\n");
       exit(0);
    }
    
@@ -655,12 +661,12 @@ int main(int argc, char *argv[])
 
        if (n < 0) fatal_error("recvfrom");
 
-       printf("RXD ECU Query: %s", in_buf);
+       printf("main(): RXD ECU Query: %s", in_buf);
 
        n = parse_gui_message();
 
        if (n  < 0) 
-          printf("Message parsing failed.\n");
+          printf("main() <ERROR>:Message parsing failed.\n");
 
        set_simulator_ecu_parameters();
        

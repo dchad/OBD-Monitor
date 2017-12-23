@@ -831,6 +831,10 @@ gboolean draw_notification_dial(GtkWidget *widget, cairo_t *cr, gpointer user_da
    
    memset(notification, 0, 256); /* TODO: get notifcation message.  */
    get_status_bar_msg(notification);
+   if (strlen(notification) < 1)
+   {
+      strcpy(notification, "String Error.");
+   }
    
    draw_notification_dial_background(cr);
 

@@ -44,21 +44,30 @@ void update_comms_log_view(char *msg)
 void set_status_bar_msg(char *msg)
 {
    memset(status_bar_msg, 0, 256);
-   strncpy(status_bar_msg, msg, 256);
+   if (strlen(msg) > 0)
+   {
+      strncpy(status_bar_msg, msg, strlen(msg));
+      g_strchomp(status_bar_msg); /* Remove trailing whitespace. */
+   }
+   else
+   {
+      strcpy(status_bar_msg, "Interface Type: ELM327");
+   }
+   
    return;
 }
 
 void get_status_bar_msg(char *msg)
 {
    memset(msg, 0, 256);
-   strncpy(msg, status_bar_msg, 256);
+   strncpy(msg, status_bar_msg, strlen(status_bar_msg));
    return;
 }
 
 
 void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
 {
-  char *text = gtk_combo_box_text_get_active_text(widget);
+  gchar *text = gtk_combo_box_text_get_active_text(widget);
   char msg_buf[256];
   int selected;
   
@@ -70,10 +79,8 @@ void protocol_combo_selected(GtkComboBoxText *widget, gpointer window)
      printf("protocol_combo_selected() : Protocol Selected: %i %s\n", selected, text);
      sprintf(msg_buf, "ATSP %.2x\n", selected);
      send_ecu_msg(msg_buf);
-     set_obd_protocol_name(text);
-     set_obd_protocol_number(selected);
   }
-  xfree(text, strlen(text));
+  g_free(text);
   
   return;
 }
@@ -174,22 +181,26 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
 }
 
 
-gboolean image_press_callback (GtkWidget *event_box, GdkEventButton *event, gpointer data)
+gboolean image_press_callback(GtkWidget *event_box, GdkEventButton *event, gpointer data)
 {
-  g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);
+   g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);
 
-  // Returning TRUE means we handled the event, so the signal
-  // emission should be stopped (don’t call any further callbacks
-  // that may be connected). Return FALSE to continue invoking callbacks.
-  return TRUE;
+   // Returning TRUE means we handled the event, so the signal
+   // emission should be stopped (don’t call any further callbacks
+   // that may be connected). Return FALSE to continue invoking callbacks.
+  
+   return TRUE;
 }
 
-GtkWidget* create_image (char *image_file, GtkWidget *cbox)
+GtkWidget* create_image(char *image_file, GtkWidget *cbox)
 {
   GtkWidget *image;
   GtkWidget *event_box;
+  GtkWidget *info_label;
 
   image = gtk_image_new_from_file (image_file);
+  info_label = gtk_label_new (NULL);
+  gtk_label_set_markup (GTK_LABEL (info_label), "<b>THIS FUNCTION NOT IMPLEMENTED YET SAD FACE!</b>");
 
   event_box = gtk_event_box_new ();
 
@@ -201,6 +212,7 @@ GtkWidget* create_image (char *image_file, GtkWidget *cbox)
                     image);
 
   gtk_box_pack_start(GTK_BOX(cbox), event_box, FALSE, FALSE, 150);
+  gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10);
 
   return image;
 }
