@@ -35,8 +35,18 @@ GtkTextIter text_iter;
 
 void update_comms_log_view(char *msg)
 {
+   char temp_buf[256];
+   int len = strlen(msg);
+   
+   memset(temp_buf, 0, 256);
+   
+   if (msg[len-1] != '\n')
+      sprintf(temp_buf, "%s\n", msg);
+   else
+      strcpy(temp_buf, msg);
+      
    gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, -1);
-   gtk_text_buffer_insert(text_buffer, &text_iter, msg, -1);
+   gtk_text_buffer_insert(text_buffer, &text_iter, temp_buf, -1);
    
    return;
 }
@@ -48,6 +58,7 @@ void set_status_bar_msg(char *msg)
    {
       strncpy(status_bar_msg, msg, strlen(msg));
       g_strchomp(status_bar_msg); /* Remove trailing whitespace. */
+      update_comms_log_view(status_bar_msg);
    }
    else
    {

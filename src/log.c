@@ -21,7 +21,7 @@
 
 #include "obd_monitor.h"
 
-FILE *log_file;
+FILE *log_file = NULL;
 
 /*
    Function: open_log_file()
@@ -99,9 +99,14 @@ int print_log_entry(char *estr)
    strncat(log_entry, " ", 1);
    strncat(log_entry, estr, slen);
 
-   fputs (log_entry, log_file);
-
-   /* printf("%s", log_entry); */
+   if (log_file != NULL)
+   {
+      fputs (log_entry, log_file);
+   }
+   else
+   {
+      printf("print_log_entry(): %s\n", log_entry);
+   }
 
    xfree(log_entry, slen + 100);
   

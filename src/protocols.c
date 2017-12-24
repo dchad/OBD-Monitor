@@ -545,12 +545,15 @@ void set_vehicle_vin(char *obd_msg)
    int len;
    memset(ecup.ecu_vin, 0, 256);
    memset(temp_buf, 0, 256);
-    
-   len = xhextoascii(temp_buf, obd_msg);
+   
+   len = xstrcpy(temp_buf, obd_msg, 6, strlen(obd_msg)-2); /* Chomp the header and newline. */
    if (len > 0)
    {
-      
-      print_log_entry(obd_msg);
+      len = xhextoascii(ecup.ecu_vin, temp_buf);
+      if (len > 0)
+      {
+         print_log_entry(obd_msg);
+      }
    }
    else
    {

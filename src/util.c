@@ -79,9 +79,17 @@ int xstrcpy(char *out_buf, char *in_buf, int start, int end)
 }
 
 /*
-   Copy a string segment specified by start and end indices. 
-   Start and end values must be 0...strlen()-1, with start
-   being less than the end value.
+   Converts a string of ascii hex encoded characters to
+   the equivalent ascii string.
+   
+   Example:
+   
+   "30 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A"
+   
+   converts to:
+   
+   "0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+   
 */
 int xhextoascii(char *out_buf, char *in_buf)
 {
@@ -89,6 +97,7 @@ int xhextoascii(char *out_buf, char *in_buf)
    long lnum;
    char temp_buf[256];
    char *token;
+   char vin_char[1];
    
    ii = 0;
    memset(out_buf, 0, 256);
@@ -99,11 +108,16 @@ int xhextoascii(char *out_buf, char *in_buf)
    /* Parse the tokens. */
    while( token != NULL ) 
    {
+      /* printf("xhextoascii() <DEBUG>: %s\n", token); */
       lnum = strtol(token, 0, 16);
-      xitoa(lnum, temp_buf, 2, 16);
+      if ((lnum > 31) && (lnum < 124)) /* Only printable characters. */
+      {
+         vin_char[0] = (char)lnum;
+         strncat(out_buf, vin_char, 1);
+         strncat(out_buf, " ", 1);
+      }
+
       token = strtok(NULL, " ");
-      strncat(out_buf, temp_buf, strlen(temp_buf));
-      memset(temp_buf, 0, 256);
       ii++;
    }
    
@@ -132,7 +146,8 @@ int print_help()
 
 /**
  * Modified version of char* style "itoa" with buffer length check.
- * (Kernighan and Ritchie)
+ * (Original by Kernighan and Ritchie)
+ * Just try to understand it, I dare you.
  */
 char *xitoa(int value, char* result, int len, int base) 
 {

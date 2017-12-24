@@ -68,7 +68,9 @@ const char *OBD_Protocol_List[] = {
 };
 
 /* Example VINs, first is non CAN protocol, second is CAN protocol
-   for the same vehicle identification number. */
+   for the same vehicle identification number.
+   Example: 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6   
+*/
 const char *ecu_vin[] = { 
 "49 02 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36",
 "49 02 01 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36"

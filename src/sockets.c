@@ -77,12 +77,12 @@ int recv_ecu_msg()
       msg_num = parse_obd_msg(buffer);
       if (msg_num > 0)
       {
-         /* TODO: Write message to text view widget and log file. */
-         update_comms_log_view(buffer);
+         /* TODO: Write message to text view widget and log file.
+         update_comms_log_view(buffer); */
          switch(msg_num) /* TODO: Check message type and update relevant GUI widget. */
          {               /* TODO: See message types in protocols.h */
             case 1: break; /* Mode 01 PID message. */
-            case 2: break; /* Battery volatge. */
+            case 2: break; /* Battery voltage. */
             case 3: break; /* OBD interface type message. */
             case 4: break; /* OBD Protocol Selected message. */
             case 5: break; /* Mode 03 DTC message. */
@@ -120,7 +120,7 @@ int init_obd_comms(char *obd_msg)
    if (n > 0)
    {
       printf("init_obd_comms() - RECV OBD Message: %s", buffer);  
-      update_comms_log_view(buffer);
+      /* update_comms_log_view(buffer); */
       parse_obd_msg(buffer); /* TODO: write log message. */
    }
    
