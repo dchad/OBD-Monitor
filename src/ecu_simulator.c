@@ -523,11 +523,12 @@ void reply_mode_03_msg(char *obd_msg)
    memset(reply_buf, 0, 256);
 
    /* TODO: send multiple DTCs. */
-   strcpy(reply_buf, "41 01 33 00 00 00 00\n"); /* DTC = P0133. */
+   strcpy(reply_buf, "43 01 33 00 00 00 00\n"); /* DTC = P0133. */
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
-   
+   printf("---------------------------------------------------------\n");
    printf("reply_mode_03_msg(): DTC Msg: %i bytes %s", n, reply_buf);
+   printf("---------------------------------------------------------\n");
    
    return;   
    

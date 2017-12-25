@@ -24,7 +24,7 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 
   TODO:
 
-!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/gui-prototype.png "GUI Prototype")
+!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-monitor-gui.png "GUI Prototype")
 
 
 ## 4. OBD-II Protocol

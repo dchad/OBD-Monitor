@@ -168,7 +168,7 @@ double get_timing_advance();
 
 int get_mil_status();
 int get_dtc_count();
-int get_dtc_code(int code_num);
+void get_last_dtc_code(char *code_buf);
 
 /* Message Parsers. */
 int parse_obd_msg(char *obd_msg);

@@ -638,6 +638,20 @@ void set_dtc_count(char *obd_msg)
    return;
 }
 
+void get_last_dtc_code(char *code_buf)
+{
+   int n;
+   
+   n = strlen(ecup.ecu_last_dtc_code);
+   if (n > 0)
+     strncpy(code_buf, ecup.ecu_last_dtc_code, n);
+   else
+     strncpy(code_buf, "00000", 5);
+   
+   return;
+}
+
+
 void parse_mode_01_msg(char *obd_msg)
 {
    /* Decode ECU Mode 01 parameter message. */
@@ -692,7 +706,7 @@ void parse_mode_03_msg(char *obd_msg)
    char dtc_code[8];
    
    len = strlen(obd_msg);
-   
+   /* printf("parse_mode_03_msg() <DEBUG>: %s\n", obd_msg); */
    if (len > 8)
    {
      memset(dtc_code, 0, 8);
@@ -702,16 +716,22 @@ void parse_mode_03_msg(char *obd_msg)
      dtc_sys_chars[2] = obd_msg[6];
      dtc_sys_chars[3] = obd_msg[7];
      dtc_sys_chars[4] = 0;
-     dtc_index = strtol(obd_msg, 0, 16);
+     dtc_index = strtol(dtc_code, 0, 16);
+     /* printf("parse_mode_03_msg() <DEBUG>: %d %s %s\n", dtc_index, dtc_code, dtc_sys_chars); */
      if ((dtc_index >= 0) && (dtc_index < 16)) /* TODO: handle multiple DTCs. */
      {
         strncpy(ecup.ecu_last_dtc_code, DTC_System_Codes[dtc_index], 2);
         ecup.ecu_last_dtc_code[2] = dtc_sys_chars[1];
         ecup.ecu_last_dtc_code[3] = dtc_sys_chars[2];
         ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
-        sprintf(buf, "DTC: %s", ecup.ecu_last_dtc_code);
+        sprintf(buf, "Diagnostic Trouble Code: %s", ecup.ecu_last_dtc_code);
         set_status_bar_msg(buf);
+        /* printf("parse_mode_03_msg() <INFO>: %s\n", buf); */
      }
+   }
+   else
+   {
+      printf("parse_mode_03_msg() <ERROR>: %s\n", obd_msg);
    }
       
    

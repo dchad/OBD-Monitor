@@ -731,15 +731,18 @@ gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    int dtc_count;
    char dtc_msg[256];
    char mil_msg[256];
+   char dtc_code[256];
    cairo_text_extents_t ctext;
 
    draw_large_dial_background(cr);
 
    memset(dtc_msg, 0, 256);
    memset(mil_msg, 0, 256);
-      
+   memset(dtc_code, 0, 256);
+   
    mil_status = get_mil_status();
    dtc_count = get_dtc_count();
+   get_last_dtc_code(dtc_code);
    
    if (mil_status == 1)
    {
@@ -765,13 +768,19 @@ gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 50);
    cairo_show_text(cr, dtc_msg);
+
+   cairo_set_font_size(cr, 32);
+   cairo_text_extents (cr,dtc_code,&ctext);
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 120);
+   cairo_show_text(cr, dtc_code);
    
    cairo_set_font_size(cr, 28);
    cairo_text_extents (cr,"DTC",&ctext);
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 210);
    cairo_show_text(cr, "DTC");
-  
+   
    return TRUE;
 }
 
