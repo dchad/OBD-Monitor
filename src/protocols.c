@@ -662,8 +662,11 @@ void set_dtc_count(char *obd_msg)
      }
      else
      {
-        sprintf(buf, "Invalid MIL Message: %s\n", obd_msg);
-        print_log_entry(buf);
+        /* MIL is on. */
+        ecup.ecu_mil_status = 0;
+        ecup.ecu_dtc_count = mil_code;
+        sprintf(buf, "MIL Off: DTC Count = %d", ecup.ecu_dtc_count);
+        print_log_entry(obd_msg);
      }
    }
    
@@ -744,26 +747,32 @@ void parse_mode_03_msg(char *obd_msg)
    /* printf("parse_mode_03_msg() <DEBUG>: %s\n", obd_msg); */
    if (len > 8)
    {
-     memset(dtc_code, 0, 8);
-     dtc_code[0] = obd_msg[3];
-     dtc_sys_chars[0] = obd_msg[3];
-     dtc_sys_chars[1] = obd_msg[4];
-     dtc_sys_chars[2] = obd_msg[6];
-     dtc_sys_chars[3] = obd_msg[7];
-     dtc_sys_chars[4] = 0;
-     dtc_index = strtol(dtc_code, 0, 16);
-     /* printf("parse_mode_03_msg() <DEBUG>: %d %s %s\n", dtc_index, dtc_code, dtc_sys_chars); */
-     if ((dtc_index >= 0) && (dtc_index < 16)) /* TODO: handle multiple DTCs. */
-     {
-        strncpy(ecup.ecu_last_dtc_code, DTC_System_Codes[dtc_index], 2);
-        ecup.ecu_last_dtc_code[2] = dtc_sys_chars[1];
-        ecup.ecu_last_dtc_code[3] = dtc_sys_chars[2];
-        ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
-        sprintf(buf, "Diagnostic Trouble Code: %s", ecup.ecu_last_dtc_code);
-        set_status_bar_msg(buf);
-        print_log_entry(obd_msg);
-        /* printf("parse_mode_03_msg() <INFO>: %s\n", buf); */
-     }
+      memset(dtc_code, 0, 8);
+      dtc_code[0] = obd_msg[3];
+      dtc_sys_chars[0] = obd_msg[3];
+      dtc_sys_chars[1] = obd_msg[4];
+      dtc_sys_chars[2] = obd_msg[6];
+      dtc_sys_chars[3] = obd_msg[7];
+      dtc_sys_chars[4] = 0;
+      dtc_index = strtol(dtc_code, 0, 16);
+      /* printf("parse_mode_03_msg() <DEBUG>: %d %s %s\n", dtc_index, dtc_code, dtc_sys_chars); */
+      if ((dtc_index >= 0) && (dtc_index < 16)) /* TODO: handle multiple DTCs. */
+      {
+         strncpy(ecup.ecu_last_dtc_code, DTC_System_Codes[dtc_index], 2);
+         ecup.ecu_last_dtc_code[2] = dtc_sys_chars[1];
+         ecup.ecu_last_dtc_code[3] = dtc_sys_chars[2];
+         ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
+         sprintf(buf, "Diagnostic Trouble Code: %s", ecup.ecu_last_dtc_code);
+         set_status_bar_msg(buf);
+         print_log_entry(obd_msg);
+         /* printf("parse_mode_03_msg() <INFO>: %s\n", buf); */
+      }
+      else
+      {
+         printf("parse_mode_03_msg() <ERROR>: %s\n", obd_msg);
+         sprintf(buf, "Invalid Mode 03 Message: %s\n", obd_msg);
+         print_log_entry(buf);
+      }
    }
    else
    {
@@ -771,8 +780,7 @@ void parse_mode_03_msg(char *obd_msg)
       sprintf(buf, "Invalid Mode 03 Message: %s\n", obd_msg);
       print_log_entry(buf);
    }
-      
-   
+     
    return;
 }
 
