@@ -101,6 +101,9 @@ void set_simulator_ecu_parameters()
    simulator_ecu.ecu_fuel_pressure = 3.0 * (double)tick_count;
    simulator_ecu.ecu_fuel_flow_rate = 2.0 * (double)tick_count;
    simulator_ecu.ecu_fuel_tank_level = (double)tick_count;
+   
+   simulator_ecu.ecu_mil_status = 1;
+   simulator_ecu.ecu_dtc_count = 1;
     
    return;
 }
@@ -457,6 +460,23 @@ void send_vin_msg()
    return;
 }
 
+void send_mil_status()
+{
+   char reply_buf[256];
+   int n, mil_status;
+   
+   memset(reply_buf, 0, 256);
+
+   mil_status = simulator_ecu.ecu_mil_status * 128 + simulator_ecu.ecu_dtc_count;
+   
+   sprintf(reply_buf, "41 01 %.2x 01 02 03\n", mil_status); /* Msg = (41 01 81 XX XX XX) if MIL on and 1 DTC. */
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("send_mil_status(): MIL Msg: %i bytes %s", n, reply_buf);
+   
+   return;
+}
 
 void reply_mode_01_msg(char *obd_msg)
 {
@@ -471,6 +491,7 @@ void reply_mode_01_msg(char *obd_msg)
       switch(pid)
       {
          case 0: send_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
+         case 1: send_mil_status(); break; /* MIL on/off and DTC count. */
          case 5: send_coolant_temperature(); break; /*  */
          case 10: send_fuel_pressure(); break;
          case 11: send_manifold_pressure(); break; /* Throttle Position. */
@@ -496,6 +517,19 @@ void reply_mode_01_msg(char *obd_msg)
 void reply_mode_03_msg(char *obd_msg)
 {
    /* TODO: Send back a DTC message. */
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   /* TODO: send multiple DTCs. */
+   strcpy(reply_buf, "41 01 33 00 00 00 00\n"); /* DTC = P0133. */
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("reply_mode_03_msg(): DTC Msg: %i bytes %s", n, reply_buf);
+   
+   return;   
    
 }
 

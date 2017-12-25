@@ -121,9 +121,13 @@ void print_msg(GtkWidget *widget, gpointer window)
 
 gint send_obd_message_60sec_callback (gpointer data)
 {
-   send_ecu_msg("ATRV\n"); /* Battery Voltage */
-   
-   /* gtk_widget_queue_draw((GtkWidget *)data); */
+   send_ecu_msg("ATRV\n");  /* Battery Voltage */
+   send_ecu_msg("01 01\n"); /* Get MIL status and DTC count. */
+   send_ecu_msg("03\n");    /* Get DTC codes. */
+   send_ecu_msg("01 05\n"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\n"); /* Oil Temperature */
    
    return(TRUE);
 }
@@ -162,8 +166,13 @@ gint send_obd_message_1sec_callback (gpointer data)
 
 gint recv_obd_message_callback (gpointer data)
 {
-   recv_ecu_msg();
-   gtk_widget_queue_draw((GtkWidget *)data);
+   int n;
+   
+   n = recv_ecu_msg();
+   if (n > 0)
+   {
+      gtk_widget_queue_draw((GtkWidget *)data);
+   }
    
    return(TRUE);
 }
@@ -620,8 +629,11 @@ int main(int argc, char *argv[])
          send_ecu_msg("ATDP\n"); /* Get OBD protocol name from interface. */
          send_ecu_msg("ATRV\n"); /* Get battery voltage from interface. */
          send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
-         /* g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window); */
-         g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
+         send_ecu_msg("09 0A\n"); /* Get ECU name. */
+         send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
+         send_ecu_msg("03\n");
+         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+         /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */
          g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
          g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
          set_status_msg("Connected to ECU.");

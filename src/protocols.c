@@ -77,6 +77,41 @@ const char *OBD_Protocol_List[] = {
 "OBD C - USER2 CAN (11 bit ID, 50 kbaud)"
 };
 
+/*
+   DTC Code Format: Each DTC is two bytes (two ASCII Hex characters).
+   
+   DTC System (Bits A7-A6): 00 = Powertrain, 01 = Chassis, 10 = Body, 11 = User(network).
+   DTC Code Type (Bits A5-A4): 00 = Generic, 01 = Manufacturer, 10 and 11 = Mixed.
+   DTC Number (Bits A3 - A0 and B7 - B0): numeric (hex) value DTC identifier.
+*/
+
+const char *DTC_System_Codes[16] = {
+"P0","P1","P2","P3", /* Powertrain DTCs. */
+"C0","C1","C2","C3", /* Chassis DTCs. */
+"B0","B1","B2","B3", /* Body DTCs. */
+"U0","U1","U2","U3", /* User/Network DTCs. */
+};
+
+const char *DTC_Type_Codes[4] = {
+"Generic",
+"Manufacturer",
+"Generic/Manufacturer",
+"Generic/Manufacturer"
+};
+
+#define DTC_SYSTEM_CODE 0b11000000
+#define DTC_TYPE_CODE   0b00110000
+#define DTC_FIRST_NUM   0b00001111
+#define DTC_SECOND_NUM  0b11110000
+#define DTC_THIRD_NUM   0b00001111
+
+/*
+   DTC Count and MIL Status Message.
+   MIL ON/OFF = Bit A7
+   DTC Count = Bits A6-A0
+*/
+#define MIL_STATUS_BIT 128
+
 
 /* OBD Interface Parameters Get/Set Functions. */ 
 void set_interface_on()
@@ -566,8 +601,40 @@ void set_vehicle_vin(char *obd_msg)
    return;
 }
 
+int get_mil_status()
+{
+   return(ecup.ecu_mil_status);
+}
+
+int get_dtc_count()
+{
+   return(ecup.ecu_dtc_count);
+}
+
 void set_dtc_count(char *obd_msg)
 {
+   int len;
+   long mil_code;
+   char buf[256];
+   char mil_chars[2];
+   
+   len = strlen(obd_msg);
+   
+   if (len > 8)
+   {
+     mil_chars[0] = obd_msg[6];
+     mil_chars[1] = obd_msg[7];
+     mil_code = strtol(mil_chars, 0, 16);
+     if (mil_code >= 128)
+     {
+        /* MIL is on. */
+        ecup.ecu_mil_status = 1;
+        ecup.ecu_dtc_count = mil_code - 128;
+        sprintf(buf, "MIL On: DTC Count = %d", ecup.ecu_dtc_count);
+        set_status_bar_msg(buf);
+     }
+   }
+   
    return;
 }
 
@@ -614,6 +681,41 @@ void parse_mode_01_msg(char *obd_msg)
 void parse_mode_03_msg(char *obd_msg)
 {
    /* Decode DTC message. */
+   /* 
+      Message format Non-CAN: 43 01 33 00 00 00 00
+      TODO: Message format CAN: 43 01 01 33 00 00 00 00
+   */
+   int len;
+   int dtc_index;
+   char buf[256];
+   char dtc_sys_chars[4];
+   char dtc_code[8];
+   
+   len = strlen(obd_msg);
+   
+   if (len > 8)
+   {
+     memset(dtc_code, 0, 8);
+     dtc_code[0] = obd_msg[3];
+     dtc_sys_chars[0] = obd_msg[3];
+     dtc_sys_chars[1] = obd_msg[4];
+     dtc_sys_chars[2] = obd_msg[6];
+     dtc_sys_chars[3] = obd_msg[7];
+     dtc_sys_chars[4] = 0;
+     dtc_index = strtol(obd_msg, 0, 16);
+     if ((dtc_index >= 0) && (dtc_index < 16)) /* TODO: handle multiple DTCs. */
+     {
+        strncpy(ecup.ecu_last_dtc_code, DTC_System_Codes[dtc_index], 2);
+        ecup.ecu_last_dtc_code[2] = dtc_sys_chars[1];
+        ecup.ecu_last_dtc_code[3] = dtc_sys_chars[2];
+        ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
+        sprintf(buf, "DTC: %s", ecup.ecu_last_dtc_code);
+        set_status_bar_msg(buf);
+     }
+   }
+      
+   
+   return;
 }
 
 void parse_mode_09_msg(char *obd_msg)

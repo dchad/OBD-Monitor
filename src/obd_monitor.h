@@ -44,6 +44,19 @@
 #define NUM_PI 3.1415926535897932384626433832795028841971693993751
 #define LOG_FILE "./obd-mon-data.log"
 
+/* PID Message Codes. */
+
+#define PID_SUPPORTED_01 "01 00\n"
+#define PID_DTC_COUNT    "01 01\n"
+#define PID_ECT          "01 05\n"
+
+#define PID_DTC_CODE     "03\n"
+
+#define PID_VIN "09 02\n"
+#define PID_ECU "09 0A\n"
+
+
+
 /* Type Definitions. */
 
 struct _DialPoint {

@@ -90,6 +90,9 @@ struct _ECU_Parameters {
    double ecu_fuel_flow_rate;
    double ecu_fuel_tank_level;
    double ecu_timing_advance;
+   int ecu_mil_status;
+   int ecu_dtc_count;
+   char ecu_last_dtc_code[16];
    char ecu_vin[256];
    char ecu_name[256];
    char battery_voltage[256];
@@ -163,6 +166,9 @@ double get_fuel_pressure();
 double get_accelerator_position();
 double get_timing_advance();
 
+int get_mil_status();
+int get_dtc_count();
+int get_dtc_code(int code_num);
 
 /* Message Parsers. */
 int parse_obd_msg(char *obd_msg);

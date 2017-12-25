@@ -26,6 +26,12 @@ const char *ecu_vin[] = {
 "49 02 01 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36"
 };
 
+void generate_dtc_lookup_table()
+{
+   return;
+}
+
+
 int main(int argc, char *argv[])
 {
    char temp_buf[256];
@@ -40,6 +46,12 @@ int main(int argc, char *argv[])
       exit(0); */
    }
 
+/* 
+----------------------------------------------
+         Generate DTC Lookup Table. 
+----------------------------------------------
+*/
+   generate_dtc_lookup_table();
 
 /* 
 ----------------------------------------------
