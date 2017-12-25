@@ -769,7 +769,7 @@ gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 50);
    cairo_show_text(cr, dtc_msg);
 
-   cairo_set_font_size(cr, 32);
+   cairo_set_font_size(cr, 36);
    cairo_text_extents (cr,dtc_code,&ctext);
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (150.0 - (0.5 * ctext.width + ctext.x_bearing)), 120);

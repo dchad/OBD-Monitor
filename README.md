@@ -2,7 +2,7 @@
 Tools for interfacing with vehicle engine control units using the OBD-II protocol.
 
 
-## STATUS: Experimental.
+## STATUS: Experimental - Do NOT use if your life depends on it.
 
 ## 1. Introduction
 
@@ -25,6 +25,12 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
   TODO:
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-monitor-gui.png "GUI Prototype")
+
+
+!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-dtc-tab.png "GUI Prototype")
+
+
+!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-comms.png "GUI Prototype")
 
 
 ## 4. OBD-II Protocol

@@ -76,6 +76,11 @@ const char *ecu_vin[] = {
 "49 02 01 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36"
 };
 
+const char *ecu_name[] = { 
+"49 0A 30 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C",
+"49 0A 01 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 31 32 33 34 35 36 37 38"
+};
+
 
 void fatal_error(const char *error_msg)
 {
@@ -460,6 +465,22 @@ void send_vin_msg()
    return;
 }
 
+void send_ecu_name()
+{
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   sprintf(reply_buf, "%s\n", ecu_name[0]);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("send_ecu_name(): ECU Name: %i bytes %s", n, reply_buf);
+   
+   return;
+}
+
 void send_mil_status()
 {
    char reply_buf[256];
@@ -543,12 +564,13 @@ void reply_mode_09_msg(char *obd_msg)
    n = sscanf(obd_msg, "%x %x", &pmode, &pid);
    if (n == 2)
    {
-      printf("reply_mode_01_msg(): %d %d\n", pmode, pid);
+      printf("reply_mode_09_msg(): %d %d\n", pmode, pid);
       switch(pid)
       {
          case 0: break; /* TODO: Supported PIDs. */
          case 1: break; /* TODO: Send ECU name. */
-         case 2: send_vin_msg(); break; /* Send VIN number. */   
+         case 2: send_vin_msg(); break; /* Send VIN number. */  
+         case 10: send_ecu_name(); break; /* ECU Name. */ 
       }
    }
    return;
