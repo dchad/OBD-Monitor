@@ -574,20 +574,20 @@ double get_mode_9_supported_pid_list_1_32()
    return(0);
 }
 
-void set_vehicle_vin(char *obd_msg)
+void set_vehicle_vin(char *obd_vin_msg)
 {
    char temp_buf[256];
    int len;
    memset(ecup.ecu_vin, 0, 256);
    memset(temp_buf, 0, 256);
    
-   len = xstrcpy(temp_buf, obd_msg, 6, strlen(obd_msg)-2); /* Chomp the header and newline. */
+   len = xstrcpy(temp_buf, obd_vin_msg, 6, strlen(obd_vin_msg)-2); /* Chomp the header and newline. */
    if (len > 0)
    {
       len = xhextoascii(ecup.ecu_vin, temp_buf);
       if (len > 0)
       {
-         print_log_entry(obd_msg);
+         print_log_entry(obd_vin_msg);
       }
    }
    else
@@ -601,28 +601,27 @@ void set_vehicle_vin(char *obd_msg)
    return;
 }
 
-void set_ecu_name(char *obd_msg)
+void set_ecu_name(char *obd_ecu_name_msg)
 {
    char temp_buf[256];
    int len;
    memset(ecup.ecu_name, 0, 256);
    memset(temp_buf, 0, 256);
    
-   len = xstrcpy(temp_buf, obd_msg, 6, strlen(obd_msg)-2); /* Chomp the header and newline. */
+   len = xstrcpy(temp_buf, obd_ecu_name_msg, 6, strlen(obd_ecu_name_msg)-2); /* Chomp the header and newline. */
    if (len > 0)
    {
       len = xhextoascii(ecup.ecu_name, temp_buf);
-      print_log_entry(obd_msg);
+      strcpy(temp_buf, "ECU Name: ");
+      strncat(temp_buf, ecup.ecu_name, strlen(ecup.ecu_name));
+      set_status_bar_msg(temp_buf);
+      print_log_entry(obd_ecu_name_msg);
    }
    else
    {
       strcpy(ecup.ecu_name, "Invalid ECU Name Message.");
-      sprintf(temp_buf, "Invalid ECU Name Message: %s\n", obd_msg);
-      print_log_entry(temp_buf);
+      printf(temp_buf, "Invalid ECU Name Message: %s\n", obd_ecu_name_msg);
    }
-   strcpy(temp_buf, "ECU Name: ");
-   strncat(temp_buf, ecup.ecu_name, strlen(ecup.ecu_name));
-   set_status_bar_msg(temp_buf);
    
    return;
 }
@@ -637,37 +636,36 @@ int get_dtc_count()
    return(ecup.ecu_dtc_count);
 }
 
-void set_dtc_count(char *obd_msg)
+void set_dtc_count(char *obd_mil_msg)
 {
    int len;
    long mil_code;
    char buf[256];
    char mil_chars[2];
    
-   len = strlen(obd_msg);
+   len = strlen(obd_mil_msg);
    
    if (len > 8)
    {
-     mil_chars[0] = obd_msg[6];
-     mil_chars[1] = obd_msg[7];
+     mil_chars[0] = obd_mil_msg[6];
+     mil_chars[1] = obd_mil_msg[7];
      mil_code = strtol(mil_chars, 0, 16);
      if (mil_code >= 128)
      {
         /* MIL is on. */
         ecup.ecu_mil_status = 1;
         ecup.ecu_dtc_count = mil_code - 128;
-        sprintf(buf, "MIL On: DTC Count = %d", ecup.ecu_dtc_count);
+        printf(buf, "MIL On: DTC Count = %d", ecup.ecu_dtc_count);
         set_status_bar_msg(buf);
-        print_log_entry(obd_msg);
      }
      else
      {
-        /* MIL is on. */
+        /* MIL is off. */
         ecup.ecu_mil_status = 0;
         ecup.ecu_dtc_count = mil_code;
-        sprintf(buf, "MIL Off: DTC Count = %d", ecup.ecu_dtc_count);
-        print_log_entry(obd_msg);
+        printf("MIL Off: DTC Count = %d", ecup.ecu_dtc_count);
      }
+     print_log_entry(obd_mil_msg);
    }
    
    return;
@@ -692,7 +690,6 @@ void parse_mode_01_msg(char *obd_msg)
    /* Decode ECU Mode 01 parameter message. */
    unsigned int pmode, pid;
    char header[16];
-   char buf[256];
    
    memset(header, 0, 16);
    strncpy(header, obd_msg, 5);
@@ -722,15 +719,14 @@ void parse_mode_01_msg(char *obd_msg)
    else
    {
       /* TODO: log error message. */
-      sprintf(buf, "Invalid OBD Mode 01 Message: %s\n", obd_msg);
-      print_log_entry(buf);
+      printf("Invalid OBD Mode 01 Message: %s\n", obd_msg);
    }   
 
    
    return;
 }
 
-void parse_mode_03_msg(char *obd_msg)
+void parse_mode_03_msg(char *obd_dtc_msg)
 {
    /* Decode DTC message. */
    /* 
@@ -743,16 +739,16 @@ void parse_mode_03_msg(char *obd_msg)
    char dtc_sys_chars[4];
    char dtc_code[8];
    
-   len = strlen(obd_msg);
+   len = strlen(obd_dtc_msg);
    /* printf("parse_mode_03_msg() <DEBUG>: %s\n", obd_msg); */
    if (len > 8)
    {
       memset(dtc_code, 0, 8);
-      dtc_code[0] = obd_msg[3];
-      dtc_sys_chars[0] = obd_msg[3];
-      dtc_sys_chars[1] = obd_msg[4];
-      dtc_sys_chars[2] = obd_msg[6];
-      dtc_sys_chars[3] = obd_msg[7];
+      dtc_code[0] = obd_dtc_msg[3];
+      dtc_sys_chars[0] = obd_dtc_msg[3];
+      dtc_sys_chars[1] = obd_dtc_msg[4];
+      dtc_sys_chars[2] = obd_dtc_msg[6];
+      dtc_sys_chars[3] = obd_dtc_msg[7];
       dtc_sys_chars[4] = 0;
       dtc_index = strtol(dtc_code, 0, 16);
       /* printf("parse_mode_03_msg() <DEBUG>: %d %s %s\n", dtc_index, dtc_code, dtc_sys_chars); */
@@ -764,21 +760,17 @@ void parse_mode_03_msg(char *obd_msg)
          ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
          sprintf(buf, "Diagnostic Trouble Code: %s", ecup.ecu_last_dtc_code);
          set_status_bar_msg(buf);
-         print_log_entry(obd_msg);
+         print_log_entry(obd_dtc_msg);
          /* printf("parse_mode_03_msg() <INFO>: %s\n", buf); */
       }
       else
       {
-         printf("parse_mode_03_msg() <ERROR>: %s\n", obd_msg);
-         sprintf(buf, "Invalid Mode 03 Message: %s\n", obd_msg);
-         print_log_entry(buf);
+         printf("parse_mode_03_msg() <ERROR>: %s\n", obd_dtc_msg);
       }
    }
    else
    {
-      printf("parse_mode_03_msg() <ERROR>: %s\n", obd_msg);
-      sprintf(buf, "Invalid Mode 03 Message: %s\n", obd_msg);
-      print_log_entry(buf);
+      printf("parse_mode_03_msg() <ERROR>: %s\n", obd_dtc_msg);
    }
      
    return;
