@@ -99,6 +99,11 @@ const char *DTC_Type_Codes[4] = {
 "Generic/Manufacturer"
 };
 
+PID_Parameters pid_list_mode_1[32];
+PID_Parameters pid_list_mode_9[32];
+
+DTC_Parameters dtc_list[32];
+
 #define DTC_SYSTEM_CODE 0b11000000
 #define DTC_TYPE_CODE   0b00110000
 #define DTC_FIRST_NUM   0b00001111
@@ -555,6 +560,7 @@ double get_accelerator_position()
 
 void set_mode_1_supported_pid_list_1_32(char *pid_msg)
 {
+
    return;
 }
 

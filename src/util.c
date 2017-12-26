@@ -10,7 +10,7 @@
    
 */
 
-
+#include <ctype.h>
 #include "obd_monitor.h"
 
 /* Redefine malloc with a fatal exit. */
@@ -174,5 +174,70 @@ char *xitoa(int value, char* result, int len, int base)
    }
    return result;
 }
+
+/*
+   Function: get_time_string()
+
+   Purpose : Gets current date and time in a string.
+           :
+   Input   : String for date and time.
+   Output  : Formatted date and time string.
+*/
+int get_time_string(char *tstr, int slen)
+{
+   time_t curtime;
+   struct tm *loctime;
+   int len;
+
+   if ((tstr == NULL) || (slen < 15))
+   {
+      printf("get_time_string() <ERROR> Invalid string or length.\n");
+      return(0);
+   }
+   /* Get the current time. */
+
+   curtime = time (NULL);
+   loctime = localtime (&curtime);
+   if ((len = strftime(tstr, slen - 1, "-%Y%m%d-%H%M%S", loctime)) < 1)
+   {
+      printf("get_time_string() <WARNING> Indeterminate time string: %s\n", tstr);
+   }
+
+   return(len);
+}
+
+
+int validate_ipv4_address(char *ipv4_addr)
+{
+	/* TODO: a regex would be nice = m/\d+\.\d+\.\d+\.\d+/ */
+	return(0);
+}
+
+int validate_ipv6_address(char *ipv6_addr)
+{
+	/* TODO: definitely need a regex for this one */
+
+	return(0);
+}
+
+char *ltrim(char *s)
+{
+    while(isspace(*s)) s++;
+    return s;
+}
+
+char *rtrim(char *s)
+{
+    char* back = s + strlen(s);
+    while(isspace(*--back));
+    *(back+1) = '\0';
+    return s;
+}
+
+char *trim(char *s)
+{
+    return rtrim(ltrim(s));
+}
+
 
 

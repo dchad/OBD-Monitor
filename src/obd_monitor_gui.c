@@ -241,9 +241,6 @@ GtkWidget* create_image(char *image_file, GtkWidget *cbox)
                     G_CALLBACK (image_press_callback),
                     image);
 
-  /* gtk_box_pack_start(GTK_BOX(cbox), event_box, FALSE, FALSE, 10);
-  gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10); */
-
   return image;
 }
 

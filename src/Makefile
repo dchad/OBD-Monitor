@@ -19,7 +19,7 @@ LIBDIRS=-L../../libs
 GUI_SOURCES=obd_monitor_gui.c protocols.c sockets.c gui_dialogs.c gui_gauges.c log.c util.c
 SERVER_SOURCES=obd_monitor_server.c rs232.c log.c util.c
 SIMULATOR_SOURCES=ecu_simulator.c rs232.c log.c util.c
-UNIT_TEST_SOURCES=unit_test.c util.c log.c rs232.c
+UNIT_TEST_SOURCES=unit_test.c util.c log.c rs232.c pid_hash_map.c
 
 # Objects
 

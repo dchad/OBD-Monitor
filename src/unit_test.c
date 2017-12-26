@@ -1,6 +1,7 @@
 
 
 #include "obd_monitor.h"
+#include "pid_hash_map.h"
 
 const char *OBD_Protocol_List[] = {
 "OBD 0 - Automatic OBD-II Protocol Search",
@@ -51,7 +52,7 @@ int main(int argc, char *argv[])
          Generate DTC Lookup Table. 
 ----------------------------------------------
 */
-   generate_dtc_lookup_table();
+   /* generate_dtc_lookup_table(); */
 
 /* 
 ----------------------------------------------
@@ -71,7 +72,22 @@ int main(int argc, char *argv[])
    }
    printf("VIN: %s\n", temp_buf);
    
-      
+/* 
+----------------------------------------------
+         Hashmap tests.
+----------------------------------------------
+*/
+
+   int ii;
+
+   for(ii = 0; ii < 10; ii++)
+   {
+         PID_Parameters *pid = xmalloc(sizeof(PID_Parameters));
+         sprintf(pid->pid_code, "%.4x", ii);
+         sprintf(pid->pid_description, "Powertrain: %.4x", ii);
+         add_pid(pid); 
+   }
+   print_pid_map();
    
    exit(0);
 }

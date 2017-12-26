@@ -51,6 +51,8 @@
 #ifndef OBD_PROTOCOLS_INCLUDED
 #define OBD_PROTOCOLS_INCLUDED
 
+#include "uthash.h"
+
 /* Constant Definitions. */
 
 #define ECU_ECT_TEMPERATURE_MAX 215.0
@@ -95,6 +97,7 @@ struct _ECU_Parameters {
    char ecu_last_dtc_code[16];
    char ecu_vin[256];
    char ecu_name[256];
+   char ecu_manufacturer[256];
    char battery_voltage[256];
 };
 
@@ -112,6 +115,28 @@ struct _OBD_Interface {
 };
 
 typedef struct _OBD_Interface OBD_Interface;
+
+struct _PID_Parameters {
+   char pid_code[16];
+   unsigned int pid_num;
+   unsigned int pid_supported;
+   unsigned int pid_data_bytes;
+   char pid_description[256];
+   UT_hash_handle hh;
+};
+
+typedef struct _PID_Parameters PID_Parameters;
+
+struct _DTC_Parameters {
+   char *dtc_code[16];
+   unsigned int dtc_number;
+   unsigned int dtc_set;
+   char *dtc_description[256];
+   char *dtc_date_time[256];
+   UT_hash_handle hh;
+};
+
+typedef struct _DTC_Parameters DTC_Parameters;
 
 /* Function Declarations. */
 

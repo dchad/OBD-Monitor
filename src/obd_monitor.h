@@ -95,6 +95,13 @@ char* xitoa(int value, char* result, int len, int base);
 int xstrcpy(char *out_buf, char *in_buf, int start, int end);
 int xhextoascii(char *out_buf, char *in_buf);
 int print_help();
+int get_time_string(char *tstr, int slen);
+int get_ip_address(char *interface, char *ip_addr);
+int validate_ipv4_address(char *ipv4_addr);
+int validate_ipv6_address(char *ipv6_addr);
+char *ltrim(char *s);
+char *rtrim(char *s);
+char *trim(char *s);
 
 /* log.c */
 FILE *open_log_file(char *startup_path, char *log_file_name);
@@ -107,7 +114,6 @@ int recv_ecu_msg();
 int init_obd_comms(char *obd_msg);
 int ecu_connect();
 int get_ecu_connected();
-
 
 /* Unit Test Functions */
 int unit_tests(FILE *log_file);
