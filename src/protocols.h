@@ -128,11 +128,11 @@ struct _PID_Parameters {
 typedef struct _PID_Parameters PID_Parameters;
 
 struct _DTC_Parameters {
-   char *dtc_code[16];
+   char dtc_code[16];
    unsigned int dtc_number;
    unsigned int dtc_set;
-   char *dtc_description[256];
-   char *dtc_date_time[256];
+   char dtc_description[256];
+   char dtc_date_time[256];
    UT_hash_handle hh;
 };
 

@@ -5,7 +5,7 @@
    Author: Derek Chadwick
    Date  : 06/07/2017
 
-   Purpose: A hashmap wrapper for uthash, used to store PID parameters.
+   Purpose: A wrapper for uthash, used to store PID parameters.
 
 */
 

@@ -2,6 +2,7 @@
 
 #include "obd_monitor.h"
 #include "pid_hash_map.h"
+#include "dtc_hash_map.h"
 
 const char *OBD_Protocol_List[] = {
 "OBD 0 - Automatic OBD-II Protocol Search",
@@ -27,6 +28,12 @@ const char *ecu_vin[] = {
 "49 02 01 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36"
 };
 
+const char *ecu_name[] = { 
+"49 0A 43 52 41 50 54 45 43 48 3A 53 59 53 54 45 4D 53 3A 30 31 32 33 34",
+"49 0A 30 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C",
+"49 0A 01 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 31 32 33 34 35 36 37 38"
+};
+
 void generate_dtc_lookup_table()
 {
    return;
@@ -37,7 +44,8 @@ int main(int argc, char *argv[])
 {
    char temp_buf[256];
    char obd_msg[256];
-   int len;
+   int len, ii;
+   
    memset(temp_buf, 0, 256);
    memset(obd_msg, 0, 256);
    
@@ -59,35 +67,61 @@ int main(int argc, char *argv[])
          Function tests util.c 
 ----------------------------------------------
 */
-   strcpy(obd_msg, ecu_vin[0]);
-   
-   len = xhextoascii(temp_buf, obd_msg);
-   if (len > 0)
+   for (ii = 0; ii < 3; ii++)
    {
-      print_log_entry(temp_buf);
+      strcpy(obd_msg, ecu_vin[ii]);
+      
+      len = xhextoascii(temp_buf, obd_msg);
+      if (len > 0)
+      {
+         print_log_entry(temp_buf);
+      }
+      else
+      {
+         strcpy(temp_buf, "Unknown VIN Message.");
+      }
+      printf("VIN: %s\n", temp_buf);
    }
-   else
+
+   for (ii = 0; ii < 3; ii++)
    {
-      strcpy(temp_buf, "Unknown VIN Message.");
+      strcpy(obd_msg, ecu_name[ii]);
+      
+      len = xhextoascii(temp_buf, obd_msg);
+      if (len > 0)
+      {
+         print_log_entry(temp_buf);
+      }
+      else
+      {
+         strcpy(temp_buf, "Unknown ECU Message.");
+      }
+      printf("ECU: %s\n", temp_buf);
    }
-   printf("VIN: %s\n", temp_buf);
-   
+      
 /* 
 ----------------------------------------------
          Hashmap tests.
 ----------------------------------------------
 */
 
-   int ii;
-
    for(ii = 0; ii < 10; ii++)
    {
          PID_Parameters *pid = xmalloc(sizeof(PID_Parameters));
          sprintf(pid->pid_code, "%.4x", ii);
-         sprintf(pid->pid_description, "Powertrain: %.4x", ii);
+         sprintf(pid->pid_description, "MODE 01: %.4x", ii);
          add_pid(pid); 
    }
    print_pid_map();
-   
+
+   for(ii = 0; ii < 10; ii++)
+   {
+         DTC_Parameters *dtc = xmalloc(sizeof(DTC_Parameters));
+         sprintf(dtc->dtc_code, "%.4x", ii);
+         sprintf(dtc->dtc_description, "Powertrain: %.4x", ii);
+         add_dtc(dtc); 
+   }
+   print_dtc_map();
+      
    exit(0);
 }
