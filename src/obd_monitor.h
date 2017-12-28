@@ -82,7 +82,7 @@ void set_interface_on();
 void set_interface_off();
 int get_interface_status();
 void update_comms_log_view(char *msg);
-void set_status_bar_message(char *msg);
+void set_status_bar_msg(char *msg);
 void get_status_bar_msg(char *msg);
 
 /* util.c */
@@ -114,6 +114,7 @@ int recv_ecu_msg();
 int init_obd_comms(char *obd_msg);
 int ecu_connect();
 int get_ecu_connected();
+void set_ecu_connected(int cstatus);
 
 /* Unit Test Functions */
 int unit_tests(FILE *log_file);

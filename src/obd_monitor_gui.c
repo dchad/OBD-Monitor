@@ -114,7 +114,7 @@ GdkPixbuf *create_pixbuf(const gchar * filename)
 
 void print_msg(GtkWidget *widget, gpointer window) 
 {
-   g_printf("Button clicked\n");
+   printf("Button clicked\n");
 
    return;
 }
@@ -217,7 +217,6 @@ GtkWidget* create_image(char *image_file, GtkWidget *cbox)
   GtkWidget *image;
   GtkWidget *event_box;
   GtkWidget *info_label, *notice_label;
-  GtkWidget *align;
 
 
   image = gtk_image_new_from_file (image_file);
@@ -228,12 +227,10 @@ GtkWidget* create_image(char *image_file, GtkWidget *cbox)
 
   event_box = gtk_event_box_new ();
 
-  align = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
   
   gtk_container_add (GTK_CONTAINER (event_box), image);
-  gtk_container_add (GTK_CONTAINER (align), event_box);
   gtk_box_pack_start (GTK_BOX (cbox), notice_label, FALSE, FALSE, 50);
-  gtk_box_pack_start (GTK_BOX (cbox), align, FALSE, FALSE, 10);
+  gtk_box_pack_start (GTK_BOX (cbox), event_box, FALSE, FALSE, 10);
   gtk_box_pack_start(GTK_BOX(cbox), info_label, FALSE, FALSE, 10);
 
   g_signal_connect (G_OBJECT (event_box),
@@ -366,8 +363,8 @@ int main(int argc, char *argv[])
 
    gtk_init(&argc, &argv);
 
-   g_printf("GTK+ version: %d.%d.%d\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
-   g_printf("Glib version: %d.%d.%d\n", glib_major_version, glib_minor_version, glib_micro_version);    
+   printf("GTK+ version: %d.%d.%d\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
+   printf("Glib version: %d.%d.%d\n", glib_major_version, glib_minor_version, glib_micro_version);    
 
 
    /* Set up the main window. */
@@ -628,6 +625,7 @@ int main(int argc, char *argv[])
          send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
          send_ecu_msg("09 0A\n"); /* Get ECU name. */
          send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
+         send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
          send_ecu_msg("03\n");
          g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
          /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */

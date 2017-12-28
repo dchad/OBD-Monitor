@@ -279,9 +279,26 @@ void send_oil_pressure()
 }
 
 
-void send_supported_pid_list_1_32()
+int send_supported_pid_list_1_32()
 {
-   return;
+   char reply_buf[256];
+   unsigned int spidl_A, spidl_B, spidl_C, spidl_D;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   spidl_A = 0b11110000; /* Just some random test values. */
+   spidl_B = 0b01010101;
+   spidl_C = 0b11001100;
+   spidl_D = 0b00001111;
+   
+   sprintf(reply_buf, "41 00 %.2x %.2x %.2x %.2x\n", spidl_A, spidl_B, spidl_C, spidl_D);
+   /* TODO: log simulator msg. */
+   printf("send_supported_pid_list_1_32(): Supported PID Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
 }
 
 
@@ -569,7 +586,7 @@ void reply_mode_09_msg(char *obd_msg)
       switch(pid)
       {
          case 0: break; /* TODO: Supported PIDs. */
-         case 1: break; /* TODO: Send ECU name. */
+         case 1: break; /* TODO: Send ???. */
          case 2: send_vin_msg(); break; /* Send VIN number. */  
          case 10: send_ecu_name(); break; /* ECU Name. */ 
       }

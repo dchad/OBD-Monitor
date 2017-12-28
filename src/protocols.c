@@ -41,7 +41,6 @@
         
     (Oil Pressure? GM = 22115c)
     
-    (EGR Pressure?)
     
     
    Date: 7/11/2017
@@ -560,12 +559,42 @@ double get_accelerator_position()
 
 void set_mode_1_supported_pid_list_1_32(char *pid_msg)
 {
+   unsigned int pmode, pid, pa, pb, pc, pd;
+   unsigned int ii;
+   unsigned long bit_select = 0x80000000;
+   unsigned long bit_list;
+
+   if (sscanf(pid_msg, "%x %x %x %x %x %x", &pmode, &pid, &pa, &pb, &pc, &pd) == 6)
+   {
+      bit_list = (16777216 * pa) + (65536 * pb) + (256 * pc) + pd;
+      printf("set_mode_1_supported_pid_list_1_32(): PID list = %.2x %.2x %.2x %.2x = %lx\n", pa, pb, pc, pd, bit_list);
+      for (ii = 0; ii < 32; ii++)
+      {
+         if (bit_list & bit_select)
+         {
+            /* TODO: add to supported PID list. */
+            printf("set_mode_1_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
+         }
+         else
+         {
+            printf("set_mode_1_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
+         }
+         bit_select = bit_select >> 1;
+      }
+      print_log_entry(pid_msg);
+   }
+   else
+   {
+      ecup.ecu_accelerator_position = 0.0;
+   }
+   
 
    return;
 }
 
 double get_mode_1_supported_pid_list_1_32()
 {
+   /* TODO: */
    return(0);
 }
 
