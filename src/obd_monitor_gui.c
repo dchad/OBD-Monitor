@@ -620,12 +620,13 @@ int main(int argc, char *argv[])
    {
       if (ecu_connect() > 0) /* Sockets Module Connect Function. */
       {
-         send_ecu_msg("ATDP\n"); /* Get OBD protocol name from interface. */
-         send_ecu_msg("ATRV\n"); /* Get battery voltage from interface. */
+         send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
+         send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
          send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
          send_ecu_msg("09 0A\n"); /* Get ECU name. */
          send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
          send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
+         send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
          send_ecu_msg("03\n");
          g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
          /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */

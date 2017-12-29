@@ -6,7 +6,8 @@
    Description: OBD and AT message crackers. 
                 If the message starts with ASCII hex digits '40'...'49' then
                 the message is from the ECU. Otherwise it is a message from
-                the OBD interface IC or is invalid.
+                the OBD interface IC, is invalid or may be a manufacturer
+                proprietary code.
                 
    Selected ECU Mode 01 Parameters: 
    
@@ -601,6 +602,35 @@ double get_mode_1_supported_pid_list_1_32()
 
 void set_mode_9_supported_pid_list_1_32(char *pid_msg)
 {
+   unsigned int pmode, pid, pa, pb, pc, pd;
+   unsigned int ii;
+   unsigned long bit_select = 0x80000000;
+   unsigned long bit_list;
+
+   if (sscanf(pid_msg, "%x %x %x %x %x %x", &pmode, &pid, &pa, &pb, &pc, &pd) == 6)
+   {
+      bit_list = (16777216 * pa) + (65536 * pb) + (256 * pc) + pd;
+      printf("set_mode_9_supported_pid_list_1_32(): PID list = %.2x %.2x %.2x %.2x = %lx\n", pa, pb, pc, pd, bit_list);
+      for (ii = 0; ii < 32; ii++)
+      {
+         if (bit_list & bit_select)
+         {
+            /* TODO: add to supported PID list. */
+            printf("set_mode_9_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
+         }
+         else
+         {
+            printf("set_mode_9_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
+         }
+         bit_select = bit_select >> 1;
+      }
+      print_log_entry(pid_msg);
+   }
+   else
+   {
+      ecup.ecu_accelerator_position = 0.0;
+   }
+   
    return;
 }
 
@@ -765,8 +795,8 @@ void parse_mode_03_msg(char *obd_dtc_msg)
 {
    /* Decode DTC message. */
    /* 
-      Message format Non-CAN: 43 01 33 00 00 00 00
-      TODO: Message format CAN: 43 01 01 33 00 00 00 00
+      Message format Non-CAN (7 hex values): 43 01 33 00 00 00 00
+      TODO: Message format CAN (8 hex values): 43 01 01 33 00 00 00 00
    */
    int len;
    int dtc_index;

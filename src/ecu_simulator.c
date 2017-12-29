@@ -72,10 +72,14 @@ const char *OBD_Protocol_List[] = {
    Example: 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6   
 */
 const char *ecu_vin[] = { 
+"49 02 4B 52 41 50 50 3A 4B 41 52 3A 4B 4F 4D 50 41 4E 59",
 "49 02 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36",
 "49 02 01 31 44 34 47 50 30 30 52 35 35 42 31 32 33 34 35 36"
 };
 
+/* 
+   Example ECU names - 20 ASCII characters.
+*/
 const char *ecu_name[] = { 
 "49 0A 43 52 41 50 54 45 43 48 3A 53 59 53 54 45 4D 53 3A 30 31 32 33 34",
 "49 0A 30 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C",
@@ -279,7 +283,7 @@ void send_oil_pressure()
 }
 
 
-int send_supported_pid_list_1_32()
+int send_mode_1_supported_pid_list_1_32()
 {
    char reply_buf[256];
    unsigned int spidl_A, spidl_B, spidl_C, spidl_D;
@@ -294,13 +298,34 @@ int send_supported_pid_list_1_32()
    
    sprintf(reply_buf, "41 00 %.2x %.2x %.2x %.2x\n", spidl_A, spidl_B, spidl_C, spidl_D);
    /* TODO: log simulator msg. */
-   printf("send_supported_pid_list_1_32(): Supported PID Msg: %s", reply_buf);
+   printf("send_mode_1_supported_pid_list_1_32(): Supported PID Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
    
    return(n);
 }
 
+int send_mode_9_supported_pid_list_1_32()
+{
+   char reply_buf[256];
+   unsigned int spidl_A, spidl_B, spidl_C, spidl_D;
+   int n;
+   
+   memset(reply_buf, 0, 256);
+
+   spidl_A = 0b11110000; /* Just some random test values. */
+   spidl_B = 0b01010101;
+   spidl_C = 0b00000000;
+   spidl_D = 0b00000000;
+   
+   sprintf(reply_buf, "49 00 %.2x %.2x %.2x %.2x\n", spidl_A, spidl_B, spidl_C, spidl_D);
+   /* TODO: log simulator msg. */
+   printf("send_mode_9_supported_pid_list_1_32(): Supported PID Msg: %s", reply_buf);
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   return(n);
+}
 
 void send_timing_advance()
 {
@@ -529,7 +554,7 @@ void reply_mode_01_msg(char *obd_msg)
       printf("reply_mode_01_msg(): %d %d\n", pmode, pid);
       switch(pid)
       {
-         case 0: send_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
+         case 0: send_mode_1_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
          case 1: send_mil_status(); break; /* MIL on/off and DTC count. */
          case 5: send_coolant_temperature(); break; /*  */
          case 10: send_fuel_pressure(); break;
@@ -585,7 +610,7 @@ void reply_mode_09_msg(char *obd_msg)
       printf("reply_mode_09_msg(): %d %d\n", pmode, pid);
       switch(pid)
       {
-         case 0: break; /* TODO: Supported PIDs. */
+         case 0: send_mode_9_supported_pid_list_1_32(); break; /* TODO: Supported PIDs. */
          case 1: break; /* TODO: Send ???. */
          case 2: send_vin_msg(); break; /* Send VIN number. */  
          case 10: send_ecu_name(); break; /* ECU Name. */ 

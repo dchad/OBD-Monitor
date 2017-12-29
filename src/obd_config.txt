@@ -36,6 +36,44 @@ RS232 BAUDRATE 9200
 RS232 INTERFACE ttyUSB0
 
 
+# Standard PID List.
+
+PID MODE 01 00 DESC: Supported PID List (1 - 32)
+PID MODE 01 01 DESC: Monitor status since DTCs cleared. (Includes malfunction indicator lamp (MIL) status and number of DTCs.)
+PID MODE 01 02 DESC: Freeze DTC
+PID MODE 01 03 DESC: Fuel system status
+PID MODE 01 04 DESC: Calculated engine load
+PID MODE 01 05 DESC: Engine coolant temperature
+PID MODE 01 06 DESC: Short term fuel trim—Bank 1
+PID MODE 01 07 DESC: Long term fuel trim—Bank 1
+PID MODE 01 08 DESC: Short term fuel trim—Bank 2
+PID MODE 01 09 DESC: Long term fuel trim—Bank 2
+PID MODE 01 0A DESC: Fuel pressure
+PID MODE 01 0B DESC: Intake manifold absolute pressure
+PID MODE 01 0C DESC: Engine RPM
+PID MODE 01 0D DESC: Vehicle speed
+PID MODE 01 0E DESC: Timing advance
+PID MODE 01 0F DESC: Intake air temperature
+PID MODE 01 10 DESC: MAF air flow rate
+PID MODE 01 11 DESC: Throttle position
+PID MODE 01 12 DESC: Commanded secondary air status
+PID MODE 01 13 DESC: Oxygen sensors present (in 2 banks)
+PID MODE 01 14 DESC: Oxygen Sensor 1 A: Voltage B: Short term fuel trim
+PID MODE 01 15 DESC: Oxygen Sensor 2 A: Voltage B: Short term fuel trim
+PID MODE 01 16 DESC: Oxygen Sensor 3 A: Voltage B: Short term fuel trim
+PID MODE 01 17 DESC: Oxygen Sensor 4 A: Voltage B: Short term fuel trim
+PID MODE 01 18 DESC: Oxygen Sensor 5 A: Voltage B: Short term fuel trim
+PID MODE 01 19 DESC: Oxygen Sensor 6 A: Voltage B: Short term fuel trim
+PID MODE 01 1A DESC: Oxygen Sensor 7 A: Voltage B: Short term fuel trim
+PID MODE 01 1B DESC: Oxygen Sensor 8 A: Voltage B: Short term fuel trim
+PID MODE 01 1C DESC: OBD standards this vehicle conforms to
+PID MODE 01 1D DESC: Oxygen sensors present (in 4 banks)
+PID MODE 01 1E DESC: Auxiliary input status
+PID MODE 01 1F DESC: Run time since engine start
+PID MODE 01 20 DESC: PIDs supported [21 - 40]
+PID MODE 01 21 DESC: Distance traveled with malfunction indicator lamp (MIL) on
+
+
 # Custom PID List.
 
 
