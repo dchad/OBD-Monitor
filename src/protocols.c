@@ -345,7 +345,6 @@ void set_obd_protocol_name(char *obd_protocol)
    strncat(temp_buf, obd_interface.obd_protocol_name, strlen(obd_interface.obd_protocol_name));
    printf("set_obd_protocol_name() <DEBUG>: %s\n", temp_buf);
    
-   /* TODO: this is causing GTK UTF8 errors in the notification widget. */
    set_status_bar_msg(temp_buf);
    
    return;
@@ -564,6 +563,7 @@ void set_mode_1_supported_pid_list_1_32(char *pid_msg)
    unsigned int ii;
    unsigned long bit_select = 0x80000000;
    unsigned long bit_list;
+   char temp_buf[256];
 
    if (sscanf(pid_msg, "%x %x %x %x %x %x", &pmode, &pid, &pa, &pb, &pc, &pd) == 6)
    {
@@ -574,11 +574,13 @@ void set_mode_1_supported_pid_list_1_32(char *pid_msg)
          if (bit_list & bit_select)
          {
             /* TODO: add to supported PID list. */
-            printf("set_mode_1_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
+            sprintf(temp_buf, "set_mode_1_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
+            update_comms_log_view(temp_buf);
          }
          else
          {
-            printf("set_mode_1_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
+            sprintf(temp_buf, "set_mode_1_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
+            update_comms_log_view(temp_buf);
          }
          bit_select = bit_select >> 1;
       }
@@ -586,7 +588,7 @@ void set_mode_1_supported_pid_list_1_32(char *pid_msg)
    }
    else
    {
-      ecup.ecu_accelerator_position = 0.0;
+      printf("set_mode_1_supported_pid_list_1_32() <ERROR>: Invalid message.\n");
    }
    
 
@@ -606,6 +608,7 @@ void set_mode_9_supported_pid_list_1_32(char *pid_msg)
    unsigned int ii;
    unsigned long bit_select = 0x80000000;
    unsigned long bit_list;
+   char temp_buf[256];
 
    if (sscanf(pid_msg, "%x %x %x %x %x %x", &pmode, &pid, &pa, &pb, &pc, &pd) == 6)
    {
@@ -616,11 +619,13 @@ void set_mode_9_supported_pid_list_1_32(char *pid_msg)
          if (bit_list & bit_select)
          {
             /* TODO: add to supported PID list. */
-            printf("set_mode_9_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
+            sprintf(temp_buf, "set_mode_9_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
+            update_comms_log_view(temp_buf);
          }
          else
          {
-            printf("set_mode_9_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
+            sprintf(temp_buf, "set_mode_9_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
+            update_comms_log_view(temp_buf);
          }
          bit_select = bit_select >> 1;
       }
@@ -628,7 +633,7 @@ void set_mode_9_supported_pid_list_1_32(char *pid_msg)
    }
    else
    {
-      ecup.ecu_accelerator_position = 0.0;
+      printf("set_mode_9_supported_pid_list_1_32() <ERROR>: Invalid message.\n");
    }
    
    return;

@@ -762,11 +762,17 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
 
 int main(int argc, char *argv[])
 {
-
+   char udp_port[16];
+   
+   memset(udp_port, 0, 16);
+   
    if (argc < 2) 
    {
-      fprintf(stderr, "main() <ERROR>: no port provided.\n");
-      exit(0);
+      strncpy(udp_port, "8989", 4);
+   }
+   else
+   {
+      strncpy(udp_port, argv[1], strlen(argv[1]));
    }
    
    tick_count = 0;
@@ -788,7 +794,7 @@ int main(int argc, char *argv[])
 
    server.sin_family=AF_INET;
    server.sin_addr.s_addr=INADDR_ANY;
-   server.sin_port=htons(atoi(argv[1]));
+   server.sin_port=htons(atoi(udp_port));
    
    if (bind(sock, (struct sockaddr *)&server, length) < 0) 
       fatal_error("binding");
