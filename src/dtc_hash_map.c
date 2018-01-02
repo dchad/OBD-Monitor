@@ -28,6 +28,9 @@
 
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "obd_monitor.h"
 #include "dtc_hash_map.h"
 

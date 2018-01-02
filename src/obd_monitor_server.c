@@ -21,6 +21,17 @@
    
 */
 
+#include <ctype.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <time.h>
+
 #include "obd_monitor.h"
 
 #include "rs232.h"
@@ -123,7 +134,7 @@ int main(int argc, char *argv[])
       exit(0);
    }
    
-   /* TODO: make serial port configurable. */
+   /* TODO: make serial port configurable, ttyUSB0 is an FTDI232 USB-RS232 Converter Module. */
    serial_port = init_serial_comms("ttyUSB0");
    
    sock = socket(AF_INET, SOCK_DGRAM, 0);

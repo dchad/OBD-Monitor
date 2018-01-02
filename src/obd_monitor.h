@@ -24,16 +24,9 @@
 #ifndef OBD_MONITOR_INCLUDED
 #define OBD_MONITOR_INCLUDED
 
-#include <sys/types.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <netdb.h>
-#include <stdio.h>
-#include <time.h>
 
+#include <stdio.h>
+#include <sys/types.h>
 
 /* Constant Definitions. */
 

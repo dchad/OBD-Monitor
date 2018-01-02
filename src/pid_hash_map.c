@@ -28,6 +28,9 @@
 
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "obd_monitor.h"
 #include "pid_hash_map.h"
 

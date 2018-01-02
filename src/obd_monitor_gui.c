@@ -15,6 +15,7 @@
 
 #include <gtk/gtk.h>
 #include <math.h>
+
 #include "obd_monitor.h"
 #include "protocols.h"
 #include "gui_dialogs.h"
@@ -279,6 +280,14 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), communications_vbox, tab_communications_label);
 	
    return(notebook);
+}
+
+
+void init_gui(GtkWidget *window)
+{
+   /* TODO: move all the gui initialisation from main to here. */
+   
+   return;
 }
 
 

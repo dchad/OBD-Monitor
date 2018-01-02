@@ -34,6 +34,17 @@
    
 */
 
+#include <ctype.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <time.h>
+
 #include "obd_monitor.h"
 #include "protocols.h"
 #include "rs232.h"
@@ -297,7 +308,7 @@ int send_mode_1_supported_pid_list_1_32()
    spidl_D = 0b00001111;
    
    sprintf(reply_buf, "41 00 %.2x %.2x %.2x %.2x\n", spidl_A, spidl_B, spidl_C, spidl_D);
-   /* TODO: log simulator msg. */
+   
    printf("send_mode_1_supported_pid_list_1_32(): Supported PID Msg: %s", reply_buf);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);

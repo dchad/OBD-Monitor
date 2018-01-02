@@ -282,7 +282,6 @@ double get_battery_voltage()
 void set_interface_information(char *ii_msg)
 {
    char temp_buf[256];
-   char *pch;
    
    memset(obd_interface.obd_interface_name, 0, 256);
    memset(temp_buf, 0, 256);
@@ -313,7 +312,6 @@ void get_interface_information(char *info)
 void set_obd_protocol_name(char *obd_protocol)
 {
    char temp_buf[256];
-   char *pch;
    
    memset(obd_interface.obd_protocol_name, 0, 256);
    memset(temp_buf, 0, 256);
@@ -387,7 +385,7 @@ void set_egr_pressure(char *egrp_msg)
 
 double get_egr_pressure()
 {
-
+   return(0);
 }
 
 void set_throttle_position(char *tp_msg)
@@ -885,7 +883,8 @@ void parse_mode_09_msg(char *obd_msg)
 int parse_obd_msg(char *obd_msg)
 {
    int msg_len, result;
-   char temp_buf[256];
+   
+   result = -1;
    
    msg_len = strlen(obd_msg);
    
@@ -950,11 +949,7 @@ int parse_obd_msg(char *obd_msg)
          }
       }
    }
-   else
-   {
-      /* TODO: Invalid message, log an error. */
-      result = -1;
-   }
+
 
    return(result);
 }

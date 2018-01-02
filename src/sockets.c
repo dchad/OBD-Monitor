@@ -12,6 +12,16 @@
    
 */
 
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <time.h>
+
 #include "obd_monitor.h"
 #include "protocols.h"
 
@@ -75,19 +85,10 @@ int recv_ecu_msg()
    {
       /* printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); */
       msg_num = parse_obd_msg(buffer);
-      if (msg_num > 0)
+      if (msg_num < 0)
       {
-         /* TODO: Write message to text view widget and log file.
-         update_comms_log_view(buffer); */
-         switch(msg_num) /* TODO: Check message type and update relevant GUI widget. */
-         {               /* TODO: See message types in protocols.h */
-            case 1: break; /* Mode 01 PID message. */
-            case 2: break; /* Battery voltage. */
-            case 3: break; /* OBD interface type message. */
-            case 4: break; /* OBD Protocol Selected message. */
-            case 5: break; /* Mode 03 DTC message. */
-            case 6: break; /* Mode 09 Vehicle information message. */
-         }
+         /* TODO: Log an error message. */
+
       }
    }
 
@@ -134,7 +135,7 @@ int ecu_connect()
    
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
-   result = init_server_comms("127.0.0.1", "8989");
+   result = init_server_comms("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
    if (result < 0)
    {
       printf("auto_connect() <ERROR>: Failed to connect to OBD server.\n");
