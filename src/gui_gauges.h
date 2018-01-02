@@ -32,6 +32,7 @@ gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 gboolean draw_dtc_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 gboolean draw_battery_voltage_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 gboolean draw_notification_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
+gboolean draw_timing_advance_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 
 /* Draw dial labels and values. */
 void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *gauge_units);

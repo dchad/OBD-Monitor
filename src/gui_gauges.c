@@ -157,10 +157,9 @@ void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *
     
    cairo_set_font_size(cr, 24);
    cairo_text_extents (cr, gauge_numerals, &ctext);
-   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
-   yc = (75 - (0.5 * ctext.height + ctext.y_bearing));
+   yc = (75.0 - (0.5 * ctext.height + ctext.y_bearing));
    cairo_move_to(cr, xc, yc);
    cairo_show_text(cr, gauge_numerals);
 
@@ -180,16 +179,14 @@ void draw_dial_text(cairo_t *cr, char *gauge_label, char *gauge_numerals, char *
  
    cairo_set_font_size(cr, 10);
    cairo_text_extents (cr, gauge_units, &ctext);
-   /* printf("RPM Numerals Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    xc = (100.0 - (0.5 * ctext.width + ctext.x_bearing));
-   yc = (100 - (0.5 * ctext.height + ctext.y_bearing));
+   yc = (100.0 - (0.5 * ctext.height + ctext.y_bearing));
    cairo_move_to(cr, xc, yc);
    cairo_show_text(cr, gauge_units);  
    
    cairo_set_font_size(cr, 15);
    cairo_text_extents (cr, gauge_label, &ctext);
-   /* printf("RPM Label Text width - height: %f %f\n", ctext.width, ctext.height); */
    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
    cairo_move_to(cr, (100.0 - (0.5 * ctext.width  + ctext.x_bearing)), 135);
    cairo_show_text(cr, gauge_label);
@@ -679,6 +676,47 @@ gboolean draw_fuel_tank_level_dial(GtkWidget *widget, cairo_t *cr, gpointer user
    return TRUE;
 }
 
+gboolean draw_timing_advance_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+   double xc = 100.0;
+   double yc = 75.0;
+   double radius = 50.0;
+   double gauge_start_angle = 0.167 * NUM_PI; /* 30 degrees */
+   double gauge_end_angle = -1.167 * NUM_PI;  /* 210 degrees */
+   double timing_advance_scale_factor = 0.477; /* 63.5 / (radius * (1.167 * PI + 0.167 * PI)) */
+   double timing_advance = get_timing_advance(); /* Get the timing advance from protocol module. */
+   double gauge_level = timing_advance / timing_advance_scale_factor; /* TODO: check for negative values. */
+   double needle_angle = (-1.167 * NUM_PI) + (gauge_level / radius); /* Angle in radians. */
+   cairo_text_extents_t ctext;
+   char gauge_numerals[16];
+   double cpx;
+   double cpy;
+   
+   /* Draw gauge background and arc. */
+   draw_dial_background(cr, 190, 140);
+   
+   cairo_arc_negative(cr, xc, yc, radius, gauge_start_angle, gauge_end_angle);
+   cairo_stroke(cr);
+   
+   /* Draw gauge indicator arc and dot. */
+   cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+   cairo_set_line_width(cr, 3.0);
+   cairo_arc(cr, xc, yc, radius, gauge_end_angle, needle_angle); 
+   cairo_get_current_point(cr, &cpx, &cpy);
+   cairo_stroke(cr);
+   
+   cairo_set_source_rgb(cr, 0.634, 0.0, 0.0); /* Indicator Dot */
+   cairo_arc (cr, cpx, cpy, 5.0, 0.0, 2*NUM_PI); 
+   cairo_fill(cr);
+
+   /* Draw gauge text. */
+   sprintf(gauge_numerals, "%.0f", timing_advance);
+   draw_dial_text(cr, "Timing Advance", gauge_numerals, "Deg");
+   
+   return TRUE;
+}
+
+
 void draw_large_dial_background(cairo_t *cr)
 {
    /* a custom shape that could be wrapped in a function */
@@ -712,7 +750,7 @@ gboolean draw_pid_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    cairo_text_extents_t ctext;
    
-   /* draw_dial_background(cr, 290, 220); */
+   /* TODO: get the last requested PID info. */
    draw_large_dial_background(cr);
 
    cairo_select_font_face (cr, "sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);

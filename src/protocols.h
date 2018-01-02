@@ -150,40 +150,23 @@ void set_obd_protocol_name(char *obdname);
 void get_obd_protocol_name(char *info);
 void set_interface_information(char *ii_msg);
 void get_interface_information(char *info);
+void get_vehicle_vin(char *vin);
+void get_ecu_name(char *ecu);
 
 /* ECU Parameter Get/Set Functions. */
 
 void set_ecu_parameters(ECU_Parameters *ecup);
 void get_ecu_parameters(ECU_Parameters *ecup);
 
-void set_engine_rpm(char *rpm_msg);
 double get_engine_rpm();
-
-void set_coolant_temperature(char *ctemp_msg);
 double get_coolant_temperature();
-
-void set_manifold_pressure(char *manap_msg);
 double get_manifold_pressure();
-
-void set_intake_air_temperature(char *atemp_msg);
 double get_intake_air_temperature();
-
-void set_battery_voltage(char *bv_msg);
 double get_battery_voltage();
-
-void set_vehicle_speed(char *vs_msg);
 double get_vehicle_speed();
-
-void set_egr_pressure(char *egrp_msg);
 double get_egr_pressure();
-
-void set_oil_temperature(char *otemp_msg);
 double get_oil_temperature();
-
-void set_oil_pressure(char *oilp_msg);
 double get_oil_pressure();
-
-void set_throttle_position(char *tp_msg);
 double get_throttle_position();
 double get_fuel_tank_level();
 double get_fuel_flow_rate();

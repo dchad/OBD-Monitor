@@ -671,6 +671,13 @@ void set_vehicle_vin(char *obd_vin_msg)
    return;
 }
 
+void get_vehicle_vin(char *vin)
+{
+   strncpy(vin, ecup.ecu_vin, strlen(ecup.ecu_vin));
+   
+   return;
+}
+
 void set_ecu_name(char *obd_ecu_name_msg)
 {
    char temp_buf[256];
@@ -692,6 +699,13 @@ void set_ecu_name(char *obd_ecu_name_msg)
       strcpy(ecup.ecu_name, "Invalid ECU Name Message.");
       printf(temp_buf, "Invalid ECU Name Message: %s\n", obd_ecu_name_msg);
    }
+   
+   return;
+}
+
+void get_ecu_name(char *ecu)
+{
+   strncpy(ecu, ecup.ecu_name, strlen(ecup.ecu_name));
    
    return;
 }
@@ -770,7 +784,7 @@ void parse_mode_01_msg(char *obd_msg)
       {
          case 0: set_mode_1_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
          case 1: set_dtc_count(obd_msg);
-         case 5: set_coolant_temperature(obd_msg); break; /*  */
+         case 5: set_coolant_temperature(obd_msg); break; /* Engine Coolant Temperature. */
          case 10: set_fuel_pressure(obd_msg); break;
          case 11: set_manifold_pressure(obd_msg); break; /* Throttle Position. */
          case 12: set_engine_rpm(obd_msg); break;
