@@ -23,7 +23,6 @@
 #include <time.h>
 
 #include "obd_monitor.h"
-#include "protocols.h"
 
 int sock;
 unsigned int length;
@@ -72,10 +71,10 @@ int send_ecu_msg(char *query)
    return n;
 }
 
-int recv_ecu_msg()
+int recv_ecu_msg(char *msg)
 {
    char buffer[256];
-   int n, msg_num;
+   int n;
 
    memset(buffer,0,256);
 
@@ -84,19 +83,14 @@ int recv_ecu_msg()
    if (n > 0)
    {
       /* printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); */
-      msg_num = parse_obd_msg(buffer);
-      if (msg_num < 0)
-      {
-         /* TODO: Log an error message. */
-
-      }
+      strncpy(msg, buffer, n);
    }
 
    return(n);
 }
 
 
-int init_obd_comms(char *obd_msg)
+int init_obd_comms(char *obd_msg, char *rcv_msg)
 {
    int n;
    char buffer[256];
@@ -121,15 +115,14 @@ int init_obd_comms(char *obd_msg)
    if (n > 0)
    {
       printf("init_obd_comms() - RECV OBD Message: %s", buffer);  
-      /* update_comms_log_view(buffer); */
-      parse_obd_msg(buffer); /* TODO: write log message. */
+      strncpy(rcv_msg, buffer, n);
    }
    
    return(n);
 }
 
 
-int ecu_connect()
+int ecu_connect(char *rcv_msg_buf)
 {
    int result;
    
@@ -142,7 +135,7 @@ int ecu_connect()
    }
    else
    {
-      result = init_obd_comms("ATI\n");
+      result = init_obd_comms("ATI\n", rcv_msg_buf);
       if (result <= 0)
       {
          printf("auto_connect() <ERROR>: Failed to connect to OBD interface.\n");

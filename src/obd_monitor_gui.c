@@ -167,11 +167,26 @@ gint send_obd_message_1sec_callback (gpointer data)
 
 gint recv_obd_message_callback (gpointer data)
 {
-   int n;
+   char msg_buf[256];
+   int n, msg_num;
    
-   n = recv_ecu_msg();
+   memset(msg_buf, 0, 256);
+   
+   n = recv_ecu_msg(msg_buf);
    if (n > 0)
    {
+      msg_num = parse_obd_msg(msg_buf);
+      if (msg_num < 0)
+      {
+         /* TODO: Log an error message. */
+
+      }
+      else
+      {
+         /* TODO: set status bar and log view messages and remove dependencies from protocols.c
+            Change message parser to parse_obd_msg(buffer, status_msg);
+         */
+      }
       gtk_widget_queue_draw((GtkWidget *)data);
    }
    
@@ -180,15 +195,30 @@ gint recv_obd_message_callback (gpointer data)
 
 void ecu_connect_callback(GtkWidget *widget, gpointer window) 
 {
-   int result;
+   char rcv_msg_buf[256];
+   int msg_num;
 
    if (get_ecu_connected() == 1)
    {
       return;
    }
-   if (ecu_connect() > 0)
+   if (ecu_connect(rcv_msg_buf) > 0)
    {
       set_ecu_connected(1); /* Start PID comms with server process. */
+      
+      msg_num = parse_obd_msg(rcv_msg_buf);
+      if (msg_num < 0)
+      {
+         /* TODO: Log an error message. */
+
+      }
+      else
+      {
+         /* TODO: set status bar and log view messages and remove dependencies from protocols.c
+            Change message parser to parse_obd_msg(buffer, status_msg);
+         */
+      }
+      
       g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
       g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
       g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
@@ -367,6 +397,8 @@ int main(int argc, char *argv[])
    GtkWidget *status_frame;
    
    FILE *logfile;
+   
+   char rcv_msg_buf[256];
    
    logfile = open_log_file("./", "obd_gui_log.txt");
 
@@ -627,8 +659,9 @@ int main(int argc, char *argv[])
    int ecu_auto_connect = 1; /* TODO: add to configuration options: get_auto_connect(). */
    if (ecu_auto_connect == 1) 
    {
-      if (ecu_connect() > 0) /* Sockets Module Connect Function. */
+      if (ecu_connect(rcv_msg_buf) > 0) /* Sockets Module Connect Function. */
       {
+         parse_obd_msg(rcv_msg_buf);
          send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
          send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
          send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */

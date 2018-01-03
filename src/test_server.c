@@ -40,6 +40,7 @@
 #include "obd_monitor.h"
 #include "rs232.h"
 
+/* 
 void set_status_bar_msg(char *msg)
 {
    
@@ -51,16 +52,17 @@ void update_comms_log_view(char *msg)
    
    return;
 }
+*/
 
 int main()
 {
-   
+   char recv_msg[256];
    /* */
    set_ecu_connected(0);
    int ecu_auto_connect = 1; /* TODO: add to configuration options: get_auto_connect(). */
    if (ecu_auto_connect == 1) 
    {
-      if (ecu_connect() > 0) /* Sockets Module Connect Function. */
+      if (ecu_connect(recv_msg) > 0) /* Sockets Module Connect Function. */
       {
          send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
          send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
