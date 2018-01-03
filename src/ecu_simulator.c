@@ -432,7 +432,7 @@ void send_battery_voltage()
    int n;
    
    memset(reply_buf, 0, 256);
-   sprintf(reply_buf, "ATRV %.2f\n>\n", simulator_ecu.ecu_battery_voltage);
+   sprintf(reply_buf, "ATRV %.2f\n", simulator_ecu.ecu_battery_voltage);
    
    n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
 
@@ -463,10 +463,9 @@ void send_obd_protocol_name(char *obd_msg)
    char reply_buf[256];
    int pnum, n;
    
-   memset(simulator_obd.obd_protocol_name, 0, 256);
    memset(reply_buf, 0, 256);
    
-   if (strncmp(obd_msg, "ATDP ", 5) == 0)
+   if (strncmp(obd_msg, "ATDP", 4) == 0)
    {
       sprintf(reply_buf, "ATDP %s\n", simulator_obd.obd_protocol_name);
    }
@@ -477,6 +476,7 @@ void send_obd_protocol_name(char *obd_msg)
          pnum = 0;
       }   
       simulator_obd.obd_protocol_number = pnum;
+      memset(simulator_obd.obd_protocol_name, 0, 256);
       strcpy(simulator_obd.obd_protocol_name, OBD_Protocol_List[pnum]);
       sprintf(reply_buf, "ATTP %s\n", simulator_obd.obd_protocol_name);
    }
@@ -487,12 +487,14 @@ void send_obd_protocol_name(char *obd_msg)
          pnum = 0;
       }   
       simulator_obd.obd_protocol_number = pnum;
+      memset(simulator_obd.obd_protocol_name, 0, 256);
       strcpy(simulator_obd.obd_protocol_name, OBD_Protocol_List[pnum]);
       sprintf(reply_buf, "ATSP %s\n", simulator_obd.obd_protocol_name);
    }
    else
    {
       simulator_obd.obd_protocol_number = 0;
+      memset(simulator_obd.obd_protocol_name, 0, 256);
       strncpy(simulator_obd.obd_protocol_name, "Unknown OBD protocol.\n", 22);
       printf("send_obd_protocol_name(): %s", obd_msg);
    }
@@ -788,6 +790,8 @@ int main(int argc, char *argv[])
    
    tick_count = 0;
    set_simulator_ecu_parameters();
+   memset(simulator_obd.obd_protocol_name, 0, 256);
+   strncpy(simulator_obd.obd_protocol_name, OBD_Protocol_List[0], strlen(OBD_Protocol_List[0]));
    
    /* TODO: make serial port configurable. */
    

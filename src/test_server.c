@@ -10,17 +10,7 @@
    Description: A test set for the UDP server that communicates with vehicle
                 engine control units via an OBD-II interface to obtain 
                 engine status and fault codes. Can also be used as an ECU
-                communications logging function if the GUI is not required.
-
-                Tests two functions:
-
-                1. The UDP datagram server that receives requests for vehicle
-                status information from a client application (GUI) and 
-                returns the requested information to the client. 
-
-                2. Serial communications to request vehicle status
-                information and fault codes from the engine control unit using 
-                the OBD-II protocol.
+                communications logging function when the GUI is not required.
                 
 
    Date: 03/01/2018
@@ -56,34 +46,137 @@ void update_comms_log_view(char *msg)
 
 int main()
 {
+   struct timespec reqtime;
    char recv_msg[256];
-   /* */
-   set_ecu_connected(0);
-   int ecu_auto_connect = 1; /* TODO: add to configuration options: get_auto_connect(). */
-   if (ecu_auto_connect == 1) 
+   
+   memset(recv_msg, 0, 256);
+   reqtime.tv_sec = 1;
+   reqtime.tv_nsec = 0;   
+
+   if (ecu_connect(recv_msg) > 0) /* Sockets Module Connect Function. */
    {
-      if (ecu_connect(recv_msg) > 0) /* Sockets Module Connect Function. */
-      {
-         send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
-         send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
-         send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
-         send_ecu_msg("09 0A\n"); /* Get ECU name. */
-         send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
-         send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
-         send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
-         send_ecu_msg("03\n");
-         /* TODO: timeout callbacks and recv looop.
-         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
-         g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window);
-         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-         g_timeout_add (100, recv_obd_message_callback, (gpointer)window); */
-         printf("Connected to ECU.");
-      }
-      else
-      {
-         printf("Connection to ECU failed.");
-      }
-   }   
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ATRV: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ATDP: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ATRV: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("VIN: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("09 0A\n"); /* Get ECU name. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECUName: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("MIL: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("PID01: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("PID09: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("03\n");
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("DTC: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+   }
+   else
+   {
+      printf("Connection to ECU failed.\n");
+      exit(-1);
+   }
+
+   reqtime.tv_sec = 1;
+   reqtime.tv_nsec = 0; 
+      
+   while(1)
+   {
+      send_ecu_msg("01 0C\n"); /* Engine RPM */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 0D\n"); /* Vehicle Speed */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 0A\n"); /* Fuel Pressure */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 0B\n"); /* MAP Pressure */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */  
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 05\n"); /* Coolant Temperature */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      send_ecu_msg("01 5C\n"); /* Oil Temperature */    
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECU: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      
+   }
+   
+   printf("Server Test Exiting...\n");
    
    return(0);
 }
