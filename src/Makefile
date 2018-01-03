@@ -21,6 +21,7 @@ SERVER_SOURCES=obd_monitor_server.c rs232.c log.c util.c
 SIMULATOR_SOURCES=ecu_simulator.c rs232.c log.c util.c
 UNIT_TEST_SOURCES=unit_test.c util.c log.c rs232.c pid_hash_map.c dtc_hash_map.c
 FUNCTION_TEST_SOURCES=test_server.c sockets.c util.c log.c
+SERIAL_TEST_SOURCES=test_serial_rxtx.c rs232.c
 
 # Objects
 
@@ -29,6 +30,7 @@ SERVER_EXECUTABLE=obd_server
 SIMULATOR_EXECUTABLE=ecu_sim
 UNIT_TEST_EXECUTABLE=unit_test
 FUNCTION_TEST_EXECUTABLE=server_test
+SERIAL_TEST_EXECUTABLE=serial_test
 
 # Includes
 
@@ -53,6 +55,9 @@ utests: unit_test.c obd_monitor.h
 	
 ftests: test_server.c obd_monitor.h
 	$(CC) $(CFLAGS) $(FUNCTION_TEST_SOURCES) -o $(FUNCTION_TEST_EXECUTABLE)
+	
+stests: test_serial_rxtx.c
+	$(CC) $(CFLAGS) $(SERIAL_TEST_SOURCES) -o $(SERIAL_TEST_EXECUTABLE)
 	
 strip:
 	strip $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE)
