@@ -28,7 +28,9 @@ char status_bar_msg[256];
 char obd_protocol[256];
 
 /* Communications log display area. */
-GtkTextBuffer *text_buffer;
+GtkTextBuffer *comms_text_buffer;
+GtkTextBuffer *pid_text_buffer;
+GtkTextBuffer *dtc_text_buffer;
 GtkTextIter text_iter;
 
 /* ----------------------- */
@@ -47,8 +49,8 @@ void update_comms_log_view(char *msg)
    else
       strcpy(temp_buf, msg);
       
-   gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, -1);
-   gtk_text_buffer_insert(text_buffer, &text_iter, temp_buf, -1);
+   gtk_text_buffer_get_iter_at_offset(comms_text_buffer, &text_iter, -1);
+   gtk_text_buffer_insert(comms_text_buffer, &text_iter, temp_buf, -1);
    
    return;
 }
@@ -396,8 +398,8 @@ int main(int argc, char *argv[])
    GtkWidget *dtc_dial;
    GtkWidget *pid_dial;
 
-   GtkWidget *text_view;
-   GtkWidget *text_frame;
+   GtkWidget *comms_text_view;
+   GtkWidget *comms_text_frame;
    GtkWidget *comms_scrolled_window;
    
    GtkWidget *status_frame;
@@ -566,18 +568,20 @@ int main(int argc, char *argv[])
    g_signal_connect(protocol_combo_box, "changed", G_CALLBACK(protocol_combo_selected), NULL);
 
    /* Communications Log Text View Widget and Text Buffer. */
-   text_view = gtk_text_view_new ();
-   text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-   gtk_widget_set_size_request (text_view, 880, 600);
-   gtk_text_buffer_get_iter_at_offset(text_buffer, &text_iter, 0);
-   gtk_text_buffer_insert(text_buffer, &text_iter, "OBD Monitor Initialising...\n", -1);
-   text_frame = gtk_frame_new("Communications Log");
+   comms_text_view = gtk_text_view_new ();
+   comms_text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (comms_text_view));
+   gtk_widget_set_size_request (comms_text_view, 880, 600);
+   gtk_text_buffer_get_iter_at_offset(comms_text_buffer, &text_iter, 0);
+   gtk_text_buffer_insert(comms_text_buffer, &text_iter, "OBD Monitor Initialising...\n", -1);
+   comms_text_frame = gtk_frame_new("Communications Log");
    comms_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (comms_scrolled_window),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
-   gtk_container_add (GTK_CONTAINER (comms_scrolled_window), text_view);
-
+   
+   gtk_container_add (GTK_CONTAINER (comms_scrolled_window), comms_text_view);
+   gtk_container_add (GTK_CONTAINER (comms_text_frame), comms_scrolled_window);
+   gtk_container_set_border_width(GTK_CONTAINER(comms_text_frame), 5);
 
    status_frame = gtk_frame_new("Nofifications");
   
@@ -654,7 +658,7 @@ int main(int argc, char *argv[])
    /* TODO: Now pack the PID tab panel. */
    /* TODO: Now packe the performance tab panel. */
    /* Now pack the communications tab panel. */
-   gtk_box_pack_start(GTK_BOX(communications_vbox), comms_scrolled_window, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(communications_vbox), comms_text_frame, TRUE, TRUE, 0);
    
    /* Set up the callback functions. */
    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);  
@@ -678,7 +682,7 @@ int main(int argc, char *argv[])
       if (ecu_connect(rcv_msg_buf, obd_protocol) > 0) /* Sockets Module Connect Function. */
       {
          parse_obd_msg(rcv_msg_buf);
-         send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
+         /* send_ecu_msg("ATDP\n");   Get OBD protocol name from interface. */
          send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
          send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
          send_ecu_msg("09 0A\n"); /* Get ECU name. */
@@ -698,8 +702,6 @@ int main(int argc, char *argv[])
       }
    }
 
-   
-   /* g_object_unref(icon); */
 
    gtk_main();  
    
