@@ -122,7 +122,7 @@ int init_obd_comms(char *obd_msg, char *rcv_msg)
 }
 
 
-int ecu_connect(char *rcv_msg_buf)
+int ecu_connect(char *rcv_msg_buf, char *protocol_req)
 {
    int result;
    
@@ -143,7 +143,10 @@ int ecu_connect(char *rcv_msg_buf)
       else
       {
          ecu_connected = 1;
-         send_ecu_msg("ATRV\n");
+         if (strlen(protocol_req) > 5)
+         {
+            send_ecu_msg(protocol_req);
+         }
       }
    }
    

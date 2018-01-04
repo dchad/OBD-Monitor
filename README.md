@@ -34,7 +34,7 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-comms.png "GUI Prototype")
 
 
-## 4. OBD-II Protocol
+## 4. On-Board Diagnostics
 
 ### 4.1 OBD Standards
 
@@ -135,10 +135,10 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
  
  C - USER2 CAN (11 bit ID, 50 kbaud)
  
- Note: From 2008 Controller Area Network (CAN-Bus) protocols are mandatory.
+ Note: From 2008 all vehicles must support Controller Area Network (CAN-Bus) protocols.
  
  
-### 4.2 Diagnostic Test Modes
+### 4.3 Diagnostic Test Modes
 
 The SAE J1979 standard currently defines ten possible diagnostic test modes:
 
@@ -163,15 +163,19 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
  0A - request permanent trouble codes
 
 
-### 4.2 Diagnostic Trouble Codes (DTC)
+### 4.4 Diagnostic Trouble Codes (DTC)
 
   TODO:
 
-### 4.3 Parameter Identifiers (PID)
+### 4.5 Parameter Identifiers (PID)
 
-  TODO:
+  Parameter identifiers represent values maintained by the ECU, most are sensor
+  values obtained by monitoring the numerous drive train, chassis and body
+  sensors on the vehicle. The PIDs are hexadecimal values encoded as ASCII 
+  characters for communication between ELM327 based OBD interpreters and the 
+  laptop/tablet/smartphone client device.
   
-#### Selected ECU Mode 01 Parameters: 
+#### 4.5.1 Selected ECU Mode 01 Parameters: 
    
    [PID] [Data Bytes] [Min Value] [Max Value] [Formula]           [Description]
    
@@ -210,7 +214,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
 
 
-#### Selected ECU Mode 09 Parameters:
+#### 4.5.2 Selected ECU Mode 09 Parameters:
  
    [PID] [Data Bytes] [Description] 
    
@@ -227,8 +231,83 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
   2. STN1110 OBD Interpreter - http://www.obdsol.com/solutions/chips/stn1110/
   3. Sparkfun Car Diagnostics Kit - https://www.sparkfun.com/products/10769
   4. Altronics OBD Interpreter Kit - http://www.altronics.com.au/p/k4065-obdii-automotive-interpreter-kit/
+  5. Silicon Chip Magazine Feb 2010 Issue: https://www.siliconchip.com.au/
 
 ### 5.2 Pics
 
+   TODO:
 
 ## 6. Notes
+
+### 6.1 Troubleshooting USB-RS232 Converter Modules on Linux
+
+    Use the following procedure if problems occur with USB-RS322
+    interfaces such as the FTDI232 module on Linux:
+    
+    1. cd OBD-Monitor/src
+    
+       make stests
+       
+    2. Connect a wire between the converter module transmit and
+       receive pins, then insert the module into a USB port. 
+                   
+    3. Check the kernel module is loaded, for example:
+                
+       dmesg | grep "FTDI"
+                   
+    4. Check for user read/write permission on the device.
+                   
+       ls -la /dev/ttyUSB0
+       
+       sudo chmod a+rw /dev/ttyUSB0
+                   
+       or
+                   
+       chmod +s serial_test
+                   
+    5. Run the serial loopback test:
+                
+       ./serial_test
+                   
+    6. If serial communications still not functioning then the
+       converter module may be faulty. Try swapping out the module,
+       Silicon Chip Magazine sell them for $5.00AUD plus postage.
+       
+       
+### 6.2 Troubleshooting OBD Interface (RS232 comms) In Vehicle
+
+   If serial interface confirmed working, but no communication with
+   the OBD interpreter module:
+   
+   1. Turn vehicle ignition OFF.
+   
+   2. Connect the interpreter module to vehicle OBD socket.
+   
+   3. Connect serial cable from the interpreter module to laptop.
+   
+   4. Turn vehicle ignition ON, but do not start vehicle.
+   
+   5. Ensure interpreter module power LED indicators go ON.
+   
+   6. On laptop:
+      
+      cd OBD-Monitor/src
+      make server
+      make ftests
+      chmod +s obd_monitor_server
+      ./server_test
+      
+   7. Output from server_test should indicate correct OBD protocol for
+      the vehicle.
+      
+   8. If "NO DATA" returned then the wrong OBD protocol has probably
+      been selected by the interpreter auto search function.
+      
+   9. Set the correct OBD protocol manually with:
+   
+      ./server_test <protocol-number>
+      
+      Where protocol number is between 1 and C hexadecimal (see Section 4.2).
+    
+   
+                   

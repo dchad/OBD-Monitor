@@ -25,6 +25,7 @@
 /* Current time string. */
 char time_buffer[256];
 char status_bar_msg[256];
+char obd_protocol[256];
 
 /* Communications log display area. */
 GtkTextBuffer *text_buffer;
@@ -80,17 +81,16 @@ void get_status_bar_msg(char *msg)
 void protocol_combo_selected(GtkComboBoxText *widget, gpointer window) 
 {
   gchar *text = gtk_combo_box_text_get_active_text(widget);
-  char msg_buf[256];
   int selected;
   
-  memset(msg_buf, 0, 256);
+  memset(obd_protocol, 0, 256);
   
   if (text != NULL)
   {
      selected = gtk_combo_box_get_active (GTK_COMBO_BOX(widget));
      printf("protocol_combo_selected() : Protocol Selected: %i %s\n", selected, text);
-     sprintf(msg_buf, "ATSP %.2x\n", selected);
-     send_ecu_msg(msg_buf);
+     sprintf(obd_protocol, "ATSP %.2x\n", selected);
+     send_ecu_msg(obd_protocol);
   }
   g_free(text);
   
@@ -202,7 +202,13 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
    {
       return;
    }
-   if (ecu_connect(rcv_msg_buf) > 0)
+   
+   if (strlen(obd_protocol) < 5)
+   {
+      strcpy(obd_protocol, "ATTP 0\n");
+   }
+   
+   if (ecu_connect(rcv_msg_buf, obd_protocol) > 0)
    {
       set_ecu_connected(1); /* Start PID comms with server process. */
       
@@ -236,9 +242,9 @@ gboolean image_press_callback(GtkWidget *event_box, GdkEventButton *event, gpoin
 {
    g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);
 
-   // Returning TRUE means we handled the event, so the signal
-   // emission should be stopped (don’t call any further callbacks
-   // that may be connected). Return FALSE to continue invoking callbacks.
+   /* Returning TRUE means we handled the event, so the signal
+      emission should be stopped (don’t call any further callbacks
+      that may be connected). Return FALSE to continue invoking callbacks. */
   
    return TRUE;
 }
@@ -659,7 +665,17 @@ int main(int argc, char *argv[])
    int ecu_auto_connect = 1; /* TODO: add to configuration options: get_auto_connect(). */
    if (ecu_auto_connect == 1) 
    {
-      if (ecu_connect(rcv_msg_buf) > 0) /* Sockets Module Connect Function. */
+      memset(obd_protocol, 0, 256);
+      if (argc < 2) /* Get protocol number from command line. */
+      {
+         strcpy(obd_protocol, "ATTP 0\n");
+      }
+      else
+      {
+         strncpy(obd_protocol, "ATTP %c\n", argv[1][0]);
+      }
+      
+      if (ecu_connect(rcv_msg_buf, obd_protocol) > 0) /* Sockets Module Connect Function. */
       {
          parse_obd_msg(rcv_msg_buf);
          send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */

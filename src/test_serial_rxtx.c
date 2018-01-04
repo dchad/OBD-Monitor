@@ -20,6 +20,7 @@
                 3. Check for user read/write permission on the device.
                    
                    ls -la /dev/ttyUSB0
+                   sudo chmod a+rw /dev/ttyUSB0
                    
                    or
                    
@@ -51,11 +52,11 @@
 #include "rs232.h"
 
 char tx_msgs[2][512] = {
-   "Serial Port Message One!\n",
-   "Serial Port Message Two!\n"
+   "Serial Port Message ONE!!!\n",
+   "Serial Port Message TWO!!!\n"
 };
 
-int main()
+int main(int argc, char *argv[])
 {
   int ii, msg_num=0, n_bytes=0,
   cport_nr=0,        /* /dev/ttyS0 (COM1 on windows) */

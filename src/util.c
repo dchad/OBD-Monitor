@@ -145,10 +145,11 @@ int xfatal(char *str)
 int print_help()
 {
    printf("\nOBD Monitor Version 1.0\n\n");
-   printf("Command: obd_gui <options>\n\n");
+   printf("Command: obd_gui <options> <obd-protocol>\n\n");
    printf("Log Filename     : -l log.txt\n");
    printf("Server UDP Port  : -p 8989\n");
    printf("Server IP Address: -s 127.0.0.1 \n");
+   printf("OBD Protocol     : [0..C]\n"); 
    printf("\n");
 
    return(0);

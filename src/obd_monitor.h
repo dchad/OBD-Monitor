@@ -105,7 +105,7 @@ int init_server_comms(char *server, char *port);
 int send_ecu_msg(char *query);
 int recv_ecu_msg(char *msg);
 int init_obd_comms(char *obd_msg, char *rcv_msg);
-int ecu_connect(char *rcv_msg_buf);
+int ecu_connect(char *rcv_msg_buf, char *protocol_req);
 int get_ecu_connected();
 void set_ecu_connected(int cstatus);
 

@@ -30,31 +30,46 @@
 #include "obd_monitor.h"
 #include "rs232.h"
 
-/* 
-void set_status_bar_msg(char *msg)
-{
-   
-   return;
-}
+const char *OBD_Protocol_List[] = {
+"OBD 0 - Automatic OBD-II Protocol Search",
+"OBD 1 - SAE J1850 PWM (41.6 kbaud)(Ford)",
+"OBD 2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)",
+"OBD 3 - IS0 9141-2 (5 baud init, 10.4 kbaud)(Chrysler)",
+"OBD 4 - ISO 14230-4 KWP2000 (5-baud init.)",
+"OBD 5 - IS0 14230-4 KWP2000 (Fast init.)",
+"OBD 6 - IS0 15765-4 CAN (11 bit ID, 500 kbaud)",
+"OBD 7 - IS0 15765-4 CAN (29 bit ID, 500 kbaud)",
+"OBD 8 - IS0 15765-4 CAN (11 bit ID, 250 kbaud)",
+"OBD 9 - IS0 15765-4 CAN (29 bit ID, 250 kbaud)",
+"OBD A - SAE J1939 CAN (29 bit ID, 250 kbaud)",
+"OBD B - USER1 CAN (11 bit ID, 125 kbaud)",
+"OBD C - USER2 CAN (11 bit ID, 50 kbaud)"
+};
 
-void update_comms_log_view(char *msg)
-{
-   
-   return;
-}
-*/
-
-int main()
+int main(int argc, char *argv[])
 {
    struct timespec reqtime;
+   char protocol_req[256];
    char recv_msg[256];
    int ii;
    
+   
    memset(recv_msg, 0, 256);
+   memset(protocol_req, 0, 256);
    reqtime.tv_sec = 1;
    reqtime.tv_nsec = 0;   
 
-   if (ecu_connect(recv_msg) > 0) /* Sockets Module Connect Function. */
+
+   if (argc < 2) /* Get protocol number from command line. */
+   {
+      strcpy(protocol_req, "ATTP 0\n");
+   }
+   else
+   {
+      strncpy(protocol_req, "ATTP %c\n", argv[1][0]);
+   }
+   
+   if (ecu_connect(recv_msg, protocol_req) > 0) /* Sockets Module Connect Function. */
    {
       nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
       recv_ecu_msg(recv_msg);
