@@ -281,10 +281,12 @@ GtkWidget* create_image(char *image_file, GtkWidget *cbox)
 }
 
 GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkWidget *communications_vbox, 
-                            GtkWidget *pid_vbox, GtkWidget *dtc_vbox, GtkWidget *performance_vbox)
+                            GtkWidget *pid_vbox, GtkWidget *dtc_vbox, GtkWidget *performance_vbox,
+                            GtkWidget *auxilliary_vbox)
 {
    GtkWidget *notebook;
    GtkWidget *tab_instruments_label;
+   GtkWidget *tab_auxilliary_label;
    GtkWidget *tab_communications_label;
    GtkWidget *tab_PID_label;
    GtkWidget *tab_DTC_label;
@@ -296,6 +298,7 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
    image_sad = create_image("../images/face-sad.png", pid_vbox);
    image_sad = create_image("../images/face-sad.png", dtc_vbox);
    image_sad = create_image("../images/face-sad.png", performance_vbox);
+   image_sad = create_image("../images/face-sad.png", auxilliary_vbox);
     
    
    notebook = gtk_notebook_new ();
@@ -303,6 +306,9 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
    
    tab_instruments_label = gtk_label_new ("Instruments");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), instruments_vbox, tab_instruments_label);
+	
+	tab_auxilliary_label = gtk_label_new ("Auxilliary Gauges");
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), auxilliary_vbox, tab_auxilliary_label);
 	
    tab_DTC_label = gtk_label_new ("DTC List");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), dtc_vbox, tab_DTC_label);
@@ -312,7 +318,6 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
 	
    tab_performance_label = gtk_label_new ("Performance");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), performance_vbox, tab_performance_label);
-	
 
    tab_communications_label = gtk_label_new ("Communications Log");
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), communications_vbox, tab_communications_label);
@@ -343,6 +348,7 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_connect_button;
 
    GtkWidget *instruments_vbox;
+   GtkWidget *auxilliary_vbox;
    GtkWidget *communications_vbox;
    GtkWidget *pid_vbox;
    GtkWidget *dtc_vbox;
@@ -457,6 +463,15 @@ int main(int argc, char *argv[])
    gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu), manualMenuItem); 
    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), helpMenuItem);
 
+   /* Create the tab panels. */
+   instruments_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   communications_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   pid_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   dtc_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   performance_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   auxilliary_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   tab_panel = create_tab_panel(window, instruments_vbox, communications_vbox, pid_vbox, dtc_vbox, performance_vbox, auxilliary_vbox);
+   
 
    /* Set up the buttons. */
    dtc_button = gtk_button_new_with_mnemonic("_DTC Lookup");
@@ -593,14 +608,7 @@ int main(int argc, char *argv[])
    gtk_label_set_markup (GTK_LABEL (instruments_label), "<b>Instruments: </b>");
    text_view_label = gtk_label_new(NULL);
    gtk_label_set_markup (GTK_LABEL (text_view_label), "<b>Communications Log</b>");
-   
-   /* Create the tab panels. */
-   instruments_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   communications_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   pid_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   dtc_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   performance_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   tab_panel = create_tab_panel(window, instruments_vbox, communications_vbox, pid_vbox, dtc_vbox, performance_vbox);
+
    
    /* gtk_container_add(GTK_CONTAINER(window), vbox); */
 
