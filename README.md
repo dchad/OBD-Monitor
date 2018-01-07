@@ -24,6 +24,8 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 ## 3. User Interface
 
   TODO:
+  
+### 3.1 Screenshots
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-monitor-gui.png "GUI Prototype")
 
@@ -248,7 +250,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
        make stests
        
-    2. Connect a wire between the converter module transmit and
+    2. Connect a wire between the USB-RS232 converter module transmit and
        receive pins, then insert the module into a USB port. 
                    
     3. Check the kernel module is loaded, for example:
@@ -283,7 +285,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
    
    2. Connect the interpreter module to vehicle OBD socket.
    
-   3. Connect serial cable from the interpreter module to laptop.
+   3. Connect serial cable from the OBD interpreter module to laptop.
    
    4. Turn vehicle ignition ON, but do not start vehicle.
    
@@ -292,9 +294,13 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
    6. On laptop:
       
       cd OBD-Monitor/src
+      
       make server
+      
       make ftests
+      
       chmod +s obd_monitor_server
+      
       ./server_test
       
    7. Output from server_test should indicate correct OBD protocol for

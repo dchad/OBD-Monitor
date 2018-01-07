@@ -18,6 +18,8 @@
 #include <gtk/gtk.h>
 
 void open_aux_gauge_window(GtkWidget *widget, gpointer window);
+gboolean draw_aux_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data);
+
 
 #endif
 

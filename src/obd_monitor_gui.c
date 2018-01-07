@@ -20,6 +20,7 @@
 #include "protocols.h"
 #include "gui_dialogs.h"
 #include "gui_gauges.h"
+#include "gui_gauges_aux.h"
 
 
 /* Current time string. */
@@ -298,7 +299,7 @@ GtkWidget *create_tab_panel(GtkWidget *window, GtkWidget *instruments_vbox, GtkW
    image_sad = create_image("../images/face-sad.png", pid_vbox);
    image_sad = create_image("../images/face-sad.png", dtc_vbox);
    image_sad = create_image("../images/face-sad.png", performance_vbox);
-   image_sad = create_image("../images/face-sad.png", auxilliary_vbox);
+   /* image_sad = create_image("../images/face-sad.png", auxilliary_vbox); */
     
    
    notebook = gtk_notebook_new ();
@@ -361,6 +362,10 @@ int main(int argc, char *argv[])
    GtkWidget *vbox_center;
    GtkWidget *vbox_right;
    GtkWidget *vbox;
+ 
+   GtkWidget *hbox_aux_top;
+   GtkWidget *hbox_aux_mid;
+   GtkWidget *hbox_aux_bot;
 
    GtkWidget *menubar;
    GtkWidget *fileMenu;
@@ -400,6 +405,18 @@ int main(int argc, char *argv[])
    GtkWidget *ecu_fuel_tank_level_dial;
    GtkWidget *battery_voltage_dial;
    GtkWidget *notification_dial;
+   
+   GtkWidget *aux_dial_1;
+   GtkWidget *aux_dial_2;
+   GtkWidget *aux_dial_3;
+   GtkWidget *aux_dial_4;
+   GtkWidget *aux_dial_5;
+   GtkWidget *aux_dial_6;
+   GtkWidget *aux_dial_7;
+   GtkWidget *aux_dial_8;
+   GtkWidget *aux_dial_9;
+   
+   
    
    GtkWidget *dtc_dial;
    GtkWidget *pid_dial;
@@ -564,6 +581,43 @@ int main(int argc, char *argv[])
    gtk_widget_set_size_request (notification_dial, 990, 40);
    g_signal_connect(notification_dial, "draw", G_CALLBACK(draw_notification_dial), NULL);     
 
+   /* Gauges for custom PIDs. */
+   aux_dial_1 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_1, 200, 150);
+   g_signal_connect(aux_dial_1, "draw", G_CALLBACK(draw_aux_dial), NULL);
+ 
+   aux_dial_2 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_2, 200, 150);
+   g_signal_connect(aux_dial_2, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   
+   aux_dial_3 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_3, 200, 150);
+   g_signal_connect(aux_dial_3, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   
+   aux_dial_4 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_4, 200, 150);
+   g_signal_connect(aux_dial_4, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   
+   aux_dial_5 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_5, 200, 150);
+   g_signal_connect(aux_dial_5, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   
+   aux_dial_6 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_6, 200, 150);
+   g_signal_connect(aux_dial_6, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   
+   aux_dial_7 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_7, 200, 150);
+   g_signal_connect(aux_dial_7, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   
+   aux_dial_8 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_8, 200, 150);
+   g_signal_connect(aux_dial_8, "draw", G_CALLBACK(draw_aux_dial), NULL);  
+   
+   aux_dial_9 = gtk_drawing_area_new();
+   gtk_widget_set_size_request (aux_dial_9, 200, 150);
+   g_signal_connect(aux_dial_9, "draw", G_CALLBACK(draw_aux_dial), NULL);
+      
    /* Set up other widgets. */
 
    protocol_combo_box = gtk_combo_box_text_new();
@@ -623,7 +677,7 @@ int main(int argc, char *argv[])
    vbox_controls = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
    
    
-   gtk_container_add(GTK_CONTAINER(window), vbox); 
+   gtk_container_add(GTK_CONTAINER(window), vbox); /* Contains menu bar and tab panel. */
    
    gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
    gtk_box_pack_start(GTK_BOX(vbox), tab_panel, FALSE, FALSE, 0);
@@ -662,6 +716,30 @@ int main(int argc, char *argv[])
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_oil_temp_dial, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(vbox_right), ecu_fuel_flow_dial, TRUE, TRUE, 0);
 
+   /* Now pack the auxilliary gauges tab panel. */
+
+   hbox_aux_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   hbox_aux_mid = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   hbox_aux_bot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_top, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_mid, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_bot, TRUE, TRUE, 0);
+
+   gtk_box_pack_start(GTK_BOX(hbox_aux_top), aux_dial_1, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_top), aux_dial_2, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_top), aux_dial_3, TRUE, TRUE, 0);
+   
+   gtk_box_pack_start(GTK_BOX(hbox_aux_mid), aux_dial_4, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_mid), aux_dial_5, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_mid), aux_dial_6, TRUE, TRUE, 0);
+   
+   gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_7, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_8, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_9, TRUE, TRUE, 0);     
+   
+
+    
    /* TODO: Now pack the DTC tab panel. */
    /* TODO: Now pack the PID tab panel. */
    /* TODO: Now packe the performance tab panel. */
