@@ -379,6 +379,8 @@ int main(int argc, char *argv[])
    GtkWidget *hbox_aux_top;
    GtkWidget *hbox_aux_mid;
    GtkWidget *hbox_aux_bot;
+   GtkWidget *hbox_aux_left;
+   GtkWidget *hbox_aux_right;
 
    GtkWidget *menubar;
    GtkWidget *fileMenu;
@@ -499,7 +501,7 @@ int main(int argc, char *argv[])
    pid_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
    dtc_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
    performance_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-   auxilliary_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+   auxilliary_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
    tab_panel = create_tab_panel(window, instruments_vbox, communications_vbox, pid_vbox, dtc_vbox, performance_vbox, auxilliary_vbox);
    
 
@@ -632,6 +634,8 @@ int main(int argc, char *argv[])
    g_signal_connect(aux_dial_9, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[8]);
       
    aux_dial_grid = gtk_grid_new ();
+   gtk_grid_set_row_spacing (GTK_GRID(aux_dial_grid), 10);
+   gtk_grid_set_column_spacing (GTK_GRID(aux_dial_grid), 10);
    gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_1, 0, 0, 1, 1);
    gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_2, 1, 0, 1, 1);
    gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_3, 2, 0, 1, 1);
@@ -743,11 +747,21 @@ int main(int argc, char *argv[])
 
    /* Now pack the auxilliary gauges tab panel. */
 
-   /* hbox_aux_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   hbox_aux_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
+   hbox_aux_left = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
+   hbox_aux_right = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
    hbox_aux_mid = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-   hbox_aux_bot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); */
+   hbox_aux_bot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
-   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), aux_dial_grid, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_top, TRUE, TRUE, 5); 
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_mid, TRUE, TRUE, 5); 
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_bot, TRUE, TRUE, 5);
+   gtk_box_pack_start(GTK_BOX(hbox_aux_mid), hbox_aux_left, TRUE, TRUE, 5); 
+   gtk_box_pack_start(GTK_BOX(hbox_aux_mid), aux_dial_grid, TRUE, TRUE, 5); 
+   gtk_box_pack_start(GTK_BOX(hbox_aux_mid), hbox_aux_right, TRUE, TRUE, 5);
+
+   /* does not work: gtk_box_set_center_widget (GTK_BOX(auxilliary_vbox), aux_dial_grid); */
+
    /* gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_mid, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_bot, TRUE, TRUE, 0); */
 
