@@ -311,7 +311,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
       
    9. Set the correct OBD protocol manually with:
    
-      ./server_test <protocol-number>
+      ./server_test -p protocol-number
       
       Where protocol number is between 1 and C hexadecimal (see Section 4.2).
     

@@ -68,8 +68,12 @@ gboolean draw_aux_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
    double cpx;
    double cpy;
    char gauge_numerals[16];
+   char gauge_name[256];
 
    
+   memset(gauge_name, 0, 256);
+   strcpy(gauge_name, (char *)user_data);
+
    /* Draw gauge background and arc. */
    draw_dial_background(cr, 190, 140);
    
@@ -89,7 +93,7 @@ gboolean draw_aux_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 
    /* Draw gauge text. */
    sprintf(gauge_numerals, "%.0f", pid_value);
-   draw_dial_text(cr, "Aux 1", gauge_numerals, "?");
+   draw_dial_text(cr, gauge_name, gauge_numerals, "?");
   
    return TRUE;
 }

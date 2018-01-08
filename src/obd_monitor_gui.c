@@ -34,6 +34,19 @@ GtkTextBuffer *pid_text_buffer;
 GtkTextBuffer *dtc_text_buffer;
 GtkTextIter text_iter;
 
+/* TODO: Change to PID struct list. */
+char *aux_gauge_pid_list[] = {
+"Auxilliary One",
+"Auxilliary Two",
+"Auxilliary Three",
+"Auxilliary Four",
+"Auxilliary Five",
+"Auxilliary Six",
+"Auxilliary Seven",
+"Auxilliary Eigth",
+"Auxilliary Nine",
+"Auxilliary Plus" };
+
 /* ----------------------- */
 /* GUI callback functions. */
 /* ----------------------- */
@@ -415,8 +428,8 @@ int main(int argc, char *argv[])
    GtkWidget *aux_dial_7;
    GtkWidget *aux_dial_8;
    GtkWidget *aux_dial_9;
-   
-   
+
+   GtkWidget *aux_dial_grid;
    
    GtkWidget *dtc_dial;
    GtkWidget *pid_dial;
@@ -584,40 +597,52 @@ int main(int argc, char *argv[])
    /* Gauges for custom PIDs. */
    aux_dial_1 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_1, 200, 150);
-   g_signal_connect(aux_dial_1, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_1, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[0]);
  
    aux_dial_2 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_2, 200, 150);
-   g_signal_connect(aux_dial_2, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_2, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[1]);
    
    aux_dial_3 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_3, 200, 150);
-   g_signal_connect(aux_dial_3, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_3, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[2]);
    
    aux_dial_4 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_4, 200, 150);
-   g_signal_connect(aux_dial_4, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_4, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[3]);
    
    aux_dial_5 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_5, 200, 150);
-   g_signal_connect(aux_dial_5, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_5, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[4]);
    
    aux_dial_6 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_6, 200, 150);
-   g_signal_connect(aux_dial_6, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_6, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[5]);
    
    aux_dial_7 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_7, 200, 150);
-   g_signal_connect(aux_dial_7, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_7, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[6]);
    
    aux_dial_8 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_8, 200, 150);
-   g_signal_connect(aux_dial_8, "draw", G_CALLBACK(draw_aux_dial), NULL);  
+   g_signal_connect(aux_dial_8, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[7]);  
    
    aux_dial_9 = gtk_drawing_area_new();
    gtk_widget_set_size_request (aux_dial_9, 200, 150);
-   g_signal_connect(aux_dial_9, "draw", G_CALLBACK(draw_aux_dial), NULL);
+   g_signal_connect(aux_dial_9, "draw", G_CALLBACK(draw_aux_dial), (gpointer) aux_gauge_pid_list[8]);
       
+   aux_dial_grid = gtk_grid_new ();
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_1, 0, 0, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_2, 1, 0, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_3, 2, 0, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_4, 0, 1, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_5, 1, 1, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_6, 2, 1, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_7, 0, 2, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_8, 1, 2, 1, 1);
+   gtk_grid_attach(GTK_GRID(aux_dial_grid), aux_dial_9, 2, 2, 1, 1);
+
+
    /* Set up other widgets. */
 
    protocol_combo_box = gtk_combo_box_text_new();
@@ -718,14 +743,15 @@ int main(int argc, char *argv[])
 
    /* Now pack the auxilliary gauges tab panel. */
 
-   hbox_aux_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   /* hbox_aux_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
    hbox_aux_mid = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-   hbox_aux_bot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   hbox_aux_bot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); */
 
-   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_top, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_mid, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_bot, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), aux_dial_grid, TRUE, TRUE, 0);
+   /* gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_mid, TRUE, TRUE, 0);
+   gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_bot, TRUE, TRUE, 0); */
 
+   /*
    gtk_box_pack_start(GTK_BOX(hbox_aux_top), aux_dial_1, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_aux_top), aux_dial_2, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_aux_top), aux_dial_3, TRUE, TRUE, 0);
@@ -736,7 +762,7 @@ int main(int argc, char *argv[])
    
    gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_7, TRUE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_8, TRUE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_9, TRUE, TRUE, 0);     
+   gtk_box_pack_start(GTK_BOX(hbox_aux_bot), aux_dial_9, TRUE, TRUE, 0);   */  
    
 
     
