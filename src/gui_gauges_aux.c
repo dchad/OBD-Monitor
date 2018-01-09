@@ -53,6 +53,12 @@ void open_aux_gauge_window(GtkWidget *widget, gpointer window)
 }
 
 
+void load_aux_pid_list()
+{
+
+   return;
+}
+
 gboolean draw_aux_dial(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
    double xc = 100.0;

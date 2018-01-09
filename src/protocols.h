@@ -121,7 +121,10 @@ struct _PID_Parameters {
    unsigned int pid_num;
    unsigned int pid_supported;
    unsigned int pid_data_bytes;
+   unsigned int pid_scale_factor;
+   char pid_formula[256];
    char pid_description[256];
+   char pid_gauge_label[32];
    UT_hash_handle hh;
 };
 

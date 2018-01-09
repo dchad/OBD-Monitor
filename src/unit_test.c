@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
    for(ii = 0; ii < 10; ii++)
    {
-         PID_Parameters *pid = xmalloc(sizeof(PID_Parameters));
+         PID_Parameters *pid = (PID_Parameters *) xmalloc(sizeof(PID_Parameters));
          sprintf(pid->pid_code, "%.4x", ii);
          sprintf(pid->pid_description, "MODE 01: %.4x", ii);
          add_pid(pid); 
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
    for(ii = 0; ii < 10; ii++)
    {
-         DTC_Parameters *dtc = xmalloc(sizeof(DTC_Parameters));
+         DTC_Parameters *dtc = (DTC_Parameters *) xmalloc(sizeof(DTC_Parameters));
          sprintf(dtc->dtc_code, "%.4x", ii);
          sprintf(dtc->dtc_description, "Powertrain: %.4x", ii);
          add_dtc(dtc); 

@@ -59,15 +59,6 @@ struct _DialPoint {
 
 typedef struct _DialPoint DialPoint;
 
-struct _ConfigOptions {
-   char log_file_name[MAX_PATH_LEN];
-   char custom_pid_file_name[MAX_PATH_LEN];
-   char config_file_name[MAX_PATH_LEN];
-   int ecu_auto_connect; /* 0,1 or delay in seconds. */
-};
-
-typedef struct _ConfigOptions ConfigOptions;
-
 /* Function Prototypes. */
 
 /* obd_monitor_gui.c */
