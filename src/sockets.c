@@ -97,7 +97,7 @@ int init_obd_comms(char *obd_msg, char *rcv_msg)
 
    n = sendto(sock,obd_msg,strlen(obd_msg),0,(const struct sockaddr *)&obd_server,length);
 
-   if (n < 0) 
+   if (n <= 0) 
    {
       printf("init_obd_comms() - <ERROR>: Sendto failed.\n");
    }
@@ -129,7 +129,7 @@ int ecu_connect(char *rcv_msg_buf, char *protocol_req)
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
    result = init_server_comms("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
-   if (result < 0)
+   if (result <= 0)
    {
       printf("auto_connect() <ERROR>: Failed to connect to OBD server.\n");
    }

@@ -43,7 +43,7 @@ char *aux_gauge_pid_list[] = {
 "Auxilliary Five",
 "Auxilliary Six",
 "Auxilliary Seven",
-"Auxilliary Eigth",
+"Auxilliary Eight",
 "Auxilliary Nine",
 "Auxilliary Plus" };
 
@@ -748,10 +748,16 @@ int main(int argc, char *argv[])
    /* Now pack the auxilliary gauges tab panel. */
 
    hbox_aux_top = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
-   hbox_aux_left = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
-   hbox_aux_right = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
+   gtk_widget_set_size_request (hbox_aux_top, 900, 10);
    hbox_aux_mid = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
    hbox_aux_bot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+   gtk_widget_set_size_request (hbox_aux_bot, 900, 10);
+   
+   hbox_aux_left = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
+   gtk_widget_set_size_request (hbox_aux_left, 100, 500);
+   hbox_aux_right = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); 
+   gtk_widget_set_size_request (hbox_aux_right, 100, 500);
+
 
    gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_top, TRUE, TRUE, 5); 
    gtk_box_pack_start(GTK_BOX(auxilliary_vbox), hbox_aux_mid, TRUE, TRUE, 5); 
