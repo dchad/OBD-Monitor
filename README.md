@@ -242,9 +242,16 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 
    TODO:
 
-## 6. Notes
+## 6. Acknowledgements
 
-### 6.1 Troubleshooting USB-RS232 Converter Modules on Linux
+   1. Lewis Van Winkle, TinyExpr Math Evaluator: https://github.com/codeplea/tinyexpr.git
+   2. Teunis van Beelen, RS232 Serial Communications: https://www.teuniz.net/RS-232/
+   3. Troy D. Hanson, UTHASH List/Map Data Structures: http://troydhanson.github.com/uthash/
+   4. Jan Bodnar, GTK+ Tutorial and Example Code: http://zetcode.com/
+   
+## 7. Notes
+
+### 7.1 Troubleshooting USB-RS232 Converter Modules on Linux
 
     Use the following procedure if problems occur with USB-RS322
     interfaces such as the FTDI232 module on Linux:
@@ -279,7 +286,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        Silicon Chip Magazine sell them for $5.00AUD plus postage.
        
        
-### 6.2 Troubleshooting OBD Interface (RS232 comms) In Vehicle
+### 7.2 Troubleshooting OBD Interface (RS232 comms) In Vehicle
 
    If serial interface confirmed working, but no communication with
    the OBD interpreter module:
