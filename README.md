@@ -276,8 +276,20 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        or
                    
        chmod +s serial_test
+       
+       or 
                    
-    5. Run the serial loopback test:
+       usermod -G dialout "user-name"
+                   
+    5. Run the serial loopback test with an optional device name:
+                
+       ./serial_test ttyUSB0
+                   
+       or 
+                   
+       ./serial_test ttyACM0
+                   
+       or 
                 
        ./serial_test
                    

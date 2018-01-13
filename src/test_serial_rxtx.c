@@ -20,14 +20,27 @@
                 3. Check for user read/write permission on the device.
                    
                    ls -la /dev/ttyUSB0
+                   
                    sudo chmod a+rw /dev/ttyUSB0
                    
                    or
                    
                    chmod +s serial_test
                    
-                4. Run the serial loopback test:
+                   or 
+                   
+                   usermod -G dialout "user-name"
+                   
+                4. Run the serial loopback test with an optional device name:
                 
+                   ./test_serial ttyUSB0
+                   
+                   or 
+                   
+                   ./test_serial ttyACM0
+                   
+                   or 
+                   
                    ./test_serial
 
                 
@@ -52,22 +65,35 @@
 #include "rs232.h"
 
 char tx_msgs[2][512] = {
-   "Serial Port Message ONE!!!\n",
-   "Serial Port Message TWO!!!\n"
+   "Serial Port Message ONE!!!\r\n",
+   "Serial Port Message TWO!!!\r\n"
 };
 
 int main(int argc, char *argv[])
 {
   int ii, msg_num=0, n_bytes=0,
   cport_nr=0,        /* /dev/ttyS0 (COM1 on windows) */
-  bdrate=9600;       /* 9600 baud */
+  bdrate=38400;      /* 9600 baud */
                      /* Make baud rate configurable. */
+                     
+  char serial_device[16];
 
   char mode[]={'8','N','1',0};
-  char str[2][512];
   unsigned char buf[4096];
   
-  cport_nr = RS232_GetPortnr("ttyUSB0");
+  memset(serial_device, 0, 16);
+  
+  /* cport_nr = RS232_GetPortnr("ttyACM0"); */
+  if (argc > 1)
+  {
+     strncpy(serial_device, argv[1], 16);
+  }
+  else
+  {
+     strncpy(serial_device, "ttyUSB0", 7);
+  }
+  
+  cport_nr = RS232_GetPortnr(serial_device);
   if (cport_nr == -1)
   {
      printf("ERROR: Can not get com port number.\n");
@@ -86,9 +112,9 @@ int main(int argc, char *argv[])
 
   for (ii = 0; ii < 10; ii++)
   {
-    RS232_cputs(cport_nr, str[msg_num]);
+    RS232_cputs(cport_nr, tx_msgs[msg_num]);
 
-    printf("TXD %i bytes: %s", (int)strlen(str[msg_num]), str[msg_num]);
+    printf("TXD %i bytes: %s", (int)strlen(tx_msgs[msg_num]), tx_msgs[msg_num]); 
 
     usleep(100000);  /* sleep for 1 Second */
 
