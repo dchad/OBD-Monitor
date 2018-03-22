@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
       printf("PID09: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
-      send_ecu_msg("03\n");
+      send_ecu_msg("03\n");      /* Get DTCs that are set. */
       nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
       recv_ecu_msg(recv_msg);
       printf("DTC: %s", recv_msg);
@@ -190,9 +190,9 @@ int main(int argc, char *argv[])
       
    for (ii = 0; ii < 10; ii++)
    {
-      /* TODO: send a bunch of messages. */
-      send_ecu_msg("01 0C\n");
-      send_ecu_msg("01 0D\n");
+      /* TODO: send a bunch of messages. 
+      send_ecu_msg("01 0C\n"); */
+      send_ecu_msg("03\n");
       nanosleep(&reqtime, NULL);
       while (recv_ecu_msg(recv_msg) > 0)
       {

@@ -442,11 +442,10 @@ int main(int argc, char *argv[])
    
    GtkWidget *status_frame;
    
-   FILE *logfile;
    
    char rcv_msg_buf[256];
    
-   logfile = open_log_file("./", "obd_gui_log.txt");
+   open_log_file("./", "obd_gui_log.txt");
 
    gtk_init(&argc, &argv);
 
@@ -837,7 +836,7 @@ int main(int argc, char *argv[])
 
    gtk_main();  
    
-   fclose(logfile);
+   close_log_file();
    
    return 0;
 }

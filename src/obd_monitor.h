@@ -88,8 +88,9 @@ char *rtrim(char *s);
 char *trim(char *s);
 
 /* log.c */
-FILE *open_log_file(char *startup_path, char *log_file_name);
+int open_log_file(char *startup_path, char *log_file_name);
 int print_log_entry(char *estr);
+void close_log_file();
 
 /* sockets.c */
 int init_server_comms(char *server, char *port);

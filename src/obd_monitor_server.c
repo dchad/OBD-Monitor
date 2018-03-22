@@ -36,6 +36,7 @@
 
 #include "rs232.h"
 
+
 void fatal_error(const char *error_msg)
 {
     perror(error_msg);
@@ -134,6 +135,8 @@ int main(int argc, char *argv[])
       exit(0);
    }
    
+   open_log_file("./", "obd_server_log.txt");
+   
    /* TODO: make serial port configurable, ttyUSB0 is an FTDI232 USB-RS232 Converter Module. */
    serial_port = init_serial_comms("ttyUSB0");
    
@@ -156,24 +159,34 @@ int main(int argc, char *argv[])
    
    while (1) 
    {
+       /* Clear the buffers!!! */
+       memset(in_buf, 0, BUFFER_MAX_LEN);
+       memset(ecu_msg, 0, BUFFER_MAX_LEN);
+       
        n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
 
        if (n < 0) fatal_error("recvfrom");
 
-       printf("RXD ECU Query: %s\n", in_buf);
-
-       n = sendto(sock, "ACK ECU Request.\n", 18, 0, (struct sockaddr *)&from_client, from_len);
-
-       if (n  < 0) fatal_error("sendto");
+       /* printf("RXD ECU Query: %s\n", in_buf); */
 
        /* Now send the query to the ECU interface and get a response. */
        n = send_ecu_query(serial_port, in_buf);
+       if (n > 0)
+       {
+          print_log_entry(in_buf);
+       }
+       
        n = recv_ecu_reply(serial_port, ecu_msg);
-       /* TODO: log ECU query and reply. */
+       if (n > 0)
+       {
+          print_log_entry((char *)ecu_msg);
+       }
+       
+       /* Send ECU reply to GUI. */
+       n = sendto(sock, ecu_msg, 18, 0, (struct sockaddr *)&from_client, from_len);
 
-       /* TODO: send ECU reply to GUI. */
+       if (n  < 0) fatal_error("sendto");
 
-       /* TODO: Clear the buffers!!! */
    }
 
    return 0;

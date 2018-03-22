@@ -29,12 +29,13 @@ FILE *log_file = NULL;
    Purpose : Changes the current working directory to the location of the fsic binary
            : then opens the log file.
    Input   : Start file path.
-   Output  : Returns log file pointer.
+   Output  : Returns 1 or -1.
 */
-FILE *open_log_file(char *startup_path, char *log_file_name)
+int open_log_file(char *startup_path, char *log_file_name)
 {
-   char *current_working_dir = xcalloc(MAX_PATH_LEN);
+   char current_working_dir[MAX_PATH_LEN];
    char *temp_path = NULL;
+   int ret_val = 1;
 
    if (current_working_dir == NULL)
    {
@@ -60,19 +61,30 @@ FILE *open_log_file(char *startup_path, char *log_file_name)
          if (log_file == NULL)
          {
             printf("open_log_file() <ERROR>: could not open logfile: %s\n", current_working_dir); 
+            ret_val = -1;
          }
          /* printf("DEBUG: open_log_file(): %s\n", current_working_dir); */ 
       }
    }
 
-   xfree(current_working_dir, MAX_PATH_LEN);
+
+   return(ret_val);
+}
+
+
 /*
-   if (errno != ERANGE)
-   {
-      printf("ERROR: malloc failed.\n");
-   }
+   Function: close_log_file()
+ 
+   Purpose : Closes the log file.
+   
 */
-   return(log_file);
+void close_log_file()
+{
+
+   print_log_entry("Closing log session.");
+   fclose(log_file);
+   
+   return;
 }
 
 
