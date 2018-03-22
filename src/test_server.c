@@ -71,55 +71,55 @@ int main(int argc, char *argv[])
    
    if (ecu_connect(recv_msg, protocol_req) > 0) /* Sockets Module Connect Function. */
    {
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("ATRV: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); 
       recv_ecu_msg(recv_msg);
       printf("ATDP: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("ATRV: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("VIN: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("09 0A\n"); /* Get ECU name. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("ECUName: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("MIL: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("PID01: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("PID09: %s", recv_msg);
       memset(recv_msg, 0, 256);
       
       send_ecu_msg("03\n");      /* Get DTCs that are set. */
-      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("DTC: %s", recv_msg);
       memset(recv_msg, 0, 256);
@@ -135,19 +135,19 @@ int main(int argc, char *argv[])
       
 
    send_ecu_msg("01 0C\n"); /* Engine RPM */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_msg(recv_msg);
    printf("RPM: %s", recv_msg);
    memset(recv_msg, 0, 256);
 
    send_ecu_msg("01 0D\n"); /* Vehicle Speed */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_msg(recv_msg);
    printf("VS: %s", recv_msg);
    memset(recv_msg, 0, 256);
 
    send_ecu_msg("01 0A\n"); /* Fuel Pressure */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_msg(recv_msg);
    printf("FP: %s", recv_msg);
    memset(recv_msg, 0, 256);
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
    memset(recv_msg, 0, 256);
 
    send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */  
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_msg(recv_msg);
    printf("FFR: %s", recv_msg);
    memset(recv_msg, 0, 256);

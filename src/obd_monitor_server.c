@@ -90,31 +90,31 @@ int send_ecu_query(int serial_port, char *ecu_query)
     return(out_msg_len);
 }
 
-int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
+int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 {
     int in_msg_len = 0;
-    struct timespec reqtime;
+    /* struct timespec reqtime;
     reqtime.tv_sec = 0;
-    reqtime.tv_nsec = 1000000;
+    reqtime.tv_nsec = 1000000; */
     
 
-    while((in_msg_len = RS232_PollComport(serial_port, ecu_query, BUFFER_MAX_LEN)) > 0)
+    if ((in_msg_len = RS232_PollComport(serial_port, ecu_reply, BUFFER_MAX_LEN)) > 0)
     {
           int idx;
 
-          ecu_query[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
+          ecu_reply[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
 
           for(idx = 0; idx < in_msg_len; idx++)
           {
-             if(ecu_query[idx] < 32)  /* replace unreadable control-codes by dots */
+             if(ecu_reply[idx] < 32)  /* replace unreadable control-codes by dots */
              {
-                ecu_query[idx] = '.';
+                ecu_reply[idx] = '.';
              }
           }
 
-          printf("RXD %i bytes: %s\n", in_msg_len, ecu_query);
+          printf("RXD %i bytes: %s\n", in_msg_len, ecu_reply);
 
-          nanosleep(&reqtime, NULL); /* sleep for 1 milliSecond */
+          /* nanosleep(&reqtime, NULL); */
     }
 
     return(in_msg_len);
@@ -165,7 +165,8 @@ int main(int argc, char *argv[])
        
        n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
 
-       if (n < 0) fatal_error("recvfrom");
+       if (n < 0) 
+          fatal_error("recvfrom");
 
        /* printf("RXD ECU Query: %s\n", in_buf); */
 
@@ -180,12 +181,14 @@ int main(int argc, char *argv[])
        if (n > 0)
        {
           print_log_entry((char *)ecu_msg);
+          
+          /* Send ECU reply to GUI. */
+          n = sendto(sock, ecu_msg, n, 0, (struct sockaddr *)&from_client, from_len);
+
+          if (n  < 0) 
+             fatal_error("sendto");
        }
        
-       /* Send ECU reply to GUI. */
-       n = sendto(sock, ecu_msg, 18, 0, (struct sockaddr *)&from_client, from_len);
-
-       if (n  < 0) fatal_error("sendto");
 
    }
 
