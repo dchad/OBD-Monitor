@@ -71,59 +71,57 @@ char tx_msgs[2][512] = {
 
 int main(int argc, char *argv[])
 {
-  int ii, msg_num=0, n_bytes=0,
-  cport_nr=0,        /* /dev/ttyS0 (COM1 on windows) */
-  bdrate=38400;      /* 9600 baud */
+   int ii, msg_num=0, n_bytes=0,
+   cport_nr=0,        /* /dev/ttyS0 (COM1 on windows) */
+   bdrate=38400;      /* 9600 baud */
                      /* Make baud rate configurable. */
                      
-  char serial_device[16];
+   char serial_device[16];
 
-  char mode[]={'8','N','1',0};
-  unsigned char buf[4096];
-  
-  memset(serial_device, 0, 16);
-  
-  /* cport_nr = RS232_GetPortnr("ttyACM0"); */
-  if (argc > 1)
-  {
-     strncpy(serial_device, argv[1], 16);
-  }
-  else
-  {
-     strncpy(serial_device, "ttyUSB0", 7);
-  }
-  
-  cport_nr = RS232_GetPortnr(serial_device);
-  if (cport_nr == -1)
-  {
-     printf("ERROR: Can not get com port number.\n");
-     exit(-1);
-  }
+   char mode[]={'8','N','1',0};
+   unsigned char buf[4096];
 
+   memset(serial_device, 0, 16);
 
-  if(RS232_OpenComport(cport_nr, bdrate, mode))
-  {
-    printf("ERROR: Can not open comport!\n");
+   /* cport_nr = RS232_GetPortnr("ttyACM0"); */
+   if (argc > 1)
+   {
+      strncpy(serial_device, argv[1], 16);
+   }
+   else
+   {
+      strncpy(serial_device, "ttyUSB0", 7);
+   }
 
-    return(0);
-  }
+   cport_nr = RS232_GetPortnr(serial_device);
+   if (cport_nr == -1)
+   {
+      printf("ERROR: Can not get com port number.\n");
+      exit(-1);
+   }
 
-  printf("Serial port number: %i\n",cport_nr);
+   if (RS232_OpenComport(cport_nr, bdrate, mode))
+   {
+      printf("ERROR: Can not open comport!\n");
+      return(0);
+   }
 
-  for (ii = 0; ii < 10; ii++)
-  {
-    RS232_cputs(cport_nr, tx_msgs[msg_num]);
+   printf("Serial port number: %i\n", cport_nr);
 
-    printf("TXD %i bytes: %s", (int)strlen(tx_msgs[msg_num]), tx_msgs[msg_num]); 
+   for (ii = 0; ii < 10; ii++)
+   {
+      RS232_cputs(cport_nr, tx_msgs[msg_num]);
 
-    usleep(100000);  /* sleep for 1 Second */
+      printf("TXD %i bytes: %s", (int)strlen(tx_msgs[msg_num]), tx_msgs[msg_num]); 
 
-    msg_num++;
+      usleep(100000);  /* sleep for 1 Second */
 
-    msg_num %= 2;
+      msg_num++;
 
-    while((n_bytes = RS232_PollComport(cport_nr, buf, 4095)) > 0)
-    {
+      msg_num %= 2;
+
+      if ((n_bytes = RS232_PollComport(cport_nr, buf, 4095)) > 0)
+      {
           int idx;
 
           buf[n_bytes] = 0;   /* always put a "null" at the end of a string! */
@@ -138,10 +136,9 @@ int main(int argc, char *argv[])
 
           printf("RXD %i bytes: %s\n\n", n_bytes, (char *)buf);
 
-          usleep(100000);  /* sleep for 100 milliSeconds */
-    }
-  }
+      }
+   }
 
-  return(0);
+   return(0);
 }
 

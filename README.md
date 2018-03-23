@@ -336,6 +336,34 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
       ./server_test -p protocol-number
       
       Where protocol number is between 1 and C hexadecimal (see Section 4.2).
+      
+   10. If still no data returned: 
+       
+       Open a serial terminal program such as moserial.
+       
+       Select the serial port and default comms parameters.
+       
+       Example: ttyUSB0, 9600 baud, 8 data bits, no parity, 1 stop bit.
+       
+       Ensure line terminator option is set to newline character.
+       
+       Type the following command into the terminal input and press enter.
+       
+       "ATDP"
+       
+       This should return the currently set OBD protocol. If "NO DATA" is
+       
+       returned then either the OBD interface or the ECU are faulty.
+       
+       Other commands to try:
+       
+       "ATRV" - vehicle battery voltage.
+       
+       "ATTP n" - try protocol number "n".
+       
+       "09 02" - get vehicle VIN number.
+       
+       "09 0A" - get ECU name.
     
    
                    
