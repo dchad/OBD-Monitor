@@ -71,6 +71,8 @@ int main(int argc, char *argv[])
    
    if (ecu_connect(recv_msg, protocol_req) > 0) /* Sockets Module Connect Function. */
    {
+   
+      send_ecu_msg("ATRV\n"); 
       nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
       printf("ATRV: %s", recv_msg);

@@ -51,13 +51,9 @@ int init_server_comms(char *server, char *port)
 
 int send_ecu_msg(char *query)
 {
-   char buffer[256];
    int n;
 
-   memset(buffer,0,256);
-   sprintf(buffer,"%s",query);
-
-   n = sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&obd_server,length);
+   n = sendto(sock,query,strlen(query),0,(const struct sockaddr *)&obd_server,length);
    if (n < 0) 
    {
       printf("send_ecu_msg() <ERROR>: Sendto failed.\n");
@@ -73,23 +69,25 @@ int send_ecu_msg(char *query)
 
 int recv_ecu_msg(char *msg)
 {
-   char buffer[256];
    int n;
 
-   memset(buffer,0,256);
+   memset(msg,0,256);
 
-   n = recvfrom(sock,buffer,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
+   n = recvfrom(sock,msg,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
    /* We are not blocking on recv now. */
+   
+   /*
    if (n > 0)
    {
-      /* printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); */
-      strncpy(msg, buffer, n);
+      printf("recv_ecu_msg() - RECV ECU Message: %s", buffer); 
+      strncpy(msg, buffer, n); 
    }
-
+   */
+   
    return(n);
 }
 
-
+/* TODO: move this function to the server module. */
 int init_obd_comms(char *obd_msg, char *rcv_msg)
 {
    int n;
@@ -110,7 +108,7 @@ int init_obd_comms(char *obd_msg, char *rcv_msg)
 
    memset(buffer,0,256);
 
-   n = recvfrom(sock,buffer,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
+   n = recv_ecu_msg(buffer);
    
    if (n > 0)
    {
@@ -131,14 +129,22 @@ int ecu_connect(char *rcv_msg_buf, char *protocol_req)
    result = init_server_comms("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
    if (result <= 0)
    {
-      printf("auto_connect() <ERROR>: Failed to connect to OBD server.\n");
+      printf("ecu_connect() <ERROR>: Failed to connect to OBD server.\n");
+      ecu_connected = 0;
    }
+   else
+   {
+      printf("ecu_connect() <INFO>: Connected to OBD server.\n");
+      ecu_connected = 1;
+   }
+   
+   /*
    else
    {
       result = init_obd_comms("ATI\n", rcv_msg_buf);
       if (result <= 0)
       {
-         printf("auto_connect() <ERROR>: Failed to connect to OBD interface.\n");
+         printf("ecu_connect() <ERROR>: Failed to connect to OBD interface.\n");
       }
       else
       {
@@ -149,6 +155,7 @@ int ecu_connect(char *rcv_msg_buf, char *protocol_req)
          }
       }
    }
+   */
    
    return(result);
 }
