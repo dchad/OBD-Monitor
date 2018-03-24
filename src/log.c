@@ -80,8 +80,10 @@ int open_log_file(char *startup_path, char *log_file_name)
 */
 void close_log_file()
 {
-
-   print_log_entry("Closing log session.");
+   print_log_entry("------------------------");
+   print_log_entry(">>> Closing log session.");
+   print_log_entry("------------------------");
+   
    fclose(log_file);
    
    return;

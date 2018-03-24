@@ -323,7 +323,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
       
       chmod +s obd_monitor_server
       
-      ./server_test
+      ./obd_monitor_server
       
    7. Output from server_test should indicate correct OBD protocol for
       the vehicle.
@@ -356,6 +356,8 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        returned then either the OBD interface or the ECU are faulty.
        
        Other commands to try:
+       
+       "ATI" - get interface information.
        
        "ATRV" - vehicle battery voltage.
        

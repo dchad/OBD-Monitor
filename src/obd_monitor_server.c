@@ -272,6 +272,8 @@ int main(int argc, char *argv[])
 
    }
 
-   return 0;
+   close_log_file();
+   
+   return(0);
  }
 
