@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
       strncpy(protocol_req, "ATTP %c\n", argv[1][0]);
    }
    
-   if (ecu_connect(recv_msg, protocol_req) > 0) /* Sockets Module Connect Function. */
+   if (server_connect(recv_msg, protocol_req) > 0) /* Sockets Module Connect Function. */
    {
    
       send_ecu_msg("ATRV\n"); 

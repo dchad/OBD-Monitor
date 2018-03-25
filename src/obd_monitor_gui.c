@@ -224,26 +224,31 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
       strcpy(obd_protocol, "ATTP 0\n");
    }
    
-   if (ecu_connect(rcv_msg_buf, obd_protocol) > 0)
+   if (server_connect() > 0)
    {
-      set_ecu_connected(1); /* Start PID comms with server process. */
-      
-      msg_num = parse_obd_msg(rcv_msg_buf);
-      if (msg_num < 0)
+   
+      if (init_obd_comms(obd_protocol, rcv_msg_buf) > 0)
       {
-         /* TODO: Log an error message. */
+         parse_obd_msg(rcv_msg_buf);
+         set_ecu_connected(1); /* Start PID comms with server process. */
+         
+         msg_num = parse_obd_msg(rcv_msg_buf);
+         if (msg_num < 0)
+         {
+            /* TODO: Log an error message. */
 
+         }
+         else
+         {
+            /* TODO: set status bar and log view messages and remove dependencies from protocols.c
+               Change message parser to parse_obd_msg(buffer, status_msg);
+            */
+         }
+         
+         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
       }
-      else
-      {
-         /* TODO: set status bar and log view messages and remove dependencies from protocols.c
-            Change message parser to parse_obd_msg(buffer, status_msg);
-         */
-      }
-      
-      g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
-      g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
    }
    else
    {
@@ -810,26 +815,33 @@ int main(int argc, char *argv[])
          strncpy(obd_protocol, "ATTP %c\n", argv[1][0]);
       }
       
-      if (ecu_connect(rcv_msg_buf, obd_protocol) > 0) /* Sockets Module Connect Function. */
+      if (server_connect() > 0) /* Sockets Module Connect Function. */
       {
-         parse_obd_msg(rcv_msg_buf);
-         /* send_ecu_msg("ATDP\n");   Get OBD protocol name from interface. */
-         send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
-         send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
-         send_ecu_msg("09 0A\n"); /* Get ECU name. */
-         send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
-         send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
-         send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
-         send_ecu_msg("03\n");
-         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
-         /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */
-         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
-         set_status_msg("Connected to ECU.");
+         if (init_obd_comms(obd_protocol, rcv_msg_buf) > 0)
+         {
+            parse_obd_msg(rcv_msg_buf);
+            /* send_ecu_msg("ATDP\n");   Get OBD protocol name from interface. */
+            send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
+            send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
+            send_ecu_msg("09 0A\n"); /* Get ECU name. */
+            send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
+            send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
+            send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
+            send_ecu_msg("03\n");
+            g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+            /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */
+            g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+            g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
+            set_status_msg("Connected to ECU.");
+         }
+         else
+         {
+            set_status_msg("Connection to ECU failed.");
+         }
       }
       else
       {
-         set_status_msg("Connection to ECU failed.");
+         set_status_msg("Connection to server failed.");
       }
    }
 

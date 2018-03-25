@@ -31,7 +31,7 @@ struct hostent *hp;
 int ecu_connected;
 int ecu_auto_connect;
 
-int init_server_comms(char *server, char *port)
+int init_server_socket(char *server, char *port)
 {
    sock = socket(AF_INET, SOCK_DGRAM, 0);
    if (sock < 0) 
@@ -120,13 +120,13 @@ int init_obd_comms(char *obd_msg, char *rcv_msg)
 }
 
 
-int ecu_connect(char *rcv_msg_buf, char *protocol_req)
+int server_connect()
 {
    int result;
    
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
-   result = init_server_comms("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
+   result = init_server_socket("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
    if (result <= 0)
    {
       printf("ecu_connect() <ERROR>: Failed to connect to OBD server.\n");
