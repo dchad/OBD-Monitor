@@ -125,6 +125,75 @@ int main(int argc, char *argv[])
       recv_ecu_msg(recv_msg);
       printf("DTC: %s", recv_msg);
       memset(recv_msg, 0, 256);
+      
+      
+      send_ecu_msg("01 0C\n"); /* Engine RPM */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+      recv_ecu_msg(recv_msg);
+      printf("RPM: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 0D\n"); /* Vehicle Speed */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+      recv_ecu_msg(recv_msg);
+      printf("VS: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 0A\n"); /* Fuel Pressure */
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+      recv_ecu_msg(recv_msg);
+      printf("FP: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 0B\n"); /* MAP Pressure */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("MAP: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */  
+      nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+      recv_ecu_msg(recv_msg);
+      printf("FFR: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 05\n"); /* Coolant Temperature */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("ECT: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("FTL: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("IAT: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+
+      send_ecu_msg("01 5C\n"); /* Oil Temperature */    
+      nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
+      recv_ecu_msg(recv_msg);
+      printf("OILT: %s", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      for (ii = 0; ii < 10; ii++)
+      {
+         /* TODO: send a bunch of messages. 
+         send_ecu_msg("01 0C\n"); */
+         send_ecu_msg("03\n");
+         nanosleep(&reqtime, NULL);
+         while (recv_ecu_msg(recv_msg) > 0)
+         {
+            printf("ECU: <%d> %s", ii, recv_msg);
+            memset(recv_msg, 0, 256);
+         }
+      }      
+      
    }
    else
    {
@@ -132,78 +201,6 @@ int main(int argc, char *argv[])
       exit(-1);
    }
 
-   reqtime.tv_sec = 1;
-   reqtime.tv_nsec = 0; 
-      
-
-   send_ecu_msg("01 0C\n"); /* Engine RPM */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
-   recv_ecu_msg(recv_msg);
-   printf("RPM: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 0D\n"); /* Vehicle Speed */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
-   recv_ecu_msg(recv_msg);
-   printf("VS: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 0A\n"); /* Fuel Pressure */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
-   recv_ecu_msg(recv_msg);
-   printf("FP: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 0B\n"); /* MAP Pressure */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
-   recv_ecu_msg(recv_msg);
-   printf("MAP: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */  
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
-   recv_ecu_msg(recv_msg);
-   printf("FFR: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 05\n"); /* Coolant Temperature */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
-   recv_ecu_msg(recv_msg);
-   printf("ECT: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
-   recv_ecu_msg(recv_msg);
-   printf("FTL: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
-   recv_ecu_msg(recv_msg);
-   printf("IAT: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-
-   send_ecu_msg("01 5C\n"); /* Oil Temperature */    
-   nanosleep(&reqtime, NULL); /* Sleep for 100 milliSecond. */
-   recv_ecu_msg(recv_msg);
-   printf("OILT: %s", recv_msg);
-   memset(recv_msg, 0, 256);
-      
-   for (ii = 0; ii < 10; ii++)
-   {
-      /* TODO: send a bunch of messages. 
-      send_ecu_msg("01 0C\n"); */
-      send_ecu_msg("03\n");
-      nanosleep(&reqtime, NULL);
-      while (recv_ecu_msg(recv_msg) > 0)
-      {
-         printf("ECU: <%d> %s", ii, recv_msg);
-         memset(recv_msg, 0, 256);
-      }
-   }
-   
-   
    printf("Server Test Exiting...\n");
    
    return(0);

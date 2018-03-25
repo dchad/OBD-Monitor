@@ -81,7 +81,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
       return(0);
     }
 
-    RS232_cputs(serial_port, ecu_query);
+    RS232_SendBuf(serial_port, (unsigned char *)ecu_query, out_msg_len);
 
     printf("TXD %i bytes: %s\n", out_msg_len, ecu_query);
 
@@ -93,13 +93,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
 
 int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 {
-    int in_msg_len = 0;
-    struct timespec reqtime;
-    reqtime.tv_sec = 1;
-    reqtime.tv_nsec = 0;
-    
-
-    nanosleep(&reqtime, NULL);
+    int in_msg_len;
     
     if ((in_msg_len = RS232_PollComport(serial_port, ecu_reply, BUFFER_MAX_LEN)) > 0)
     {
@@ -120,7 +114,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
           /* nanosleep(&reqtime, NULL); */
     }
 
-    RS232_flushTX(serial_port);
+    RS232_flushRX(serial_port);
     
     return(in_msg_len);
 }
@@ -206,7 +200,11 @@ int main(int argc, char *argv[])
    struct sockaddr_in from_client;
    char in_buf[BUFFER_MAX_LEN];
    unsigned char ecu_msg[BUFFER_MAX_LEN];
-
+   struct timespec reqtime;
+    
+   reqtime.tv_sec = 1;
+   reqtime.tv_nsec = 0;
+    
    if (argc < 2) 
    {
       fprintf(stderr, "ERROR: no port provided.\n");
@@ -256,6 +254,8 @@ int main(int argc, char *argv[])
        {
           print_log_entry(in_buf);
        }
+       
+       nanosleep(&reqtime, NULL);
        
        n = recv_ecu_reply(serial_port, ecu_msg);
        if (n > 0)

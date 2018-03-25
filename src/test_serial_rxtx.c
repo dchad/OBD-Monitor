@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
 
    char mode[]={'8','N','1',0};
    unsigned char buf[4096];
+   
+   int len = strlen(tx_msgs[0]);
 
    memset(serial_device, 0, 16);
 
@@ -110,7 +112,9 @@ int main(int argc, char *argv[])
 
    for (ii = 0; ii < 10; ii++)
    {
-      RS232_cputs(cport_nr, tx_msgs[msg_num]);
+      /* RS232_cputs(cport_nr, tx_msgs[msg_num]); */
+      
+      RS232_SendBuf(cport_nr, (unsigned char*)tx_msgs[msg_num], len);
 
       printf("TXD %i bytes: %s", (int)strlen(tx_msgs[msg_num]), tx_msgs[msg_num]); 
 
