@@ -355,9 +355,11 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        
        returned then either the OBD interface or the ECU are faulty.
        
-       Other commands to try:
+       Other ELM327 or compatible interpreter commands to try:
        
-       "ATI" - get interface information.
+       "ATZ" - reset the OBD interpreter IC.
+       
+       "ATI" - get OBD interpreter version ID.
        
        "ATRV" - vehicle battery voltage.
        
@@ -366,6 +368,11 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        "09 02" - get vehicle VIN number.
        
        "09 0A" - get ECU name.
+       
+       "01 01" - get MIL (check engine light) status and number of diagnostic trouble codes set.
+       
+       "03" - get a list of diagnostic trouble codes currently set.
+       
     
    
                    

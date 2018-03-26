@@ -37,6 +37,9 @@
 #include "rs232.h"
 
 
+int interpreter_ready_status = 0;
+
+
 void fatal_error(const char *error_msg)
 {
     perror(error_msg);
@@ -95,46 +98,54 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 {
     int in_msg_len;
     
-    if ((in_msg_len = RS232_PollComport(serial_port, ecu_reply, BUFFER_MAX_LEN)) > 0)
+    interpreter_ready_status = 0;
+    
+    while ((interpreter_ready_status == 0) && ((in_msg_len = RS232_PollComport(serial_port, ecu_reply, MAX_SERIAL_BUF_LEN)) > 0))
     {
           int idx;
 
-          ecu_reply[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
-
-          for(idx = 0; idx < in_msg_len; idx++)
+          if (ecu_reply[0] != '>')
           {
-             if(ecu_reply[idx] < 32)  /* replace unreadable control-codes by dots */
+             
+             ecu_reply[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
+
+             for(idx = 0; idx < in_msg_len; idx++)
              {
-                ecu_reply[idx] = '.';
+                if(ecu_reply[idx] < 32)  /* replace unreadable control-codes by dots */
+                {
+                   ecu_reply[idx] = '.';
+                }
              }
+
+             printf("RXD %i bytes: %s\n", in_msg_len, ecu_reply);
           }
-
-          printf("RXD %i bytes: %s\n", in_msg_len, ecu_reply);
-
+          else
+          {
+             interpreter_ready_status = 1;
+          }
           /* nanosleep(&reqtime, NULL); */
     }
 
-    RS232_flushRX(serial_port);
+    RS232_flushRX(serial_port); 
     
     return(in_msg_len);
 }
 
 
-
 void interface_check(int serial_port)
 {
-   unsigned char recv_msg[256];
+   unsigned char recv_msg[MAX_SERIAL_BUF_LEN];
    struct timespec reqtime;
    reqtime.tv_sec = 1;
    reqtime.tv_nsec = 0;
     
-   send_ecu_query(serial_port, "ATRV\n");
+   send_ecu_query(serial_port, "ATZ\n"); /* Reset the ELM327 OBD interpreter. */
    nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATRV: %s", recv_msg);
+   printf("ATZ: %s", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATRV\n");
+   send_ecu_query(serial_port, "ATRV\n"); /* Get battery voltage from interface. */
    nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("ATRV: %s", recv_msg);
@@ -146,10 +157,10 @@ void interface_check(int serial_port)
    printf("ATDP: %s", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATRV\n");  /* Get battery voltage from interface. */
+   send_ecu_query(serial_port, "ATI\n");  /* Get interpreter version ID. */
    nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATRV: %s", recv_msg);
+   printf("ATI: %s", recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "09 02\n"); /* Get vehicle VIN number. */
@@ -215,8 +226,6 @@ int main(int argc, char *argv[])
    
    /* TODO: make serial port configurable, ttyUSB0 is an FTDI232 USB-RS232 Converter Module. */
    serial_port = init_serial_comms("ttyUSB0");
-   
-   interface_check(serial_port);
    
    sock = socket(AF_INET, SOCK_DGRAM, 0);
 

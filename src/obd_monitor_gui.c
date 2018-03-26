@@ -792,7 +792,7 @@ int main(int argc, char *argv[])
     
    /* TODO: Now pack the DTC tab panel. */
    /* TODO: Now pack the PID tab panel. */
-   /* TODO: Now packe the performance tab panel. */
+   /* TODO: Now pack the performance tab panel. */
    /* Now pack the communications tab panel. */
    gtk_box_pack_start(GTK_BOX(communications_vbox), comms_text_frame, TRUE, TRUE, 0);
    
