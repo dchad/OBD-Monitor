@@ -37,7 +37,7 @@
 #include "rs232.h"
 
 
-int interpreter_ready_status = 0;
+
 
 
 void fatal_error(const char *error_msg)
@@ -78,6 +78,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
     reqtime.tv_nsec = 1000000; */
     
     out_msg_len = strlen(ecu_query);
+    
     if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
     {
       printf("ERROR: Bad message length!\n");
@@ -97,38 +98,53 @@ int send_ecu_query(int serial_port, char *ecu_query)
 int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 {
     int in_msg_len;
+    unsigned char in_buf[256];
+    int interpreter_ready_status = 0;
+    int msg_idx = 0;
     
-    interpreter_ready_status = 0;
-    
-    while ((interpreter_ready_status == 0) && ((in_msg_len = RS232_PollComport(serial_port, ecu_reply, MAX_SERIAL_BUF_LEN)) > 0))
+    while (interpreter_ready_status == 0)
     {
-          int idx;
-
-          if (ecu_reply[0] != '>')
+          int buf_idx;
+          
+          memset(in_buf, 0, MAX_SERIAL_BUF_LEN);
+          
+          if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
           {
-             
-             ecu_reply[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
 
-             for(idx = 0; idx < in_msg_len; idx++)
-             {
-                if(ecu_reply[idx] < 32)  /* replace unreadable control-codes by dots */
+                
+                in_buf[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
+
+                for (buf_idx = 0; buf_idx < in_msg_len; buf_idx++)
                 {
-                   ecu_reply[idx] = '.';
-                }
-             }
-
-             printf("RXD %i bytes: %s\n", in_msg_len, ecu_reply);
-          }
-          else
-          {
-             interpreter_ready_status = 1;
-          }
+                   if (in_buf[buf_idx] < 32)   /* replace unreadable control-codes by dots */
+                   {
+                      if (in_buf[buf_idx] != '\r') /* End of message ASCII value 0x0D == \r  ASCII value 0x00A == \n */
+                      {
+                         ecu_reply[msg_idx] = '.';
+                         msg_idx++;
+                      }
+                   }
+                   else if (in_buf[buf_idx] == '>')
+                   {
+                      interpreter_ready_status = 1;
+                      printf("RXD > Interpreter Ready\n");
+                   }
+                   else
+                   {
+                      ecu_reply[msg_idx] = in_buf[buf_idx];
+                      msg_idx++;
+                   }
+                }  
+         }
+          
           /* nanosleep(&reqtime, NULL); */
     }
 
     RS232_flushRX(serial_port); 
     
-    return(in_msg_len);
+    printf("RXD %i bytes: %s\n", msg_idx, ecu_reply);
+    
+    return(msg_idx);
 }
 
 
@@ -138,66 +154,60 @@ void interface_check(int serial_port)
    struct timespec reqtime;
    reqtime.tv_sec = 1;
    reqtime.tv_nsec = 0;
-    
-   send_ecu_query(serial_port, "ATZ\n"); /* Reset the ELM327 OBD interpreter. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
-   recv_ecu_reply(serial_port, recv_msg);
-   printf("ATZ: %s", recv_msg);
+   
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATRV\n"); /* Get battery voltage from interface. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "ATZ\r"); /* Reset the ELM327 OBD interpreter. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATRV: %s", recv_msg);
+   printf("ATZ: %s\r", recv_msg);
+   memset(recv_msg, 0, 256);
+
+   send_ecu_query(serial_port, "ATRV\r"); /* Get battery voltage from interface. */
+   recv_ecu_reply(serial_port, recv_msg);
+   printf("ATRV: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATDP\n");  /* Get OBD protocol name from interface. */
-   nanosleep(&reqtime, NULL); 
+   send_ecu_query(serial_port, "ATDP\r");  /* Get OBD protocol name from interface. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATDP: %s", recv_msg);
+   printf("ATDP: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATI\n");  /* Get interpreter version ID. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "ATI\r");  /* Get interpreter version ID. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATI: %s", recv_msg);
+   printf("ATI: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "09 02\n"); /* Get vehicle VIN number. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "09 02\r"); /* Get vehicle VIN number. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("VIN: %s", recv_msg);
+   printf("VIN: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "09 0A\n"); /* Get ECU name. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "09 0A\r"); /* Get ECU name. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ECUName: %s", recv_msg);
+   printf("ECUName: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "01 01\n"); /* Get DTC Count and MIL status. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "01 01\r"); /* Get DTC Count and MIL status. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("MIL: %s", recv_msg);
+   printf("MIL: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "01 00\r"); /* Get supported PIDs 1 - 32 for MODE 1. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("PID01: %s", recv_msg);
+   printf("PID01: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "09 00\r"); /* Get supported PIDs 1 - 32 for MODE 9. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("PID09: %s", recv_msg);
+   printf("PID09: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "03\n");      /* Get DTCs that are set. */
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   send_ecu_query(serial_port, "03\r");      /* Get DTCs that are set. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("DTC: %s", recv_msg);
+   printf("DTC: %s\r", recv_msg);
    memset(recv_msg, 0, 256);
+
+   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
 
    return;
 }
@@ -226,6 +236,8 @@ int main(int argc, char *argv[])
    
    /* TODO: make serial port configurable, ttyUSB0 is an FTDI232 USB-RS232 Converter Module. */
    serial_port = init_serial_comms("ttyUSB0");
+   
+   interface_check(serial_port);
    
    sock = socket(AF_INET, SOCK_DGRAM, 0);
 
