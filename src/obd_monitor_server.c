@@ -97,54 +97,51 @@ int send_ecu_query(int serial_port, char *ecu_query)
 
 int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 {
-    int in_msg_len;
-    unsigned char in_buf[256];
-    int interpreter_ready_status = 0;
-    int msg_idx = 0;
-    
-    while (interpreter_ready_status == 0)
-    {
-          int buf_idx;
-          
-          memset(in_buf, 0, MAX_SERIAL_BUF_LEN);
-          
-          if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
-          {
+   int in_msg_len;
+   unsigned char in_buf[MAX_SERIAL_BUF_LEN];
+   int interpreter_ready_status = 0;
+   int msg_idx = 0;
 
-                
-                in_buf[in_msg_len] = 0;   /* always put a "null" at the end of a string! */
+   while (interpreter_ready_status == 0) /* TODO: need a timeout in case lose comms with interpreter. */
+   {
+      int buf_idx;
 
-                for (buf_idx = 0; buf_idx < in_msg_len; buf_idx++)
-                {
-                   if (in_buf[buf_idx] < 32)   /* replace unreadable control-codes by dots */
-                   {
-                      if (in_buf[buf_idx] != '\r') /* End of message ASCII value 0x0D == \r  ASCII value 0x00A == \n */
-                      {
-                         ecu_reply[msg_idx] = '.';
-                         msg_idx++;
-                      }
-                   }
-                   else if (in_buf[buf_idx] == '>')
-                   {
-                      interpreter_ready_status = 1;
-                      printf("RXD > Interpreter Ready\n");
-                   }
-                   else
-                   {
-                      ecu_reply[msg_idx] = in_buf[buf_idx];
-                      msg_idx++;
-                   }
-                }  
-         }
-          
-          /* nanosleep(&reqtime, NULL); */
-    }
+      memset(in_buf, 0, MAX_SERIAL_BUF_LEN);
 
-    RS232_flushRX(serial_port); 
-    
-    printf("RXD %i bytes: %s\n", msg_idx, ecu_reply);
-    
-    return(msg_idx);
+      if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
+      {
+
+         for (buf_idx = 0; buf_idx < in_msg_len; buf_idx++)
+         {
+            if (in_buf[buf_idx] < 32)   /* Replace unreadable control-codes with dots. */
+            {
+               if (in_buf[buf_idx] != '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
+               {
+                  ecu_reply[msg_idx] = '.';
+                  msg_idx++;
+               }
+            }
+            else if (in_buf[buf_idx] == '>') /* ELM327 is ready to receive another request, so exit. */
+            {                                /* See ELM327 datasheet for vague details of protocol.  */
+               interpreter_ready_status = 1;
+               printf("RXD > Interpreter Ready\n");
+            }
+            else
+            {
+               ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
+               msg_idx++;
+            }
+         }  
+      }
+       
+       /* nanosleep(&reqtime, NULL); */
+   }
+
+   RS232_flushRX(serial_port); 
+
+   printf("RXD %i bytes: %s\n", msg_idx, ecu_reply);
+
+   return(msg_idx);
 }
 
 
