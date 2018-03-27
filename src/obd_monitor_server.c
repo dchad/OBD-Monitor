@@ -55,7 +55,7 @@ int init_serial_comms(char *interface_name)
   cport_nr = RS232_GetPortnr(interface_name);
   if (cport_nr == -1)
   {
-     printf("ERROR: Can not get com port number.\n");
+     printf("ERROR: Cannot get com port number.\n");
      exit(-1);
   }
 
@@ -63,7 +63,7 @@ int init_serial_comms(char *interface_name)
 
   if(RS232_OpenComport(cport_nr, bdrate, mode))
   {
-    printf("ERROR: Can not open comport!\n");
+    printf("ERROR: Cannot open comport!\n");
     exit(-1);
   }
   
@@ -113,11 +113,11 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
          for (buf_idx = 0; buf_idx < in_msg_len; buf_idx++)
          {
-            if (in_buf[buf_idx] < 32)   /* Replace unreadable control-codes with dots. */
+            if (in_buf[buf_idx] < 32)   /* Ignore unreadable control-codes except 0x0D message delimiter. */
             {
-               if (in_buf[buf_idx] != '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
+               if (in_buf[buf_idx] == '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
                {
-                  ecu_reply[msg_idx] = '.';
+                  ecu_reply[msg_idx] = '.'; /* Delimiter between request and response. */
                   msg_idx++;
                }
             }
@@ -139,7 +139,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
    RS232_flushRX(serial_port); 
 
-   printf("RXD %i bytes: %s\n", msg_idx, ecu_reply);
+   /* printf("RXD %i bytes: %s\n", msg_idx, ecu_reply); */
 
    return(msg_idx);
 }
@@ -154,54 +154,54 @@ void interface_check(int serial_port)
    
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATZ\r"); /* Reset the ELM327 OBD interpreter. */
+   send_ecu_query(serial_port, "ATZ\r\0"); /* Reset the ELM327 OBD interpreter. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATZ: %s\r", recv_msg);
+   printf("ATZ: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
 
-   send_ecu_query(serial_port, "ATRV\r"); /* Get battery voltage from interface. */
+   send_ecu_query(serial_port, "ATRV\r\0"); /* Get battery voltage from interface. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATRV: %s\r", recv_msg);
+   printf("ATRV: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATDP\r");  /* Get OBD protocol name from interface. */
+   send_ecu_query(serial_port, "ATDP\r\0");  /* Get OBD protocol name from interface. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATDP: %s\r", recv_msg);
+   printf("ATDP: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "ATI\r");  /* Get interpreter version ID. */
+   send_ecu_query(serial_port, "ATI\r\0");  /* Get interpreter version ID. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ATI: %s\r", recv_msg);
+   printf("ATI: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "09 02\r"); /* Get vehicle VIN number. */
+   send_ecu_query(serial_port, "09 02\r\0"); /* Get vehicle VIN number. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("VIN: %s\r", recv_msg);
+   printf("VIN: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "09 0A\r"); /* Get ECU name. */
+   send_ecu_query(serial_port, "09 0A\r\0"); /* Get ECU name. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("ECUName: %s\r", recv_msg);
+   printf("ECUName: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "01 01\r"); /* Get DTC Count and MIL status. */
+   send_ecu_query(serial_port, "01 01\r\0"); /* Get DTC Count and MIL status. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("MIL: %s\r", recv_msg);
+   printf("MIL: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "01 00\r"); /* Get supported PIDs 1 - 32 for MODE 1. */
+   send_ecu_query(serial_port, "01 00\r\0"); /* Get supported PIDs 1 - 32 for MODE 1. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("PID01: %s\r", recv_msg);
+   printf("PID01: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "09 00\r"); /* Get supported PIDs 1 - 32 for MODE 9. */
+   send_ecu_query(serial_port, "09 00\r\0"); /* Get supported PIDs 1 - 32 for MODE 9. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("PID09: %s\r", recv_msg);
+   printf("PID09: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
    
-   send_ecu_query(serial_port, "03\r");      /* Get DTCs that are set. */
+   send_ecu_query(serial_port, "03\r\0");      /* Get DTCs that are set. */
    recv_ecu_reply(serial_port, recv_msg);
-   printf("DTC: %s\r", recv_msg);
+   printf("DTC: %s\n", recv_msg);
    memset(recv_msg, 0, 256);
 
    nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
@@ -225,7 +225,7 @@ int main(int argc, char *argv[])
     
    if (argc < 2) 
    {
-      fprintf(stderr, "ERROR: no port provided.\n");
+      fprintf(stderr, "ERROR: no UDP port provided.\n");
       exit(0);
    }
    
