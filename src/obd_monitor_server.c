@@ -148,63 +148,73 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 void interface_check(int serial_port)
 {
    unsigned char recv_msg[MAX_SERIAL_BUF_LEN];
-   struct timespec reqtime;
+   /* struct timespec reqtime;
    reqtime.tv_sec = 1;
-   reqtime.tv_nsec = 0;
+   reqtime.tv_nsec = 0; */
    
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "ATZ\r\0"); /* Reset the ELM327 OBD interpreter. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("ATZ: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
 
    send_ecu_query(serial_port, "ATRV\r\0"); /* Get battery voltage from interface. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("ATRV: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "ATDP\r\0");  /* Get OBD protocol name from interface. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("ATDP: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "ATI\r\0");  /* Get interpreter version ID. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("ATI: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "09 02\r\0"); /* Get vehicle VIN number. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("VIN: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "09 0A\r\0"); /* Get ECU name. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("ECUName: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "01 01\r\0"); /* Get DTC Count and MIL status. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("MIL: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "01 00\r\0"); /* Get supported PIDs 1 - 32 for MODE 1. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("PID01: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "09 00\r\0"); /* Get supported PIDs 1 - 32 for MODE 9. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("PID09: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
    
    send_ecu_query(serial_port, "03\r\0");      /* Get DTCs that are set. */
    recv_ecu_reply(serial_port, recv_msg);
    printf("DTC: %s\n", recv_msg);
+   print_log_entry((char *)recv_msg);
    memset(recv_msg, 0, 256);
 
-   nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
+   /* nanosleep(&reqtime, NULL);  Sleep for 1 Second. */
 
    return;
 }
@@ -218,6 +228,7 @@ int main(int argc, char *argv[])
    struct sockaddr_in from_client;
    char in_buf[BUFFER_MAX_LEN];
    unsigned char ecu_msg[BUFFER_MAX_LEN];
+   char *pch;
    struct timespec reqtime;
     
    reqtime.tv_sec = 1;
@@ -278,13 +289,33 @@ int main(int argc, char *argv[])
        n = recv_ecu_reply(serial_port, ecu_msg);
        if (n > 0)
        {
-          print_log_entry((char *)ecu_msg);
+          /* TODO: Reformat messages before sending to the GUI. */
           
-          /* Send ECU reply to GUI. */
-          n = sendto(sock, ecu_msg, n, 0, (struct sockaddr *)&from_client, from_len);
+          if (ecu_msg[0] == 'A') /* Interpreter AT response message. */
+          {
+             /* TODO: replace . with space. */
+             
+             /* Send interpreter reply to GUI. */
+             n = sendto(sock, ecu_msg, n, 0, (struct sockaddr *)&from_client, from_len);
 
-          if (n  < 0) 
-             fatal_error("sendto");
+             if (n  < 0) 
+                fatal_error("sendto");
+          }
+          else /* ECU response message. */
+          {
+             pch = strtok((char *)ecu_msg,"."); /* Cut off the header and delimiters. */
+             pch = strtok(NULL,".");
+             if (pch != NULL)
+             {
+                print_log_entry(pch);
+                
+                /* Send ECU reply to GUI. */
+                n = sendto(sock, pch, strlen(pch), 0, (struct sockaddr *)&from_client, from_len);
+
+                if (n  < 0) 
+                   fatal_error("sendto");
+             }
+          }
        }
        
 

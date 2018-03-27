@@ -897,7 +897,7 @@ int parse_obd_msg(char *obd_msg)
          {
             case '0': break; /* Invalid mode. */
             case '1': parse_mode_01_msg(obd_msg); break; /* Mode 01 message, ECU parameter update. */
-            case '2': break;
+            case '2': break;                             /* TODO: process freeze frame data. */
             case '3': parse_mode_03_msg(obd_msg); break; /* Mode 03 message, diagnostic trouble codes. */
             case '4': break;
             case '5': break;
@@ -913,40 +913,38 @@ int parse_obd_msg(char *obd_msg)
       else /* This is an AT message response from the OBD interface. */
       {
          /* TODO: Process AT message and save configuration info from the interface. */
-         if (obd_msg[0] == '>') /* ELM327 IC sends a '>' character to signal it is ready. */
+         /* TODO: Process information from OBD interface. */
+         if (strncmp(obd_msg, "ATRV", 4) == 0)
          {
-            obd_interface.obd_interface_status = 1; /* Interface is ready to receive messages. */
-            result = 1;
+            set_battery_voltage(obd_msg);
+            result = 2; 
+         }
+         else if (strncmp(obd_msg, "ATI", 3) == 0)
+         {
+            set_interface_information(obd_msg);
+            result = 3; 
+         }
+         else if (strncmp(obd_msg, "ATDP", 4) == 0)
+         {
+            set_obd_protocol_name(obd_msg);
+            result = 4; 
+         }
+         else if (strncmp(obd_msg, "ATSP", 4) == 0)
+         {
+            set_obd_protocol_name(obd_msg);
+            result = 4; 
+         }
+         else if (strncmp(obd_msg, "ATTP", 4) == 0)
+         {
+            set_obd_protocol_name(obd_msg);
+            result = 4; 
          }
          else
          {
-            /* TODO: Process information from OBD interface. */
-            if (strncmp(obd_msg, "ATRV", 4) == 0)
-            {
-               set_battery_voltage(obd_msg);
-               result = 2; 
-            }
-            else if (strncmp(obd_msg, "ATI", 3) == 0)
-            {
-               set_interface_information(obd_msg);
-               result = 3; 
-            }
-            else if (strncmp(obd_msg, "ATDP", 4) == 0)
-            {
-               set_obd_protocol_name(obd_msg);
-               result = 4; 
-            }
-            else if (strncmp(obd_msg, "ATSP", 4) == 0)
-            {
-               set_obd_protocol_name(obd_msg);
-               result = 4; 
-            }
-            else if (strncmp(obd_msg, "ATTP", 4) == 0)
-            {
-               set_obd_protocol_name(obd_msg);
-               result = 4; 
-            }
+            printf("parse_obd_msg() <INFO>: Unknown AT message - %s\n", obd_msg);
+            /* TODO: log message.  */
          }
+         
       }
    }
 
