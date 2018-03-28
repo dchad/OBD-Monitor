@@ -88,6 +88,8 @@ char *ltrim(char *s);
 char *rtrim(char *s);
 char *trim(char *s);
 void uppercase(char *s);
+int replacechar(char *str, char orig, char rep);
+
 
 /* log.c */
 int open_log_file(char *startup_path, char *log_file_name);

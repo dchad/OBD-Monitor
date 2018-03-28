@@ -293,12 +293,12 @@ int main(int argc, char *argv[])
        n = recv_ecu_reply(serial_port, ecu_msg);
        if (n > 0)
        {
-          /* TODO: Reformat messages before sending to the GUI. */
+          /* Reformat messages before sending to the GUI. */
           
           if (ecu_msg[0] == 'A') /* TODO: or 'a' Interpreter AT response message. */
           {
-             /* TODO: replace . with space. */
-             
+             /* Replace ! with space. */
+             replacechar((char *)ecu_msg, '!', ' ');
              /* Send interpreter reply to GUI. */
              n = sendto(sock, ecu_msg, n, 0, (struct sockaddr *)&from_client, from_len);
 

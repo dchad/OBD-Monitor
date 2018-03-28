@@ -261,3 +261,16 @@ void uppercase(char *s)
    return;
 }
 
+int replacechar(char *str, char orig, char rep) 
+{
+    char *ix = str;
+    int n = 0;
+    while((ix = strchr(ix, orig)) != NULL) 
+    {
+        *ix++ = rep;
+        n++;
+    }
+    return(n);
+}
+
+

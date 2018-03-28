@@ -56,7 +56,8 @@ const char *test_strings[] = {
 "999.999.999.999",
 "255.255.255.255",
 "01 A1 B0 30 08 01",
-"41 00 K0 04 C9 FF"
+"41 00 K0 04 C9 FF",
+"ATZ!ELM327 v2.1!"
 };
 
 void generate_dtc_lookup_table()
@@ -133,6 +134,17 @@ int main(int argc, char *argv[])
       print_log_entry(temp_buf);
 
       printf("uppercase(): %s\n", temp_buf);
+   }
+   
+   for (ii = 0; ii < 9; ii++)
+   {
+      strcpy(temp_buf, test_strings[ii]);
+      
+      replacechar(temp_buf, '.', ' ');
+
+      print_log_entry(temp_buf);
+
+      printf("replacechar(): %s\n", temp_buf);
    }
          
 /* 

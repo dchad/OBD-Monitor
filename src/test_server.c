@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
       send_ecu_msg("01 5E\r"); /* Fuel Flow Rate */  
       nanosleep(&reqtime, NULL); /* Sleep for 1 Second. */
       recv_ecu_msg(recv_msg);
-      printf("FFR: %s", recv_msg);
+      printf("FFR: %s\n", recv_msg);
       memset(recv_msg, 0, 256);
 
       send_ecu_msg("01 05\r"); /* Coolant Temperature */
