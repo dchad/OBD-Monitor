@@ -47,6 +47,18 @@ const char *ecu_name[] = {
 "49 0A 01 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 31 32 33 34 35 36 37 38"
 };
 
+
+const char *test_strings[] = { 
+"this is test STRING one.",
+"THIS is test STRING TWO.",
+"1234.....4321.....898911",
+"127.0.0.1",
+"999.999.999.999",
+"255.255.255.255",
+"01 A1 B0 30 08 01",
+"41 00 K0 04 C9 FF"
+};
+
 void generate_dtc_lookup_table()
 {
    return;
@@ -111,7 +123,18 @@ int main(int argc, char *argv[])
       }
       printf("ECU: %s\n", temp_buf);
    }
+
+   for (ii = 0; ii < 2; ii++)
+   {
+      strcpy(temp_buf, test_strings[ii]);
       
+      uppercase(temp_buf);
+
+      print_log_entry(temp_buf);
+
+      printf("uppercase(): %s\n", temp_buf);
+   }
+         
 /* 
 ----------------------------------------------
          Hashmap tests.

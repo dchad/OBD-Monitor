@@ -250,5 +250,14 @@ char *trim(char *s)
     return rtrim(ltrim(s));
 }
 
-
+void uppercase(char *s)
+{
+   while ( *s != '\0' )
+   {
+      *s = toupper((unsigned char) *s);
+      ++s;
+   }
+   
+   return;
+}
 

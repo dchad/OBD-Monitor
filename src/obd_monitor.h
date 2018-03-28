@@ -87,6 +87,7 @@ int validate_ipv6_address(char *ipv6_addr);
 char *ltrim(char *s);
 char *rtrim(char *s);
 char *trim(char *s);
+void uppercase(char *s);
 
 /* log.c */
 int open_log_file(char *startup_path, char *log_file_name);

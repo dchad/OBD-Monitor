@@ -117,7 +117,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
             {
                if (in_buf[buf_idx] == '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
                {
-                  ecu_reply[msg_idx] = '.'; /* Delimiter between request and response. */
+                  ecu_reply[msg_idx] = '!'; /* Delimiter between request and response. */
                   msg_idx++;
                }
             }
@@ -145,6 +145,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 }
 
 
+/* TODO: Temp protocol test function, move to functional test module. */
 void interface_check(int serial_port)
 {
    unsigned char recv_msg[MAX_SERIAL_BUF_LEN];
@@ -229,10 +230,12 @@ int main(int argc, char *argv[])
    char in_buf[BUFFER_MAX_LEN];
    unsigned char ecu_msg[BUFFER_MAX_LEN];
    char *pch;
+   
+   /*
    struct timespec reqtime;
-    
    reqtime.tv_sec = 1;
    reqtime.tv_nsec = 0;
+   */
     
    if (argc < 2) 
    {
@@ -275,23 +278,24 @@ int main(int argc, char *argv[])
        if (n < 0) 
           fatal_error("recvfrom");
 
-       /* printf("RXD ECU Query: %s\n", in_buf); */
+       /* TODO: do some message vaidation here.
+        printf("RXD ECU Query: %s\n", in_buf); */
 
-       /* Now send the query to the ECU interface and get a response. */
+       /* Now send the query to the interpreter and get a response. */
        n = send_ecu_query(serial_port, in_buf);
        if (n > 0)
        {
           print_log_entry(in_buf);
        }
        
-       nanosleep(&reqtime, NULL);
+       /* nanosleep(&reqtime, NULL); */
        
        n = recv_ecu_reply(serial_port, ecu_msg);
        if (n > 0)
        {
           /* TODO: Reformat messages before sending to the GUI. */
           
-          if (ecu_msg[0] == 'A') /* Interpreter AT response message. */
+          if (ecu_msg[0] == 'A') /* TODO: or 'a' Interpreter AT response message. */
           {
              /* TODO: replace . with space. */
              
@@ -303,8 +307,8 @@ int main(int argc, char *argv[])
           }
           else /* ECU response message. */
           {
-             pch = strtok((char *)ecu_msg,"."); /* Cut off the header and delimiters. */
-             pch = strtok(NULL,".");
+             pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */
+             pch = strtok(NULL,"!");
              if (pch != NULL)
              {
                 print_log_entry(pch);

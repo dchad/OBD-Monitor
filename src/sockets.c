@@ -87,7 +87,7 @@ int recv_ecu_msg(char *msg)
    return(n);
 }
 
-/* TODO: move this function to the server module. */
+/* TODO: move this function to the protocol module. */
 int init_obd_comms(char *obd_msg, char *rcv_msg)
 {
    int n;
@@ -138,7 +138,7 @@ int server_connect()
       ecu_connected = 1;
    }
    
-   /*
+   /* Do this in the GUI/Client process.
    else
    {
       result = init_obd_comms("ATI\n", rcv_msg_buf);
