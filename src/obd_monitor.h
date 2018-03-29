@@ -38,7 +38,7 @@
 #define NUM_PI 3.1415926535897932384626433832795028841971693993751
 #define LOG_FILE "./obd-mon-data.log"
 
-/* PID Message Codes. */
+/* TODO: PID Message Codes. */
 
 #define PID_SUPPORTED_01 "01 00\n"
 #define PID_DTC_COUNT    "01 01\n"
@@ -100,7 +100,7 @@ void close_log_file();
 int init_server_socket(char *server, char *port);
 int send_ecu_msg(char *query);
 int recv_ecu_msg(char *msg);
-int init_obd_comms(char *obd_msg, char *rcv_msg);
+int init_obd_comms(char *obd_msg);
 int server_connect();
 int get_ecu_connected();
 void set_ecu_connected(int cstatus);

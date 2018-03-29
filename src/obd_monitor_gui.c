@@ -105,8 +105,8 @@ void protocol_combo_selected(GtkComboBoxText *widget, gpointer window)
   {
      selected = gtk_combo_box_get_active (GTK_COMBO_BOX(widget));
      printf("protocol_combo_selected() : Protocol Selected: %i %s\n", selected, text);
-     sprintf(obd_protocol, "ATSP %.2x\n", selected);
-     send_ecu_msg(obd_protocol);
+     sprintf(obd_protocol, "ATSP %.2x\r", selected);
+     /* send_ecu_msg(obd_protocol); */
   }
   g_free(text);
   
@@ -138,33 +138,36 @@ void print_msg(GtkWidget *widget, gpointer window)
 
 gint send_obd_message_60sec_callback (gpointer data)
 {
-   send_ecu_msg("ATRV\n");  /* Battery Voltage */
-   send_ecu_msg("01 01\n"); /* Get MIL status and DTC count. */
-   send_ecu_msg("03\n");    /* Get DTC codes. */
-   send_ecu_msg("01 05\n"); /* Coolant Temperature */
-   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
-   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
-   send_ecu_msg("01 5C\n"); /* Oil Temperature */
+   send_ecu_msg("ATRV\r");  /* Battery Voltage */
+   send_ecu_msg("01 01\r"); /* Get MIL status and DTC count. */
+   send_ecu_msg("03\r");    /* Get DTC codes. */
+   send_ecu_msg("01 05\r"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\r"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\r"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\r"); /* Oil Temperature */
+   send_ecu_msg("01 0A\r"); /* Fuel Pressure */
+   send_ecu_msg("01 0B\r"); /* MAP Pressure */
+   send_ecu_msg("01 5E\r"); /* Fuel Flow Rate */
    
    return(TRUE);
 }
 
 gint send_obd_message_30sec_callback (gpointer data)
 {
-   send_ecu_msg("01 05\n"); /* Coolant Temperature */
-   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
-   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
-   send_ecu_msg("01 5C\n"); /* Oil Temperature */
+   send_ecu_msg("01 05\r"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\r"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\r"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\r"); /* Oil Temperature */
     
    return(TRUE);
 }
 
 gint send_obd_message_10sec_callback (gpointer data)
 {
-   send_ecu_msg("01 05\n"); /* Coolant Temperature */
-   send_ecu_msg("01 2F\n"); /* Fuel Tank Level */
-   send_ecu_msg("01 0F\n"); /* Intake Air Temperature */
-   send_ecu_msg("01 5C\n"); /* Oil Temperature */
+   send_ecu_msg("01 05\r"); /* Coolant Temperature */
+   send_ecu_msg("01 2F\r"); /* Fuel Tank Level */
+   send_ecu_msg("01 0F\r"); /* Intake Air Temperature */
+   send_ecu_msg("01 5C\r"); /* Oil Temperature */
    
    return(TRUE);
 }
@@ -172,11 +175,8 @@ gint send_obd_message_10sec_callback (gpointer data)
 gint send_obd_message_1sec_callback (gpointer data)
 {
 
-   send_ecu_msg("01 0C\n"); /* Engine RPM */
-   send_ecu_msg("01 0D\n"); /* Vehicle Speed */
-   send_ecu_msg("01 0A\n"); /* Fuel Pressure */
-   send_ecu_msg("01 0B\n"); /* MAP Pressure */
-   send_ecu_msg("01 5E\n"); /* Fuel Flow Rate */
+   send_ecu_msg("01 0C\r"); /* Engine RPM */
+   send_ecu_msg("01 0D\r"); /* Vehicle Speed */
    
    return(TRUE);
 }
@@ -221,38 +221,31 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
    
    if (strlen(obd_protocol) < 5)
    {
-      strcpy(obd_protocol, "ATTP 0\n");
+      strcpy(obd_protocol, "ATTP 0\r");
    }
    
    if (server_connect() > 0)
    {
-   
-      if (init_obd_comms(obd_protocol, rcv_msg_buf) > 0)
-      {
-         parse_obd_msg(rcv_msg_buf);
-         set_ecu_connected(1); /* Start PID comms with server process. */
-         
-         msg_num = parse_obd_msg(rcv_msg_buf);
-         if (msg_num < 0)
-         {
-            /* TODO: Log an error message. */
-
-         }
-         else
-         {
-            /* TODO: set status bar and log view messages and remove dependencies from protocols.c
-               Change message parser to parse_obd_msg(buffer, status_msg);
-            */
-         }
-         
-         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
-         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
-      }
+      init_obd_comms(obd_protocol);
+      
+      send_ecu_msg("ATDP\r");  /* Get OBD protocol name from interface. */
+      send_ecu_msg("ATRV\r");  /* Get battery voltage from interface. */
+      send_ecu_msg("09 02\r"); /* Get vehicle VIN number. */
+      send_ecu_msg("09 0A\r"); /* Get ECU name. */
+      send_ecu_msg("01 01\r"); /* Get DTC Count and MIL status. */
+      send_ecu_msg("01 00\r"); /* Get supported PIDs 1 - 32 for MODE 1. */
+      send_ecu_msg("09 00\r"); /* Get supported PIDs 1 - 32 for MODE 9. */
+      send_ecu_msg("03\r");      
+      
+      g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+      g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
+ 
    }
    else
    {
       /* TODO: popup error dialog. */
+      printf("ecu_connect_callback(): <ERROR> Could not connect to server.\n");
    }
 
    return;
@@ -802,42 +795,38 @@ int main(int argc, char *argv[])
    gtk_widget_show_all(window);
    
    set_ecu_connected(0);
-   int ecu_auto_connect = 1; /* TODO: add to configuration options: get_auto_connect(). */
+   int ecu_auto_connect = 0; /* TODO: add to configuration options: get_auto_connect(). */
    if (ecu_auto_connect == 1) 
    {
       memset(obd_protocol, 0, 256);
       if (argc < 2) /* Get protocol number from command line. */
       {
-         strcpy(obd_protocol, "ATTP 0\n");
+         strcpy(obd_protocol, "ATTP 0\r");
       }
       else
       {
-         strncpy(obd_protocol, "ATTP %c\n", argv[1][0]);
+         strncpy(obd_protocol, "ATTP %c\r", argv[1][0]);
       }
       
       if (server_connect() > 0) /* Sockets Module Connect Function. */
       {
-         if (init_obd_comms(obd_protocol, rcv_msg_buf) > 0)
-         {
-            parse_obd_msg(rcv_msg_buf);
-            /* send_ecu_msg("ATDP\n");   Get OBD protocol name from interface. */
-            send_ecu_msg("ATRV\n");  /* Get battery voltage from interface. */
-            send_ecu_msg("09 02\n"); /* Get vehicle VIN number. */
-            send_ecu_msg("09 0A\n"); /* Get ECU name. */
-            send_ecu_msg("01 01\n"); /* Get DTC Count and MIL status. */
-            send_ecu_msg("01 00\n"); /* Get supported PIDs 1 - 32 for MODE 1. */
-            send_ecu_msg("09 00\n"); /* Get supported PIDs 1 - 32 for MODE 9. */
-            send_ecu_msg("03\n");
-            g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
-            /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */
-            g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-            g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
-            set_status_msg("Connected to ECU.");
-         }
-         else
-         {
-            set_status_msg("Connection to ECU failed.");
-         }
+         init_obd_comms(obd_protocol);
+        
+         send_ecu_msg("ATDP\n");  /* Get OBD protocol name from interface. */
+         send_ecu_msg("ATRV\r");  /* Get battery voltage from interface. */
+         send_ecu_msg("09 02\r"); /* Get vehicle VIN number. */
+         send_ecu_msg("09 0A\r"); /* Get ECU name. */
+         send_ecu_msg("01 01\r"); /* Get DTC Count and MIL status. */
+         send_ecu_msg("01 00\r"); /* Get supported PIDs 1 - 32 for MODE 1. */
+         send_ecu_msg("09 00\r"); /* Get supported PIDs 1 - 32 for MODE 9. */
+         send_ecu_msg("03\r");
+         
+         g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
+         /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */
+         g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
+         g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
+         set_status_msg("Connected to ECU.");
+  
       }
       else
       {

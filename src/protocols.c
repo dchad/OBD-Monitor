@@ -6,7 +6,7 @@
    Description: OBD and AT message crackers. 
                 If the message starts with ASCII hex digits '40'...'49' then
                 the message is from the ECU. Otherwise it is a message from
-                the OBD interface IC, is invalid or may be a manufacturer
+                the OBD interface IC, or is invalid or may be a manufacturer
                 proprietary code.
                 
    Selected ECU Mode 01 Parameters: 

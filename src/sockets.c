@@ -87,11 +87,10 @@ int recv_ecu_msg(char *msg)
    return(n);
 }
 
-/* TODO: move this function to the protocol module. */
-int init_obd_comms(char *obd_msg, char *rcv_msg)
+
+int init_obd_comms(char *obd_msg)
 {
    int n;
-   char buffer[256];
 
    n = sendto(sock,obd_msg,strlen(obd_msg),0,(const struct sockaddr *)&obd_server,length);
 
@@ -104,17 +103,6 @@ int init_obd_comms(char *obd_msg, char *rcv_msg)
       printf("init_obd_comms() - SENT OBD Message: %s", obd_msg);
    }
    
-   usleep(OBD_WAIT_TIMEOUT);
-
-   memset(buffer,0,256);
-
-   n = recv_ecu_msg(buffer);
-   
-   if (n > 0)
-   {
-      printf("init_obd_comms() - RECV OBD Message: %s", buffer);  
-      strncpy(rcv_msg, buffer, n);
-   }
    
    return(n);
 }
