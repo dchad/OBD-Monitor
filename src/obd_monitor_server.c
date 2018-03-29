@@ -299,6 +299,9 @@ int main(int argc, char *argv[])
           {
              /* Replace ! with space. */
              replacechar((char *)ecu_msg, '!', ' ');
+             
+             print_log_entry((char *)ecu_msg);
+             
              /* Send interpreter reply to GUI. */
              n = sendto(sock, ecu_msg, n, 0, (struct sockaddr *)&from_client, from_len);
 

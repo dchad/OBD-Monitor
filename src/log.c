@@ -33,38 +33,24 @@ FILE *log_file = NULL;
 */
 int open_log_file(char *startup_path, char *log_file_name)
 {
-   char current_working_dir[MAX_PATH_LEN];
    char *temp_path = NULL;
    int ret_val = 1;
 
-   if (current_working_dir == NULL)
+
+   if (startup_path[0] != '.')  /* if started from some other directory then change to the home directory */
    {
-      printf("open_log_file() <ERROR>: malloc failed.\n");
+      temp_path = dirname(startup_path);
+      if (chdir(temp_path) != 0)
+      {
+         printf("open_log_file() <ERROR>: Could not change directory: %s\n", temp_path);  
+      }
    }
-   else
+
+   log_file = fopen(log_file_name, "a");
+   if (log_file == NULL)
    {
-      if (startup_path[0] != '.')  /* if started from some other directory then change to the fsic directory */
-      {
-         temp_path = dirname(startup_path);
-         if (chdir(temp_path) != 0)
-         {
-            printf("open_log_file() <ERROR>: Could not change directory: %s\n", temp_path);  
-         }
-      }
-      if (getcwd(current_working_dir, MAX_PATH_LEN) == 0)
-      {
-         printf("open_log_file() <ERROR>: Could not get current working directory.\n");  
-      }
-      else
-      {
-         log_file = fopen(log_file_name, "a");
-         if (log_file == NULL)
-         {
-            printf("open_log_file() <ERROR>: could not open logfile: %s\n", current_working_dir); 
-            ret_val = -1;
-         }
-         /* printf("DEBUG: open_log_file(): %s\n", current_working_dir); */ 
-      }
+      printf("open_log_file() <ERROR>: could not open logfile: %s\n", log_file_name); 
+      ret_val = -1;
    }
 
 
@@ -112,6 +98,7 @@ int print_log_entry(char *estr)
    strncpy(log_entry, time_str, strlen(time_str) - 1);
    strncat(log_entry, " ", 1);
    strncat(log_entry, estr, slen);
+   strncat(log_entry, "\n", 1);
 
    if (log_file != NULL)
    {

@@ -80,6 +80,11 @@ int main(int argc, char *argv[])
       /* fprintf(stderr, "main() <ERROR>: no port provided.\n");
       exit(0); */
    }
+   
+   if (open_log_file("./", "unit_tests.log") == -1)
+   {
+      printf("unit_test <ERROR>: Could not open log file.\n");
+   }
 
 /* 
 ----------------------------------------------
@@ -170,6 +175,9 @@ int main(int argc, char *argv[])
          add_dtc(dtc); 
    }
    print_dtc_map();
-      
+   
+   
+   close_log_file();
+   
    exit(0);
 }
