@@ -888,7 +888,7 @@ int parse_obd_msg(char *obd_msg)
    
    msg_len = strlen(obd_msg);
    
-   if ((msg_len > 0) && (obd_msg[msg_len - 1] == '\n')) /* All messages must terminate with a newline. */
+   if (msg_len > 0) 
    {
       /* Parse the message. */
       if (obd_msg[0] == '4') /* This is an OBD response message from the ECU. */
