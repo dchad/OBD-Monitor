@@ -228,6 +228,7 @@ int main(int argc, char *argv[])
    struct sockaddr_in server;
    struct sockaddr_in from_client;
    char in_buf[BUFFER_MAX_LEN];
+   char log_buf[BUFFER_MAX_LEN];
    unsigned char ecu_msg[BUFFER_MAX_LEN];
    char *pch;
    
@@ -285,7 +286,8 @@ int main(int argc, char *argv[])
        n = send_ecu_query(serial_port, in_buf);
        if (n > 0)
        {
-          print_log_entry(in_buf);
+          sprintf(log_buf, "TXD: %s", in_buf);
+          print_log_entry(log_buf);
        }
        
        /* nanosleep(&reqtime, NULL); */
@@ -299,8 +301,8 @@ int main(int argc, char *argv[])
           {
              /* Replace ! with space. */
              replacechar((char *)ecu_msg, '!', ' ');
-             
-             print_log_entry((char *)ecu_msg);
+             sprintf(log_buf, "RXD: %s", ecu_msg);
+             print_log_entry(log_buf);
              
              /* Send interpreter reply to GUI. */
              n = sendto(sock, ecu_msg, n, 0, (struct sockaddr *)&from_client, from_len);
@@ -308,13 +310,14 @@ int main(int argc, char *argv[])
              if (n  < 0) 
                 fatal_error("sendto");
           }
-          else /* ECU response message. */
+          else if (ecu_msg[0] == '0') /* ECU response message. */
           {
              pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */
              pch = strtok(NULL,"!");
              if (pch != NULL)
              {
-                print_log_entry(pch);
+                sprintf(log_buf, "RXD: %s", pch);
+                print_log_entry(log_buf);
                 
                 /* Send ECU reply to GUI. */
                 n = sendto(sock, pch, strlen(pch), 0, (struct sockaddr *)&from_client, from_len);
@@ -322,6 +325,10 @@ int main(int argc, char *argv[])
                 if (n  < 0) 
                    fatal_error("sendto");
              }
+          }
+          else
+          {
+             /* TODO: log an error message. */
           }
        }
        

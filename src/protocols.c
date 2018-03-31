@@ -172,12 +172,16 @@ void log_ecu_parameters()
 void set_engine_rpm(char *rpm_msg)
 {
    unsigned int pmode, pid, pa, pb;
-
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
+   
    if (sscanf(rpm_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
    {
       ecup.ecu_engine_rpm = ((256.0 * (double)pa + (double)pb) / 4.0);
       /* ECU rpm parameter is in quarters of a revolution. */
-      print_log_entry(rpm_msg);
+      sprintf(temp_buf, "Engine RPM: %f", ecup.ecu_engine_rpm);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -194,11 +198,15 @@ double get_engine_rpm()
 void set_coolant_temperature(char *ctemp_msg)
 {
    unsigned int pmode, pid, pa;
-
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
+   
    if (sscanf(ctemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       ecup.ecu_coolant_temperature = ((double)pa - 40.0);
-      print_log_entry(ctemp_msg);
+      sprintf(temp_buf, "ECT: %f", ecup.ecu_coolant_temperature);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -215,11 +223,15 @@ double get_coolant_temperature()
 void set_manifold_pressure(char *manap_msg)
 {
    unsigned int pmode, pid, pa;
-
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
+   
    if (sscanf(manap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       ecup.ecu_manifold_air_pressure = (double)pa;
-      print_log_entry(manap_msg);
+      sprintf(temp_buf, "MAP: %f", ecup.ecu_manifold_air_pressure);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -237,11 +249,15 @@ double get_manifold_pressure()
 void set_intake_air_temperature(char *atemp_msg)
 {
    unsigned int pmode, pid, pa;
-
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
+   
    if (sscanf(atemp_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       ecup.ecu_intake_air_temperature = ((double)pa - 40.0);
-      print_log_entry(atemp_msg);
+      sprintf(temp_buf, "IAT: %f", ecup.ecu_intake_air_temperature);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -259,12 +275,15 @@ double get_intake_air_temperature()
 void set_battery_voltage(char *bv_msg)
 {
    float bv;
-
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
+   
    if (sscanf(bv_msg, "ATRV %f", &bv) == 1)
    { 
       ecup.ecu_battery_voltage = (double)bv;
-      print_log_entry(bv_msg);
-      /* sscanf(bv_msg, "ATRV %s\n", ecup.battery_voltage); */
+      sprintf(temp_buf, "ATRV: %f", ecup.ecu_battery_voltage);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -359,11 +378,15 @@ void get_obd_protocol_name(char *info)
 void set_vehicle_speed(char *vs_msg)
 {
    unsigned int pmode, pid, pa;
-
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
+   
    if (sscanf(vs_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       ecup.ecu_vehicle_speed = (double)pa;
-      print_log_entry(vs_msg);
+      sprintf(temp_buf, "Vehicle Speed: %f", ecup.ecu_vehicle_speed);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -536,11 +559,15 @@ double get_fuel_pressure()
 void set_accelerator_position(char *ap_msg)
 {
    unsigned int pmode, pid, pa;
+   char temp_buf[256];
+   
+   memset(temp_buf, 0, 256);
 
    if (sscanf(ap_msg, "%x %x %x", &pmode, &pid, &pa) == 3)
    {
       ecup.ecu_accelerator_position = 0.392 * (double)pa;
-      print_log_entry(ap_msg);
+      sprintf(temp_buf, "Accelerator Position: %f", ecup.ecu_accelerator_position);
+      print_log_entry(temp_buf);
    }
    else
    {
@@ -574,11 +601,13 @@ void set_mode_1_supported_pid_list_1_32(char *pid_msg)
             /* TODO: add to supported PID list. */
             sprintf(temp_buf, "set_mode_1_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
             update_comms_log_view(temp_buf);
+            print_log_entry(temp_buf);
          }
          else
          {
             sprintf(temp_buf, "set_mode_1_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
             update_comms_log_view(temp_buf);
+            print_log_entry(temp_buf);
          }
          bit_select = bit_select >> 1;
       }
@@ -619,11 +648,13 @@ void set_mode_9_supported_pid_list_1_32(char *pid_msg)
             /* TODO: add to supported PID list. */
             sprintf(temp_buf, "set_mode_9_supported_pid_list_1_32(): PID %.2x supported.\n", ii+1);
             update_comms_log_view(temp_buf);
+            print_log_entry(temp_buf);
          }
          else
          {
             sprintf(temp_buf, "set_mode_9_supported_pid_list_1_32(): PID %.2x NOT supported.\n", ii+1);
             update_comms_log_view(temp_buf);
+            print_log_entry(temp_buf);
          }
          bit_select = bit_select >> 1;
       }
@@ -665,6 +696,7 @@ void set_vehicle_vin(char *obd_vin_msg)
    strcpy(temp_buf, "VIN: ");
    strncat(temp_buf, ecup.ecu_vin, strlen(ecup.ecu_vin));
    set_status_bar_msg(temp_buf);
+   print_log_entry(temp_buf);
    
    return;
 }
@@ -689,14 +721,16 @@ void set_ecu_name(char *obd_ecu_name_msg)
       len = xhextoascii(ecup.ecu_name, temp_buf);
       strcpy(temp_buf, "ECU Name: ");
       strncat(temp_buf, ecup.ecu_name, strlen(ecup.ecu_name));
-      set_status_bar_msg(temp_buf);
-      print_log_entry(obd_ecu_name_msg);
+
    }
    else
    {
       strcpy(ecup.ecu_name, "Invalid ECU Name Message.");
       printf(temp_buf, "Invalid ECU Name Message: %s\n", obd_ecu_name_msg);
    }
+   
+   set_status_bar_msg(temp_buf);
+   print_log_entry(temp_buf);
    
    return;
 }
@@ -737,17 +771,19 @@ void set_dtc_count(char *obd_mil_msg)
         /* MIL is on. */
         ecup.ecu_mil_status = 1;
         ecup.ecu_dtc_count = mil_code - 128;
-        printf(buf, "MIL On: DTC Count = %d", ecup.ecu_dtc_count);
-        set_status_bar_msg(buf);
+        sprintf(buf, "MIL On: DTC Count = %d", ecup.ecu_dtc_count);
+        
      }
      else
      {
         /* MIL is off. */
         ecup.ecu_mil_status = 0;
         ecup.ecu_dtc_count = mil_code;
-        printf("MIL Off: DTC Count = %d", ecup.ecu_dtc_count);
+        sprintf(buf, "MIL Off: DTC Count = %d", ecup.ecu_dtc_count);
+        
      }
-     print_log_entry(obd_mil_msg);
+     set_status_bar_msg(buf);
+     print_log_entry(buf);
    }
    
    return;
@@ -842,7 +878,7 @@ void parse_mode_03_msg(char *obd_dtc_msg)
          ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
          sprintf(buf, "Diagnostic Trouble Code: %s", ecup.ecu_last_dtc_code);
          set_status_bar_msg(buf);
-         print_log_entry(obd_dtc_msg);
+         print_log_entry(buf);
          /* printf("parse_mode_03_msg() <INFO>: %s\n", buf); */
       }
       else

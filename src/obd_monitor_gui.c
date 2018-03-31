@@ -22,7 +22,9 @@
 #include "gui_gauges.h"
 #include "gui_gauges_aux.h"
 
-
+  
+GtkWidget *window;
+  
 /* Current time string. */
 char time_buffer[256];
 char status_bar_msg[256];
@@ -203,7 +205,7 @@ gint recv_obd_message_callback (gpointer data)
             Change message parser to parse_obd_msg(buffer, status_msg);
          */
       }
-      gtk_widget_queue_draw((GtkWidget *)data);
+      gtk_widget_queue_draw(window);
    }
    
    return(TRUE);
@@ -348,7 +350,7 @@ void init_gui(GtkWidget *window)
 
 int main(int argc, char *argv[]) 
 {
-   GtkWidget *window;
+ 
    GtkWidget *tab_panel;
 
    GtkWidget *dtc_button;

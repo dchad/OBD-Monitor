@@ -642,7 +642,7 @@ int parse_gui_message()
    msg_len = strlen(in_buf);
    n = 0;
    
-   if ((msg_len > 0) && (in_buf[msg_len - 1] == '\n')) /* All messages must terminate with a newline. */
+   if (msg_len > 0) /* All messages must terminate with a newline. */
    {
       /* Parse the message. */
       if (in_buf[0] == 'A') /* ELM327 interface messages all start with 'AT'. */
