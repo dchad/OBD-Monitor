@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
       exit(0); */
    }
    
-   if (open_log_file("./", "unit_tests.log") == -1)
+   if (open_log_file("./", "unit_tests_log.txt") == -1)
    {
       printf("unit_test <ERROR>: Could not open log file.\n");
    }

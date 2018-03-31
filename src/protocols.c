@@ -877,19 +877,20 @@ void parse_mode_03_msg(char *obd_dtc_msg)
          ecup.ecu_last_dtc_code[3] = dtc_sys_chars[2];
          ecup.ecu_last_dtc_code[4] = dtc_sys_chars[3];
          sprintf(buf, "Diagnostic Trouble Code: %s", ecup.ecu_last_dtc_code);
-         set_status_bar_msg(buf);
-         print_log_entry(buf);
-         /* printf("parse_mode_03_msg() <INFO>: %s\n", buf); */
       }
       else
       {
-         printf("parse_mode_03_msg() <ERROR>: %s\n", obd_dtc_msg);
+         sprintf(buf, "parse_mode_03_msg() <ERROR>: %s", obd_dtc_msg);
       }
    }
    else
    {
-      printf("parse_mode_03_msg() <ERROR>: %s\n", obd_dtc_msg);
+      sprintf(buf, "parse_mode_03_msg() <ERROR>: %s", obd_dtc_msg);
+      print_log_entry(buf);
    }
+   
+   set_status_bar_msg(buf);
+   print_log_entry(buf);
      
    return;
 }
@@ -919,6 +920,7 @@ void parse_mode_09_msg(char *obd_msg)
 int parse_obd_msg(char *obd_msg)
 {
    int msg_len, result;
+   char log_buf[256];
    
    result = -1;
    
@@ -949,7 +951,7 @@ int parse_obd_msg(char *obd_msg)
       else /* This is an AT message response from the OBD interface. */
       {
          /* TODO: Process AT message and save configuration info from the interface. */
-         /* TODO: Process information from OBD interface. */
+         
          if (strncmp(obd_msg, "ATRV", 4) == 0)
          {
             set_battery_voltage(obd_msg);
@@ -977,8 +979,8 @@ int parse_obd_msg(char *obd_msg)
          }
          else
          {
-            printf("parse_obd_msg() <INFO>: Unknown AT message - %s\n", obd_msg);
-            /* TODO: log message.  */
+            sprintf(log_buf, "parse_obd_msg() <INFO>: Unknown AT message - %s", obd_msg);
+            print_log_entry(log_buf);
          }
          
       }

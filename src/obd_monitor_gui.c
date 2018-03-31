@@ -73,8 +73,9 @@ void update_comms_log_view(char *msg)
 
 void set_status_bar_msg(char *msg)
 {
+   int len = strlen(msg);
    memset(status_bar_msg, 0, 256);
-   if (strlen(msg) > 0)
+   if ((len > 0) && (len < 256))
    {
       strncpy(status_bar_msg, msg, strlen(msg));
       g_strchomp(status_bar_msg); /* Remove trailing whitespace. */
@@ -82,7 +83,7 @@ void set_status_bar_msg(char *msg)
    }
    else
    {
-      strcpy(status_bar_msg, "Invalid Message.");
+      strcpy(status_bar_msg, "Invalid Message Length.");
    }
    
    return;
@@ -107,7 +108,7 @@ void protocol_combo_selected(GtkComboBoxText *widget, gpointer window)
   {
      selected = gtk_combo_box_get_active (GTK_COMBO_BOX(widget));
      printf("protocol_combo_selected() : Protocol Selected: %i %s\n", selected, text);
-     sprintf(obd_protocol, "ATSP %.2x\r", selected);
+     sprintf(obd_protocol, "ATSP %.2x\r", selected); /* TODO: this may not be correct, check datasheet. */
      /* send_ecu_msg(obd_protocol); */
   }
   g_free(text);
@@ -827,12 +828,12 @@ int main(int argc, char *argv[])
          /* g_timeout_add (10000, send_obd_message_10sec_callback, (gpointer)window); */
          g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
          g_timeout_add (100, recv_obd_message_callback, (gpointer)window);
-         set_status_msg("Connected to ECU.");
+         set_status_msg("Connected to ECU.\0");
   
       }
       else
       {
-         set_status_msg("Connection to server failed.");
+         set_status_msg("Connection to server failed.\0");
       }
    }
 

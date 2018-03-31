@@ -328,7 +328,9 @@ int main(int argc, char *argv[])
           }
           else
           {
-             /* TODO: log an error message. */
+             /* Log an error message. */
+             sprintf(log_buf, "RXD Unknown ECU Message: %s", ecu_msg);
+             print_log_entry(log_buf);
           }
        }
        
