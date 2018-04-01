@@ -632,7 +632,21 @@ void reply_mode_09_msg(char *obd_msg)
    return;
 }
 
+void send_no_data()
+{
+   char reply_buf[256];
+   int n;
+   
+   memset(reply_buf, 0, 256);
 
+   sprintf(reply_buf, "NO DATA");
+   
+   n = sendto(sock, reply_buf, strlen(reply_buf), 0, (struct sockaddr *)&from_client, from_len);
+   
+   printf("send_no_data(): %i bytes %s", n, reply_buf);
+      
+   return;
+}
 
 int parse_gui_message()
 {
@@ -642,7 +656,7 @@ int parse_gui_message()
    msg_len = strlen(in_buf);
    n = 0;
    
-   if (msg_len > 0) /* All messages must terminate with a newline. */
+   if (msg_len > 0) /* All messages must terminate with a \r. */
    {
       /* Parse the message. */
       if (in_buf[0] == 'A') /* ELM327 interface messages all start with 'AT'. */
@@ -685,6 +699,7 @@ int parse_gui_message()
                case '8': break;
                case '9': reply_mode_09_msg(in_buf); break; /* Mode 09 message, ECU information. */
                case 'A': break;
+               default: send_no_data();
             }
          }
          else /* This is an AT message response for the user interface. */

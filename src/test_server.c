@@ -181,11 +181,13 @@ int main(int argc, char *argv[])
       printf("OILT: %s\n", recv_msg);
       memset(recv_msg, 0, 256);
       
-      for (ii = 0; ii < 10; ii++)
+      for (ii = 0; ii < 512; ii++)
       {
-         /* TODO: send a bunch of messages. 
-         send_ecu_msg("01 0C\n"); */
-         send_ecu_msg("03\r");
+         /* TODO: send a bunch of supported PID request messages to non-standard mode numbers. */
+         memset(protocol_req, 0, 256);
+         sprintf(protocol_req, "%.2x 00\r", ii);
+         printf("Sending supported PID request: %s\n", protocol_req);
+         send_ecu_msg(protocol_req);
          nanosleep(&reqtime, NULL);
          while (recv_ecu_msg(recv_msg) > 0)
          {
