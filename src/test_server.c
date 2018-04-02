@@ -181,7 +181,15 @@ int main(int argc, char *argv[])
       printf("OILT: %s\n", recv_msg);
       memset(recv_msg, 0, 256);
       
-      for (ii = 0; ii < 512; ii++)
+      
+      send_ecu_msg("02 02\r"); /* Freeze Frame DTC. */
+      nanosleep(&reqtime, NULL); 
+      recv_ecu_msg(recv_msg);
+      printf("OILT: %s\n", recv_msg);
+      memset(recv_msg, 0, 256);
+      
+      
+      for (ii = 0; ii < 256; ii++)
       {
          /* TODO: send a bunch of supported PID request messages to non-standard mode numbers. */
          memset(protocol_req, 0, 256);

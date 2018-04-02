@@ -1891,3 +1891,1179 @@ Sat Mar 31 13:30:50 2018 Vehicle Speed: 13.000000
 Sat Mar 31 13:30:51 2018 ------------------------
 Sat Mar 31 13:30:51 2018 >>> Closing log session.
 Sat Mar 31 13:30:51 2018 ------------------------
+Mon Apr  2 09:44:57 2018 ATSP 02 ?  
+Mon Apr  2 09:44:57 2018 ATDP SAE J1850 VPW  
+Mon Apr  2 09:44:57 2018 ATRV: 12.100000
+Mon Apr  2 09:44:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:44:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:44:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 01 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 02 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 03 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 04 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 05 supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 06 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 07 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 08 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 09 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 0a NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 0b supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 0c supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 0d supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 0e NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 0f supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 10 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 11 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 12 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 13 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 14 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 15 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 16 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 17 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 18 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 19 NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 1a NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 1b NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 1c NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 1d NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 1e NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 1f NOT supported.
+
+Mon Apr  2 09:44:58 2018 set_mode_1_supported_pid_list_1_32(): PID 20 NOT supported.
+
+Mon Apr  2 09:44:58 2018 41 00 08 3A 00 00 
+Mon Apr  2 09:44:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:44:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:44:58 2018 Engine RPM: 0.000000
+Mon Apr  2 09:44:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:44:59 2018 Engine RPM: 0.000000
+Mon Apr  2 09:44:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:00 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:01 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:02 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:03 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:04 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:05 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:06 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:07 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:08 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:08 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:09 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:09 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:10 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:10 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:11 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:11 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:12 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:12 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:13 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:14 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:15 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:15 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:16 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:16 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:17 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:17 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:18 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:18 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:19 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:19 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:20 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:20 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:21 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:21 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:22 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:22 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:23 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:23 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:24 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:24 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:25 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:25 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:26 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:26 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:27 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:27 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:28 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:28 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:29 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:29 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:30 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:30 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:31 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:31 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:32 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:32 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:33 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:33 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:34 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:34 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:35 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:35 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:36 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:36 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:37 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:37 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:38 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:38 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:39 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:39 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:40 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:40 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:41 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:41 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:42 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:42 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:43 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:43 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:44 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:44 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:45 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:45 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:46 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:46 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:47 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:47 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:48 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:48 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:49 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:50 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:51 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:52 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:53 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:54 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:55 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:56 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:57 2018 ATRV: 12.100000
+Mon Apr  2 09:45:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:45:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:45:57 2018 ECT: 16.000000
+Mon Apr  2 09:45:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:45:58 2018 IAT: 17.000000
+Mon Apr  2 09:45:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:45:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:45:58 2018 MAP: 121.000000
+Mon Apr  2 09:45:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:45:58 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:58 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:45:59 2018 Engine RPM: 0.000000
+Mon Apr  2 09:45:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:00 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:01 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:02 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:03 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:04 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:05 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:06 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:07 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:08 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:08 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:09 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:09 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:10 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:10 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:11 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:11 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:12 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:12 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:13 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:14 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:15 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:15 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:16 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:16 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:17 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:17 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:18 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:18 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:19 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:19 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:20 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:20 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:21 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:21 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:22 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:22 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:23 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:23 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:24 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:24 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:25 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:25 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:26 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:26 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:27 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:27 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:28 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:28 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:29 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:29 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:30 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:30 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:31 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:31 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:32 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:32 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:33 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:33 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:34 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:34 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:35 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:35 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:36 2018 Engine RPM: 0.000000
+Mon Apr  2 09:46:36 2018 Vehicle Speed: 0.000000
+Mon Apr  2 09:46:37 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:37 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:38 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:38 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:39 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:39 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:40 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:40 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:41 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:41 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:42 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:42 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:43 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:43 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:44 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:44 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:45 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:45 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:46 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:46 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:47 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:47 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:49 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:49 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:50 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:50 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:51 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:51 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:52 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:52 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:53 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:53 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:54 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:54 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:55 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:55 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:56 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:56 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:57 2018 ATRV: 12.300000
+Mon Apr  2 09:46:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:57 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:58 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:59 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:59 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:59 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:46:59 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:47:00 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:47:00 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:47:01 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:47:01 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 09:47:02 2018 ------------------------
+Mon Apr  2 09:47:02 2018 >>> Closing log session.
+Mon Apr  2 09:47:02 2018 ------------------------
+Mon Apr  2 12:48:12 2018 ATSP 02 ?  
+Mon Apr  2 12:48:12 2018 ATDP SAE J1850 VPW  
+Mon Apr  2 12:48:12 2018 ATRV: 12.300000
+Mon Apr  2 12:48:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:48:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:48:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 01 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 02 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 03 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 04 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 05 supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 06 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 07 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 08 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 09 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 0a NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 0b supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 0c supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 0d supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 0e NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 0f supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 10 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 11 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 12 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 13 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 14 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 15 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 16 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 17 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 18 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 19 NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 1a NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 1b NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 1c NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 1d NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 1e NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 1f NOT supported.
+
+Mon Apr  2 12:48:12 2018 set_mode_1_supported_pid_list_1_32(): PID 20 NOT supported.
+
+Mon Apr  2 12:48:12 2018 41 00 08 3A 00 00 
+Mon Apr  2 12:48:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:48:12 2018 Diagnostic Trouble Code: P0118
+Mon Apr  2 12:48:13 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:14 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:15 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:15 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:16 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:16 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:17 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:17 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:18 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:18 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:19 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:19 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:20 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:20 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:21 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:21 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:22 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:22 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:23 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:23 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:24 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:24 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:25 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:25 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:26 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:26 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:27 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:27 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:28 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:28 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:29 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:29 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:30 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:30 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:31 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:31 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:32 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:32 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:33 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:33 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:34 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:34 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:35 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:35 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:36 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:36 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:37 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:37 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:38 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:38 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:39 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:39 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:40 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:40 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:41 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:41 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:42 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:42 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:43 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:43 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:44 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:44 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:45 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:45 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:46 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:46 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:47 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:47 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:48 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:48 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:50 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:51 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:52 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:53 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:54 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:55 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:56 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:57 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:57 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:58 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:48:59 2018 Engine RPM: 0.000000
+Mon Apr  2 12:48:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:00 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:01 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:02 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:03 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:04 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:05 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:06 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:07 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:08 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:08 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:09 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:09 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:10 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:10 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:11 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:11 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:12 2018 ATRV: 12.200000
+Mon Apr  2 12:49:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:49:12 2018 Diagnostic Trouble Code: P0118
+Mon Apr  2 12:49:12 2018 ECT: -40.000000
+Mon Apr  2 12:49:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:49:12 2018 IAT: 22.000000
+Mon Apr  2 12:49:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:49:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:49:12 2018 MAP: 121.000000
+Mon Apr  2 12:49:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:49:13 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:13 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:14 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:15 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:15 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:16 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:16 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:17 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:17 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:18 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:18 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:19 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:19 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:20 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:20 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:21 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:21 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:22 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:22 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:23 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:23 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:24 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:24 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:25 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:25 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:26 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:26 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:27 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:27 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:28 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:28 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:29 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:29 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:30 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:30 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:31 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:31 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:32 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:32 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:33 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:33 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:34 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:34 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:35 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:35 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:36 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:36 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:37 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:37 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:38 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:38 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:39 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:39 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:40 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:40 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:41 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:41 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:42 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:42 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:43 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:43 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:44 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:44 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:45 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:45 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:46 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:46 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:47 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:47 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:48 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:48 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:50 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:51 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:52 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:53 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:54 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:55 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:56 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:57 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:57 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:58 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:49:59 2018 Engine RPM: 0.000000
+Mon Apr  2 12:49:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:00 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:01 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:02 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:03 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:04 2018 Engine RPM: 30.500000
+Mon Apr  2 12:50:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:05 2018 Engine RPM: 66.000000
+Mon Apr  2 12:50:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:06 2018 Engine RPM: 155.250000
+Mon Apr  2 12:50:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:07 2018 Engine RPM: 71.000000
+Mon Apr  2 12:50:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:08 2018 Engine RPM: 20.000000
+Mon Apr  2 12:50:08 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:09 2018 Engine RPM: 20.000000
+Mon Apr  2 12:50:09 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:10 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:10 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:11 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:11 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:11 2018 ATRV: 12.200000
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:14 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:14 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:15 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:15 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:16 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:16 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:17 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:17 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:18 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:18 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:19 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:19 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:20 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:20 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:21 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:21 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:22 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:22 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:23 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:23 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:24 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:24 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:25 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:25 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:26 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:26 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:27 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:27 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:28 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:28 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:29 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:29 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:30 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:30 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:31 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:31 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:32 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:32 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:33 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:33 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:34 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:34 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:35 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:35 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:36 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:36 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:37 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:37 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:38 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:38 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:39 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:39 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:40 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:40 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:41 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:41 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:42 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:42 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:43 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:43 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:44 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:44 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:45 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:45 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:46 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:46 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:50:47 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:47 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:48 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:48 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:50 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:51 2018 Engine RPM: 0.000000
+Mon Apr  2 12:50:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:52 2018 Engine RPM: 64.000000
+Mon Apr  2 12:50:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:53 2018 Engine RPM: 62.250000
+Mon Apr  2 12:50:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:54 2018 Engine RPM: 61.500000
+Mon Apr  2 12:50:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:55 2018 Engine RPM: 61.000000
+Mon Apr  2 12:50:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:56 2018 Engine RPM: 18.500000
+Mon Apr  2 12:50:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:57 2018 Engine RPM: 18.500000
+Mon Apr  2 12:50:57 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:58 2018 Engine RPM: 18.500000
+Mon Apr  2 12:50:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:50:59 2018 Engine RPM: 18.500000
+Mon Apr  2 12:50:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:00 2018 Engine RPM: 64.500000
+Mon Apr  2 12:51:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:01 2018 Engine RPM: 62.500000
+Mon Apr  2 12:51:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:02 2018 Engine RPM: 61.750000
+Mon Apr  2 12:51:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:03 2018 Engine RPM: 62.500000
+Mon Apr  2 12:51:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:04 2018 Engine RPM: 62.500000
+Mon Apr  2 12:51:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:05 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:06 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:07 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:08 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:08 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:09 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:09 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:10 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:10 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:11 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:11 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 ATRV: 12.100000
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:12 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:13 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:14 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:14 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:15 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:15 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:16 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:16 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:17 2018 ------------------------
+Mon Apr  2 12:51:17 2018 >>> Closing log session.
+Mon Apr  2 12:51:17 2018 ------------------------
+Mon Apr  2 12:51:47 2018 ATSP 02 ?  
+Mon Apr  2 12:51:47 2018 ATDP SAE J1850 VPW  
+Mon Apr  2 12:51:48 2018 ATRV: 12.200000
+Mon Apr  2 12:51:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 01 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 02 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 03 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 04 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 05 supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 06 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 07 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 08 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 09 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 0a NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 0b supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 0c supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 0d supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 0e NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 0f supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 10 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 11 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 12 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 13 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 14 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 15 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 16 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 17 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 18 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 19 NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 1a NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 1b NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 1c NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 1d NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 1e NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 1f NOT supported.
+
+Mon Apr  2 12:51:48 2018 set_mode_1_supported_pid_list_1_32(): PID 20 NOT supported.
+
+Mon Apr  2 12:51:48 2018 41 00 08 3A 00 00 
+Mon Apr  2 12:51:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:51:48 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:50 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:51 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:52 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:53 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:54 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:55 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:56 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:57 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:57 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:58 2018 Engine RPM: 0.000000
+Mon Apr  2 12:51:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:51:59 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:00 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:01 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:02 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:03 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:04 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:05 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:06 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:07 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:08 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:08 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:09 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:09 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:10 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:10 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:10 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:11 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:12 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:12 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:13 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:14 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:15 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:16 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:17 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:17 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:17 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:18 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:19 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:19 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:20 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:20 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:20 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:21 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:21 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:22 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:22 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:23 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:23 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:24 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:24 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:25 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:25 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:26 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:26 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:27 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:27 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:28 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:28 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:29 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:29 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:30 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:30 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:31 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:31 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:32 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:32 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:33 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:33 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:34 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:34 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:35 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:35 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:36 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:36 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:37 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:37 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:38 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:38 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:39 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:39 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:40 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:40 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:41 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:41 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:42 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:42 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:43 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:43 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:44 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:45 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:45 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:46 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:46 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:47 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:47 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:47 2018 ATRV: 12.200000
+Mon Apr  2 12:52:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:52:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:52:48 2018 ECT: 21.000000
+Mon Apr  2 12:52:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:52:48 2018 IAT: 22.000000
+Mon Apr  2 12:52:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:52:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:52:48 2018 MAP: 121.000000
+Mon Apr  2 12:52:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:52:48 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:50 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:51 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:53 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:54 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:54 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:55 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:56 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:57 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:57 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:58 2018 Engine RPM: 0.000000
+Mon Apr  2 12:52:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:52:59 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:00 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:00 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:01 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:01 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:02 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:02 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:03 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:03 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:04 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:04 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:05 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:05 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:06 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:06 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:07 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:07 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:08 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:08 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:09 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:09 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:10 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:10 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:11 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:11 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:12 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:13 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:13 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:14 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:14 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:15 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:15 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:16 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:16 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:17 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:17 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:18 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:18 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:19 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:19 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:20 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:20 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:21 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:21 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:22 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:22 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:23 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:23 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:23 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:24 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:25 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:25 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:26 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:26 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:27 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:27 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:28 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:28 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:29 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:29 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:29 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:30 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:30 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:31 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:31 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:32 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:32 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:33 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:33 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:34 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:34 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:35 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:35 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:36 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:36 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:37 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:37 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:38 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:38 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:39 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:39 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:40 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:40 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:41 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:42 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:42 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:43 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:43 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:44 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:44 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:45 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:45 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:46 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:46 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:47 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:47 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:47 2018 ATRV: 12.200000
+Mon Apr  2 12:53:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:53:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:53:48 2018 ECT: 22.000000
+Mon Apr  2 12:53:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:53:48 2018 IAT: 22.000000
+Mon Apr  2 12:53:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:53:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:53:48 2018 MAP: 121.000000
+Mon Apr  2 12:53:48 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
+Mon Apr  2 12:53:48 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:49 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:49 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:50 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:50 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:51 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:51 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:52 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:52 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:52 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:53 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:53 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:54 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:55 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:55 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:55 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:56 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:57 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:57 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:57 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:58 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:58 2018 Engine RPM: 0.000000
+Mon Apr  2 12:53:59 2018 Vehicle Speed: 0.000000
+Mon Apr  2 12:53:59 2018 ------------------------
+Mon Apr  2 12:53:59 2018 >>> Closing log session.
+Mon Apr  2 12:53:59 2018 ------------------------
