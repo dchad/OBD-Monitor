@@ -323,7 +323,9 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
       
       chmod +s obd_monitor_server
       
-      ./obd_monitor_server
+      ./obd_monitor_server 8989
+      
+      ./server_test
       
    7. Output from server_test should indicate correct OBD protocol for
       the vehicle.
@@ -345,7 +347,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        
        Example: ttyUSB0, 9600 baud, 8 data bits, no parity, 1 stop bit.
        
-       Ensure line terminator option is set to newline character.
+       Ensure line terminator option is set to carriage return "\r" character or new line and carriage return "\n\r".
        
        Type the following command into the terminal input and press enter.
        

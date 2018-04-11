@@ -354,11 +354,7 @@ int main(int argc, char *argv[])
  
    GtkWidget *tab_panel;
 
-   GtkWidget *dtc_button;
-   GtkWidget *egr_button;
-   GtkWidget *iat_button;
-   GtkWidget *map_button;
-   GtkWidget *pid_button;
+   GtkWidget *pid_lookup_button;
    GtkWidget *ecu_request_button;
    GtkWidget *ecu_connect_button;
 
@@ -453,7 +449,8 @@ int main(int argc, char *argv[])
    printf("GTK+ version: %d.%d.%d\n", gtk_major_version, gtk_minor_version, gtk_micro_version);
    printf("Glib version: %d.%d.%d\n", glib_major_version, glib_minor_version, glib_micro_version);    
 
-
+   strcpy(status_bar_msg, "Starting...");
+   
    /* Set up the main window. */
    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
    gtk_window_set_title(GTK_WINDOW(window), "OBD-II Monitor");
@@ -506,33 +503,19 @@ int main(int argc, char *argv[])
    
 
    /* Set up the buttons. */
-   dtc_button = gtk_button_new_with_mnemonic("_DTC Lookup");
-   g_signal_connect(dtc_button, "clicked", G_CALLBACK(show_info_dialog), NULL); 
-   gtk_widget_set_tooltip_text(dtc_button, "Button widget");
 
-   iat_button = gtk_button_new_with_mnemonic("_IAT");
-   g_signal_connect(iat_button, "clicked", G_CALLBACK(show_error_dialog), NULL); 
-   gtk_widget_set_tooltip_text(iat_button, "Button widget");
-
-   map_button = gtk_button_new_with_mnemonic("_MAP");
-   g_signal_connect(map_button, "clicked", G_CALLBACK(show_warning_dialog), NULL); 
-   gtk_widget_set_tooltip_text(map_button, "Button widget");
-
-   egr_button = gtk_button_new_with_mnemonic("_TEG");
-   g_signal_connect(egr_button, "clicked", G_CALLBACK(show_question_dialog), NULL); 
-   gtk_widget_set_tooltip_text(egr_button, "Button widget");
-
-   pid_button = gtk_button_new_with_mnemonic("_PID Lookup");
-   g_signal_connect(pid_button, "clicked", G_CALLBACK(show_question_dialog), NULL); 
-   gtk_widget_set_tooltip_text(pid_button, "Button widget");
+   /* TODO: implement custom PID lookup and PID request. */
+   pid_lookup_button = gtk_button_new_with_mnemonic("_PID Lookup");
+   g_signal_connect(pid_lookup_button, "clicked", G_CALLBACK(show_question_dialog), NULL); 
+   gtk_widget_set_tooltip_text(pid_lookup_button, "Lookup engine parameter ID.");
 
    ecu_request_button = gtk_button_new_with_mnemonic("ECU _Request");
    g_signal_connect(ecu_request_button, "clicked", G_CALLBACK(send_custom_pid_query), NULL); 
-   gtk_widget_set_tooltip_text(ecu_request_button, "Button widget");
+   gtk_widget_set_tooltip_text(ecu_request_button, "Send custom ECU PID request.");
 
    ecu_connect_button = gtk_button_new_with_mnemonic("_ECU Connect");
    g_signal_connect(ecu_connect_button, "clicked", G_CALLBACK(ecu_connect_callback), NULL); 
-   gtk_widget_set_tooltip_text(ecu_connect_button, "Button widget");
+   gtk_widget_set_tooltip_text(ecu_connect_button, "Connect to the engine control unit.");
 
 
    /* Set up ECU dials. */

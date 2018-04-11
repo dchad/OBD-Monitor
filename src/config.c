@@ -23,6 +23,8 @@ FILE *config_file;
 
 int load_configuration_file(char *config_file)
 {
+   /* TODO: Define an XML style markup for configuration items. */
+   
    return(0);
 }
 
@@ -30,12 +32,14 @@ int load_custom_pid_list()
 {
    int ii;
    
+   /* TODO: Define a custom PID file format using XML style markup. */
+   
    for(ii = 0; ii < 10; ii++)
    {
-         PID_Parameters *pid = (PID_Parameters *) xmalloc(sizeof(PID_Parameters));
-         sprintf(pid->pid_code, "%.4x", ii);
-         sprintf(pid->pid_description, "MODE 01: %.4x", ii);
-         add_pid(pid); 
+      PID_Parameters *pid = (PID_Parameters *) xmalloc(sizeof(PID_Parameters));
+      sprintf(pid->pid_code, "%.4x", ii);
+      sprintf(pid->pid_description, "MODE 01: %.4x", ii);
+      add_pid(pid); 
    }
    print_pid_map();
    
