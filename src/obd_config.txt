@@ -76,6 +76,18 @@ PID MODE 01 21 DESC: Distance traveled with malfunction indicator lamp (MIL) on
 
 # Custom PID List.
 
+PID MODE 21 00 DESC: Example One
+PID MODE 21 01 DESC: Example Two
+PID MODE 21 02 DESC: Example Three
 
 # Diagnostic Trouble Codes.
+
+DTC P0107 MAP Sensor Low Voltage
+DTC P0108 MAP Sensor High Voltage
+DTC P0112 IAT Sensor Low Voltage
+DTC P0113 IAT Sensor High Voltage
+DTC P0117 ECT Sensor Low Voltage
+DTC P0118 ECT Sensor High Voltage
+
+
 
