@@ -124,6 +124,8 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
             else if (in_buf[buf_idx] == '>') /* ELM327 is ready to receive another request, so exit. */
             {                                /* See ELM327 datasheet for vague details of protocol.  */
                interpreter_ready_status = 1;
+               ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
+               msg_idx++;
                printf("RXD > Interpreter Ready\n");
             }
             else
@@ -295,7 +297,10 @@ int main(int argc, char *argv[])
        n = recv_ecu_reply(serial_port, ecu_msg);
        if (n > 0)
        {
-          /* Reformat messages before sending to the GUI. */
+          /* Reformat messages before sending to the GUI. 
+             ELM327 returns the request message plus the ECU response,
+             so break off the request header and only send the ECU response
+             to the GUI. */
           
           if (ecu_msg[0] == 'A') /* TODO: or 'a' Interpreter AT response message. */
           {
@@ -310,7 +315,7 @@ int main(int argc, char *argv[])
              if (n  < 0) 
                 fatal_error("sendto");
           }
-          else if (ecu_msg[0] == '0') /* ECU response message. */
+          else if (ecu_msg[0] == '0') /* ELM327 sends the request plus the ECU response message. */
           {
              pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */
              pch = strtok(NULL,"!");
