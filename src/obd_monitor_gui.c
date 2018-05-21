@@ -5,9 +5,10 @@
 
    Description: A GUI for communication with vehicle engine control units via 
                 an OBD-II interface to obtain and display engine status 
-                and fault codes. 
+                and fault codes. Requires GTK+ 3, might also work with GTK+ 2.
 
-
+   TODO: Implement threads for communications to the server instead of using timers.
+   
    Date: 30/11/2017
    
 */

@@ -110,30 +110,34 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
       if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
       {
-
-         for (buf_idx = 0; buf_idx < in_msg_len; buf_idx++)
+         
+         if (in_buf[0] == '>')
          {
-            if (in_buf[buf_idx] < 32)   /* Ignore unreadable control-codes except 0x0D message delimiter. */
+            /* ELM327 is ready to receive another request, so exit. */
+            /* See ELM327 datasheet for vague details of protocol.  */
+            interpreter_ready_status = 1;
+            printf("RXD > Interpreter Ready\n");
+         }
+         else
+         {
+         
+            for (buf_idx = 0; buf_idx < in_msg_len; buf_idx++)
             {
-               if (in_buf[buf_idx] == '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
+               if (in_buf[buf_idx] < 32)   /* Ignore unreadable control-codes except 0x0D message delimiter. */
                {
-                  ecu_reply[msg_idx] = '!'; /* Delimiter between request and response. */
+                  if (in_buf[buf_idx] == '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
+                  {
+                     ecu_reply[msg_idx] = '!'; /* Delimiter between request and response. */
+                     msg_idx++;
+                  }
+               }
+               else
+               {
+                  ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
                   msg_idx++;
                }
-            }
-            else if (in_buf[buf_idx] == '>') /* ELM327 is ready to receive another request, so exit. */
-            {                                /* See ELM327 datasheet for vague details of protocol.  */
-               interpreter_ready_status = 1;
-               ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
-               msg_idx++;
-               printf("RXD > Interpreter Ready\n");
-            }
-            else
-            {
-               ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
-               msg_idx++;
-            }
-         }  
+            }  
+         }
       }
        
        /* nanosleep(&reqtime, NULL); */
@@ -295,12 +299,13 @@ int main(int argc, char *argv[])
        /* nanosleep(&reqtime, NULL); */
        
        n = recv_ecu_reply(serial_port, ecu_msg);
-       if (n > 0)
+       if (n > 3)
        {
           /* Reformat messages before sending to the GUI. 
              ELM327 returns the request message plus the ECU response,
              so break off the request header and only send the ECU response
-             to the GUI. */
+             to the GUI. 
+          */
           
           if (ecu_msg[0] == 'A') /* TODO: or 'a' Interpreter AT response message. */
           {

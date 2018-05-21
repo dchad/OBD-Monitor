@@ -15,15 +15,19 @@
     05    1            -40         215         A - 40             (ECT Centigrade)
     0A    1            0           765         3 * A              (Fuel Pressure kPa)
     0B    1            0           255         A                  (MAP Pressure kPa)
-    0C    2            0           16,383.75   ((256 * A) + B) / 4  (Engine RPM)
+    0C    2            0           16,383.75   ((256*A) + B) / 4  (Engine RPM)
     0D    1            0           255         A                  (Vehicle Speed)
     0E    1            -64         63.5        (A / 2) - 64       (Timing Advance: degrees before TDC) 
     0F    1            -40         215         A - 40             (IAT Centigrade)
     11    1            0           100         100 / 255 * A      (Throttle Position %)
+    22    2            0           5177.265    0.079(256*A + B)   (Fuel Rail Pressure)
+    23    2            0           655,350     10(256*A + B)      (Fuel Rail Gauge Pressure)
     2F    1            0           100         100 / 255 * A      (Fuel Tank Level %)
+    59    2            0           655,350     10(256*A + B)      (Fuel Rail Absolute Pressure)
     5A    1            0           100         100 / 255 * A      (Relative Accelerator Pedal Position %)
     5C    1            -40         215         A - 40             (Oil Temperature)
     5E    2            0           3276.75     (256 * A + B) / 20 (Fuel Flow Rate L/h)
+    
 
 
 

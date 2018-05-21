@@ -204,9 +204,15 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
     11    1            0           100         100 / 255 * A      (Throttle Position %)
     
+    22    2            0           5177.265    0.079(256*A + B)   (Fuel Rail Pressure)
+    
+    23    2            0           655,350     10(256*A + B)      (Fuel Rail Gauge Pressure)
+    
     2F    1            0           100         100 / 255 * A      (Fuel Tank Level %)
     
     45    1            0           100         100 / 255 * A      (Relative Throttle Position %)
+    
+    59    2            0           655,350     10(256*A + B)      (Fuel Rail Absolute Pressure)
     
     5A    1            0           100         100 / 255 * A      (Relative Accelerator Pedal Position %)
     
