@@ -15,7 +15,7 @@
     05    1            -40         215         A - 40             (ECT Centigrade)
     0A    1            0           765         3 * A              (Fuel Pressure kPa)
     0B    1            0           255         A                  (MAP Pressure kPa)
-    0C    2            0           16,383.75   (256 * A + B) / 4  (Engine RPM)
+    0C    2            0           16,383.75   ((256 * A) + B) / 4  (Engine RPM)
     0D    1            0           255         A                  (Vehicle Speed)
     0E    1            -64         63.5        (A / 2) - 64       (Timing Advance: degrees before TDC) 
     0F    1            -40         215         A - 40             (IAT Centigrade)
@@ -178,7 +178,7 @@ void set_engine_rpm(char *rpm_msg)
    
    if (sscanf(rpm_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
    {
-      ecup.ecu_engine_rpm = ((256.0 * (double)pa + (double)pb) / 4.0);
+      ecup.ecu_engine_rpm = (((256.0 * (double)pa) + (double)pb) / 4.0);
       /* ECU rpm parameter is in quarters of a revolution. */
       sprintf(temp_buf, "Engine RPM: %f", ecup.ecu_engine_rpm);
       print_log_entry(temp_buf);
@@ -948,7 +948,7 @@ int parse_obd_msg(char *obd_msg)
          }
          result = 0;
       }
-      else /* This is an AT message response from the OBD interface. */
+      else if (obd_msg[0] == 'A') /* This is an AT message response from the OBD interface. */
       {
          /* TODO: Process AT message and save configuration info from the interface. */
          
@@ -983,6 +983,11 @@ int parse_obd_msg(char *obd_msg)
             print_log_entry(log_buf);
          }
          
+      }
+      else
+      {
+         sprintf(log_buf, "parse_obd_msg() <INFO>: Unknown message - %s", obd_msg);
+         print_log_entry(log_buf);
       }
    }
 

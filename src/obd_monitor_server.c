@@ -306,7 +306,7 @@ int main(int argc, char *argv[])
           {
              /* Replace ! with space. */
              replacechar((char *)ecu_msg, '!', ' ');
-             sprintf(log_buf, "RXD: %s", ecu_msg);
+             sprintf(log_buf, "RXD AT MSG: %s", ecu_msg);
              print_log_entry(log_buf);
              
              /* Send interpreter reply to GUI. */
@@ -317,12 +317,12 @@ int main(int argc, char *argv[])
           }
           else if (ecu_msg[0] == '0') /* ELM327 sends the request plus the ECU response message. */
           {
+             sprintf(log_buf, "RXD ECU MSG: %s", ecu_msg);
+             print_log_entry(log_buf);
              pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */
              pch = strtok(NULL,"!");
              if (pch != NULL)
              {
-                sprintf(log_buf, "RXD: %s", pch);
-                print_log_entry(log_buf);
                 
                 /* Send ECU reply to GUI. */
                 n = sendto(sock, pch, strlen(pch), 0, (struct sockaddr *)&from_client, from_len);
