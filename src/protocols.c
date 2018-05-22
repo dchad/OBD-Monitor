@@ -822,15 +822,15 @@ void parse_mode_01_msg(char *obd_msg)
       {
          case 0: set_mode_1_supported_pid_list_1_32(obd_msg); break; /* TODO: Supported PIDs. */
          case 1: set_dtc_count(obd_msg);
-         case 5: set_coolant_temperature(obd_msg); break; /* Engine Coolant Temperature. */
+         case 5: set_coolant_temperature(obd_msg); break;
          case 10: set_fuel_pressure(obd_msg); break;
-         case 11: set_manifold_pressure(obd_msg); break; /* Throttle Position. */
+         case 11: set_manifold_pressure(obd_msg); break; 
          case 12: set_engine_rpm(obd_msg); break;
          case 13: set_vehicle_speed(obd_msg); break;
          case 14: set_timing_advance(obd_msg); break;
          case 15: set_intake_air_temperature(obd_msg); break;
          case 17: set_throttle_position(obd_msg); break;
-         case 47: set_fuel_tank_level(obd_msg); break; /* Fuel Tank Level. */
+         case 47: set_fuel_tank_level(obd_msg); break;
          case 90: set_accelerator_position(obd_msg); break;
          case 92: set_oil_temperature(obd_msg); break;
          case 94: set_fuel_flow_rate(obd_msg); break;
@@ -990,7 +990,7 @@ int parse_obd_msg(char *obd_msg)
       }
       else
       {
-         sprintf(log_buf, "parse_obd_msg() <INFO>: Unknown message - %s", obd_msg);
+         sprintf(log_buf, "parse_obd_msg() <INFO>: %s", obd_msg);
          print_log_entry(log_buf);
       }
    }

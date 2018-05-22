@@ -322,8 +322,7 @@ int main(int argc, char *argv[])
           }
           else if (ecu_msg[0] == '0') /* ELM327 sends the request plus the ECU response message. */
           {
-             sprintf(log_buf, "RXD ECU MSG: %s", ecu_msg);
-             print_log_entry(log_buf);
+             
              pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */
              pch = strtok(NULL,"!");
              if (pch != NULL)
@@ -335,6 +334,11 @@ int main(int argc, char *argv[])
                 if (n  < 0) 
                    fatal_error("sendto");
              }
+             
+             replacechar((char *)ecu_msg, '!', ' ');
+             sprintf(log_buf, "RXD ECU MSG: %s", ecu_msg);
+             print_log_entry(log_buf);
+             
           }
           else
           {
