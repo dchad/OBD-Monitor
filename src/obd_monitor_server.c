@@ -113,6 +113,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
          
          if (in_buf[0] == '>')
          {
+            /* TODO: something wrong here!!! */
             /* ELM327 is ready to receive another request, so exit. */
             /* See ELM327 datasheet for vague details of protocol.  */
             interpreter_ready_status = 1;
@@ -135,6 +136,14 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
                {
                   ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
                   msg_idx++;
+                  if (in_buf[buf_idx] == '>')
+                  {
+                     /* ELM327 is ready to receive another request, so exit. */
+                     /* See ELM327 datasheet for vague details of protocol.  */
+                     interpreter_ready_status = 1;
+                     /* DEBUG: view raw messages. */
+                     printf("RXD > Interpreter Ready: %s\n", in_buf);
+                  }
                }
             }  
          }
@@ -322,6 +331,9 @@ int main(int argc, char *argv[])
           }
           else if (ecu_msg[0] == '0') /* ELM327 sends the request plus the ECU response message. */
           {
+             /* replacechar((char *)ecu_msg, '!', ' '); */          
+             sprintf(log_buf, "RXD ECU MSG: %s", ecu_msg);
+             print_log_entry(log_buf);
              
              pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */
              pch = strtok(NULL,"!");
@@ -334,10 +346,6 @@ int main(int argc, char *argv[])
                 if (n  < 0) 
                    fatal_error("sendto");
              }
-             
-             replacechar((char *)ecu_msg, '!', ' ');
-             sprintf(log_buf, "RXD ECU MSG: %s", ecu_msg);
-             print_log_entry(log_buf);
              
           }
           else

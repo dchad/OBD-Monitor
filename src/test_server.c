@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
    struct timespec reqtime;
    char protocol_req[256];
    char recv_msg[256];
-   int ii;
+   int ii, jj;
    
    
    memset(recv_msg, 0, 256);
@@ -191,16 +191,19 @@ int main(int argc, char *argv[])
       
       for (ii = 0; ii < 64; ii++)
       {
-         /* TODO: send a bunch of supported PID request messages to non-standard mode numbers. */
-         memset(protocol_req, 0, 256);
-         sprintf(protocol_req, "%.2x 00\r", ii);
-         printf("Sending supported PID request: %s\n", protocol_req);
-         send_ecu_msg(protocol_req);
-         nanosleep(&reqtime, NULL);
-         while (recv_ecu_msg(recv_msg) > 0)
+         /* TODO: send a bunch of PID request messages to non-standard mode numbers. */
+         for (jj = 0; jj < 64; jj++)
          {
-            printf("ECU: <%d> %s\n", ii, recv_msg);
-            memset(recv_msg, 0, 256);
+            memset(protocol_req, 0, 256);
+            sprintf(protocol_req, "%.2x %.2x\r", ii, jj);
+            printf("Sending supported PID request: %s\n", protocol_req);
+            send_ecu_msg(protocol_req);
+            nanosleep(&reqtime, NULL);
+            while (recv_ecu_msg(recv_msg) > 0)
+            {
+               printf("ECU: <%d> %s\n", ii, recv_msg);
+               memset(recv_msg, 0, 256);
+            }
          }
       }      
       

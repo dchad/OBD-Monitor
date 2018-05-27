@@ -4503,3 +4503,935 @@ Sun May 20 15:18:01 2018 parse_obd_msg() <INFO>: Unknown AT message - NO DATA
 Sun May 20 15:18:01 2018 ------------------------
 Sun May 20 15:18:01 2018 >>> Closing log session.
 Sun May 20 15:18:01 2018 ------------------------
+Sun May 27 10:21:20 2018 ------------------------
+Sun May 27 10:21:20 2018 >>> Closing log session.
+Sun May 27 10:21:20 2018 ------------------------
+Sun May 27 10:22:19 2018 ------------------------
+Sun May 27 10:22:19 2018 >>> Closing log session.
+Sun May 27 10:22:19 2018 ------------------------
+Sun May 27 10:39:02 2018 ATSP 02 ?  >
+Sun May 27 10:39:02 2018 ATDP SAE J1850 VPW  >
+Sun May 27 10:39:02 2018 ATRV: 12.200000
+Sun May 27 10:39:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 01 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 02 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 03 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 04 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 05 supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 06 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 07 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 08 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 09 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 0a NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 0b supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 0c supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 0d supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 0e NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 0f supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 10 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 11 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 12 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 13 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 14 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 15 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 16 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 17 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 18 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 19 NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 1a NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 1b NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 1c NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 1d NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 1e NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 1f NOT supported.
+
+Sun May 27 10:39:03 2018 set_mode_1_supported_pid_list_1_32(): PID 20 NOT supported.
+
+Sun May 27 10:39:03 2018 41 00 08 3A 00 00 
+Sun May 27 10:39:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:03 2018 ECT: 78.000000
+Sun May 27 10:39:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:03 2018 IAT: 61.000000
+Sun May 27 10:39:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:04 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:39:04 2018 Engine RPM: 0.000000
+Sun May 27 10:39:04 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:04 2018 Engine RPM: 0.000000
+Sun May 27 10:39:04 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:05 2018 Engine RPM: 0.000000
+Sun May 27 10:39:05 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:06 2018 Engine RPM: 0.000000
+Sun May 27 10:39:06 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:07 2018 Engine RPM: 0.000000
+Sun May 27 10:39:07 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:08 2018 Engine RPM: 0.000000
+Sun May 27 10:39:08 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:09 2018 Engine RPM: 0.000000
+Sun May 27 10:39:09 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:10 2018 Engine RPM: 0.000000
+Sun May 27 10:39:10 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:11 2018 Engine RPM: 0.000000
+Sun May 27 10:39:11 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:12 2018 Engine RPM: 0.000000
+Sun May 27 10:39:12 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:13 2018 Engine RPM: 0.000000
+Sun May 27 10:39:13 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:14 2018 Engine RPM: 0.000000
+Sun May 27 10:39:14 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:15 2018 Engine RPM: 0.000000
+Sun May 27 10:39:15 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:16 2018 Engine RPM: 0.000000
+Sun May 27 10:39:16 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:17 2018 Engine RPM: 0.000000
+Sun May 27 10:39:17 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:18 2018 Engine RPM: 0.000000
+Sun May 27 10:39:18 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:19 2018 Engine RPM: 0.000000
+Sun May 27 10:39:19 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:20 2018 Engine RPM: 0.000000
+Sun May 27 10:39:20 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:21 2018 Engine RPM: 0.000000
+Sun May 27 10:39:21 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:22 2018 Engine RPM: 29.000000
+Sun May 27 10:39:22 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:23 2018 Engine RPM: 80.750000
+Sun May 27 10:39:23 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:24 2018 Engine RPM: 172.500000
+Sun May 27 10:39:24 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:25 2018 Engine RPM: 172.000000
+Sun May 27 10:39:25 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:26 2018 Engine RPM: 178.250000
+Sun May 27 10:39:26 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:27 2018 Engine RPM: 182.250000
+Sun May 27 10:39:27 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:28 2018 Engine RPM: 181.250000
+Sun May 27 10:39:28 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:29 2018 Engine RPM: 178.500000
+Sun May 27 10:39:29 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:30 2018 Engine RPM: 183.000000
+Sun May 27 10:39:30 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:31 2018 Engine RPM: 184.500000
+Sun May 27 10:39:31 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:32 2018 Engine RPM: 180.500000
+Sun May 27 10:39:32 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:33 2018 Engine RPM: 184.750000
+Sun May 27 10:39:33 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:34 2018 Engine RPM: 184.500000
+Sun May 27 10:39:34 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:35 2018 Engine RPM: 180.750000
+Sun May 27 10:39:35 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:36 2018 Engine RPM: 194.750000
+Sun May 27 10:39:36 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:37 2018 Engine RPM: 178.000000
+Sun May 27 10:39:37 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:38 2018 Engine RPM: 178.250000
+Sun May 27 10:39:38 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:39 2018 Engine RPM: 184.250000
+Sun May 27 10:39:39 2018 Vehicle Speed: 2.000000
+Sun May 27 10:39:40 2018 Engine RPM: 185.500000
+Sun May 27 10:39:40 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:41 2018 Engine RPM: 183.500000
+Sun May 27 10:39:41 2018 Vehicle Speed: 6.000000
+Sun May 27 10:39:42 2018 Engine RPM: 185.250000
+Sun May 27 10:39:42 2018 Vehicle Speed: 7.000000
+Sun May 27 10:39:43 2018 Engine RPM: 183.000000
+Sun May 27 10:39:43 2018 Vehicle Speed: 8.000000
+Sun May 27 10:39:44 2018 Engine RPM: 184.500000
+Sun May 27 10:39:44 2018 Vehicle Speed: 8.000000
+Sun May 27 10:39:45 2018 Engine RPM: 181.750000
+Sun May 27 10:39:45 2018 Vehicle Speed: 8.000000
+Sun May 27 10:39:46 2018 Engine RPM: 181.000000
+Sun May 27 10:39:46 2018 Vehicle Speed: 8.000000
+Sun May 27 10:39:47 2018 Engine RPM: 178.500000
+Sun May 27 10:39:47 2018 Vehicle Speed: 6.000000
+Sun May 27 10:39:48 2018 Engine RPM: 173.250000
+Sun May 27 10:39:48 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:49 2018 Engine RPM: 179.500000
+Sun May 27 10:39:49 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:50 2018 Engine RPM: 182.250000
+Sun May 27 10:39:50 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:51 2018 Engine RPM: 184.750000
+Sun May 27 10:39:51 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:52 2018 Engine RPM: 183.250000
+Sun May 27 10:39:52 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:53 2018 Engine RPM: 181.000000
+Sun May 27 10:39:53 2018 Vehicle Speed: 5.000000
+Sun May 27 10:39:54 2018 Engine RPM: 176.000000
+Sun May 27 10:39:54 2018 Vehicle Speed: 4.000000
+Sun May 27 10:39:55 2018 Engine RPM: 174.750000
+Sun May 27 10:39:55 2018 Vehicle Speed: 3.000000
+Sun May 27 10:39:56 2018 Engine RPM: 172.750000
+Sun May 27 10:39:56 2018 Vehicle Speed: 3.000000
+Sun May 27 10:39:57 2018 Engine RPM: 244.000000
+Sun May 27 10:39:57 2018 Vehicle Speed: 0.000000
+Sun May 27 10:39:58 2018 Engine RPM: 373.250000
+Sun May 27 10:39:58 2018 Vehicle Speed: 6.000000
+Sun May 27 10:39:59 2018 Engine RPM: 421.000000
+Sun May 27 10:39:59 2018 Vehicle Speed: 12.000000
+Sun May 27 10:40:00 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:01 2018 Vehicle Speed: 18.000000
+Sun May 27 10:40:01 2018 Engine RPM: 419.250000
+Sun May 27 10:40:01 2018 Vehicle Speed: 23.000000
+Sun May 27 10:40:02 2018 ATRV: 13.700000
+Sun May 27 10:40:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:03 2018 ECT: 76.000000
+Sun May 27 10:40:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:03 2018 IAT: 59.000000
+Sun May 27 10:40:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:03 2018 MAP: 124.000000
+Sun May 27 10:40:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:40:03 2018 Engine RPM: 196.000000
+Sun May 27 10:40:03 2018 Vehicle Speed: 27.000000
+Sun May 27 10:40:04 2018 Engine RPM: 197.750000
+Sun May 27 10:40:04 2018 Vehicle Speed: 27.000000
+Sun May 27 10:40:04 2018 Engine RPM: 186.500000
+Sun May 27 10:40:04 2018 Vehicle Speed: 27.000000
+Sun May 27 10:40:05 2018 Engine RPM: 186.000000
+Sun May 27 10:40:05 2018 Vehicle Speed: 24.000000
+Sun May 27 10:40:06 2018 Engine RPM: 179.250000
+Sun May 27 10:40:06 2018 Vehicle Speed: 19.000000
+Sun May 27 10:40:07 2018 Engine RPM: 180.500000
+Sun May 27 10:40:07 2018 Vehicle Speed: 14.000000
+Sun May 27 10:40:08 2018 Engine RPM: 175.750000
+Sun May 27 10:40:08 2018 Vehicle Speed: 10.000000
+Sun May 27 10:40:09 2018 Engine RPM: 441.000000
+Sun May 27 10:40:09 2018 Vehicle Speed: 12.000000
+Sun May 27 10:40:10 2018 Engine RPM: 489.250000
+Sun May 27 10:40:10 2018 Vehicle Speed: 17.000000
+Sun May 27 10:40:11 2018 Engine RPM: 462.250000
+Sun May 27 10:40:11 2018 Vehicle Speed: 22.000000
+Sun May 27 10:40:12 2018 Engine RPM: 498.750000
+Sun May 27 10:40:12 2018 Vehicle Speed: 26.000000
+Sun May 27 10:40:13 2018 Engine RPM: 516.000000
+Sun May 27 10:40:13 2018 Vehicle Speed: 32.000000
+Sun May 27 10:40:14 2018 Engine RPM: 498.250000
+Sun May 27 10:40:14 2018 Vehicle Speed: 35.000000
+Sun May 27 10:40:15 2018 Engine RPM: 510.000000
+Sun May 27 10:40:15 2018 Vehicle Speed: 39.000000
+Sun May 27 10:40:16 2018 Engine RPM: 514.250000
+Sun May 27 10:40:16 2018 Vehicle Speed: 42.000000
+Sun May 27 10:40:17 2018 Engine RPM: 519.250000
+Sun May 27 10:40:17 2018 Vehicle Speed: 45.000000
+Sun May 27 10:40:18 2018 Engine RPM: 525.000000
+Sun May 27 10:40:18 2018 Vehicle Speed: 48.000000
+Sun May 27 10:40:19 2018 Engine RPM: 433.750000
+Sun May 27 10:40:19 2018 Vehicle Speed: 50.000000
+Sun May 27 10:40:20 2018 Engine RPM: 430.250000
+Sun May 27 10:40:20 2018 Vehicle Speed: 53.000000
+Sun May 27 10:40:21 2018 Engine RPM: 449.750000
+Sun May 27 10:40:21 2018 Vehicle Speed: 55.000000
+Sun May 27 10:40:22 2018 Engine RPM: 466.500000
+Sun May 27 10:40:22 2018 Vehicle Speed: 58.000000
+Sun May 27 10:40:23 2018 Engine RPM: 483.750000
+Sun May 27 10:40:23 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:24 2018 Engine RPM: 493.000000
+Sun May 27 10:40:24 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:25 2018 Engine RPM: 364.750000
+Sun May 27 10:40:25 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:26 2018 Engine RPM: 366.000000
+Sun May 27 10:40:26 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:27 2018 Engine RPM: 363.250000
+Sun May 27 10:40:27 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:28 2018 Engine RPM: 366.750000
+Sun May 27 10:40:28 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:29 2018 Engine RPM: 375.250000
+Sun May 27 10:40:29 2018 Vehicle Speed: 59.000000
+Sun May 27 10:40:30 2018 Engine RPM: 381.250000
+Sun May 27 10:40:30 2018 Vehicle Speed: 59.000000
+Sun May 27 10:40:31 2018 Engine RPM: 418.000000
+Sun May 27 10:40:31 2018 Vehicle Speed: 59.000000
+Sun May 27 10:40:32 2018 Engine RPM: 426.250000
+Sun May 27 10:40:32 2018 Vehicle Speed: 59.000000
+Sun May 27 10:40:33 2018 Engine RPM: 426.500000
+Sun May 27 10:40:33 2018 Vehicle Speed: 59.000000
+Sun May 27 10:40:34 2018 Engine RPM: 426.500000
+Sun May 27 10:40:34 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:35 2018 Engine RPM: 425.250000
+Sun May 27 10:40:35 2018 parse_obd_msg() <INFO>: <DATA ERROR
+Sun May 27 10:40:36 2018 Engine RPM: 425.250000
+Sun May 27 10:40:36 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:37 2018 Engine RPM: 424.750000
+Sun May 27 10:40:37 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:38 2018 Engine RPM: 420.250000
+Sun May 27 10:40:38 2018 Vehicle Speed: 60.000000
+Sun May 27 10:40:39 2018 Engine RPM: 387.500000
+Sun May 27 10:40:39 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:40 2018 Engine RPM: 372.250000
+Sun May 27 10:40:41 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:41 2018 Engine RPM: 382.750000
+Sun May 27 10:40:42 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:42 2018 Engine RPM: 385.500000
+Sun May 27 10:40:43 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:43 2018 Engine RPM: 387.000000
+Sun May 27 10:40:44 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:44 2018 Engine RPM: 398.000000
+Sun May 27 10:40:45 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:45 2018 Engine RPM: 397.250000
+Sun May 27 10:40:46 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:46 2018 Engine RPM: 398.750000
+Sun May 27 10:40:46 2018 Vehicle Speed: 61.000000
+Sun May 27 10:40:47 2018 Engine RPM: 396.750000
+Sun May 27 10:40:47 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:48 2018 Engine RPM: 397.000000
+Sun May 27 10:40:48 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:49 2018 Engine RPM: 399.250000
+Sun May 27 10:40:49 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:50 2018 Engine RPM: 397.000000
+Sun May 27 10:40:50 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:51 2018 Engine RPM: 398.500000
+Sun May 27 10:40:52 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:52 2018 Engine RPM: 399.500000
+Sun May 27 10:40:52 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:53 2018 Engine RPM: 400.000000
+Sun May 27 10:40:53 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:54 2018 Engine RPM: 397.750000
+Sun May 27 10:40:54 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:55 2018 Engine RPM: 401.000000
+Sun May 27 10:40:55 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:56 2018 Engine RPM: 400.750000
+Sun May 27 10:40:56 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:57 2018 Engine RPM: 399.500000
+Sun May 27 10:40:57 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:58 2018 Engine RPM: 372.250000
+Sun May 27 10:40:58 2018 Vehicle Speed: 62.000000
+Sun May 27 10:40:59 2018 Engine RPM: 377.000000
+Sun May 27 10:40:59 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:00 2018 Engine RPM: 376.250000
+Sun May 27 10:41:00 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:01 2018 Engine RPM: 374.250000
+Sun May 27 10:41:01 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:02 2018 ATRV: 13.800000
+Sun May 27 10:41:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:41:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:41:03 2018 ECT: 80.000000
+Sun May 27 10:41:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:41:03 2018 IAT: 55.000000
+Sun May 27 10:41:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:41:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:41:03 2018 MAP: 121.000000
+Sun May 27 10:41:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:41:03 2018 Engine RPM: 369.750000
+Sun May 27 10:41:03 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:04 2018 Engine RPM: 370.750000
+Sun May 27 10:41:04 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:04 2018 Engine RPM: 377.750000
+Sun May 27 10:41:04 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:05 2018 Engine RPM: 431.750000
+Sun May 27 10:41:05 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:06 2018 Engine RPM: 428.750000
+Sun May 27 10:41:07 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:07 2018 Engine RPM: 432.750000
+Sun May 27 10:41:08 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:08 2018 Engine RPM: 428.500000
+Sun May 27 10:41:09 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:09 2018 Engine RPM: 430.000000
+Sun May 27 10:41:10 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:10 2018 Engine RPM: 413.750000
+Sun May 27 10:41:11 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:11 2018 Engine RPM: 375.000000
+Sun May 27 10:41:12 2018 Vehicle Speed: 61.000000
+Sun May 27 10:41:12 2018 Engine RPM: 370.250000
+Sun May 27 10:41:13 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:13 2018 Engine RPM: 359.250000
+Sun May 27 10:41:14 2018 Vehicle Speed: 59.000000
+Sun May 27 10:41:14 2018 Engine RPM: 354.500000
+Sun May 27 10:41:15 2018 Vehicle Speed: 58.000000
+Sun May 27 10:41:15 2018 Engine RPM: 333.250000
+Sun May 27 10:41:16 2018 Vehicle Speed: 57.000000
+Sun May 27 10:41:16 2018 Engine RPM: 304.500000
+Sun May 27 10:41:16 2018 Vehicle Speed: 56.000000
+Sun May 27 10:41:17 2018 Engine RPM: 202.000000
+Sun May 27 10:41:17 2018 Vehicle Speed: 54.000000
+Sun May 27 10:41:18 2018 Engine RPM: 191.500000
+Sun May 27 10:41:19 2018 Vehicle Speed: 51.000000
+Sun May 27 10:41:19 2018 Engine RPM: 182.750000
+Sun May 27 10:41:20 2018 Vehicle Speed: 46.000000
+Sun May 27 10:41:20 2018 Engine RPM: 179.750000
+Sun May 27 10:41:21 2018 Vehicle Speed: 40.000000
+Sun May 27 10:41:21 2018 Engine RPM: 178.250000
+Sun May 27 10:41:21 2018 Vehicle Speed: 34.000000
+Sun May 27 10:41:22 2018 Engine RPM: 182.250000
+Sun May 27 10:41:22 2018 Vehicle Speed: 27.000000
+Sun May 27 10:41:23 2018 Engine RPM: 181.000000
+Sun May 27 10:41:23 2018 Vehicle Speed: 22.000000
+Sun May 27 10:41:24 2018 Engine RPM: 182.000000
+Sun May 27 10:41:24 2018 Vehicle Speed: 20.000000
+Sun May 27 10:41:25 2018 Engine RPM: 173.750000
+Sun May 27 10:41:25 2018 Vehicle Speed: 18.000000
+Sun May 27 10:41:26 2018 Engine RPM: 177.750000
+Sun May 27 10:41:26 2018 Vehicle Speed: 14.000000
+Sun May 27 10:41:27 2018 Engine RPM: 338.000000
+Sun May 27 10:41:27 2018 Vehicle Speed: 14.000000
+Sun May 27 10:41:28 2018 Engine RPM: 443.250000
+Sun May 27 10:41:28 2018 Vehicle Speed: 18.000000
+Sun May 27 10:41:29 2018 Engine RPM: 495.250000
+Sun May 27 10:41:29 2018 Vehicle Speed: 23.000000
+Sun May 27 10:41:30 2018 Engine RPM: 533.000000
+Sun May 27 10:41:30 2018 Vehicle Speed: 29.000000
+Sun May 27 10:41:31 2018 Engine RPM: 531.750000
+Sun May 27 10:41:31 2018 Vehicle Speed: 35.000000
+Sun May 27 10:41:32 2018 Engine RPM: 534.500000
+Sun May 27 10:41:32 2018 Vehicle Speed: 40.000000
+Sun May 27 10:41:33 2018 Engine RPM: 544.250000
+Sun May 27 10:41:33 2018 Vehicle Speed: 44.000000
+Sun May 27 10:41:34 2018 Engine RPM: 550.500000
+Sun May 27 10:41:35 2018 Vehicle Speed: 48.000000
+Sun May 27 10:41:35 2018 Engine RPM: 435.250000
+Sun May 27 10:41:36 2018 Vehicle Speed: 53.000000
+Sun May 27 10:41:36 2018 Engine RPM: 463.500000
+Sun May 27 10:41:37 2018 Vehicle Speed: 57.000000
+Sun May 27 10:41:37 2018 Engine RPM: 488.750000
+Sun May 27 10:41:38 2018 Vehicle Speed: 60.000000
+Sun May 27 10:41:38 2018 Engine RPM: 511.750000
+Sun May 27 10:41:39 2018 Vehicle Speed: 63.000000
+Sun May 27 10:41:39 2018 Engine RPM: 489.000000
+Sun May 27 10:41:40 2018 Vehicle Speed: 65.000000
+Sun May 27 10:41:40 2018 Engine RPM: 374.250000
+Sun May 27 10:41:41 2018 Vehicle Speed: 66.000000
+Sun May 27 10:41:41 2018 Engine RPM: 376.750000
+Sun May 27 10:41:42 2018 Vehicle Speed: 66.000000
+Sun May 27 10:41:42 2018 Engine RPM: 377.500000
+Sun May 27 10:41:43 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:43 2018 Engine RPM: 376.250000
+Sun May 27 10:41:44 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:44 2018 Engine RPM: 377.500000
+Sun May 27 10:41:45 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:45 2018 Engine RPM: 378.500000
+Sun May 27 10:41:46 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:46 2018 Engine RPM: 380.250000
+Sun May 27 10:41:47 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:47 2018 Engine RPM: 381.500000
+Sun May 27 10:41:48 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:48 2018 Engine RPM: 381.500000
+Sun May 27 10:41:49 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:49 2018 Engine RPM: 383.250000
+Sun May 27 10:41:50 2018 Vehicle Speed: 68.000000
+Sun May 27 10:41:50 2018 Engine RPM: 388.250000
+Sun May 27 10:41:51 2018 Vehicle Speed: 68.000000
+Sun May 27 10:41:51 2018 Engine RPM: 384.000000
+Sun May 27 10:41:52 2018 Vehicle Speed: 68.000000
+Sun May 27 10:41:52 2018 Engine RPM: 381.250000
+Sun May 27 10:41:53 2018 Vehicle Speed: 68.000000
+Sun May 27 10:41:53 2018 Engine RPM: 378.500000
+Sun May 27 10:41:54 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:54 2018 Engine RPM: 379.750000
+Sun May 27 10:41:55 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:55 2018 Engine RPM: 381.250000
+Sun May 27 10:41:55 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:56 2018 Engine RPM: 378.750000
+Sun May 27 10:41:56 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:57 2018 Engine RPM: 380.000000
+Sun May 27 10:41:57 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:58 2018 Engine RPM: 381.000000
+Sun May 27 10:41:58 2018 Vehicle Speed: 67.000000
+Sun May 27 10:41:59 2018 Engine RPM: 379.000000
+Sun May 27 10:41:59 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:00 2018 Engine RPM: 382.000000
+Sun May 27 10:42:00 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:01 2018 Engine RPM: 380.750000
+Sun May 27 10:42:01 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:02 2018 ATRV: 14.000000
+Sun May 27 10:42:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:03 2018 ECT: 80.000000
+Sun May 27 10:42:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:03 2018 IAT: 51.000000
+Sun May 27 10:42:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:03 2018 MAP: 126.000000
+Sun May 27 10:42:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:03 2018 Engine RPM: 381.250000
+Sun May 27 10:42:03 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:04 2018 Engine RPM: 379.500000
+Sun May 27 10:42:04 2018 Vehicle Speed: 68.000000
+Sun May 27 10:42:04 2018 Engine RPM: 382.500000
+Sun May 27 10:42:05 2018 Vehicle Speed: 68.000000
+Sun May 27 10:42:05 2018 Engine RPM: 382.750000
+Sun May 27 10:42:06 2018 Vehicle Speed: 68.000000
+Sun May 27 10:42:06 2018 Engine RPM: 382.000000
+Sun May 27 10:42:07 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:07 2018 Engine RPM: 381.500000
+Sun May 27 10:42:08 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:08 2018 Engine RPM: 381.000000
+Sun May 27 10:42:09 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:09 2018 Engine RPM: 380.000000
+Sun May 27 10:42:10 2018 Vehicle Speed: 67.000000
+Sun May 27 10:42:10 2018 Engine RPM: 378.250000
+Sun May 27 10:42:11 2018 Vehicle Speed: 66.000000
+Sun May 27 10:42:11 2018 Engine RPM: 229.000000
+Sun May 27 10:42:12 2018 Vehicle Speed: 65.000000
+Sun May 27 10:42:12 2018 Engine RPM: 216.500000
+Sun May 27 10:42:13 2018 Vehicle Speed: 64.000000
+Sun May 27 10:42:13 2018 Engine RPM: 195.500000
+Sun May 27 10:42:14 2018 Vehicle Speed: 63.000000
+Sun May 27 10:42:14 2018 Engine RPM: 246.000000
+Sun May 27 10:42:15 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:15 2018 Engine RPM: 449.750000
+Sun May 27 10:42:16 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:16 2018 Engine RPM: 454.750000
+Sun May 27 10:42:17 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:17 2018 Engine RPM: 436.250000
+Sun May 27 10:42:18 2018 Vehicle Speed: 62.000000
+Sun May 27 10:42:18 2018 Engine RPM: 423.500000
+Sun May 27 10:42:19 2018 Vehicle Speed: 62.000000
+Sun May 27 10:42:19 2018 Engine RPM: 395.750000
+Sun May 27 10:42:20 2018 Vehicle Speed: 62.000000
+Sun May 27 10:42:20 2018 Engine RPM: 378.500000
+Sun May 27 10:42:21 2018 Vehicle Speed: 62.000000
+Sun May 27 10:42:21 2018 Engine RPM: 378.000000
+Sun May 27 10:42:22 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:22 2018 Engine RPM: 376.000000
+Sun May 27 10:42:23 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:23 2018 Engine RPM: 376.500000
+Sun May 27 10:42:24 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:24 2018 Engine RPM: 374.750000
+Sun May 27 10:42:25 2018 Vehicle Speed: 61.000000
+Sun May 27 10:42:25 2018 Engine RPM: 374.000000
+Sun May 27 10:42:26 2018 Vehicle Speed: 60.000000
+Sun May 27 10:42:26 2018 Engine RPM: 364.250000
+Sun May 27 10:42:27 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:42:27 2018 Engine RPM: 318.000000
+Sun May 27 10:42:27 2018 Vehicle Speed: 60.000000
+Sun May 27 10:42:28 2018 Engine RPM: 335.500000
+Sun May 27 10:42:29 2018 Vehicle Speed: 59.000000
+Sun May 27 10:42:29 2018 Engine RPM: 321.500000
+Sun May 27 10:42:30 2018 Vehicle Speed: 58.000000
+Sun May 27 10:42:30 2018 Engine RPM: 360.250000
+Sun May 27 10:42:31 2018 Vehicle Speed: 57.000000
+Sun May 27 10:42:31 2018 Engine RPM: 430.250000
+Sun May 27 10:42:32 2018 Vehicle Speed: 57.000000
+Sun May 27 10:42:32 2018 Engine RPM: 474.250000
+Sun May 27 10:42:33 2018 Vehicle Speed: 57.000000
+Sun May 27 10:42:33 2018 Engine RPM: 494.250000
+Sun May 27 10:42:34 2018 Vehicle Speed: 59.000000
+Sun May 27 10:42:34 2018 Engine RPM: 433.000000
+Sun May 27 10:42:35 2018 Vehicle Speed: 60.000000
+Sun May 27 10:42:35 2018 Engine RPM: 342.250000
+Sun May 27 10:42:36 2018 Vehicle Speed: 60.000000
+Sun May 27 10:42:36 2018 Engine RPM: 211.000000
+Sun May 27 10:42:37 2018 Vehicle Speed: 60.000000
+Sun May 27 10:42:37 2018 Engine RPM: 209.500000
+Sun May 27 10:42:38 2018 Vehicle Speed: 59.000000
+Sun May 27 10:42:38 2018 Engine RPM: 187.750000
+Sun May 27 10:42:39 2018 Vehicle Speed: 56.000000
+Sun May 27 10:42:39 2018 Engine RPM: 184.250000
+Sun May 27 10:42:40 2018 Vehicle Speed: 51.000000
+Sun May 27 10:42:40 2018 Engine RPM: 177.500000
+Sun May 27 10:42:41 2018 Vehicle Speed: 44.000000
+Sun May 27 10:42:41 2018 Engine RPM: 175.250000
+Sun May 27 10:42:42 2018 Vehicle Speed: 37.000000
+Sun May 27 10:42:42 2018 Engine RPM: 181.000000
+Sun May 27 10:42:43 2018 Vehicle Speed: 30.000000
+Sun May 27 10:42:43 2018 Engine RPM: 180.750000
+Sun May 27 10:42:44 2018 Vehicle Speed: 25.000000
+Sun May 27 10:42:44 2018 Engine RPM: 173.750000
+Sun May 27 10:42:45 2018 Vehicle Speed: 23.000000
+Sun May 27 10:42:45 2018 Engine RPM: 180.750000
+Sun May 27 10:42:46 2018 Vehicle Speed: 21.000000
+Sun May 27 10:42:46 2018 Engine RPM: 391.250000
+Sun May 27 10:42:47 2018 Vehicle Speed: 21.000000
+Sun May 27 10:42:47 2018 Engine RPM: 484.000000
+Sun May 27 10:42:48 2018 Vehicle Speed: 24.000000
+Sun May 27 10:42:48 2018 Engine RPM: 511.750000
+Sun May 27 10:42:49 2018 Vehicle Speed: 29.000000
+Sun May 27 10:42:49 2018 Engine RPM: 485.250000
+Sun May 27 10:42:50 2018 Vehicle Speed: 32.000000
+Sun May 27 10:42:50 2018 Engine RPM: 496.250000
+Sun May 27 10:42:51 2018 Vehicle Speed: 36.000000
+Sun May 27 10:42:51 2018 Engine RPM: 503.000000
+Sun May 27 10:42:52 2018 Vehicle Speed: 39.000000
+Sun May 27 10:42:52 2018 Engine RPM: 509.250000
+Sun May 27 10:42:53 2018 Vehicle Speed: 42.000000
+Sun May 27 10:42:53 2018 Engine RPM: 513.250000
+Sun May 27 10:42:54 2018 Vehicle Speed: 45.000000
+Sun May 27 10:42:54 2018 Engine RPM: 515.000000
+Sun May 27 10:42:55 2018 Vehicle Speed: 48.000000
+Sun May 27 10:42:55 2018 Engine RPM: 450.000000
+Sun May 27 10:42:56 2018 Vehicle Speed: 50.000000
+Sun May 27 10:42:56 2018 Engine RPM: 261.000000
+Sun May 27 10:42:57 2018 Vehicle Speed: 50.000000
+Sun May 27 10:42:58 2018 Engine RPM: 298.250000
+Sun May 27 10:42:58 2018 Vehicle Speed: 50.000000
+Sun May 27 10:42:59 2018 Engine RPM: 321.250000
+Sun May 27 10:42:59 2018 Vehicle Speed: 49.000000
+Sun May 27 10:43:00 2018 Engine RPM: 449.500000
+Sun May 27 10:43:00 2018 Vehicle Speed: 49.000000
+Sun May 27 10:43:01 2018 Engine RPM: 493.000000
+Sun May 27 10:43:01 2018 Vehicle Speed: 51.000000
+Sun May 27 10:43:01 2018 Engine RPM: 499.750000
+Sun May 27 10:43:02 2018 Vehicle Speed: 53.000000
+Sun May 27 10:43:02 2018 ATRV: 14.000000
+Sun May 27 10:43:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:43:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:43:03 2018 ECT: 80.000000
+Sun May 27 10:43:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:43:03 2018 IAT: 48.000000
+Sun May 27 10:43:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:43:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:43:03 2018 MAP: 148.000000
+Sun May 27 10:43:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:43:03 2018 Engine RPM: 504.750000
+Sun May 27 10:43:03 2018 Vehicle Speed: 57.000000
+Sun May 27 10:43:04 2018 Engine RPM: 504.500000
+Sun May 27 10:43:04 2018 Vehicle Speed: 57.000000
+Sun May 27 10:43:04 2018 Engine RPM: 507.250000
+Sun May 27 10:43:05 2018 Vehicle Speed: 59.000000
+Sun May 27 10:43:05 2018 Engine RPM: 509.000000
+Sun May 27 10:43:06 2018 Vehicle Speed: 61.000000
+Sun May 27 10:43:06 2018 Engine RPM: 500.250000
+Sun May 27 10:43:07 2018 Vehicle Speed: 62.000000
+Sun May 27 10:43:07 2018 Engine RPM: 477.750000
+Sun May 27 10:43:08 2018 Vehicle Speed: 63.000000
+Sun May 27 10:43:08 2018 Engine RPM: 365.750000
+Sun May 27 10:43:09 2018 Vehicle Speed: 65.000000
+Sun May 27 10:43:09 2018 Engine RPM: 371.500000
+Sun May 27 10:43:10 2018 Vehicle Speed: 65.000000
+Sun May 27 10:43:10 2018 Engine RPM: 375.250000
+Sun May 27 10:43:11 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:11 2018 Engine RPM: 379.000000
+Sun May 27 10:43:12 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:12 2018 Engine RPM: 381.500000
+Sun May 27 10:43:13 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:13 2018 Engine RPM: 382.500000
+Sun May 27 10:43:14 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:14 2018 Engine RPM: 385.250000
+Sun May 27 10:43:15 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:15 2018 Engine RPM: 381.500000
+Sun May 27 10:43:16 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:16 2018 Engine RPM: 381.500000
+Sun May 27 10:43:17 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:17 2018 Engine RPM: 390.250000
+Sun May 27 10:43:18 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:18 2018 Engine RPM: 382.000000
+Sun May 27 10:43:19 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:19 2018 Engine RPM: 381.250000
+Sun May 27 10:43:20 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:20 2018 Engine RPM: 377.500000
+Sun May 27 10:43:21 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:21 2018 Engine RPM: 377.750000
+Sun May 27 10:43:22 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:22 2018 Engine RPM: 376.750000
+Sun May 27 10:43:23 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:24 2018 Engine RPM: 375.000000
+Sun May 27 10:43:24 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:25 2018 Engine RPM: 371.750000
+Sun May 27 10:43:25 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:26 2018 Engine RPM: 371.750000
+Sun May 27 10:43:26 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:27 2018 Engine RPM: 374.000000
+Sun May 27 10:43:27 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:27 2018 Engine RPM: 378.000000
+Sun May 27 10:43:28 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:29 2018 Engine RPM: 382.500000
+Sun May 27 10:43:29 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:30 2018 Engine RPM: 387.250000
+Sun May 27 10:43:30 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:30 2018 Engine RPM: 384.250000
+Sun May 27 10:43:31 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:32 2018 Engine RPM: 383.500000
+Sun May 27 10:43:32 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:33 2018 Engine RPM: 382.250000
+Sun May 27 10:43:33 2018 Vehicle Speed: 68.000000
+Sun May 27 10:43:34 2018 Engine RPM: 380.750000
+Sun May 27 10:43:34 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:34 2018 Engine RPM: 379.000000
+Sun May 27 10:43:35 2018 Vehicle Speed: 67.000000
+Sun May 27 10:43:35 2018 Engine RPM: 376.000000
+Sun May 27 10:43:36 2018 parse_obd_msg() <INFO>: <DATA ERROR
+Sun May 27 10:43:37 2018 Engine RPM: 372.000000
+Sun May 27 10:43:37 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:37 2018 Engine RPM: 371.250000
+Sun May 27 10:43:38 2018 Vehicle Speed: 66.000000
+Sun May 27 10:43:38 2018 Engine RPM: 369.000000
+Sun May 27 10:43:39 2018 Vehicle Speed: 65.000000
+Sun May 27 10:43:39 2018 Engine RPM: 367.750000
+Sun May 27 10:43:40 2018 Vehicle Speed: 65.000000
+Sun May 27 10:43:40 2018 Engine RPM: 363.750000
+Sun May 27 10:43:41 2018 Vehicle Speed: 64.000000
+Sun May 27 10:43:41 2018 Engine RPM: 359.500000
+Sun May 27 10:43:42 2018 Vehicle Speed: 64.000000
+Sun May 27 10:43:42 2018 Engine RPM: 348.750000
+Sun May 27 10:43:43 2018 Vehicle Speed: 62.000000
+Sun May 27 10:43:43 2018 Engine RPM: 337.250000
+Sun May 27 10:43:44 2018 Vehicle Speed: 60.000000
+Sun May 27 10:43:44 2018 Engine RPM: 216.500000
+Sun May 27 10:43:45 2018 Vehicle Speed: 58.000000
+Sun May 27 10:43:45 2018 Engine RPM: 199.500000
+Sun May 27 10:43:46 2018 Vehicle Speed: 55.000000
+Sun May 27 10:43:46 2018 Engine RPM: 187.750000
+Sun May 27 10:43:47 2018 Vehicle Speed: 49.000000
+Sun May 27 10:43:47 2018 Engine RPM: 184.750000
+Sun May 27 10:43:48 2018 Vehicle Speed: 41.000000
+Sun May 27 10:43:48 2018 Engine RPM: 186.750000
+Sun May 27 10:43:49 2018 Vehicle Speed: 34.000000
+Sun May 27 10:43:49 2018 Engine RPM: 179.500000
+Sun May 27 10:43:50 2018 Vehicle Speed: 27.000000
+Sun May 27 10:43:50 2018 Engine RPM: 172.000000
+Sun May 27 10:43:51 2018 Vehicle Speed: 21.000000
+Sun May 27 10:43:51 2018 Engine RPM: 264.250000
+Sun May 27 10:43:52 2018 Vehicle Speed: 18.000000
+Sun May 27 10:43:53 2018 Engine RPM: 419.750000
+Sun May 27 10:43:53 2018 Vehicle Speed: 17.000000
+Sun May 27 10:43:54 2018 Engine RPM: 449.000000
+Sun May 27 10:43:54 2018 Vehicle Speed: 20.000000
+Sun May 27 10:43:55 2018 Engine RPM: 464.000000
+Sun May 27 10:43:55 2018 Vehicle Speed: 24.000000
+Sun May 27 10:43:56 2018 Engine RPM: 481.750000
+Sun May 27 10:43:56 2018 Vehicle Speed: 28.000000
+Sun May 27 10:43:57 2018 Engine RPM: 481.250000
+Sun May 27 10:43:57 2018 Vehicle Speed: 32.000000
+Sun May 27 10:43:58 2018 Engine RPM: 493.500000
+Sun May 27 10:43:58 2018 Vehicle Speed: 35.000000
+Sun May 27 10:43:59 2018 Engine RPM: 504.000000
+Sun May 27 10:43:59 2018 Vehicle Speed: 38.000000
+Sun May 27 10:44:00 2018 Engine RPM: 511.000000
+Sun May 27 10:44:00 2018 Vehicle Speed: 41.000000
+Sun May 27 10:44:01 2018 Engine RPM: 515.500000
+Sun May 27 10:44:01 2018 Vehicle Speed: 44.000000
+Sun May 27 10:44:02 2018 Engine RPM: 520.250000
+Sun May 27 10:44:02 2018 Vehicle Speed: 47.000000
+Sun May 27 10:44:02 2018 ATRV: 14.000000
+Sun May 27 10:44:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:44:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:44:03 2018 ECT: 80.000000
+Sun May 27 10:44:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:44:03 2018 IAT: 47.000000
+Sun May 27 10:44:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:44:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:44:03 2018 MAP: 141.000000
+Sun May 27 10:44:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:44:03 2018 Engine RPM: 419.250000
+Sun May 27 10:44:03 2018 Vehicle Speed: 52.000000
+Sun May 27 10:44:04 2018 Engine RPM: 423.000000
+Sun May 27 10:44:04 2018 Vehicle Speed: 52.000000
+Sun May 27 10:44:05 2018 Engine RPM: 443.250000
+Sun May 27 10:44:05 2018 Vehicle Speed: 55.000000
+Sun May 27 10:44:06 2018 Engine RPM: 461.750000
+Sun May 27 10:44:06 2018 Vehicle Speed: 57.000000
+Sun May 27 10:44:07 2018 Engine RPM: 496.250000
+Sun May 27 10:44:07 2018 Vehicle Speed: 59.000000
+Sun May 27 10:44:08 2018 Engine RPM: 443.250000
+Sun May 27 10:44:08 2018 Vehicle Speed: 60.000000
+Sun May 27 10:44:08 2018 Engine RPM: 416.750000
+Sun May 27 10:44:09 2018 Vehicle Speed: 60.000000
+Sun May 27 10:44:09 2018 Engine RPM: 362.750000
+Sun May 27 10:44:10 2018 Vehicle Speed: 61.000000
+Sun May 27 10:44:10 2018 Engine RPM: 360.750000
+Sun May 27 10:44:11 2018 Vehicle Speed: 60.000000
+Sun May 27 10:44:11 2018 Engine RPM: 358.250000
+Sun May 27 10:44:12 2018 Vehicle Speed: 60.000000
+Sun May 27 10:44:12 2018 Engine RPM: 356.750000
+Sun May 27 10:44:13 2018 Vehicle Speed: 60.000000
+Sun May 27 10:44:13 2018 Engine RPM: 356.000000
+Sun May 27 10:44:14 2018 Vehicle Speed: 59.000000
+Sun May 27 10:44:14 2018 Engine RPM: 354.750000
+Sun May 27 10:44:15 2018 Vehicle Speed: 59.000000
+Sun May 27 10:44:15 2018 Engine RPM: 352.500000
+Sun May 27 10:44:16 2018 Vehicle Speed: 59.000000
+Sun May 27 10:44:16 2018 Engine RPM: 351.000000
+Sun May 27 10:44:17 2018 Vehicle Speed: 58.000000
+Sun May 27 10:44:17 2018 Engine RPM: 349.750000
+Sun May 27 10:44:18 2018 Vehicle Speed: 58.000000
+Sun May 27 10:44:19 2018 Engine RPM: 348.750000
+Sun May 27 10:44:19 2018 Vehicle Speed: 58.000000
+Sun May 27 10:44:20 2018 Engine RPM: 233.500000
+Sun May 27 10:44:20 2018 Vehicle Speed: 57.000000
+Sun May 27 10:44:21 2018 Engine RPM: 198.750000
+Sun May 27 10:44:21 2018 Vehicle Speed: 56.000000
+Sun May 27 10:44:22 2018 Engine RPM: 185.500000
+Sun May 27 10:44:22 2018 Vehicle Speed: 51.000000
+Sun May 27 10:44:23 2018 Engine RPM: 181.250000
+Sun May 27 10:44:23 2018 Vehicle Speed: 44.000000
+Sun May 27 10:44:24 2018 Engine RPM: 181.750000
+Sun May 27 10:44:24 2018 Vehicle Speed: 37.000000
+Sun May 27 10:44:25 2018 Engine RPM: 181.500000
+Sun May 27 10:44:25 2018 Vehicle Speed: 31.000000
+Sun May 27 10:44:26 2018 Engine RPM: 176.500000
+Sun May 27 10:44:26 2018 Vehicle Speed: 25.000000
+Sun May 27 10:44:27 2018 Engine RPM: 170.000000
+Sun May 27 10:44:27 2018 Vehicle Speed: 19.000000
+Sun May 27 10:44:28 2018 Engine RPM: 173.500000
+Sun May 27 10:44:28 2018 Vehicle Speed: 15.000000
+Sun May 27 10:44:29 2018 Engine RPM: 341.750000
+Sun May 27 10:44:29 2018 Vehicle Speed: 15.000000
+Sun May 27 10:44:30 2018 Engine RPM: 396.750000
+Sun May 27 10:44:30 2018 Vehicle Speed: 17.000000
+Sun May 27 10:44:31 2018 Engine RPM: 409.500000
+Sun May 27 10:44:31 2018 Vehicle Speed: 19.000000
+Sun May 27 10:44:32 2018 Engine RPM: 464.500000
+Sun May 27 10:44:32 2018 parse_obd_msg() <INFO>: <DATA ERROR
+Sun May 27 10:44:33 2018 Engine RPM: 452.000000
+Sun May 27 10:44:33 2018 Vehicle Speed: 25.000000
+Sun May 27 10:44:34 2018 Engine RPM: 341.250000
+Sun May 27 10:44:34 2018 Vehicle Speed: 27.000000
+Sun May 27 10:44:35 2018 Engine RPM: 181.500000
+Sun May 27 10:44:35 2018 Vehicle Speed: 26.000000
+Sun May 27 10:44:36 2018 Engine RPM: 183.500000
+Sun May 27 10:44:36 2018 Vehicle Speed: 23.000000
+Sun May 27 10:44:37 2018 Engine RPM: 183.250000
+Sun May 27 10:44:37 2018 Vehicle Speed: 19.000000
+Sun May 27 10:44:38 2018 Engine RPM: 187.000000
+Sun May 27 10:44:38 2018 Vehicle Speed: 15.000000
+Sun May 27 10:44:39 2018 Engine RPM: 173.500000
+Sun May 27 10:44:39 2018 Vehicle Speed: 13.000000
+Sun May 27 10:44:40 2018 Engine RPM: 173.000000
+Sun May 27 10:44:40 2018 Vehicle Speed: 12.000000
+Sun May 27 10:44:41 2018 Engine RPM: 174.750000
+Sun May 27 10:44:41 2018 Vehicle Speed: 11.000000
+Sun May 27 10:44:42 2018 Engine RPM: 180.750000
+Sun May 27 10:44:42 2018 Vehicle Speed: 10.000000
+Sun May 27 10:44:42 2018 Engine RPM: 177.250000
+Sun May 27 10:44:43 2018 Vehicle Speed: 10.000000
+Sun May 27 10:44:43 2018 Engine RPM: 203.000000
+Sun May 27 10:44:44 2018 Vehicle Speed: 10.000000
+Sun May 27 10:44:44 2018 Engine RPM: 215.500000
+Sun May 27 10:44:45 2018 Vehicle Speed: 9.000000
+Sun May 27 10:44:45 2018 Engine RPM: 186.750000
+Sun May 27 10:44:46 2018 Vehicle Speed: 8.000000
+Sun May 27 10:44:47 2018 Engine RPM: 169.750000
+Sun May 27 10:44:47 2018 Vehicle Speed: 7.000000
+Sun May 27 10:44:48 2018 Engine RPM: 187.250000
+Sun May 27 10:44:48 2018 Vehicle Speed: 6.000000
+Sun May 27 10:44:49 2018 Engine RPM: 181.250000
+Sun May 27 10:44:49 2018 Vehicle Speed: 4.000000
+Sun May 27 10:44:50 2018 Engine RPM: 180.250000
+Sun May 27 10:44:50 2018 Vehicle Speed: 3.000000
+Sun May 27 10:44:51 2018 Engine RPM: 181.000000
+Sun May 27 10:44:51 2018 Vehicle Speed: 3.000000
+Sun May 27 10:44:52 2018 Engine RPM: 176.250000
+Sun May 27 10:44:52 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:53 2018 Engine RPM: 208.250000
+Sun May 27 10:44:53 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:54 2018 Engine RPM: 198.750000
+Sun May 27 10:44:54 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:55 2018 Engine RPM: 212.750000
+Sun May 27 10:44:55 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:56 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:57 2018 Engine RPM: 207.000000
+Sun May 27 10:44:57 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:58 2018 Engine RPM: 210.500000
+Sun May 27 10:44:58 2018 Vehicle Speed: 0.000000
+Sun May 27 10:44:59 2018 Engine RPM: 211.250000
+Sun May 27 10:44:59 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:00 2018 Engine RPM: 209.750000
+Sun May 27 10:45:00 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:01 2018 Engine RPM: 213.000000
+Sun May 27 10:45:01 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:02 2018 Engine RPM: 210.250000
+Sun May 27 10:45:02 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:02 2018 ATRV: 13.900000
+Sun May 27 10:45:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:02 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:03 2018 ECT: 80.000000
+Sun May 27 10:45:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:03 2018 IAT: 47.000000
+Sun May 27 10:45:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:03 2018 MAP: 120.000000
+Sun May 27 10:45:03 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:03 2018 Engine RPM: 213.250000
+Sun May 27 10:45:03 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:04 2018 Engine RPM: 214.250000
+Sun May 27 10:45:04 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:05 2018 Engine RPM: 215.000000
+Sun May 27 10:45:05 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:06 2018 Engine RPM: 210.250000
+Sun May 27 10:45:06 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:07 2018 Engine RPM: 217.500000
+Sun May 27 10:45:07 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:08 2018 Engine RPM: 215.500000
+Sun May 27 10:45:08 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:09 2018 Engine RPM: 214.000000
+Sun May 27 10:45:09 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:10 2018 Engine RPM: 217.250000
+Sun May 27 10:45:10 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:11 2018 Engine RPM: 214.500000
+Sun May 27 10:45:11 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:12 2018 Engine RPM: 208.250000
+Sun May 27 10:45:12 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:12 2018 Engine RPM: 217.000000
+Sun May 27 10:45:13 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:14 2018 Engine RPM: 210.750000
+Sun May 27 10:45:14 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:15 2018 Engine RPM: 211.500000
+Sun May 27 10:45:15 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:16 2018 Engine RPM: 211.500000
+Sun May 27 10:45:16 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:17 2018 Engine RPM: 208.250000
+Sun May 27 10:45:17 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:18 2018 Engine RPM: 211.250000
+Sun May 27 10:45:18 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:19 2018 Engine RPM: 216.250000
+Sun May 27 10:45:19 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:20 2018 Engine RPM: 210.250000
+Sun May 27 10:45:20 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:21 2018 Engine RPM: 218.000000
+Sun May 27 10:45:21 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:22 2018 Engine RPM: 212.500000
+Sun May 27 10:45:22 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:23 2018 Engine RPM: 211.250000
+Sun May 27 10:45:23 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:24 2018 Engine RPM: 215.250000
+Sun May 27 10:45:24 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:25 2018 Engine RPM: 208.500000
+Sun May 27 10:45:25 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:26 2018 Engine RPM: 213.500000
+Sun May 27 10:45:26 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:27 2018 Engine RPM: 212.500000
+Sun May 27 10:45:27 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:28 2018 Engine RPM: 208.000000
+Sun May 27 10:45:28 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:29 2018 Engine RPM: 213.250000
+Sun May 27 10:45:29 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:30 2018 Engine RPM: 78.750000
+Sun May 27 10:45:30 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:31 2018 Engine RPM: 16.250000
+Sun May 27 10:45:31 2018 Vehicle Speed: 0.000000
+Sun May 27 10:45:32 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:32 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:33 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:33 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:34 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:34 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:35 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:35 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:36 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:36 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:37 2018 parse_obd_msg() <INFO>: NO DATA
+Sun May 27 10:45:37 2018 ------------------------
+Sun May 27 10:45:37 2018 >>> Closing log session.
+Sun May 27 10:45:37 2018 ------------------------

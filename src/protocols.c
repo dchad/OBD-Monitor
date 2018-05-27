@@ -45,6 +45,7 @@
    Selected ECU Mode 22 Parameters (GM/Isuzu):
         
     (Oil Pressure? GM = 22115c)
+    Note: Isuzu Trooper/Holden Jackaroo ECU RPM is not in quarter revolutions.
     
     
     
@@ -173,7 +174,7 @@ void log_ecu_parameters()
    /* TODO: log ecu parameters on a 60 second timer. */
 }
 
-void set_engine_rpm(char *rpm_msg)
+void set_engine_rpm(char *rpm_msg, int quarter)
 {
    unsigned int pmode, pid, pa, pb;
    char temp_buf[256];
@@ -182,7 +183,16 @@ void set_engine_rpm(char *rpm_msg)
    
    if (sscanf(rpm_msg, "%x %x %x %x", &pmode, &pid, &pa, &pb) == 4)
    {
-      ecup.ecu_engine_rpm = (((256.0 * (double)pa) + (double)pb) / 4.0);
+      if (quarter == 1) 
+      {
+         ecup.ecu_engine_rpm = (((256.0 * (double)pa) + (double)pb) / 4.0);
+      }
+      else
+      {
+         /* Isuzu ECU does not send quarter revolutions. */
+         ecup.ecu_engine_rpm = (((256.0 * (double)pa) + (double)pb));
+      }
+      
       /* ECU rpm parameter is in quarters of a revolution. */
       sprintf(temp_buf, "Engine RPM: %f", ecup.ecu_engine_rpm);
       print_log_entry(temp_buf);
@@ -825,7 +835,7 @@ void parse_mode_01_msg(char *obd_msg)
          case 5: set_coolant_temperature(obd_msg); break;
          case 10: set_fuel_pressure(obd_msg); break;
          case 11: set_manifold_pressure(obd_msg); break; 
-         case 12: set_engine_rpm(obd_msg); break;
+         case 12: set_engine_rpm(obd_msg, 0); break; /* TODO: Isuzu ECU does use standard calculation. */
          case 13: set_vehicle_speed(obd_msg); break;
          case 14: set_timing_advance(obd_msg); break;
          case 15: set_intake_air_temperature(obd_msg); break;
