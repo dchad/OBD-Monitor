@@ -18,12 +18,24 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 
 ## 2. Design
 
-  TODO:
+  Implemented with two processes, a graphical user interface and a communications server process.
+  
+  1. GUI: GTK+3.0 user interface.
+  
+  2. OBD Communications: a process that implements RS232 comms with the OBD-II interface and TCP/IP comms with the GUI. 
   
 
 ## 3. User Interface
 
-  TODO:
+  
+  1. Main Gauge Panel with OBD-II protocol drop down list, nine gauges, PID information and DTC code windows.
+  
+  2. Auxilliary Gauge Panel.
+  
+  3. PID Information and Search Panel.
+ 
+  4. Communications Log Panel.
+  
   
 ### 3.1 Screenshots
 
@@ -255,9 +267,17 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
    3. Troy D. Hanson, UTHASH List/Map Data Structures: http://troydhanson.github.com/uthash/
    4. Jan Bodnar, GTK+ Tutorial and Example Code: http://zetcode.com/
    
-## 7. Notes
+## 7. Building and Troubleshooting Notes
 
-### 7.1 Troubleshooting USB-RS232 Converter Modules on Linux
+### 7.1 Building on Linux.
+
+    TODO:
+    
+### 7.2 Building on Windows
+
+    TODO:
+    
+### 7.3 Troubleshooting USB-RS232 Converter Modules on Linux
 
     Use the following procedure if problems occur with USB-RS322
     interfaces such as the FTDI232 module on Linux:
@@ -304,7 +324,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
        Silicon Chip Magazine sell them for $5.00AUD plus postage.
        
        
-### 7.2 Troubleshooting OBD Interface (RS232 comms) In Vehicle
+### 7.4 Troubleshooting OBD Interface (RS232 comms) In Vehicle
 
    If serial interface confirmed working, but no communication with
    the OBD interpreter module:

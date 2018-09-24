@@ -178,7 +178,8 @@ char *xitoa(int value, char* result, int len, int base)
 
    if (tmp_value < 0) *ptr++ = '-';
    *ptr-- = '\0';
-   while(ptr1 < ptr) {
+   while(ptr1 < ptr) 
+   {
       tmp_char = *ptr;
       *ptr--= *ptr1;
       *ptr1++ = tmp_char;
@@ -221,6 +222,7 @@ int get_time_string(char *tstr, int slen)
 int validate_ipv4_address(char *ipv4_addr)
 {
 	/* TODO: a regex would be nice = m/\d+\.\d+\.\d+\.\d+/ */
+	
 	return(0);
 }
 
