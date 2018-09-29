@@ -279,8 +279,13 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
 ### 7.3 Troubleshooting USB-RS232 Converter Modules on Linux
 
-    Use the following procedure if problems occur with USB-RS322
+    Use the following procedure if problems occur with USB-RS232
     interfaces such as the FTDI232 module on Linux:
+    
+    Device Driver Downloads:
+    
+    - FTDI232 devices: (https://www.ftdichip.com/FTDrivers.htm).
+    - CP2102 devices: (https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers).
     
     1. cd OBD-Monitor/src
     
@@ -322,6 +327,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     6. If serial communications still not functioning then the
        converter module may be faulty. Try swapping out the module,
        Silicon Chip Magazine sell them for $5.00AUD plus postage.
+       (http://www.siliconchip.com.au/Shop/7/3437)
        
        
 ### 7.4 Troubleshooting OBD Interface (RS232 comms) In Vehicle
