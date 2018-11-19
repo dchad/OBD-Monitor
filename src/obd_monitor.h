@@ -81,7 +81,7 @@ int xstrcpy(char *out_buf, char *in_buf, int start, int end);
 int xhextoascii(char *out_buf, char *in_buf);
 int print_help();
 int get_time_string(char *tstr, int slen);
-int get_ip_address(char *interface, char *ip_addr);
+/* int get_ip_address(char *interface, char *ip_addr); */
 int validate_ipv4_address(char *ipv4_addr);
 int validate_ipv6_address(char *ipv6_addr);
 char *ltrim(char *s);

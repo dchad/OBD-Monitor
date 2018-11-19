@@ -51,6 +51,9 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss1.png "GUI Prototype")
 
 
+!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-windows.jpg "GUI Prototype")
+
+
 ## 4. On-Board Diagnostics
 
 ### 4.1 OBD Standards
@@ -275,7 +278,47 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
     
 ### 7.2 Building on Windows
 
-    TODO:
+    To build with MSYS2 on Microsoft Windows download and install MSYS2 (www.msys2.org).
+    
+    Open an MSYS2 terminal and install GTK+ as per the instructions here (https://www.gtk.org/download/windows.php).
+    
+    Check that Git is installed and pull the OBD-Monitor source code.
+    
+    Build with the command: make -f Makefile.win
+    
+ 
+#### 7.2.1 Makefile includes for GTK applications (avoid using pkg-config it is another nightmare dependency):
+
+    INCLUDES=-I/mingw64/include/gtk-3.0 -I/mingw64/include/dbus-1.0 -I/mingw64/lib/dbus-1.0/include \
+        -I/mingw64/include/gio-win32-2.0/ -I/mingw64/include/cairo -I/mingw64/include/pango-1.0 -I/mingw64/include/harfbuzz \
+		  -I/mingw64/include/pixman-1 -I/mingw64/include/freetype2 -I/mingw64/include/libpng16 -I/mingw64/include/gdk-pixbuf-2.0 \
+		  -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include -I/mingw64/include/atk-1.0
+    
+
+#### 7.2.2 Makefile libs for GTK applications (avoid using pkg-config it is another nightmare dependency):
+ 
+    LIBS=-lm -lgtk-3.dll -lgdk-3.dll -lpangocairo-1.0.dll -lpango-1.0.dll -latk-1.0.dll -lcairo-gobject.dll -lcairo.dll \ 
+        -lgdk_pixbuf-2.0.dll -lgio-2.0.dll -lgobject-2.0.dll -lglib-2.0.dll -lwsock32
+
+    LIBDIRS=-L/mingw64/lib -L/mingw64/lib/gtk-3.0 -L/mingw64/lib/glib-2.0
+     
+
+#### 7.2.3 MSYS2 Environment Path
+ 
+    Add /mingw64/bin to the PATH or gcc will do nothing and exit without reporting any errors!
+
+
+#### 7.2.4 Get a list of dependencies for distribution with the application:
+ 
+    ldd mygtkapplication.exe
+ 
+
+#### 7.2.5 List dependencies and copy to the current directory: 
+ 
+    ldd mygtkapp.exe | grep '\/mingw.*\.dll' -o | xargs -I{} cp "{}" . 
+ 
+    This command copies the dlls to the current directory.
+
     
 ### 7.3 Troubleshooting USB-RS232 Converter Modules on Linux
 

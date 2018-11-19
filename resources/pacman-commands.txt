@@ -1,0 +1,191 @@
+ Which Applications Are Installed On Your Computer
+
+You can view a list of all the packages installed on your system using the following command:
+
+pacman -Q
+
+This will return a list of all the applications on your computer and their version numbers.
+Viewing The Change Log For An Installed Application
+
+You can retrieve more information about a package or indeed packages by supplying various query options as follows:
+
+pacman -Q -c octopi
+
+View Packages Installed As Dependencies For Other Packages
+
+The above command will show me the changelog for octopi if it exists. If it doesn't exist a message will be displayed telling you that no changelog is available.
+
+pacman -Q -d
+
+The above command shows you all the files that are installed as dependencies to other packages.
+
+pacman -Q -d -t
+
+This will show you all the orphaned dependencies installed on your computer.
+View Explicitly Installed Packages
+
+If you want to see all of the explicitly installed packages use the following command:
+
+pacman -Q -e
+
+An explicit package is one that you actually chose to install as opposed to a package that was installed as a dependency to other packages.
+
+You can see which explicit packages have no dependencies by using the following command:
+
+pacman -Q -e -t
+
+View All The Packages In A Group
+
+To see which groups packages belong to you can use the following command:
+
+pacman -Q -g
+
+This will list the name of the group followed by the name of the package.
+
+If you want to see all the packages in a particular group you can specify the group name:
+
+pacman -Q -g base
+
+Return Information About Installed Packages
+
+If you want to know the name, description and all other manner of details about a package use the following command:
+
+pacman -Q -i packagename
+
+The output includes:
+
+    name
+    version
+    description
+    architecture
+    URL to package's website
+    License
+    Groups
+    Provides
+    Depends On
+    Optional Deps
+    Required By
+    Optional For
+    Conflicts With
+    Replaces
+    Installed Size
+    Name Of Packager
+    Build Date
+    Install Date
+    Install Reason
+    Install Script
+    Validated
+
+Check The Health Of An Installed Package
+
+To check the health of a particular package you can use the following command:
+
+pacman -Q -k packagename
+
+This will return output similar to the following:
+
+scratch: 1208 total files, 0 missing files
+
+You can run this command against all the installed packages:
+
+pacman -Q -k
+
+Find All Files Owned By A Package
+
+You can find all the files that are owned by a specific package using the following command:
+
+pacman -Q -l packagename
+
+This returns the package name and the path to files that it owns. You can specify multiple packages after the -l.
+Find Packages Not Found In The Sync Databases (i.e. Installed Manually)
+
+You can find manually installed packages using the following command:
+
+pacman -Q -m
+
+Packages installed using yaourt such as Google Chrome will be listed using this command.
+Find Packages Only Available In The Sync Databases
+
+This is the inverse to the previous command and only shows packages installed via the sync databases.
+
+pacman -Q -n
+
+Find Out Of Date Packages
+
+To find packages that need to be updated use the following command:
+
+pacman -Q -u
+
+This will return a list of packages, their version numbers, and the latest version numbers.
+How To Install A Package Using Pacman
+
+To install a package use the following command:
+
+pacman -S packagename
+
+You may need to use the sudo command to elevate your permissions for this command to run. Alternatively, switch to a user with elevated permissions using the su command.
+
+When a package is available in multiple repositories you can choose which repository to use by specifying it in the command as follows:
+
+pacman -S repositoryname/packagename
+
+Installing a package with pacman will automatically download and install any dependencies.
+
+You can also install a group of packages such as a desktop environment like XFCE.
+
+When you specify a group name the output will be along the lines of:
+
+There are 17 members in group xfce4
+
+
+Repository extra
+1) exo 2) garcon 3) gtk-xfce-engine
+
+You can choose to install all the packages in the group by pressing return. Alternatively, you can install individual packages by providing a comma-separated list of numbers (i.e. 1,2,3,4,5). If you want to install all the packages between 1 and 10 you can also use a hyphen (i.e. 1-10).
+How To Upgrade Out Of Date Packages
+
+To upgrade all of the out-of-date packages use the following command:
+
+pacman -S -u
+
+Sometimes you want to upgrade the packages but for one particular package, you want it to stay at an older version (because you know the newer version has removed a feature or is broken). You can use the following command for this:
+
+pacman -S -u --ignore packagename
+
+Show A List Of Available Packages
+
+You can view a list of the available packages in the sync database with the following command:
+
+pacman -S -l
+
+Display Information About A Package In The Sync Database
+
+You can find detailed information about a package in the sync database using the following command:
+
+pacman -S -i packagename
+
+Search For A Package In The Sync Database
+
+If you just want to search for a package in the sync database use the following command:
+
+pacman -S -s packagename
+
+The results will be a list of all available packages matching the search criteria.
+Refresh The Sync Database
+
+You can make sure the sync database is up to date using the following command:
+
+pacman -S -y
+
+This should be used prior to running the upgrade command. It is also useful to run this if you haven't done it in a while so that when you search you are getting the latest results.
+A Note About Switches
+
+Throughout this guide, you will have noticed that I have specified each switch on its own. For example:
+
+pacman -S -u
+
+You can, of course, combine switches:
+
+pacman -Su
+
+

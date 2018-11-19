@@ -48,7 +48,7 @@ char *aux_gauge_pid_list[] = {
 "Auxilliary Seven",
 "Auxilliary Eight",
 "Auxilliary Nine",
-"Auxilliary Plus" };
+"Auxilliary Ten" };
 
 /* ----------------------- */
 /* GUI callback functions. */

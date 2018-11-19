@@ -1,0 +1,75 @@
+# Project: OBD Monitor
+# Author:  Derek Chadwick
+# Date:    18/11/2018
+# Windows version built with the MSYS2 environment on Windows 8.1
+
+
+# Compiler flags
+
+CC=/mingw64/bin/gcc
+CFLAGS=-Wall -pthread
+
+# Linker flags
+
+LDFLAGS=-static
+LIBS=-lm -lgtk-3.dll -lgdk-3.dll -lpangocairo-1.0.dll -lpango-1.0.dll -latk-1.0.dll -lcairo-gobject.dll -lcairo.dll -lgdk_pixbuf-2.0.dll -lgio-2.0.dll -lgobject-2.0.dll -lglib-2.0.dll -lwsock32
+LIBDIRS=-L/mingw64/lib -L/mingw64/lib/gtk-3.0 -L/mingw64/lib/glib-2.0
+
+# Sources
+
+GUI_SOURCES=obd_monitor_gui.c protocols.c sockets.c gui_dialogs.c gui_gauges.c log.c util.c gui_gauges_aux.c config.c pid_hash_map.c
+SERVER_SOURCES=obd_monitor_server.c rs232.c log.c util.c
+SIMULATOR_SOURCES=ecu_simulator.c rs232.c log.c util.c
+UNIT_TEST_SOURCES=unit_test.c util.c log.c rs232.c pid_hash_map.c dtc_hash_map.c config.c
+FUNCTION_TEST_SOURCES=test_server.c sockets.c util.c log.c
+SERIAL_TEST_SOURCES=test_serial_rxtx.c rs232.c
+
+# Objects
+
+GUI_EXECUTABLE=obd_gui
+SERVER_EXECUTABLE=obd_server
+SIMULATOR_EXECUTABLE=ecu_sim
+UNIT_TEST_EXECUTABLE=unit_test
+FUNCTION_TEST_EXECUTABLE=server_test
+SERIAL_TEST_EXECUTABLE=serial_test
+
+# Includes
+
+INCPREFIX=../../libs/
+INCLUDES=-I$(INCPREFIX)/include -I/mingw64/include/gtk-3.0 -I/mingw64/include/dbus-1.0 -I/mingw64/lib/dbus-1.0/include \
+                       -I/mingw64/include/gio-win32-2.0/ -I/mingw64/include/cairo -I/mingw64/include/pango-1.0 -I/mingw64/include/harfbuzz \
+					   -I/mingw64/include/pixman-1 -I/mingw64/include/freetype2 -I/mingw64/include/libpng16 -I/mingw64/include/gdk-pixbuf-2.0 \
+					   -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include -I/mingw64/include/atk-1.0
+
+
+# Target Rules
+
+all: $(GUI_SOURCES) $(SERVER_SOURCES)
+
+gui: obd_monitor_gui.c obd_monitor.h protocols.h
+	$(CC) -o $(GUI_EXECUTABLE) $(GUI_SOURCES) $(CFLAGS) $(INCLUDES) $(LIBDIRS) $(LIBS)
+
+server: obd_monitor_server.c obd_monitor.h
+	$(CC) $(CFLAGS) $(SERVER_SOURCES) -o $(SERVER_EXECUTABLE)
+
+simulator: ecu_simulator.c obd_monitor.h
+	$(CC) $(CFLAGS) $(SIMULATOR_SOURCES) -o $(SIMULATOR_EXECUTABLE)
+
+utests: unit_test.c obd_monitor.h
+	$(CC) $(CFLAGS) $(UNIT_TEST_SOURCES) -o $(UNIT_TEST_EXECUTABLE)
+	
+ftests: test_server.c obd_monitor.h
+	$(CC) $(CFLAGS) $(FUNCTION_TEST_SOURCES) -o $(FUNCTION_TEST_EXECUTABLE)
+	
+stests: test_serial_rxtx.c
+	$(CC) $(CFLAGS) $(SERIAL_TEST_SOURCES) -o $(SERIAL_TEST_EXECUTABLE)
+	
+strip:
+	strip $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE)
+
+clean:
+	rm $(SERVER_EXECUTABLE) $(GUI_EXECUTABLE) $(SIMULATOR_EXECUTABLE) $(UNIT_TEST_EXECUTABLE) $(FUNCTION_TEST_EXECUTABLE) $(SERIAL_TEST_EXECUTABLE)
+	
+test:
+	$(CC) -o ex ex.c $(CFLAGS) $(INCLUDES) $(LIBDIRS) $(LIBS)
+	
