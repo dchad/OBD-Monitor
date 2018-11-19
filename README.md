@@ -51,7 +51,7 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss1.png "GUI Prototype")
 
 
-!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-windows.jpg "GUI Prototype")
+!["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/resources/obd-gui-windows.jpg "GUI Prototype")
 
 
 ## 4. On-Board Diagnostics
@@ -280,7 +280,7 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 
     To build with MSYS2 on Microsoft Windows download and install MSYS2 (www.msys2.org).
     
-    Open an MSYS2 terminal and install GTK+ as per the instructions here (https://www.gtk.org/download/windows.php).
+    Open an MSYS2 terminal and install GTK+ as per the instructions here (www.gtk.org/download/windows.php).
     
     Check that Git is installed and pull the OBD-Monitor source code.
     
@@ -290,9 +290,9 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 #### 7.2.1 Makefile includes for GTK applications (avoid using pkg-config it is another nightmare dependency):
 
     INCLUDES=-I/mingw64/include/gtk-3.0 -I/mingw64/include/dbus-1.0 -I/mingw64/lib/dbus-1.0/include \
-        -I/mingw64/include/gio-win32-2.0/ -I/mingw64/include/cairo -I/mingw64/include/pango-1.0 -I/mingw64/include/harfbuzz \
-		  -I/mingw64/include/pixman-1 -I/mingw64/include/freetype2 -I/mingw64/include/libpng16 -I/mingw64/include/gdk-pixbuf-2.0 \
-		  -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include -I/mingw64/include/atk-1.0
+    -I/mingw64/include/gio-win32-2.0/ -I/mingw64/include/cairo -I/mingw64/include/pango-1.0 -I/mingw64/include/harfbuzz \
+    -I/mingw64/include/pixman-1 -I/mingw64/include/freetype2 -I/mingw64/include/libpng16 -I/mingw64/include/gdk-pixbuf-2.0 \
+    -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include -I/mingw64/include/atk-1.0
     
 
 #### 7.2.2 Makefile libs for GTK applications (avoid using pkg-config it is another nightmare dependency):
