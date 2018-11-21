@@ -24,36 +24,58 @@
 
 #include "obd_monitor.h"
 
-int sock;
+int c_sock, s_sock;
 unsigned int length;
-struct sockaddr_in obd_server, from;
+struct sockaddr_in obd_server, obd_client, from;
 struct hostent *hp;
 int ecu_connected;
 int ecu_auto_connect;
 
-int init_server_socket(char *server, char *port)
+int init_client_socket(char *server, char *port)
 {
-   sock = socket(AF_INET, SOCK_DGRAM, 0);
-   if (sock < 0) 
-      printf("init_server_comms() <ERROR>: socket creation failed.\n");
+   c_sock = socket(AF_INET, SOCK_DGRAM, 0);
+   if (c_sock < 0) 
+      printf("init_client_socket() <ERROR>: socket creation failed.\n");
 
    obd_server.sin_family = AF_INET;
    hp = gethostbyname(server);
    if (hp == 0) 
-      printf("init_server_comms() <ERROR>: Unknown host -> %s.\n", server);
+      printf("init_client_socket() <ERROR>: Unknown host -> %s.\n", server);
 
    bcopy((char *)hp->h_addr, (char *)&obd_server.sin_addr, hp->h_length);
    obd_server.sin_port = htons(atoi(port));
    length = sizeof(struct sockaddr_in);
 
-   return(sock);
+   return(c_sock);
+}
+
+int init_server_socket(char *port)
+{
+   struct sockaddr_in server;
+   
+   s_sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+   if (s_sock < 0) 
+      printf("init_server_socket() <ERROR>: Opening socket");
+   
+   length = sizeof(struct sockaddr_in);
+   memset(&server, 0, length);
+
+   server.sin_family=AF_INET;
+   server.sin_addr.s_addr=INADDR_ANY;
+   server.sin_port=htons(atoi(port));
+   
+   if (bind(s_sock, (struct sockaddr *)&server, length) < 0) 
+      printf("init_server_socket() <ERROR>: binding");
+      
+   return(s_sock);
 }
 
 int send_ecu_msg(char *query)
 {
    int n;
 
-   n = sendto(sock,query,strlen(query),0,(const struct sockaddr *)&obd_server,length);
+   n = sendto(c_sock,query,strlen(query),0,(const struct sockaddr *)&obd_server,length);
    if (n < 0) 
    {
       printf("send_ecu_msg() <ERROR>: Sendto failed.\n");
@@ -73,7 +95,7 @@ int recv_ecu_msg(char *msg)
 
    memset(msg,0,256);
 
-   n = recvfrom(sock,msg,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
+   n = recvfrom(c_sock,msg,256,MSG_DONTWAIT,(struct sockaddr *)&from,&length);
    /* We are not blocking on recv now. */
    
    /*
@@ -92,7 +114,7 @@ int init_obd_comms(char *obd_msg)
 {
    int n;
 
-   n = sendto(sock,obd_msg,strlen(obd_msg),0,(const struct sockaddr *)&obd_server,length);
+   n = sendto(c_sock,obd_msg,strlen(obd_msg),0,(const struct sockaddr *)&obd_server,length);
 
    if (n <= 0) 
    {
@@ -114,7 +136,8 @@ int server_connect()
    
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
-   result = init_server_socket("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
+   result = init_client_socket("127.0.0.1", "8989");
+   
    if (result <= 0)
    {
       printf("ecu_connect() <ERROR>: Failed to connect to OBD server.\n");

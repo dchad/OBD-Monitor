@@ -97,7 +97,8 @@ int print_log_entry(char *estr);
 void close_log_file();
 
 /* sockets.c */
-int init_server_socket(char *server, char *port);
+int init_client_socket(char *server, char *port);
+int init_server_socket(char *port);
 int send_ecu_msg(char *query);
 int recv_ecu_msg(char *msg);
 int init_obd_comms(char *obd_msg);

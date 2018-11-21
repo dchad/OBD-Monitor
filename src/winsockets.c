@@ -34,7 +34,7 @@ WSADATA wsaData;
 int iResult;
 unsigned long iMode = 1;
 
-int init_server_socket(char *server, char *port)
+int init_client_socket(char *server, char *port)
 {
    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
    if (iResult != NO_ERROR)
@@ -56,6 +56,13 @@ int init_server_socket(char *server, char *port)
    bcopy((char *)hp->h_addr, (char *)&obd_server.sin_addr, hp->h_length);
    obd_server.sin_port = htons(atoi(port));
    length = sizeof(struct sockaddr_in);
+
+   return(sock);
+}
+
+int init_server_socket(char *port)
+{
+   /* TODO:  */
 
    return(sock);
 }
@@ -126,7 +133,7 @@ int server_connect()
    
    /* First set up UDP communication with the server process
       and check connection to the OBD interface. */
-   result = init_server_socket("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
+   result = init_client_socket("127.0.0.1", "8989"); /* TODO: get server ip address and port from config file. */
    if (result <= 0)
    {
       printf("ecu_connect() <ERROR>: Failed to connect to OBD server.\n");

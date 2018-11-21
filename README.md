@@ -41,27 +41,27 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss4.png "GUI Prototype")
 
-#### Main Gauges.
+#### Screenshot 1: Main Gauges.
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss3.png "GUI Prototype")
 
-#### User Defined Gauges.
+#### Screenshot 2: User Defined Gauges.
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss2.png "GUI Prototype")
 
-#### PID Database.
+#### Screenshot 3: PID Database.
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss1.png "GUI Prototype")
 
-#### Communications Log.
+#### Screenshot 4: Communications Log.
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/resources/obd-gui-windows.jpg "Windows GUI Prototype")
 
-#### GUI running on Windows 8.1
+#### Screenshot 5: GUI running on Windows 8.1
 
 ## 4. On-Board Diagnostics
 
