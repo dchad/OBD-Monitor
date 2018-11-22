@@ -15,12 +15,24 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+
 #include <string.h>
-#include <netdb.h>
+
 #include <stdio.h>
 #include <time.h>
+
+#ifdef _WINSOCK
+
+#include <winsock.h>
+
+#else
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+
+#endif
+
 
 #include "obd_monitor.h"
 
@@ -30,6 +42,51 @@ struct sockaddr_in obd_server, obd_client, from;
 struct hostent *hp;
 int ecu_connected;
 int ecu_auto_connect;
+
+
+#ifdef _WINSOCK
+
+WSADATA wsaData;
+int iResult;
+unsigned long iMode = 1;
+
+int init_client_socket(char *server, char *port)
+{
+   iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+   if (iResult != NO_ERROR)
+      printf("init_client_socket() <ERROR>: WSAStartup() failed with error: %ld\n", iResult);
+
+   sock = socket(AF_INET, SOCK_DGRAM, 0);
+   if (sock < 0) 
+      printf("init_client_socket() <ERROR>: socket creation failed.\n");
+
+   iResult = ioctlsocket(sock, FIONBIO, &iMode);
+   if (iResult != NO_ERROR)
+      printf("init_client_socket() <ERROR>: ioctlsocket failed with error: %ld\n", iResult);
+
+   obd_server.sin_family = AF_INET;
+   hp = gethostbyname(server);
+   if (hp == 0) 
+      printf("init_client_socket() <ERROR>: Unknown host -> %s.\n", server);
+
+   bcopy((char *)hp->h_addr, (char *)&obd_server.sin_addr, hp->h_length);
+   obd_server.sin_port = htons(atoi(port));
+   length = sizeof(struct sockaddr_in);
+
+   return(sock);
+}
+
+int init_server_socket(char *port)
+{
+   /* TODO:  */
+
+   return(sock);
+}
+
+
+#else
+
+/* NOT WINSOCK */
 
 int init_client_socket(char *server, char *port)
 {
@@ -70,6 +127,11 @@ int init_server_socket(char *port)
       
    return(s_sock);
 }
+
+
+
+#endif
+
 
 int send_ecu_msg(char *query)
 {

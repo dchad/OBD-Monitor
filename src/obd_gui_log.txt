@@ -5435,3 +5435,264 @@ Sun May 27 10:45:37 2018 parse_obd_msg() <INFO>: NO DATA
 Sun May 27 10:45:37 2018 ------------------------
 Sun May 27 10:45:37 2018 >>> Closing log session.
 Sun May 27 10:45:37 2018 ------------------------
+Thu Nov 22 12:47:59 2018 ATSP OBD 2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)
+
+Thu Nov 22 12:47:59 2018 ATDP OBD 2 - SAE J1850 VPW (10.4 kbaud)(GM, Isuzu)
+
+Thu Nov 22 12:48:00 2018 ATRV: 12.500000
+Thu Nov 22 12:48:00 2018 49 02 43 52 41 50 50 3A 43 41 52 3A 43 4F 4D 50 41 4E 59
+
+Thu Nov 22 12:48:00 2018 VIN: C R A P P : C A R : C O M P A N Y 
+Thu Nov 22 12:48:00 2018 ECU Name: C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
+Thu Nov 22 12:48:00 2018 MIL On: DTC Count = 1
+Thu Nov 22 12:48:00 2018 ECT: 89.000000
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 01 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 02 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 03 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 04 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 05 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 06 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 07 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 08 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 09 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 0a supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 0b NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 0c supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 0d NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 0e supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 0f NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 10 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 11 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 12 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 13 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 14 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 15 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 16 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 17 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 18 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 19 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 1a NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 1b NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 1c NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 1d supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 1e supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 1f supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_1_supported_pid_list_1_32(): PID 20 supported.
+
+Thu Nov 22 12:48:00 2018 41 00 f0 55 cc 0f
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 01 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 02 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 03 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 04 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 05 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 06 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 07 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 08 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 09 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 0a supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 0b NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 0c supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 0d NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 0e supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 0f NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 10 supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 11 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 12 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 13 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 14 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 15 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 16 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 17 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 18 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 19 NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 1a NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 1b NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 1c NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 1d NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 1e NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 1f NOT supported.
+
+Thu Nov 22 12:48:00 2018 set_mode_9_supported_pid_list_1_32(): PID 20 NOT supported.
+
+Thu Nov 22 12:48:00 2018 49 00 f0 55 00 00
+
+Thu Nov 22 12:48:00 2018 ECT: 7.000000
+Thu Nov 22 12:48:00 2018 41 2F 14
+
+Thu Nov 22 12:48:00 2018 IAT: 18.000000
+Thu Nov 22 12:48:00 2018 41 5C 3c
+
+Thu Nov 22 12:48:01 2018 Diagnostic Trouble Code: P0133
+Thu Nov 22 12:48:01 2018 Engine RPM: 480.000000
+Thu Nov 22 12:48:01 2018 Vehicle Speed: 13.000000
+Thu Nov 22 12:48:01 2018 Engine RPM: 560.000000
+Thu Nov 22 12:48:01 2018 Vehicle Speed: 15.000000
+Thu Nov 22 12:48:02 2018 Engine RPM: 640.000000
+Thu Nov 22 12:48:02 2018 Vehicle Speed: 17.000000
+Thu Nov 22 12:48:03 2018 Engine RPM: 720.000000
+Thu Nov 22 12:48:03 2018 Vehicle Speed: 19.000000
+Thu Nov 22 12:48:04 2018 Engine RPM: 800.000000
+Thu Nov 22 12:48:04 2018 Vehicle Speed: 21.000000
+Thu Nov 22 12:48:05 2018 Engine RPM: 880.000000
+Thu Nov 22 12:48:05 2018 Vehicle Speed: 23.000000
+Thu Nov 22 12:48:06 2018 Engine RPM: 960.000000
+Thu Nov 22 12:48:06 2018 Vehicle Speed: 25.000000
+Thu Nov 22 12:48:07 2018 Engine RPM: 1040.000000
+Thu Nov 22 12:48:07 2018 Vehicle Speed: 27.000000
+Thu Nov 22 12:48:08 2018 Engine RPM: 1120.000000
+Thu Nov 22 12:48:08 2018 Vehicle Speed: 29.000000
+Thu Nov 22 12:48:09 2018 Engine RPM: 1200.000000
+Thu Nov 22 12:48:09 2018 Vehicle Speed: 31.000000
+Thu Nov 22 12:48:10 2018 Engine RPM: 1280.000000
+Thu Nov 22 12:48:10 2018 Vehicle Speed: 33.000000
+Thu Nov 22 12:48:11 2018 Engine RPM: 1360.000000
+Thu Nov 22 12:48:11 2018 Vehicle Speed: 35.000000
+Thu Nov 22 12:48:12 2018 Engine RPM: 1440.000000
+Thu Nov 22 12:48:12 2018 Vehicle Speed: 37.000000
+Thu Nov 22 12:48:13 2018 Engine RPM: 1520.000000
+Thu Nov 22 12:48:13 2018 Vehicle Speed: 39.000000
+Thu Nov 22 12:48:14 2018 Engine RPM: 1600.000000
+Thu Nov 22 12:48:14 2018 Vehicle Speed: 41.000000
+Thu Nov 22 12:48:15 2018 Engine RPM: 1680.000000
+Thu Nov 22 12:48:15 2018 Vehicle Speed: 43.000000
+Thu Nov 22 12:48:16 2018 Engine RPM: 1760.000000
+Thu Nov 22 12:48:16 2018 Vehicle Speed: 45.000000
+Thu Nov 22 12:48:17 2018 Engine RPM: 1840.000000
+Thu Nov 22 12:48:17 2018 Vehicle Speed: 47.000000
+Thu Nov 22 12:48:18 2018 Engine RPM: 1920.000000
+Thu Nov 22 12:48:18 2018 Vehicle Speed: 49.000000
+Thu Nov 22 12:48:19 2018 Engine RPM: 2000.000000
+Thu Nov 22 12:48:19 2018 Vehicle Speed: 51.000000
+Thu Nov 22 12:48:20 2018 Engine RPM: 2080.000000
+Thu Nov 22 12:48:20 2018 Vehicle Speed: 53.000000
+Thu Nov 22 12:48:21 2018 Engine RPM: 2160.000000
+Thu Nov 22 12:48:21 2018 Vehicle Speed: 55.000000
+Thu Nov 22 12:48:22 2018 Engine RPM: 2240.000000
+Thu Nov 22 12:48:22 2018 Vehicle Speed: 57.000000
+Thu Nov 22 12:48:23 2018 Engine RPM: 2320.000000
+Thu Nov 22 12:48:23 2018 Vehicle Speed: 59.000000
+Thu Nov 22 12:48:24 2018 Engine RPM: 2400.000000
+Thu Nov 22 12:48:24 2018 Vehicle Speed: 61.000000
+Thu Nov 22 12:48:25 2018 Engine RPM: 2480.000000
+Thu Nov 22 12:48:25 2018 Vehicle Speed: 63.000000
+Thu Nov 22 12:48:26 2018 Engine RPM: 2560.000000
+Thu Nov 22 12:48:26 2018 Vehicle Speed: 65.000000
+Thu Nov 22 12:48:27 2018 Engine RPM: 2640.000000
+Thu Nov 22 12:48:27 2018 Vehicle Speed: 67.000000
+Thu Nov 22 12:48:28 2018 Engine RPM: 2720.000000
+Thu Nov 22 12:48:28 2018 Vehicle Speed: 69.000000
+Thu Nov 22 12:48:29 2018 Engine RPM: 2800.000000
+Thu Nov 22 12:48:29 2018 Vehicle Speed: 71.000000
+Thu Nov 22 12:48:30 2018 Engine RPM: 2880.000000
+Thu Nov 22 12:48:30 2018 Vehicle Speed: 73.000000
+Thu Nov 22 12:48:31 2018 Engine RPM: 2960.000000
+Thu Nov 22 12:48:31 2018 Vehicle Speed: 75.000000
+Thu Nov 22 12:48:32 2018 Engine RPM: 3040.000000
+Thu Nov 22 12:48:32 2018 Vehicle Speed: 77.000000
+Thu Nov 22 12:48:33 2018 Engine RPM: 3120.000000
+Thu Nov 22 12:48:33 2018 Vehicle Speed: 79.000000
+Thu Nov 22 12:48:34 2018 Engine RPM: 3200.000000
+Thu Nov 22 12:48:34 2018 Vehicle Speed: 81.000000
+Thu Nov 22 12:48:35 2018 Engine RPM: 3280.000000
+Thu Nov 22 12:48:35 2018 Vehicle Speed: 83.000000
+Thu Nov 22 12:48:36 2018 Engine RPM: 3360.000000
+Thu Nov 22 12:48:36 2018 Vehicle Speed: 85.000000
+Thu Nov 22 12:48:37 2018 Engine RPM: 3440.000000
+Thu Nov 22 12:48:37 2018 Vehicle Speed: 87.000000
+Thu Nov 22 12:48:38 2018 Engine RPM: 3520.000000
+Thu Nov 22 12:48:38 2018 Vehicle Speed: 89.000000
+Thu Nov 22 12:48:39 2018 Engine RPM: 3600.000000
+Thu Nov 22 12:48:39 2018 Vehicle Speed: 91.000000
+Thu Nov 22 12:48:40 2018 Engine RPM: 3680.000000
+Thu Nov 22 12:48:40 2018 Vehicle Speed: 93.000000
+Thu Nov 22 12:48:41 2018 Engine RPM: 3760.000000
+Thu Nov 22 12:48:41 2018 Vehicle Speed: 95.000000
+Thu Nov 22 12:48:42 2018 Engine RPM: 3840.000000
+Thu Nov 22 12:48:42 2018 Vehicle Speed: 97.000000
+Thu Nov 22 12:48:43 2018 Engine RPM: 3920.000000
+Thu Nov 22 12:48:43 2018 Vehicle Speed: 99.000000
+Thu Nov 22 12:48:44 2018 Engine RPM: 0.000000
+Thu Nov 22 12:48:44 2018 Vehicle Speed: 1.000000
+Thu Nov 22 12:48:45 2018 Engine RPM: 80.000000
+Thu Nov 22 12:48:45 2018 Vehicle Speed: 3.000000
+Thu Nov 22 12:48:46 2018 Engine RPM: 160.000000
+Thu Nov 22 12:48:46 2018 Vehicle Speed: 5.000000
+Thu Nov 22 12:48:47 2018 Engine RPM: 240.000000
+Thu Nov 22 12:48:47 2018 Vehicle Speed: 7.000000
+Thu Nov 22 12:48:48 2018 Engine RPM: 320.000000
+Thu Nov 22 12:48:48 2018 Vehicle Speed: 9.000000
+Thu Nov 22 12:48:49 2018 Engine RPM: 400.000000
+Thu Nov 22 12:48:49 2018 Vehicle Speed: 11.000000
+Thu Nov 22 12:48:50 2018 Engine RPM: 480.000000
+Thu Nov 22 12:48:50 2018 Vehicle Speed: 13.000000
+Thu Nov 22 12:48:51 2018 Engine RPM: 560.000000
+Thu Nov 22 12:48:51 2018 Vehicle Speed: 15.000000
+Thu Nov 22 12:48:52 2018 Engine RPM: 640.000000
+Thu Nov 22 12:48:52 2018 Vehicle Speed: 17.000000
+Thu Nov 22 12:48:53 2018 Engine RPM: 720.000000
+Thu Nov 22 12:48:53 2018 Vehicle Speed: 19.000000
+Thu Nov 22 12:48:54 2018 ------------------------
+Thu Nov 22 12:48:54 2018 >>> Closing log session.
+Thu Nov 22 12:48:54 2018 ------------------------
