@@ -47,19 +47,19 @@ INCLUDES=-I$(INCPREFIX)/include -I/mingw64/include/gtk-3.0 -I/mingw64/include/db
 all: $(GUI_SOURCES) $(SERVER_SOURCES)
 
 gui: obd_monitor_gui.c obd_monitor.h protocols.h
-	$(CC) -o $(GUI_EXECUTABLE) $(GUI_SOURCES) $(CFLAGS) $(INCLUDES) $(LIBDIRS) $(LIBS)
+	$(CC) -o $(GUI_EXECUTABLE) $(GUI_SOURCES) $(CFLAGS) $(INCLUDES) $(LIBDIRS) $(LIBS) -D_WINSOCK
 
 server: obd_monitor_server.c obd_monitor.h
-	$(CC) -o $(SERVER_EXECUTABLE) $(CFLAGS) $(SERVER_SOURCES) -lwsock32
+	$(CC) -o $(SERVER_EXECUTABLE) $(CFLAGS) $(SERVER_SOURCES) -lwsock32 -D_WINSOCK
 
 simulator: ecu_simulator.c obd_monitor.h
-	$(CC) $(CFLAGS) $(SIMULATOR_SOURCES) -o $(SIMULATOR_EXECUTABLE)
+	$(CC) $(CFLAGS) $(SIMULATOR_SOURCES) -o $(SIMULATOR_EXECUTABLE) -D_WINSOCK
 
 utests: unit_test.c obd_monitor.h
-	$(CC) $(CFLAGS) $(UNIT_TEST_SOURCES) -o $(UNIT_TEST_EXECUTABLE)
+	$(CC) $(CFLAGS) $(UNIT_TEST_SOURCES) -o $(UNIT_TEST_EXECUTABLE) -D_WINSOCK
 	
 ftests: test_server.c obd_monitor.h
-	$(CC) $(CFLAGS) $(FUNCTION_TEST_SOURCES) -o $(FUNCTION_TEST_EXECUTABLE)
+	$(CC) $(CFLAGS) $(FUNCTION_TEST_SOURCES) -o $(FUNCTION_TEST_EXECUTABLE) -D_WINSOCK
 	
 stests: test_serial_rxtx.c
 	$(CC) $(CFLAGS) $(SERIAL_TEST_SOURCES) -o $(SERIAL_TEST_EXECUTABLE)

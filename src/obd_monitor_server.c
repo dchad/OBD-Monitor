@@ -25,12 +25,24 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <string.h>
-#include <netdb.h>
 #include <stdio.h>
 #include <time.h>
+
+#ifdef _WINSOCK
+
+#include <winsock.h>
+
+#else
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+
+#endif
+
+
+
 
 #include "obd_monitor.h"
 
@@ -265,6 +277,22 @@ int main(int argc, char *argv[])
    serial_port = init_serial_comms("ttyUSB0");
    
    interface_check(serial_port);
+   
+   
+   
+   
+#ifdef _WINSOCK
+
+   WSADATA wsaData;
+   int iResult;
+   unsigned long iMode = 1;
+   iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+   if (iResult != NO_ERROR)
+      printf("init_server_comms() <ERROR>: WSAStartup() failed with error: %ld\n", iResult);
+
+#endif
+   
+   
    
    sock = socket(AF_INET, SOCK_DGRAM, 0);
 
