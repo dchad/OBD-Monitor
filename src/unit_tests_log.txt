@@ -38,3 +38,23 @@ Thu Nov 22 10:56:10 2018 ATZ!ELM327 v2 1!
 Thu Nov 22 10:56:10 2018 ------------------------
 Thu Nov 22 10:56:10 2018 >>> Closing log session.
 Thu Nov 22 10:56:10 2018 ------------------------
+Fri Nov 23 10:49:31 2018 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
+Fri Nov 23 10:49:31 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
+Fri Nov 23 10:49:31 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
+Fri Nov 23 10:49:31 2018 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
+Fri Nov 23 10:49:31 2018 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
+Fri Nov 23 10:49:31 2018 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
+Fri Nov 23 10:49:31 2018 THIS IS TEST STRING ONE.
+Fri Nov 23 10:49:31 2018 THIS IS TEST STRING TWO.
+Fri Nov 23 10:49:31 2018 this is test STRING one 
+Fri Nov 23 10:49:31 2018 THIS is test STRING TWO 
+Fri Nov 23 10:49:31 2018 1234     4321     898911
+Fri Nov 23 10:49:31 2018 127 0 0 1
+Fri Nov 23 10:49:31 2018 999 999 999 999
+Fri Nov 23 10:49:31 2018 255 255 255 255
+Fri Nov 23 10:49:31 2018 01 A1 B0 30 08 01
+Fri Nov 23 10:49:31 2018 41 00 K0 04 C9 FF
+Fri Nov 23 10:49:31 2018 ATZ!ELM327 v2 1!
+Fri Nov 23 10:49:31 2018 ------------------------
+Fri Nov 23 10:49:31 2018 >>> Closing log session.
+Fri Nov 23 10:49:31 2018 ------------------------

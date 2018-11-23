@@ -38,7 +38,7 @@
 
 int c_sock, s_sock;
 unsigned int length;
-struct sockaddr_in obd_server, obd_client, from;
+struct sockaddr_in obd_server, from;
 struct hostent *hp;
 int ecu_connected;
 int ecu_auto_connect;
@@ -69,7 +69,7 @@ int init_client_socket(char *server, char *port)
    if (hp == 0) 
       printf("init_client_socket() <ERROR>: Unknown host -> %s.\n", server);
 
-   bcopy((char *)hp->h_addr, (char *)&obd_server.sin_addr, hp->h_length);
+   memcpy((char *)&obd_server.sin_addr, (char *)hp->h_addr, hp->h_length);
    obd_server.sin_port = htons(atoi(port));
    length = sizeof(struct sockaddr_in);
 
@@ -99,7 +99,7 @@ int init_client_socket(char *server, char *port)
    if (hp == 0) 
       printf("init_client_socket() <ERROR>: Unknown host -> %s.\n", server);
 
-   bcopy((char *)hp->h_addr, (char *)&obd_server.sin_addr, hp->h_length);
+   memcpy((char *)&obd_server.sin_addr, (char *)hp->h_addr, hp->h_length);
    obd_server.sin_port = htons(atoi(port));
    length = sizeof(struct sockaddr_in);
 
