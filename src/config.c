@@ -5,9 +5,47 @@
 
    Author: Derek Chadwick
 
-   Description: Configuration management functions. 
+   Description: Configuration functions. 
 
+   PID Data Format:
+   
+   Manufacturer_PID_List {
+   
+   PID_Entry {
+   
+      ID_Number: "String"
+      Name: "String"
+      Description: "String"
+      Formula: "String"
+      Minumum_Value: "String"
+      Maximum_Value: "String"
+   
+   }
+   
+   .
+   .
+   .
+   
+   }
 
+   DTC Data Format:
+   
+   Manufacturer_DTC_List {
+   
+   DTC_Entry {
+   
+      ID_Number: "String"
+      Name: "String"
+      Description: "String"
+   
+   }
+   
+   .
+   .
+   .
+   
+   }
+   
    Date: 18/12/2017
    
 */

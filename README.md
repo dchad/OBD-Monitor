@@ -43,35 +43,35 @@ Tools for interfacing with vehicle engine control units using the OBD-II protoco
 
 #### Screenshot 1: Main Gauges.
 
-
+   
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss3.png "GUI Prototype")
 
 #### Screenshot 2: User Defined Gauges.
 
-
+   
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss2.png "GUI Prototype")
 
 #### Screenshot 3: PID Database.
 
-
+  
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/images/obd-gui-ss1.png "GUI Prototype")
 
 #### Screenshot 4: Communications Log.
 
-
+   
 
 
 !["GUI"](https://github.com/dchad/OBD-Monitor/blob/master/resources/obd-gui-windows.jpg "Windows GUI Prototype")
 
 #### Screenshot 5: GUI running on Windows 8.1
 
-
+  
 
 ## 4. On-Board Diagnostics
 
@@ -293,7 +293,22 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 
 ### 7.1 Building on Linux.
 
-    TODO:
+    Make targets:
+    
+    make all
+    
+    make gui
+    
+    make server
+    
+    make simulator   (for development and testing the GUI, simulates the server and ECU)
+    
+    make utests      (unit tests)
+    
+    make ftests      (server functional tests and logging when connected to an ECU, replaces GUI)
+    
+    make stests      (USB-Serial Port interface testing with a loopback cable)
+    
     
 ### 7.2 Building on Windows
 
