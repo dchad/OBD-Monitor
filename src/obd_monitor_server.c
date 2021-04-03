@@ -91,7 +91,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
     
     out_msg_len = strlen(ecu_query);
     
-    if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
+    if ((out_msg_len < 1) || (out_msg_len > MAX_BUFFER_LEN))
     {
       printf("ERROR: Bad message length!\n");
       return(0);
@@ -254,9 +254,9 @@ int main(int argc, char *argv[])
    socklen_t from_len;
    struct sockaddr_in server;
    struct sockaddr_in from_client;
-   char in_buf[BUFFER_MAX_LEN];
-   char log_buf[BUFFER_MAX_LEN];
-   unsigned char ecu_msg[BUFFER_MAX_LEN];
+   char in_buf[MAX_BUFFER_LEN];
+   char log_buf[MAX_BUFFER_LEN+32];
+   unsigned char ecu_msg[MAX_BUFFER_LEN];
    char *pch;
    
    /*
@@ -314,10 +314,10 @@ int main(int argc, char *argv[])
    while (1) 
    {
        /* Clear the buffers!!! */
-       memset(in_buf, 0, BUFFER_MAX_LEN);
-       memset(ecu_msg, 0, BUFFER_MAX_LEN);
+       memset(in_buf, 0, MAX_BUFFER_LEN);
+       memset(ecu_msg, 0, MAX_BUFFER_LEN);
        
-       n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
+       n = recvfrom(sock, in_buf, MAX_BUFFER_LEN, 0, (struct sockaddr *)&from_client, &from_len);
 
        if (n < 0) 
           fatal_error("recvfrom");

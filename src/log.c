@@ -3,7 +3,7 @@
 
    Project: OBD-II Monitor
    
-   Author : Derek Chadwick 18910502
+   Author : Derek Chadwick
    
    Date   : 24/12/2017
   
@@ -89,16 +89,16 @@ int print_log_entry(char *estr)
    time_t curtime;
    struct tm *loctime;
    int slen = strlen(estr);
-   char *log_entry = xcalloc(slen + 100);
+   char *log_entry = xcalloc(slen + 256);
      
    /* Get the current time. */
    curtime = time (NULL);
    loctime = localtime (&curtime);
    char *time_str = asctime(loctime);   
    strncpy(log_entry, time_str, strlen(time_str) - 1);
-   strncat(log_entry, " ", 1);
+   strcat(log_entry, " ");
    strncat(log_entry, estr, slen);
-   strncat(log_entry, "\n", 1);
+   strcat(log_entry, "\n");
 
    if (log_file != NULL)
    {
@@ -109,7 +109,7 @@ int print_log_entry(char *estr)
       printf("print_log_entry(): %s\n", log_entry);
    }
 
-   xfree(log_entry, slen + 100);
+   xfree(log_entry, slen + 256);
   
    return(0);
 }

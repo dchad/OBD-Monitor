@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
    }
    else
    {
-      strncpy(serial_device, "ttyUSB0", 7);
+      strcpy(serial_device, "ttyUSB0");
    }
 
    cport_nr = RS232_GetPortnr(serial_device);

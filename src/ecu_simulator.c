@@ -49,6 +49,7 @@
 #include "protocols.h"
 #include "rs232.h"
 
+#define BUFFER_LEN 512
 
 ECU_Parameters simulator_ecu;
 OBD_Interface simulator_obd;
@@ -59,8 +60,8 @@ int sock, length, n, serial_port;
 socklen_t from_len;
 struct sockaddr_in server;
 struct sockaddr_in from_client;
-char in_buf[BUFFER_MAX_LEN];
-unsigned char ecu_msg[BUFFER_MAX_LEN];
+char in_buf[MAX_BUFFER_LEN];
+unsigned char ecu_msg[MAX_BUFFER_LEN];
    
 const char *OBD_Protocol_List[] = {
 "OBD 0 - Automatic OBD-II Protocol Search",
@@ -141,7 +142,7 @@ void log_simulator_ecu_parameters()
 
 int send_engine_rpm()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int rpm_temp, rpm_A, rpm_B;
    int n;
    
@@ -163,7 +164,7 @@ int send_engine_rpm()
 
 int send_coolant_temperature()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int ect_A;
    int n;
    
@@ -183,7 +184,7 @@ int send_coolant_temperature()
 
 void send_manifold_pressure()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int map_A;
    int n;
    
@@ -203,7 +204,7 @@ void send_manifold_pressure()
 
 int send_intake_air_temperature()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int iat_A;
    int n;
    
@@ -223,7 +224,7 @@ int send_intake_air_temperature()
 
 int send_vehicle_speed()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int vs_A;
    int n;
    
@@ -249,7 +250,7 @@ void send_egr_pressure()
 
 int send_throttle_position()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int tp_A;
    int n;
    
@@ -269,7 +270,7 @@ int send_throttle_position()
 
 int send_oil_temperature()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int ot_A;
    int n;
    
@@ -296,7 +297,7 @@ void send_oil_pressure()
 
 int send_mode_1_supported_pid_list_1_32()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int spidl_A, spidl_B, spidl_C, spidl_D;
    int n;
    
@@ -318,7 +319,7 @@ int send_mode_1_supported_pid_list_1_32()
 
 int send_mode_9_supported_pid_list_1_32()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int spidl_A, spidl_B, spidl_C, spidl_D;
    int n;
    
@@ -347,7 +348,7 @@ void send_timing_advance()
 
 int send_fuel_tank_level()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int ftl_A;
    int n;
    
@@ -367,7 +368,7 @@ int send_fuel_tank_level()
 
 int send_fuel_flow_rate()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int ffr_temp, ffr_A, ffr_B;
    int n;
    
@@ -388,7 +389,7 @@ int send_fuel_flow_rate()
 
 int send_fuel_pressure()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int fp_A;
    int n;
    
@@ -407,7 +408,7 @@ int send_fuel_pressure()
 
 int send_accelerator_position()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    unsigned int ap_A;
    int n;
    
@@ -428,7 +429,7 @@ int send_accelerator_position()
 
 void send_battery_voltage()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n;
    
    memset(reply_buf, 0, 256);
@@ -443,7 +444,7 @@ void send_battery_voltage()
 
 void send_interface_information()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n;
    
    memset(reply_buf, 0, 256);
@@ -460,7 +461,7 @@ void send_interface_information()
 
 void send_obd_protocol_name(char *obd_msg)
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int pnum, n;
    
    memset(reply_buf, 0, 256);
@@ -495,7 +496,7 @@ void send_obd_protocol_name(char *obd_msg)
    {
       simulator_obd.obd_protocol_number = 0;
       memset(simulator_obd.obd_protocol_name, 0, 256);
-      strncpy(simulator_obd.obd_protocol_name, "Unknown OBD protocol.\n", 22);
+      strcpy(simulator_obd.obd_protocol_name, "Unknown OBD protocol.\n");
       printf("send_obd_protocol_name(): %s", obd_msg);
    }
 
@@ -507,7 +508,7 @@ void send_obd_protocol_name(char *obd_msg)
 
 void send_vin_msg()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n;
    
    memset(reply_buf, 0, 256);
@@ -523,7 +524,7 @@ void send_vin_msg()
 
 void send_ecu_name()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n;
    
    memset(reply_buf, 0, 256);
@@ -539,7 +540,7 @@ void send_ecu_name()
 
 void send_mil_status()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n, mil_status;
    
    memset(reply_buf, 0, 256);
@@ -594,7 +595,7 @@ void reply_mode_01_msg(char *obd_msg)
 void reply_mode_03_msg(char *obd_msg)
 {
    /* TODO: Send back a DTC message. */
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n;
    
    memset(reply_buf, 0, 256);
@@ -634,7 +635,7 @@ void reply_mode_09_msg(char *obd_msg)
 
 void send_no_data()
 {
-   char reply_buf[256];
+   char reply_buf[BUFFER_LEN];
    int n;
    
    memset(reply_buf, 0, 256);
@@ -747,7 +748,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
     int out_msg_len = 0;
 
     out_msg_len = strlen(ecu_query);
-    if ((out_msg_len < 1) || (out_msg_len > BUFFER_MAX_LEN))
+    if ((out_msg_len < 1) || (out_msg_len > MAX_BUFFER_LEN))
     {
       printf("send_ecu_query() <ERROR>: Bad message length!\n");
       return(0);
@@ -766,7 +767,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_query)
 {
     int in_msg_len = 0;
 
-    while((in_msg_len = RS232_PollComport(serial_port, ecu_query, BUFFER_MAX_LEN)) > 0)
+    while((in_msg_len = RS232_PollComport(serial_port, ecu_query, MAX_BUFFER_LEN)) > 0)
     {
           int idx;
 
@@ -796,7 +797,7 @@ int main(int argc, char *argv[])
    
    if (argc < 2) 
    {
-      strncpy(udp_port, "8989", 4);
+      strcpy(udp_port, "8989");
    }
    else
    {
@@ -831,11 +832,11 @@ int main(int argc, char *argv[])
 
    from_len = sizeof(struct sockaddr_in);
    
-   memset(in_buf, 0, BUFFER_MAX_LEN);
+   memset(in_buf, 0, MAX_BUFFER_LEN);
    
    while (1) 
    {
-       n = recvfrom(sock, in_buf, BUFFER_MAX_LEN, 0, (struct sockaddr *)&from_client, &from_len);
+       n = recvfrom(sock, in_buf, MAX_BUFFER_LEN, 0, (struct sockaddr *)&from_client, &from_len);
 
        if (n < 0) fatal_error("recvfrom");
 
@@ -862,7 +863,7 @@ int main(int argc, char *argv[])
 
 
        /* TODO: Clear the buffers!!! */
-       memset(in_buf, 0, BUFFER_MAX_LEN);
+       memset(in_buf, 0, MAX_BUFFER_LEN);
    }
 
    return 0;
