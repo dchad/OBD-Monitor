@@ -39,7 +39,7 @@ INCLUDES=-I$(INCPREFIX)/include
 
 # Target Rules
 
-all: $(GUI_SOURCES) $(SERVER_SOURCES)
+all: gui server simulator utests ftests stests
 
 gui: obd_monitor_gui.c obd_monitor.h protocols.h
 	$(CC) $(GUI_SOURCES) $(LIBS) `pkg-config --libs --cflags gtk+-3.0` -o $(GUI_EXECUTABLE)
