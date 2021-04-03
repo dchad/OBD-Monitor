@@ -293,6 +293,11 @@ The SAE J1979 standard currently defines ten possible diagnostic test modes:
 
 ### 7.1 Building on Linux.
 
+    apt install libgtk-3-dev
+    
+    git clone https://github.cm/dchad/OBD-Monitor.git
+    
+    
     Make targets:
     
     make all
