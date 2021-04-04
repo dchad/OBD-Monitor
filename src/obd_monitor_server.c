@@ -129,7 +129,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
             /* ELM327 is ready to receive another request, so exit. */
             /* See ELM327 datasheet for vague details of protocol.  */
             interpreter_ready_status = 1;
-            printf("RXD > Interpreter Ready.\n");
+            printf("recv_ecu_reply(): RXD > Interpreter Ready.\n");
          }
          else
          {
@@ -154,7 +154,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
                      /* See ELM327 datasheet for vague details of protocol.  */
                      interpreter_ready_status = 1;
                      /* DEBUG: view raw messages. */
-                     printf("RXD > Interpreter Ready: %s\n", in_buf);
+                     printf("rcv_ecu_reply(): RXD > Interpreter Ready: %s\n", in_buf);
                   }
                }
             }  
@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
    struct sockaddr_in server;
    struct sockaddr_in from_client;
    char in_buf[MAX_BUFFER_LEN];
-   char log_buf[MAX_BUFFER_LEN+32];
+   char log_buf[MAX_BUFFER_LEN+64];
    unsigned char ecu_msg[MAX_BUFFER_LEN];
    char *pch;
    
@@ -375,14 +375,14 @@ int main(int argc, char *argv[])
                 if (n  < 0) 
                    fatal_error("sendto");
 
-                printf("Sent ECU msg to GUI: %s\n", pch);
+                printf("main(): Sent ECU msg to GUI: %s\n", pch);
              }
              
           }
           else
           {
              /* Log an error message. */
-             sprintf(log_buf, "RXD Unknown ECU Message: %s", ecu_msg);
+             sprintf(log_buf, "main(): RXD Unknown ECU Message: %s", ecu_msg);
              print_log_entry(log_buf);
           }
        }

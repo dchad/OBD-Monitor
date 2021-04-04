@@ -851,7 +851,7 @@ void parse_mode_01_msg(char *obd_msg)
    else
    {
       /* TODO: log error message. */
-      printf("Invalid OBD Mode 01 Message: %s\n", obd_msg);
+      printf("parse_mode_01_msg(): Invalid OBD Mode 01 Message: %s\n", obd_msg);
    }   
 
    
@@ -883,7 +883,7 @@ void parse_mode_03_msg(char *obd_dtc_msg)
       dtc_sys_chars[3] = obd_dtc_msg[7];
       dtc_sys_chars[4] = 0;
       dtc_index = strtol(dtc_code, 0, 16);
-      /* printf("parse_mode_03_msg() <DEBUG>: %d %s %s\n", dtc_index, dtc_code, dtc_sys_chars); */
+      printf("parse_mode_03_msg() <DEBUG>: %d %s %s\n", dtc_index, dtc_code, dtc_sys_chars);
       if ((dtc_index >= 0) && (dtc_index < 16)) /* TODO: handle multiple DTCs. */
       {
          strncpy(ecup.ecu_last_dtc_code, DTC_System_Codes[dtc_index], 2);
@@ -1002,8 +1002,15 @@ int parse_obd_msg(char *obd_msg)
       }
       else
       {
-         sprintf(log_buf, "parse_obd_msg() <INFO>: %s", obd_msg);
-         print_log_entry(log_buf);
+         if (obd_msg[0] == 'N') /* NO DATA messages being sent because ECU does not implement a standard PID. */
+         {
+            result = 99;
+         }
+         else
+         {
+            sprintf(log_buf, "parse_obd_msg() <INFO>: %s", obd_msg);
+            print_log_entry(log_buf);
+         }
       }
    }
 
