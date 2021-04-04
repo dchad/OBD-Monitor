@@ -936,6 +936,8 @@ int parse_obd_msg(char *obd_msg)
    int msg_len, result;
    char log_buf[256];
    
+   memset(log_buf, 0, 256);
+
    result = -1;
    
    msg_len = strlen(obd_msg);

@@ -93,13 +93,13 @@ int send_ecu_query(int serial_port, char *ecu_query)
     
     if ((out_msg_len < 1) || (out_msg_len > MAX_BUFFER_LEN))
     {
-      printf("ERROR: Bad message length!\n");
+      printf("send_ecu_query() ERROR: Bad message length!\n");
       return(0);
     }
 
     RS232_SendBuf(serial_port, (unsigned char *)ecu_query, out_msg_len);
 
-    printf("TXD %i bytes: %s\n", out_msg_len, ecu_query);
+    printf("send_ecu_query() TXD %i bytes: %s\n", out_msg_len, ecu_query);
 
     /* nanosleep(100000);   sleep for 1 millisecond */
     RS232_flushTX(serial_port);
@@ -129,7 +129,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
             /* ELM327 is ready to receive another request, so exit. */
             /* See ELM327 datasheet for vague details of protocol.  */
             interpreter_ready_status = 1;
-            printf("RXD > Interpreter Ready\n");
+            printf("RXD > Interpreter Ready.\n");
          }
          else
          {
@@ -166,7 +166,8 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
    RS232_flushRX(serial_port); 
 
-   /* printf("RXD %i bytes: %s\n", msg_idx, ecu_reply); */
+   printf("rcv_ecu_reply(): RXD buf %i bytes: %s\n", in_msg_len, in_buf);
+   printf("rcv_ecu_reply(): RXD msg %i bytes: %s\n", msg_idx, ecu_reply);
 
    return(msg_idx);
 }
@@ -373,6 +374,8 @@ int main(int argc, char *argv[])
 
                 if (n  < 0) 
                    fatal_error("sendto");
+
+                printf("Sent ECU msg to GUI: %s\n", pch);
              }
              
           }

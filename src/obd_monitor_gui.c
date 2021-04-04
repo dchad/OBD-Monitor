@@ -152,6 +152,8 @@ gint send_obd_message_60sec_callback (gpointer data)
    send_ecu_msg("01 0A\r"); /* Fuel Pressure */
    send_ecu_msg("01 0B\r"); /* MAP Pressure */
    send_ecu_msg("01 5E\r"); /* Fuel Flow Rate */
+   send_ecu_msg("01 0C\r"); /* Engine RPM */
+   send_ecu_msg("01 0D\r"); /* Vehicle Speed */
    
    return(TRUE);
 }
@@ -188,10 +190,12 @@ gint send_obd_message_1sec_callback (gpointer data)
 gint recv_obd_message_callback (gpointer data)
 {
    char msg_buf[256];
+   char log_buf[512];
    int n, msg_num;
    
    memset(msg_buf, 0, 256);
-   
+   memset(log_buf, 0, 512);
+
    n = recv_ecu_msg(msg_buf);
    if (n > 0)
    {
@@ -199,6 +203,8 @@ gint recv_obd_message_callback (gpointer data)
       if (msg_num < 0)
       {
          /* TODO: Log an error message. */
+         sprintf(log_buf, "recv_obd_msg_callback() <INFO>: Unknown message - %s", msg_buf);
+         print_log_entry(log_buf);
 
       }
       else
@@ -247,7 +253,7 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
       
       g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);
       g_timeout_add (1000, send_obd_message_1sec_callback, (gpointer)window);
-      g_timeout_add (100, recv_obd_message_callback, (gpointer)window);  
+      g_timeout_add (200, recv_obd_message_callback, (gpointer)window);  
  
    }
    else
@@ -796,7 +802,7 @@ int main(int argc, char *argv[])
       }
       else
       {
-         strncpy(obd_protocol, "ATTP %c\r", argv[1][0]);
+         sprintf(obd_protocol, "ATTP %c\r", argv[1][0]);
       }
       
       if (server_connect() > 0) /* Sockets Module Connect Function. */
