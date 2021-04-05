@@ -49,7 +49,7 @@
 #include "rs232.h"
 
 
-
+#define DEFAULT_UDP_PORT 8989
 
 
 void fatal_error(const char *error_msg)
@@ -160,8 +160,6 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
             }  
          }
       }
-       
-       /* nanosleep(&reqtime, NULL); */
    }
 
    RS232_flushRX(serial_port); 
@@ -251,7 +249,7 @@ void interface_check(int serial_port)
 
 int main(int argc, char *argv[])
 {
-   int sock, length, n, serial_port;
+   int sock, length, n, udp_port, serial_port;
    socklen_t from_len;
    struct sockaddr_in server;
    struct sockaddr_in from_client;
@@ -268,9 +266,14 @@ int main(int argc, char *argv[])
     
    if (argc < 2) 
    {
-      fprintf(stderr, "ERROR: no UDP port provided.\n");
-      exit(0);
+      udp_port = DEFAULT_UDP_PORT;
    }
+   else
+   {
+      udp_port = atoi(argv[1]);
+   }
+
+
    
    open_log_file("./", "obd_server_log.txt");
    
@@ -305,7 +308,7 @@ int main(int argc, char *argv[])
 
    server.sin_family=AF_INET;
    server.sin_addr.s_addr=INADDR_ANY;
-   server.sin_port=htons(atoi(argv[1]));
+   server.sin_port=htons(udp_port);
    
    if (bind(sock, (struct sockaddr *)&server, length) < 0) 
       fatal_error("binding");
