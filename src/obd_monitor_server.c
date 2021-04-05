@@ -333,7 +333,7 @@ int main(int argc, char *argv[])
        n = send_ecu_query(serial_port, in_buf);
        if (n > 0)
        {
-          sprintf(log_buf, "TXD: %s", in_buf);
+          sprintf(log_buf, "main(): TXD - %s", in_buf);
           print_log_entry(log_buf);
        }
        
@@ -352,7 +352,7 @@ int main(int argc, char *argv[])
           {
              /* Replace ! with space. */
              replacechar((char *)ecu_msg, '!', ' ');
-             sprintf(log_buf, "RXD AT MSG: %s", ecu_msg);
+             sprintf(log_buf, "main(): RXD AT MSG: %s", ecu_msg);
              print_log_entry(log_buf);
              
              /* Send interpreter reply to GUI. */
@@ -364,7 +364,7 @@ int main(int argc, char *argv[])
           else if (ecu_msg[0] == '0') /* ELM327 sends the request plus the ECU response message. */
           {
              /* replacechar((char *)ecu_msg, '!', ' '); */          
-             sprintf(log_buf, "RXD ECU MSG: %s", ecu_msg);
+             sprintf(log_buf, "main(): RXD ECU MSG: %s", ecu_msg);
              print_log_entry(log_buf);
              
              pch = strtok((char *)ecu_msg,"!"); /* Cut off the header and delimiters. */

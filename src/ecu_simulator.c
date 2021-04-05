@@ -5,8 +5,11 @@
 
    Description: A UDP server that simulates an engine control unit
                 and an ELM372 OBD interface for functional and unit
-                testing without any hardware or vehicles.
-                
+                testing without any hardware or vehicles. Default
+                UDP port is 8989.
+ 
+   Usage: ./ecu_sim [udp port]
+
    Selected ECU Mode 01 Parameters: 
    
    [PID] [Data Bytes] [Min Value] [Max Value] [Formula]           [Description]
