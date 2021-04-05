@@ -122,14 +122,14 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
       if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
       {
-         
+         printf("recv_ecu_reply(): RXD00 buf %i bytes: %s\n", in_msg_len, in_buf);
          if (in_buf[0] == '>')
          {
             /* TODO: something wrong here!!! */
             /* ELM327 is ready to receive another request, so exit. */
             /* See ELM327 datasheet for vague details of protocol.  */
             interpreter_ready_status = 1;
-            printf("recv_ecu_reply(): RXD > Interpreter Ready.\n");
+            printf("recv_ecu_reply(): RXD01 > Interpreter Ready.\n");
          }
          else
          {
@@ -146,15 +146,19 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
                }
                else
                {
-                  ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
-                  msg_idx++;
+
                   if (in_buf[buf_idx] == '>')
                   {
                      /* ELM327 is ready to receive another request, so exit. */
                      /* See ELM327 datasheet for vague details of protocol.  */
                      interpreter_ready_status = 1;
                      /* DEBUG: view raw messages. */
-                     printf("rcv_ecu_reply(): RXD > Interpreter Ready: %s\n", in_buf);
+                     printf("recv_ecu_reply(): RXD02 > Interpreter Ready: %s\n", in_buf);
+                  }
+                  else
+                  {
+                     ecu_reply[msg_idx] = in_buf[buf_idx]; /* Add character to the reply message buffer. */
+                     msg_idx++;
                   }
                }
             }  
@@ -164,8 +168,8 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
    RS232_flushRX(serial_port); 
 
-   printf("rcv_ecu_reply(): RXD buf %i bytes: %s\n", in_msg_len, in_buf);
-   printf("rcv_ecu_reply(): RXD msg %i bytes: %s\n", msg_idx, ecu_reply);
+   printf("recv_ecu_reply(): RXD buf %i bytes: %s\n", in_msg_len, in_buf);
+   printf("recv_ecu_reply(): RXD msg %i bytes: %s\n", msg_idx, ecu_reply);
 
    return(msg_idx);
 }

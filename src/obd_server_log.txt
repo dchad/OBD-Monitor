@@ -1911,4 +1911,1176 @@ Sun Apr  4 00:23:00 2021 RXD ECU MSG: 01 0C!NO DATA!!>
 Sun Apr  4 00:23:00 2021 TXD: 01 0D
 Sun Apr  4 00:23:00 2021 RXD ECU MSG: 01 0D!NO DATA!!>
 Sun Apr  4 00:23:01 2021 TXD: 01 0C
-S
+SSun Apr  4 22:41:50 2021 ATZ!!!ELM327 v1.3a!!>
+Sun Apr  4 22:41:50 2021 ATRV!12.1V!!>
+Sun Apr  4 22:41:50 2021 ATDP!SAE J1850 VPW!!>
+Sun Apr  4 22:41:50 2021 ATI!ELM327 v1.3a!!>
+Sun Apr  4 22:41:50 2021 09 02!NO DATA!!>
+Sun Apr  4 22:41:51 2021 09 0A!NO DATA!!>
+Sun Apr  4 22:41:51 2021 01 01!NO DATA!!>
+Sun Apr  4 22:41:51 2021 01 00!41 00 08 3A 00 00 !!
+Sun Apr  4 22:41:51 2021 09 00!NO DATA!!>
+Sun Apr  4 22:41:51 2021 03!NO DATA!!>
+Sun Apr  4 22:43:29 2021 main(): TXD - ATSP 02
+Sun Apr  4 22:43:29 2021 main(): RXD AT MSG: ATSP 02 ?  >
+Sun Apr  4 22:43:29 2021 main(): TXD - ATDP
+Sun Apr  4 22:43:29 2021 main(): RXD AT MSG: ATDP SAE J1850 VPW  >
+Sun Apr  4 22:43:29 2021 main(): TXD - ATRV
+Sun Apr  4 22:43:29 2021 main(): RXD AT MSG: ATRV 12.1V  >
+Sun Apr  4 22:43:29 2021 main(): TXD - 09 02
+Sun Apr  4 22:43:29 2021 main(): RXD ECU MSG: 09 02!NO DATA!!>
+Sun Apr  4 22:43:29 2021 main(): TXD - 09 0A
+Sun Apr  4 22:43:29 2021 main(): RXD ECU MSG: 09 0A!NO DATA!!>
+Sun Apr  4 22:43:29 2021 main(): TXD - 01 01
+Sun Apr  4 22:43:29 2021 main(): RXD ECU MSG: 01 01!NO DATA!!>
+Sun Apr  4 22:43:29 2021 main(): TXD - 01 00
+Sun Apr  4 22:43:29 2021 main(): RXD ECU MSG: 01 00!41 00 08 3A 00 00 !!>
+Sun Apr  4 22:43:29 2021 main(): TXD - 09 00
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 09 00!NO DATA!!>
+Sun Apr  4 22:43:30 2021 main(): TXD - 01 05
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 01 05!41 05 3E !!
+Sun Apr  4 22:43:30 2021 main(): TXD - 01 2F
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 01 2F!NO DATA!!>
+Sun Apr  4 22:43:30 2021 main(): TXD - 01 0F
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 01 0F!41 0F 3E !!>
+Sun Apr  4 22:43:30 2021 main(): TXD - 01 5C
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 01 5C!NO DATA!!>
+Sun Apr  4 22:43:30 2021 main(): TXD - 03
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 03!NO DATA!!>
+Sun Apr  4 22:43:30 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:30 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:30 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:31 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:31 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:31 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:31 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:43:32 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:32 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:32 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:32 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:33 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:33 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:33 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:33 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:34 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:34 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:34 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:34 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:43:35 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:35 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:35 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:35 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:43:36 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:36 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:36 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:36 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:37 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:37 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:37 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:37 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:38 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:38 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:38 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:38 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:39 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:39 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:39 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:39 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:40 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:40 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:40 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:40 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:41 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:41 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:41 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:41 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:42 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:42 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:42 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:42 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:43 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:43 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:43 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:43 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:43:44 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:44 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:44 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:44 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:45 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:45 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:45 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:45 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:46 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:46 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:46 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:46 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:47 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:47 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:47 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:47 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:48 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:48 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:48 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:48 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:49 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:49 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:49 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:49 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:50 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:50 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:50 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:50 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:51 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:51 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:51 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:51 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:52 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:52 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:52 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:52 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:53 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:53 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:53 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:53 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:54 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:54 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:54 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:54 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:55 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:55 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:55 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:55 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:56 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:56 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:56 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:56 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:57 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:57 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:57 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:57 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:58 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:58 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:58 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:58 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:43:59 2021 main(): TXD - 01 0C
+Sun Apr  4 22:43:59 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:43:59 2021 main(): TXD - 01 0D
+Sun Apr  4 22:43:59 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:00 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:00 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:00 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:00 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:01 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:01 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:01 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:01 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:02 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:02 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!
+Sun Apr  4 22:44:02 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:02 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:44:03 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:03 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:03 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:03 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:04 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:04 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:04 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:04 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:05 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:05 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:05 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:05 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:06 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:06 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:06 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:06 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:07 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:07 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:07 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:07 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:44:08 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:08 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:08 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:08 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:09 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:09 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:09 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:09 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:10 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:10 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:10 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:10 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:11 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:11 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:11 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!
+Sun Apr  4 22:44:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:13 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:13 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:13 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:13 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:14 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:14 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:14 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:14 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:15 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:15 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:15 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:15 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:16 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:16 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:16 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:16 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:17 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:17 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:17 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:17 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:18 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:18 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:18 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:18 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:19 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:19 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!
+Sun Apr  4 22:44:19 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:19 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:20 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:20 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:20 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:20 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:21 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:21 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:21 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:21 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:22 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:22 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:22 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:22 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:23 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:23 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:23 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:23 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:24 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:24 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:24 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:24 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:25 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:25 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:25 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:25 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:26 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:26 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:26 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:26 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:27 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:27 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:27 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:27 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:28 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:28 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:28 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44:28 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:44:29 2021 main(): TXD - ATRV
+Sun Apr  4 22:44:29 2021 main(): RXD AT MSG: ATRV 12.1V  >
+Sun Apr  4 22:44:29 2021 main(): TXD - 01 01
+Sun Apr  4 22:44:29 2021 main(): RXD ECU MSG: 01 01!NO DATA!!>
+Sun Apr  4 22:44:29 2021 main(): TXD - 03
+Sun Apr  4 22:44:29 2021 main(): RXD ECU MSG: 03!NO DATA!!>
+Sun Apr  4 22:44:29 2021 main(): TXD - 01 05
+Sun Apr  4 22:44:29 2021 main(): RXD ECU MSG: 01 05!41 05 3E !!>
+Sun Apr  4 22:44:29 2021 main(): TXD - 01 2F
+Sun Apr  4 22:44:29 2021 main(): RXD ECU MSG: 01 2F!NO DATA!!>
+Sun Apr  4 22:44:29 2021 main(): TXD - 01 0F
+Sun Apr  4 22:44:29 2021 main(): RXD ECU MSG: 01 0F!41 0F 3E !!>
+Sun Apr  4 22:44:29 2021 main(): TXD - 01 5C
+Sun Apr  4 22:44:30 2021 main(): RXD ECU MSG: 01 5C!NO DATA!!>
+Sun Apr  4 22:44:30 2021 main(): TXD - 01 0A
+Sun Apr  4 22:44:30 2021 main(): RXD ECU MSG: 01 0A!NO DATA!!>
+Sun Apr  4 22:44:30 2021 main(): TXD - 01 0B
+Sun Apr  4 22:44:30 2021 main(): RXD ECU MSG: 01 0B!41 0B 80 !!>
+Sun Apr  4 22:44:30 2021 main(): TXD - 01 5E
+Sun Apr  4 22:44:30 2021 main(): RXD ECU MSG: 01 5E!NO DATA!!>
+Sun Apr  4 22:44:30 2021 main(): TXD - 01 0C
+Sun Apr  4 22:44:30 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:44:30 2021 main(): TXD - 01 0D
+Sun Apr  4 22:44Sun Apr  4 22:47:52 2021 ATZ!!!ELM327 v1.3a!!>
+Sun Apr  4 22:47:52 2021 ATRV!13.8V!!
+Sun Apr  4 22:47:53 2021 ATDP!SAE J1850 VPW!!>
+Sun Apr  4 22:47:53 2021 ATI!ELM327 v1.3a!!>
+Sun Apr  4 22:47:53 2021 09 02!NO DATA!!>
+Sun Apr  4 22:47:53 2021 09 0A!NO DATA!!>
+Sun Apr  4 22:47:53 2021 01 01!NO DATA!!>
+Sun Apr  4 22:47:53 2021 01 00!NO DATA!!>
+Sun Apr  4 22:47:53 2021 09 00!NO DATA!!>
+Sun Apr  4 22:47:53 2021 03!NO DATA!!>
+Sun Apr  4 22:48:10 2021 main(): TXD - ATSP 02
+Sun Apr  4 22:48:10 2021 main(): RXD AT MSG: ATSP 02 ?  
+Sun Apr  4 22:48:10 2021 main(): TXD - ATDP
+Sun Apr  4 22:48:10 2021 main(): RXD AT MSG: ATDP SAE J1850 VPW  >
+Sun Apr  4 22:48:10 2021 main(): TXD - ATRV
+Sun Apr  4 22:48:10 2021 main(): RXD AT MSG: ATRV 13.9V  >
+Sun Apr  4 22:48:10 2021 main(): TXD - 09 02
+Sun Apr  4 22:48:10 2021 main(): RXD ECU MSG: 09 02!NO DATA!!>
+Sun Apr  4 22:48:10 2021 main(): TXD - 09 0A
+Sun Apr  4 22:48:10 2021 main(): RXD ECU MSG: 09 0A!NO DATA!!>
+Sun Apr  4 22:48:10 2021 main(): TXD - 01 01
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 01 01!NO DATA!!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 01 00
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 01 00!41 00 08 3A 00 00 !!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 09 00
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 09 00!NO DATA!!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 01 05
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 01 05!41 05 40 <DATA ERROR!!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 01 2F
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 01 2F!NO DATA!!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 01 0F
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 01 0F!41 0F 3F !!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 01 5C
+Sun Apr  4 22:48:11 2021 main(): RXD ECU MSG: 01 5C!NO DATA!!>
+Sun Apr  4 22:48:11 2021 main(): TXD - 03
+Sun Apr  4 22:48:12 2021 main(): RXD ECU MSG: 03!NO DATA!!>
+Sun Apr  4 22:48:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 3E !!>
+Sun Apr  4 22:48:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 40 !!>
+Sun Apr  4 22:48:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:13 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:13 2021 main(): RXD ECU MSG: 01 0C!41 <DATA ERROR!!>
+Sun Apr  4 22:48:13 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:13 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:14 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:14 2021 main(): RXD ECU MSG: 01 0C!41 0C <DATA ERROR!!>
+Sun Apr  4 22:48:14 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:14 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:15 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:15 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 47 !!>
+Sun Apr  4 22:48:15 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:15 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:16 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:16 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 43 !!>
+Sun Apr  4 22:48:16 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:16 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:17 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:17 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 4D !!>
+Sun Apr  4 22:48:17 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:17 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:18 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:18 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 57 !!>
+Sun Apr  4 22:48:18 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:18 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:19 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:19 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 5B !!>
+Sun Apr  4 22:48:19 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:19 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:20 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:20 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:48:20 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:20 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:48:21 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:21 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 5C !!>
+Sun Apr  4 22:48:21 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:21 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:22 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:22 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 4B !!>
+Sun Apr  4 22:48:22 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:22 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:48:23 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:23 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 4C !!>
+Sun Apr  4 22:48:23 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:23 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:24 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:24 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 47 !!>
+Sun Apr  4 22:48:24 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:24 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:25 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:25 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 4A !!>
+Sun Apr  4 22:48:25 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:25 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:26 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:26 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 44 !!>
+Sun Apr  4 22:48:26 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:26 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !41 0D 00 !!>
+Sun Apr  4 22:48:27 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:27 2021 main(): RXD ECU MSG: 01 0C!41 <DATA ERROR!!>
+Sun Apr  4 22:48:27 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:27 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:28 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:28 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 20 !!>
+Sun Apr  4 22:48:28 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:28 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:29 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:29 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 22 !!>
+Sun Apr  4 22:48:29 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:29 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:30 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:30 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 3A !!>
+Sun Apr  4 22:48:30 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:30 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:31 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:31 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 32 !!>
+Sun Apr  4 22:48:31 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:31 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:32 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:32 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 50 !!>
+Sun Apr  4 22:48:32 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:32 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:33 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:33 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 3C !!>
+Sun Apr  4 22:48:33 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:33 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:34 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:34 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 43 !!>
+Sun Apr  4 22:48:34 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:34 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:35 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:35 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 43 !!>
+Sun Apr  4 22:48:35 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:35 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:36 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:36 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 3A !!>
+Sun Apr  4 22:48:36 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:36 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:37 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:37 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 44 !!>
+Sun Apr  4 22:48:37 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:37 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:38 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:38 2021 main(): RXD ECU MSG: 01 0C!41 0C <DATA ERROR!!>
+Sun Apr  4 22:48:38 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:38 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:39 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:39 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 46 !!>
+Sun Apr  4 22:48:39 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:39 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:40 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:40 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 27 !!>
+Sun Apr  4 22:48:40 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:40 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:41 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:41 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 09 !!>
+Sun Apr  4 22:48:41 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:41 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:42 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:42 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 3A !!>
+Sun Apr  4 22:48:42 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:42 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:48:43 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:43 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DB !!>
+Sun Apr  4 22:48:43 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:43 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:44 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:44 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 D7 !!>
+Sun Apr  4 22:48:44 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:44 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:45 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:45 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E4 !!>
+Sun Apr  4 22:48:45 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:45 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:46 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:46 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DA !!>
+Sun Apr  4 22:48:46 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:46 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:47 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:47 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E4 !!>
+Sun Apr  4 22:48:47 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:47 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:48:48 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:48 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!>
+Sun Apr  4 22:48:48 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:48 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!
+Sun Apr  4 22:48:49 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:49 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 <DATA ERROR!!>
+Sun Apr  4 22:48:49 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:49 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:48:50 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:50 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F2 !!>
+Sun Apr  4 22:48:50 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:50 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:48:51 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:51 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:48:51 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:51 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:48:52 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:52 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E0 !!>
+Sun Apr  4 22:48:52 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:52 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:48:53 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:53 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E4 !!>
+Sun Apr  4 22:48:53 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:53 2021 main(): RXD ECU MSG: 01 0D!<DATA ERROR!!>
+Sun Apr  4 22:48:54 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:54 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!>
+Sun Apr  4 22:48:54 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:54 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:48:55 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:55 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F5 !!>
+Sun Apr  4 22:48:55 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:55 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:48:56 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:56 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F5 !!>
+Sun Apr  4 22:48:56 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:56 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:48:57 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:57 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:48:57 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:57 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:48:58 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:58 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:48:58 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:58 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:48:59 2021 main(): TXD - 01 0C
+Sun Apr  4 22:48:59 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:48:59 2021 main(): TXD - 01 0D
+Sun Apr  4 22:48:59 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:49:00 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:00 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F1 !!>
+Sun Apr  4 22:49:00 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:00 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!
+Sun Apr  4 22:49:01 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:01 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:49:01 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:01 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:49:02 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:02 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FA !!>
+Sun Apr  4 22:49:02 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:02 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:03 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:03 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:49:03 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:03 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:04 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:04 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DE !!>
+Sun Apr  4 22:49:04 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:04 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!>
+Sun Apr  4 22:49:05 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:05 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 00 !!>
+Sun Apr  4 22:49:05 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:05 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:06 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:06 2021 main(): RXD ECU MSG: 01 0C!41 <DATA ERROR!!>
+Sun Apr  4 22:49:06 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:06 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:49:07 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:07 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:49:07 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:07 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:49:08 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:08 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:49:08 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:08 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:49:09 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:09 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E2 !!>
+Sun Apr  4 22:49:09 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:09 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:49:10 2021 main(): TXD - ATRV
+Sun Apr  4 22:49:10 2021 main(): RXD AT MSG: ATRV 13.6V  >
+Sun Apr  4 22:49:10 2021 main(): TXD - 01 01
+Sun Apr  4 22:49:10 2021 main(): RXD ECU MSG: 01 01!NO DATA!!>
+Sun Apr  4 22:49:10 2021 main(): TXD - 03
+Sun Apr  4 22:49:10 2021 main(): RXD ECU MSG: 03!NO DATA!!>
+Sun Apr  4 22:49:10 2021 main(): TXD - 01 05
+Sun Apr  4 22:49:10 2021 main(): RXD ECU MSG: 01 05!41 05 46 !!>
+Sun Apr  4 22:49:10 2021 main(): TXD - 01 2F
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 2F!NO DATA!!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 0F
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 0F!41 0F 40 !!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 5C
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 5C!NO DATA!!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 0A
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 0A!NO DATA!!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 0B
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 0B!41 0B 73 !!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 5E
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 5E!NO DATA!!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:11 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:49:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EF !!>
+Sun Apr  4 22:49:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 <DATA ERROR!!>
+Sun Apr  4 22:49:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EE !!>
+Sun Apr  4 22:49:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:12 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:49:13 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:13 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:49:13 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:13 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:14 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:14 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F3 !!>
+Sun Apr  4 22:49:14 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:14 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:15 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:15 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:49:15 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:15 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:16 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:16 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:49:16 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:16 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:17 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:17 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:49:17 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:17 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:18 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:18 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F2 !!>
+Sun Apr  4 22:49:18 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:18 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:19 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:19 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:49:19 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:19 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:49:20 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:20 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FA !!>
+Sun Apr  4 22:49:20 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:20 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:21 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:21 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:49:21 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:21 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:22 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:22 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FF !!>
+Sun Apr  4 22:49:22 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:22 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:23 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:23 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FC !!>
+Sun Apr  4 22:49:23 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:23 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 <DATA ERROR!!>
+Sun Apr  4 22:49:24 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:24 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E5 !!>
+Sun Apr  4 22:49:24 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:24 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:25 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:25 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA !!>
+Sun Apr  4 22:49:25 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:25 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:26 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:26 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:49:26 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:26 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:27 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:27 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F2 !!>
+Sun Apr  4 22:49:27 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:27 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:28 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:28 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:49:28 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:28 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:29 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:29 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!>
+Sun Apr  4 22:49:29 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:29 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:30 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:30 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F0 !!>
+Sun Apr  4 22:49:30 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:30 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:31 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:31 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:49:31 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:31 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:32 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:32 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:49:32 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:32 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:33 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:33 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DC !!>
+Sun Apr  4 22:49:33 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:33 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:34 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:34 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FA !!>
+Sun Apr  4 22:49:34 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:34 2021 main(): RXD ECU MSG: 01 0D!<DATA ERROR!!>
+Sun Apr  4 22:49:35 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:35 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA <DATA ERROR!!>
+Sun Apr  4 22:49:35 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:35 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:49:36 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:36 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:49:36 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:36 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:49:37 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:37 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FE !!>
+Sun Apr  4 22:49:37 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:37 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:49:38 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:38 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:49:38 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:38 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:39 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:39 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F1 !!>
+Sun Apr  4 22:49:39 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:39 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:40 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:40 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 ED !!>
+Sun Apr  4 22:49:40 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:40 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:41 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:41 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E0 !!>
+Sun Apr  4 22:49:41 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:41 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:42 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:42 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 D8 !!>
+Sun Apr  4 22:49:42 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:42 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:49:43 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:43 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:49:43 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:43 2021 main(): RXD ECU MSG: 01 0D!<DATA ERROR!!>
+Sun Apr  4 22:49:44 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:44 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 ED !!>
+Sun Apr  4 22:49:44 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:44 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:49:45 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:45 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:49:45 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:45 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:46 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:46 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E6 !!>
+Sun Apr  4 22:49:46 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:46 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:47 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:47 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F3 !!>
+Sun Apr  4 22:49:47 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:47 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:48 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:48 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F5 !!>
+Sun Apr  4 22:49:48 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:48 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:49 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:49 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:49:49 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:49 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!
+Sun Apr  4 22:49:50 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:50 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 ED !!>
+Sun Apr  4 22:49:50 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:50 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!
+Sun Apr  4 22:49:51 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:51 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 CD !!>
+Sun Apr  4 22:49:51 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:51 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!>
+Sun Apr  4 22:49:52 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:52 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E2 !!>
+Sun Apr  4 22:49:52 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:52 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:49:53 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:53 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:49:53 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:53 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:49:54 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:54 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 ED !!>
+Sun Apr  4 22:49:54 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:54 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:49:55 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:55 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E5 !!>
+Sun Apr  4 22:49:55 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:55 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:56 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:56 2021 main(): RXD ECU MSG: 01 0C!41 0C <DATA ERROR!!>
+Sun Apr  4 22:49:56 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:56 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:49:57 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:57 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:49:57 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:57 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:49:58 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:58 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:49:58 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:58 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:49:59 2021 main(): TXD - 01 0C
+Sun Apr  4 22:49:59 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F0 !!>
+Sun Apr  4 22:49:59 2021 main(): TXD - 01 0D
+Sun Apr  4 22:49:59 2021 main(): RXD ECU MSG: 01 0D!41 0D <DATA ERROR!!>
+Sun Apr  4 22:50:00 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:00 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 ED !!>
+Sun Apr  4 22:50:00 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:00 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:01 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:01 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F0 !!>
+Sun Apr  4 22:50:01 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:01 2021 main(): RXD ECU MSG: 01 0D!<DATA ERROR!!>
+Sun Apr  4 22:50:02 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:02 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F1 !!>
+Sun Apr  4 22:50:02 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:02 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:50:03 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:03 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F5 !!>
+Sun Apr  4 22:50:03 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:03 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:04 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:04 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EF !!>
+Sun Apr  4 22:50:04 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:04 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:05 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:05 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E5 !!>
+Sun Apr  4 22:50:05 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:05 2021 main(): RXD ECU MSG: 01 0D!41 0D <DATA ERROR!!>
+Sun Apr  4 22:50:06 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:06 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 <DATA ERROR!!>
+Sun Apr  4 22:50:06 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:06 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:07 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:07 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FB !!>
+Sun Apr  4 22:50:07 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:07 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:50:08 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:08 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EB !!>
+Sun Apr  4 22:50:08 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:08 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:09 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:09 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!>
+Sun Apr  4 22:50:09 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:09 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:10 2021 main(): TXD - ATRV
+Sun Apr  4 22:50:10 2021 main(): RXD AT MSG: ATRV 13.3V  >
+Sun Apr  4 22:50:10 2021 main(): TXD - 01 01
+Sun Apr  4 22:50:10 2021 main(): RXD ECU MSG: 01 01!NO DATA!!>
+Sun Apr  4 22:50:10 2021 main(): TXD - 03
+Sun Apr  4 22:50:10 2021 main(): RXD ECU MSG: 03!NO DATA!!>
+Sun Apr  4 22:50:10 2021 main(): TXD - 01 05
+Sun Apr  4 22:50:10 2021 main(): RXD ECU MSG: 01 05!41 05 4B !!>
+Sun Apr  4 22:50:10 2021 main(): TXD - 01 2F
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 2F!NO DATA!!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0F
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0F!41 0F 41 !!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 5C
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 5C!NO DATA!!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0A
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0A!NO DATA!!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0B
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0B!41 0B 76 !!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 5E
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 5E!NO DATA!!
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E5 !!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:11 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:50:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E1 !!>
+Sun Apr  4 22:50:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:12 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:50:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:13 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:13 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 CB !!>
+Sun Apr  4 22:50:13 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:13 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:14 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:14 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:50:14 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:14 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:15 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:15 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DD !!>
+Sun Apr  4 22:50:15 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:15 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:16 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:16 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA !!>
+Sun Apr  4 22:50:16 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:16 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:17 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:17 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F3 !!>
+Sun Apr  4 22:50:17 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:17 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:18 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:18 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F7 !!>
+Sun Apr  4 22:50:18 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:18 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:19 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:19 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F9 !!>
+Sun Apr  4 22:50:19 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:19 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:20 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:20 2021 main(): RXD ECU MSG: 01 0C!41 0C <DATA ERROR!!>
+Sun Apr  4 22:50:20 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:20 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:21 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:21 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!>
+Sun Apr  4 22:50:21 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:21 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:22 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:22 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E2 !!>
+Sun Apr  4 22:50:22 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:22 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:50:23 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:23 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DF <DATA ERROR!!>
+Sun Apr  4 22:50:23 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:23 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:24 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:24 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EF !!>
+Sun Apr  4 22:50:24 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:24 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:25 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:25 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E4 !!>
+Sun Apr  4 22:50:25 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:25 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:26 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:26 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F3 !!>
+Sun Apr  4 22:50:26 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:26 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:27 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:27 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!>
+Sun Apr  4 22:50:27 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:27 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:28 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:28 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:50:28 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:28 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:50:29 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:29 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E1 !!>
+Sun Apr  4 22:50:29 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:29 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:50:30 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:30 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EB !!>
+Sun Apr  4 22:50:30 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:30 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:50:31 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:31 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F5 !!>
+Sun Apr  4 22:50:31 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:31 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:32 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:32 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA !!>
+Sun Apr  4 22:50:32 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:32 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:33 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:33 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E2 !!>
+Sun Apr  4 22:50:33 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:33 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:34 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:34 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E1 !!>
+Sun Apr  4 22:50:34 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:34 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:35 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:35 2021 main(): RXD ECU MSG: 01 0C!41 0C 03 19 !!>
+Sun Apr  4 22:50:35 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:35 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:36 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:36 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 D7 !!>
+Sun Apr  4 22:50:36 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:36 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:37 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:37 2021 main(): RXD ECU MSG: 01 0C!41 <DATA ERROR!!>
+Sun Apr  4 22:50:37 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:37 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:50:38 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:38 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E2 !!>
+Sun Apr  4 22:50:38 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:38 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:50:39 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:39 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E3 !!>
+Sun Apr  4 22:50:39 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:39 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:50:40 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:40 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:50:40 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:40 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!
+Sun Apr  4 22:50:41 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:41 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA !!>
+Sun Apr  4 22:50:41 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:41 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:42 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:42 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:50:42 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:42 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:50:43 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:43 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E2 !!>
+Sun Apr  4 22:50:43 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:44 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:50:44 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:44 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:50:44 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:44 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:45 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:45 2021 main(): RXD ECU MSG: 01 0C!41 0C <DATA ERROR!!>
+Sun Apr  4 22:50:45 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:45 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:50:46 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:46 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA !!>
+Sun Apr  4 22:50:46 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:46 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:47 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:47 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F3 !!>
+Sun Apr  4 22:50:47 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:47 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:48 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:48 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EF !!>
+Sun Apr  4 22:50:48 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:48 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:50:49 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:49 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:50:49 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:49 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:50:50 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:50 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 FC !!>
+Sun Apr  4 22:50:50 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:50 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:51 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:51 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F8 !!>
+Sun Apr  4 22:50:51 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:51 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:50:52 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:52 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F2 !!>
+Sun Apr  4 22:50:52 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:52 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:50:53 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:53 2021 main(): RXD ECU MSG: 01 0C!41 <DATA ERROR!!>
+Sun Apr  4 22:50:53 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:53 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!>
+Sun Apr  4 22:50:54 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:54 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F3 !!>
+Sun Apr  4 22:50:54 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:54 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:50:55 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:55 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EA !!>
+Sun Apr  4 22:50:55 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:55 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:50:56 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:56 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EB !!>
+Sun Apr  4 22:50:56 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:56 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!>
+Sun Apr  4 22:50:57 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:57 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:50:57 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:57 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!>
+Sun Apr  4 22:50:58 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:58 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E5 !!>
+Sun Apr  4 22:50:58 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:58 2021 main(): RXD ECU MSG: 01 0D!41 0D 04 !!>
+Sun Apr  4 22:50:59 2021 main(): TXD - 01 0C
+Sun Apr  4 22:50:59 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 DC !!>
+Sun Apr  4 22:50:59 2021 main(): TXD - 01 0D
+Sun Apr  4 22:50:59 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!
+Sun Apr  4 22:51:00 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:00 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:51:00 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:01 2021 main(): RXD ECU MSG: 01 0D!41 0D 03 !!>
+Sun Apr  4 22:51:01 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:01 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EC !!>
+Sun Apr  4 22:51:01 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:01 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!
+Sun Apr  4 22:51:02 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:02 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E6 !!>
+Sun Apr  4 22:51:02 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:02 2021 main(): RXD ECU MSG: 01 0D!41 0D 02 !!
+Sun Apr  4 22:51:03 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:03 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:51:03 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:03 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:51:04 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:04 2021 main(): RXD ECU MSG: 01 0C!41 <DATA ERROR!!>
+Sun Apr  4 22:51:04 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:04 2021 main(): RXD ECU MSG: 01 0D!41 0D 01 !!>
+Sun Apr  4 22:51:05 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:05 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 AB !!>
+Sun Apr  4 22:51:05 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:05 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:06 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:06 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E3 !!>
+Sun Apr  4 22:51:06 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:06 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:07 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:07 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 F0 !!>
+Sun Apr  4 22:51:07 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:07 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:08 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:08 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E8 !!
+Sun Apr  4 22:51:08 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:08 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:09 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:09 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:51:09 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:09 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:10 2021 main(): TXD - ATRV
+Sun Apr  4 22:51:10 2021 main(): RXD AT MSG: ATRV 13.7V  >
+Sun Apr  4 22:51:10 2021 main(): TXD - 01 01
+Sun Apr  4 22:51:10 2021 main(): RXD ECU MSG: 01 01!NO DATA!!>
+Sun Apr  4 22:51:10 2021 main(): TXD - 03
+Sun Apr  4 22:51:10 2021 main(): RXD ECU MSG: 03!NO DATA!!>
+Sun Apr  4 22:51:10 2021 main(): TXD - 01 05
+Sun Apr  4 22:51:10 2021 main(): RXD ECU MSG: 01 05!41 05 4F !!>
+Sun Apr  4 22:51:10 2021 main(): TXD - 01 2F
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 2F!NO DATA!!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0F
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 0F!41 0F 42 !!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 5C
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 5C!NO DATA!!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0A
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 0A!NO DATA!!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0B
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 0B!41 0B 73 !!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 5E
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 5E!NO DATA!!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:11 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!
+Sun Apr  4 22:51:11 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:12 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:51:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:12 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:12 2021 main(): RXD ECU MSG: 01 0C!<DATA ERROR!!>
+Sun Apr  4 22:51:12 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:12 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:13 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:13 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E3 !!>
+Sun Apr  4 22:51:13 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:14 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:51:14 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:14 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 EE !!>
+Sun Apr  4 22:51:14 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:14 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:15 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:15 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E9 !!>
+Sun Apr  4 22:51:15 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:15 2021 main(): RXD ECU MSG: 01 0D!<DATA ERROR!!>
+Sun Apr  4 22:51:16 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:16 2021 main(): RXD ECU MSG: 01 0C!41 0C 02 E7 !!>
+Sun Apr  4 22:51:16 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:16 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:17 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:17 2021 main(): RXD ECU MSG: 01 0C!41 0C 01 35 !!>
+Sun Apr  4 22:51:17 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:17 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:18 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:18 2021 main(): RXD ECU MSG: 01 0C!41 0C 00 00 !!>
+Sun Apr  4 22:51:18 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:18 2021 main(): RXD ECU MSG: 01 0D!41 0D 00 !!>
+Sun Apr  4 22:51:19 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:19 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:51:19 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:20 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:51:20 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:20 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:51:20 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:21 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:51:21 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:21 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:51:21 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:22 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:51:22 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:22 2021 main(): RXD ECU MSG: 01 0C!NO DATA!!>
+Sun Apr  4 22:51:22 2021 main(): TXD - 01 0D
+Sun Apr  4 22:51:23 2021 main(): RXD ECU MSG: 01 0D!NO DATA!!>
+Sun Apr  4 22:51:23 2021 main(): TXD - 01 0C
+Sun Apr  4 22:51:23 2021 main(): RXD ECU MSG: 01 0C
