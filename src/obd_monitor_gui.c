@@ -245,10 +245,10 @@ void ecu_connect_callback(GtkWidget *widget, gpointer window)
       send_ecu_msg("01 01\r"); /* Get DTC Count and MIL status. */
       send_ecu_msg("01 00\r"); /* Get supported PIDs 1 - 32 for MODE 1. */
       send_ecu_msg("09 00\r"); /* Get supported PIDs 1 - 32 for MODE 9. */
-      send_ecu_msg("01 05\r"); /* Coolant Temperature */
-      send_ecu_msg("01 2F\r"); /* Fuel Tank Level */
-      send_ecu_msg("01 0F\r"); /* Intake Air Temperature */
-      send_ecu_msg("01 5C\r"); /* Oil Temperature */
+      /* send_ecu_msg("01 05\r"); /* Coolant Temperature */
+      /* send_ecu_msg("01 2F\r"); /* Fuel Tank Level */
+      /* send_ecu_msg("01 0F\r"); /* Intake Air Temperature */
+      /* send_ecu_msg("01 5C\r"); /* Oil Temperature */ 
       send_ecu_msg("03\r");      
       
       g_timeout_add (60000, send_obd_message_60sec_callback, (gpointer)window);

@@ -54,6 +54,7 @@
 
 void fatal_error(const char *error_msg)
 {
+   /* TODO: log error message. */
     perror(error_msg);
     exit(0);
 }
@@ -67,15 +68,15 @@ int init_serial_comms(char *interface_name)
   cport_nr = RS232_GetPortnr(interface_name);
   if (cport_nr == -1)
   {
-     printf("ERROR: Cannot get com port number.\n");
+     printf("init_serial_comms() ERROR: Cannot get com port number.\n");
      exit(-1);
   }
 
-  printf("Serial port number: %i\n",cport_nr);
+  printf("init_serial_comms() Serial port number: %i\n",cport_nr);
 
   if(RS232_OpenComport(cport_nr, bdrate, mode))
   {
-    printf("ERROR: Cannot open comport!\n");
+    printf("innit_serial_comms() ERROR: Cannot open comport!\n");
     exit(-1);
   }
   
@@ -122,7 +123,8 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 
       if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
       {
-         printf("recv_ecu_reply(): RXD00 buf %i bytes: %s\n", in_msg_len, in_buf);
+         /* printf("recv_ecu_reply(): RXD00 buf %i bytes: %s\n", in_msg_len, in_buf); */
+
          if (in_buf[0] == '>')
          {
             /* TODO: something wrong here!!! */
