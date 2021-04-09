@@ -108,7 +108,7 @@ int send_ecu_query(int serial_port, char *ecu_query)
     return(out_msg_len);
 }
 
-int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
+int recv_ecu_reply(int serial_port, char *ecu_reply)
 {
    int in_msg_len;
    unsigned char in_buf[MAX_SERIAL_BUF_LEN];
@@ -124,7 +124,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
       if ((in_msg_len = RS232_PollComport(serial_port, in_buf, MAX_SERIAL_BUF_LEN)) > 0)
       {
          /* printf("recv_ecu_reply(): RXD00 buf %i bytes: %s\n", in_msg_len, in_buf); */
-
+ 
          if (in_buf[0] == '>')
          {
             /* TODO: something wrong here!!! */
@@ -140,11 +140,11 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
             {
                if (in_buf[buf_idx] < 32)   /* Ignore unreadable control-codes except 0x0D message delimiter. */
                {
-                  if (in_buf[buf_idx] == '\r') /* End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
-                  {
+                  /* if (in_buf[buf_idx] == '\r')  End of message ASCII value 0x0D == \r not ASCII value 0x0A == \n */
+                  
                      ecu_reply[msg_idx] = '!'; /* Delimiter between request and response. */
                      msg_idx++;
-                  }
+                  
                }
                else
                {
@@ -180,7 +180,7 @@ int recv_ecu_reply(int serial_port, unsigned char *ecu_reply)
 /* TODO: Temp protocol test function, move to functional test module. */
 void interface_check(int serial_port)
 {
-   unsigned char recv_msg[MAX_SERIAL_BUF_LEN];
+   char recv_msg[MAX_SERIAL_BUF_LEN];
    /* struct timespec reqtime;
    reqtime.tv_sec = 1;
    reqtime.tv_nsec = 0; */
@@ -261,7 +261,7 @@ int main(int argc, char *argv[])
    struct sockaddr_in from_client;
    char in_buf[MAX_BUFFER_LEN];
    char log_buf[MAX_BUFFER_LEN+64];
-   unsigned char ecu_msg[MAX_BUFFER_LEN];
+   char ecu_msg[MAX_BUFFER_LEN];
    char *pch;
    
    /*
@@ -353,8 +353,13 @@ int main(int argc, char *argv[])
              so break off the request header and only send the ECU response
              to the GUI. 
           */
-          
-          if (ecu_msg[0] == 'A') /* TODO: or 'a' Interpreter AT response message. */
+          if (strstr(ecu_msg, "ERROR") != 0) /* Interpreter sent a data error message, so ignore it. */
+          {
+             sprintf(log_buf, "main(): DATA ERROR - %s\n", ecu_msg);
+             print_log_entry(log_buf);
+
+          }
+          else if (ecu_msg[0] == 'A') /* TODO: or 'a' Interpreter AT response message. */
           {
              /* Replace ! with space. */
              replacechar((char *)ecu_msg, '!', ' ');
@@ -367,7 +372,7 @@ int main(int argc, char *argv[])
              if (n  < 0) 
                 fatal_error("sendto");
           }
-          else if (ecu_msg[0] == '0') /* ELM327 sends the request plus the ECU response message. */
+          else if (ecu_msg[0] == '0') /* ELM327 sends the request header plus the ECU response message. */
           {
              /* replacechar((char *)ecu_msg, '!', ' '); */          
              sprintf(log_buf, "main(): RXD ECU MSG: %s", ecu_msg);
