@@ -1,120 +1,40 @@
-Thu Apr 12 11:41:57 2018 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-Thu Apr 12 11:41:57 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Thu Apr 12 11:41:57 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Thu Apr 12 11:41:57 2018 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
-Thu Apr 12 11:41:57 2018 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
-Thu Apr 12 11:41:57 2018 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
-Thu Apr 12 11:41:57 2018 THIS IS TEST STRING ONE.
-Thu Apr 12 11:41:57 2018 THIS IS TEST STRING TWO.
-Thu Apr 12 11:41:57 2018 this is test STRING one 
-Thu Apr 12 11:41:57 2018 THIS is test STRING TWO 
-Thu Apr 12 11:41:57 2018 1234     4321     898911
-Thu Apr 12 11:41:57 2018 127 0 0 1
-Thu Apr 12 11:41:57 2018 999 999 999 999
-Thu Apr 12 11:41:57 2018 255 255 255 255
-Thu Apr 12 11:41:57 2018 01 A1 B0 30 08 01
-Thu Apr 12 11:41:57 2018 41 00 K0 04 C9 FF
-Thu Apr 12 11:41:57 2018 ATZ!ELM327 v2 1!
-Thu Apr 12 11:41:57 2018 ------------------------
-Thu Apr 12 11:41:57 2018 >>> Closing log session.
-Thu Apr 12 11:41:57 2018 ------------------------
-Thu Nov 22 10:56:10 2018 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-Thu Nov 22 10:56:10 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Thu Nov 22 10:56:10 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Thu Nov 22 10:56:10 2018 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
-Thu Nov 22 10:56:10 2018 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
-Thu Nov 22 10:56:10 2018 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
-Thu Nov 22 10:56:10 2018 THIS IS TEST STRING ONE.
-Thu Nov 22 10:56:10 2018 THIS IS TEST STRING TWO.
-Thu Nov 22 10:56:10 2018 this is test STRING one 
-Thu Nov 22 10:56:10 2018 THIS is test STRING TWO 
-Thu Nov 22 10:56:10 2018 1234     4321     898911
-Thu Nov 22 10:56:10 2018 127 0 0 1
-Thu Nov 22 10:56:10 2018 999 999 999 999
-Thu Nov 22 10:56:10 2018 255 255 255 255
-Thu Nov 22 10:56:10 2018 01 A1 B0 30 08 01
-Thu Nov 22 10:56:10 2018 41 00 K0 04 C9 FF
-Thu Nov 22 10:56:10 2018 ATZ!ELM327 v2 1!
-Thu Nov 22 10:56:10 2018 ------------------------
-Thu Nov 22 10:56:10 2018 >>> Closing log session.
-Thu Nov 22 10:56:10 2018 ------------------------
-Fri Nov 23 10:49:31 2018 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-Fri Nov 23 10:49:31 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Fri Nov 23 10:49:31 2018 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Fri Nov 23 10:49:31 2018 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
-Fri Nov 23 10:49:31 2018 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
-Fri Nov 23 10:49:31 2018 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
-Fri Nov 23 10:49:31 2018 THIS IS TEST STRING ONE.
-Fri Nov 23 10:49:31 2018 THIS IS TEST STRING TWO.
-Fri Nov 23 10:49:31 2018 this is test STRING one 
-Fri Nov 23 10:49:31 2018 THIS is test STRING TWO 
-Fri Nov 23 10:49:31 2018 1234     4321     898911
-Fri Nov 23 10:49:31 2018 127 0 0 1
-Fri Nov 23 10:49:31 2018 999 999 999 999
-Fri Nov 23 10:49:31 2018 255 255 255 255
-Fri Nov 23 10:49:31 2018 01 A1 B0 30 08 01
-Fri Nov 23 10:49:31 2018 41 00 K0 04 C9 FF
-Fri Nov 23 10:49:31 2018 ATZ!ELM327 v2 1!
-Fri Nov 23 10:49:31 2018 ------------------------
-Fri Nov 23 10:49:31 2018 >>> Closing log session.
-Fri Nov 23 10:49:31 2018 ------------------------
-Sat Apr  3 06:41:01 2021 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-Sat Apr  3 06:41:01 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Sat Apr  3 06:41:01 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Sat Apr  3 06:41:01 2021 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
-Sat Apr  3 06:41:01 2021 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
-Sat Apr  3 06:41:01 2021 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
-Sat Apr  3 06:41:01 2021 THIS IS TEST STRING ONE.
-Sat Apr  3 06:41:01 2021 THIS IS TEST STRING TWO.
-Sat Apr  3 06:41:01 2021 this is test STRING one 
-Sat Apr  3 06:41:01 2021 THIS is test STRING TWO 
-Sat Apr  3 06:41:01 2021 1234     4321     898911
-Sat Apr  3 06:41:01 2021 127 0 0 1
-Sat Apr  3 06:41:01 2021 999 999 999 999
-Sat Apr  3 06:41:01 2021 255 255 255 255
-Sat Apr  3 06:41:01 2021 01 A1 B0 30 08 01
-Sat Apr  3 06:41:01 2021 41 00 K0 04 C9 FF
-Sat Apr  3 06:41:01 2021 ATZ!ELM327 v2 1!
-Sat Apr  3 06:41:01 2021 ------------------------
-Sat Apr  3 06:41:01 2021 >>> Closing log session.
-Sat Apr  3 06:41:01 2021 ------------------------
-Sat Apr  3 21:29:32 2021 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-Sat Apr  3 21:29:32 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Sat Apr  3 21:29:32 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Sat Apr  3 21:29:32 2021 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
-Sat Apr  3 21:29:32 2021 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
-Sat Apr  3 21:29:32 2021 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
-Sat Apr  3 21:29:32 2021 THIS IS TEST STRING ONE.
-Sat Apr  3 21:29:32 2021 THIS IS TEST STRING TWO.
-Sat Apr  3 21:29:32 2021 this is test STRING one 
-Sat Apr  3 21:29:32 2021 THIS is test STRING TWO 
-Sat Apr  3 21:29:32 2021 1234     4321     898911
-Sat Apr  3 21:29:32 2021 127 0 0 1
-Sat Apr  3 21:29:32 2021 999 999 999 999
-Sat Apr  3 21:29:32 2021 255 255 255 255
-Sat Apr  3 21:29:32 2021 01 A1 B0 30 08 01
-Sat Apr  3 21:29:32 2021 41 00 K0 04 C9 FF
-Sat Apr  3 21:29:32 2021 ATZ!ELM327 v2 1!
-Sat Apr  3 21:29:32 2021 ------------------------
-Sat Apr  3 21:29:32 2021 >>> Closing log session.
-Sat Apr  3 21:29:32 2021 ------------------------
-Sun Apr  4 18:04:37 2021 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-Sun Apr  4 18:04:37 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Sun Apr  4 18:04:37 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
-Sun Apr  4 18:04:37 2021 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
-Sun Apr  4 18:04:37 2021 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
-Sun Apr  4 18:04:37 2021 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
-Sun Apr  4 18:04:37 2021 THIS IS TEST STRING ONE.
-Sun Apr  4 18:04:37 2021 THIS IS TEST STRING TWO.
-Sun Apr  4 18:04:37 2021 this is test STRING one 
-Sun Apr  4 18:04:37 2021 THIS is test STRING TWO 
-Sun Apr  4 18:04:37 2021 1234     4321     898911
-Sun Apr  4 18:04:37 2021 127 0 0 1
-Sun Apr  4 18:04:37 2021 999 999 999 999
-Sun Apr  4 18:04:37 2021 255 255 255 255
-Sun Apr  4 18:04:37 2021 01 A1 B0 30 08 01
-Sun Apr  4 18:04:37 2021 41 00 K0 04 C9 FF
-Sun Apr  4 18:04:37 2021 ATZ!ELM327 v2 1!
-Sun Apr  4 18:04:37 2021 ------------------------
-Sun Apr  4 18:04:37 2021 >>> Closing log session.
-Sun Apr  4 18:04:37 2021 ------------------------
+Tue Apr 13 23:15:11 2021 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
+Tue Apr 13 23:15:11 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
+Tue Apr 13 23:15:11 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
+Tue Apr 13 23:15:11 2021 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
+Tue Apr 13 23:15:11 2021 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
+Tue Apr 13 23:15:11 2021 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
+Tue Apr 13 23:15:11 2021 THIS IS TEST STRING ONE.
+Tue Apr 13 23:15:11 2021 THIS IS TEST STRING TWO.
+Tue Apr 13 23:15:11 2021 this is test STRING one 
+Tue Apr 13 23:15:11 2021 THIS is test STRING TWO 
+Tue Apr 13 23:15:11 2021 1234     4321     898911
+Tue Apr 13 23:15:11 2021 127 0 0 1
+Tue Apr 13 23:15:11 2021 999 999 999 999
+Tue Apr 13 23:15:11 2021 255 255 255 255
+Tue Apr 13 23:15:11 2021 01 A1 B0 30 08 01
+Tue Apr 13 23:15:11 2021 41 00 K0 04 C9 FF
+Tue Apr 13 23:15:11 2021 ATZ!ELM327 v2 1!
+Tue Apr 13 23:15:11 2021 ------------------------
+Tue Apr 13 23:15:11 2021 >>> Closing log session.
+Tue Apr 13 23:15:11 2021 ------------------------
+Tue Apr 13 23:45:20 2021 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
+Tue Apr 13 23:45:20 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
+Tue Apr 13 23:45:20 2021 I 1 D 4 G P 0 0 R 5 5 B 1 2 3 4 5 6 
+Tue Apr 13 23:45:20 2021 I C R A P T E C H : S Y S T E M S : 0 1 2 3 4 
+Tue Apr 13 23:45:20 2021 I 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L 
+Tue Apr 13 23:45:20 2021 I M N O P Q R S T U V W X Y Z 1 2 3 4 5 6 7 8 
+Tue Apr 13 23:45:20 2021 THIS IS TEST STRING ONE.
+Tue Apr 13 23:45:20 2021 THIS IS TEST STRING TWO.
+Tue Apr 13 23:45:20 2021 this is test STRING one 
+Tue Apr 13 23:45:20 2021 THIS is test STRING TWO 
+Tue Apr 13 23:45:20 2021 1234     4321     898911
+Tue Apr 13 23:45:20 2021 127 0 0 1
+Tue Apr 13 23:45:20 2021 999 999 999 999
+Tue Apr 13 23:45:20 2021 255 255 255 255
+Tue Apr 13 23:45:20 2021 01 A1 B0 30 08 01
+Tue Apr 13 23:45:20 2021 41 00 K0 04 C9 FF
+Tue Apr 13 23:45:20 2021 ATZ!ELM327 v2 1!
+Tue Apr 13 23:45:20 2021 ------------------------
+Tue Apr 13 23:45:20 2021 >>> Closing log session.
+Tue Apr 13 23:45:20 2021 ------------------------

@@ -155,7 +155,7 @@ int recv_ecu_reply(int serial_port, char *ecu_reply)
                      /* See ELM327 datasheet for vague details of protocol.  */
                      interpreter_ready_status = 1;
                      /* DEBUG: view raw messages. */
-                     printf("recv_ecu_reply(): RXD02 > Interpreter Ready: %s\n", in_buf);
+                     printf("recv_ecu_reply(): RXD02 > Interpreter Ready.\n");
                   }
                   else
                   {
@@ -170,7 +170,7 @@ int recv_ecu_reply(int serial_port, char *ecu_reply)
 
    RS232_flushRX(serial_port); 
 
-   printf("recv_ecu_reply(): RXD buf %i bytes: %s\n", in_msg_len, in_buf);
+   /* printf("recv_ecu_reply(): RXD buf %i bytes: %s\n", in_msg_len, in_buf); */
    printf("recv_ecu_reply(): RXD msg %i bytes: %s\n", msg_idx, ecu_reply);
 
    return(msg_idx);
